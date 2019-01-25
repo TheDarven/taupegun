@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.PlayerTaupe;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;

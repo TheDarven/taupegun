@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.events.Teams;
-import fr.thedarven.main.PlayerTaupe;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
 import net.md_5.bungee.api.ChatColor;
 

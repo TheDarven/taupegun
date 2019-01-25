@@ -14,9 +14,9 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
-import fr.thedarven.main.EnumGame;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.api.Title;
 
@@ -37,29 +37,29 @@ Scoreboard board = Teams.board;
 		if(args[0].equalsIgnoreCase("/start")){
 			e.setCancelled(true);
 			
-			/* if(!p.isOp()){
+			if(!p.isOp()){
 				MessagesClass.CannotCommandOperatorMessage(p);
 				return;
 			}
 			if(!TaupeGun.etat.equals(EnumGame.LOBBY)){
-				MessagesClass.CannotCommandStartAlreadyStartMessage(p);
+				p.sendMessage(ChatColor.RED+"La partie a déjà commencé !");
 				return;
 			}
 			
 			Set<Team> teams = board.getTeams();
 			if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
-				MessagesClass.CannotCommandStartTeam1Message(p);
+				p.sendMessage(ChatColor.RED+"Il faut au minimum deux équipes.");
 				return;
 			}
 			
 			if(teams.size() < 3 && InventoryRegister.supertaupes.getValue()){
-				MessagesClass.CannotCommandStartTeam2Message(p);
+				p.sendMessage(ChatColor.RED+"Il faut au minimum trois équipes.");
 				return;
 			} 
 			
 			for(Team team : teams){
 				if(InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() < 3 || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
-					MessagesClass.CannotCommandStartPlayerMessage(p);
+					p.sendMessage(ChatColor.RED+"Il n'y a pas assez de joueurs par équipe.");
 					return;
 				}
 				for(String player : team.getEntries()){
@@ -70,12 +70,12 @@ Scoreboard board = Teams.board;
 						}
 					}
 					if(online == false){
-						MessagesClass.CannotCommandStartOfflinePlayerMessage(p);
+						p.sendMessage(ChatColor.RED+"Les joueurs ne sont pas tous connectés.");
 						return;
 					}
 				}
-			} */
-			MessagesClass.CommandStartStartMessage(p);
+			}
+			p.sendMessage(ChatColor.BLUE+"La partie peut commencer !");
 			TaupeGun.etat = EnumGame.WAIT;
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 				@Override

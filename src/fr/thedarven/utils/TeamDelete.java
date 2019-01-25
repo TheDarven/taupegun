@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 
 public class TeamDelete {
 
@@ -66,7 +67,7 @@ public class TeamDelete {
 			for(String teamName : deleteTeam) {
 				SqlRequest.updateTeamMort(teamName);
 				Teams.deleteTeam(teamName);
-				/* MessagesClass.TeamEliminateMessage(team.getName());
+				/* Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");
 				for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENTITY_GHAST_HURT, 1, 1);
 				} */
@@ -77,7 +78,7 @@ public class TeamDelete {
 			if(teams.size() == 2){
 				for(Team team : teams){
 					if(team.getName() != "Spectateurs"){
-						MessagesClass.TeamVictoryMessage(team.getName());
+						Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team+ChatColor.GREEN+" a gagné !");
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
 						}

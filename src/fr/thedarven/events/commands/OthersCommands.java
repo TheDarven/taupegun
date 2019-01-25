@@ -14,12 +14,12 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.MessagesEventClass;
 import fr.thedarven.utils.SqlRequest;
+import net.md_5.bungee.api.ChatColor;
 
 public class OthersCommands implements Listener {
 
@@ -33,7 +33,11 @@ public class OthersCommands implements Listener {
 		if(args[0].equalsIgnoreCase("/g")){
 			e.setCancelled(true);
 			if(p.isOp()){
-				MessagesEventClass.CommandGeneralMessage(e);
+				String message = " ";
+				for(int i=1; i<args.length; i++){
+					message = message+args[i]+" ";
+				}
+				Bukkit.broadcastMessage(ChatColor.YELLOW+"[Info]"+ChatColor.GREEN+message);
 			}else{
 				MessagesClass.CannotCommandOperatorMessage(p);
 			}	
@@ -62,7 +66,7 @@ public class OthersCommands implements Listener {
 										if(!player.equals(pc.getCustomName())) {
 											if(Bukkit.getPlayer(player) != null) {
 												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
-												MessagesEventClass.CommandReviveMessage(e);
+												e.getPlayer().sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+Bukkit.getPlayer(args[1]).getName()+" a été réssucité.");
 												for(Player pl : Bukkit.getOnlinePlayers()) {
 													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
 												}
@@ -79,7 +83,7 @@ public class OthersCommands implements Listener {
 						}
 					}
 				}else{
-					MessagesClass.CannotCommandReviveMessage(p);
+					p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Il est impossible de réanimer quelqu'un à ce stade de la partie.");
 				}
 			}else {
 				MessagesClass.CannotCommandOperatorMessage(p);

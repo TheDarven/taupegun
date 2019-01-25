@@ -5,33 +5,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.PlayerTaupe;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 
 public class MessagesClass {
 	
 	public static void CannotCommandOperatorMessage(Player p) {
 		p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Vous n'avez pas les permissions pour utiliser cette commande.");
-	}
-	
-	public static void CannotCommandStartAlreadyStartMessage(Player p) {
-		p.sendMessage(ChatColor.RED+"La partie a déjà commencé !");
-	}
-	
-	//LOGIN
-	public static void StartStopMessage(Player p) {
-		Title.title(p, ChatColor.RED +"Lancement annulé", "", 10);
-	}
-	
-	//DEATH
-	public static void DeathMessage(Player p) {
-		p.sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
-		p.sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
-	}
-	
-	//OTHERSCOMMANDS
-	public static void CannotCommandReviveMessage(Player p) {
-		p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Il est impossible de réanimer quelqu'un à ce stade de la partie.");
 	}
 	
 	//TAUPECOMMANDS
@@ -68,44 +48,15 @@ public class MessagesClass {
 		}
 		p.getPlayer().sendMessage(listTaupe);
 	}
-	
-	//STARTCOMMAND
-	public static void CannotCommandStartTeam1Message(Player p) {
-		p.sendMessage(ChatColor.RED+"Il faut au minimum deux équipes.");
-	}
-	
-	public static void CannotCommandStartTeam2Message(Player p) {
-		p.sendMessage(ChatColor.RED+"Il faut au minimum trois équipes.");
-	}
-	
-	public static void CannotCommandStartPlayerMessage(Player p) {
-		p.sendMessage(ChatColor.RED+"Il n'y a pas assez de joueurs par équipe.");
-	}
-	
-	public static void CannotCommandStartOfflinePlayerMessage(Player p) {
-		p.sendMessage(ChatColor.RED+"Les joueurs ne sont pas tous connectés.");
-	}
-	
-	public static void CommandStartStartMessage(Player p) {
-		p.sendMessage(ChatColor.BLUE+"La partie peut commencer !");
-	}
-	
+
 	//STARTITEM
 	public static void InventorySaveMessage(Player p) {
 		Title.sendActionBar(p, ChatColor.GREEN+" L'inventaire a été ajouté avec succès !");
 	}
 	
-	//TEAMS
-	public static void CannotTeamCreateNameBigMessage(Player p) {
-		Title.sendActionBar(p, ChatColor.RED+"Le nom de l'équipe ne doit pas dépasser 16 caractères.");
-	}
-	
+	//TEAMS	
 	public static void CannotTeamCreateNameAlreadyMessage(Player p) {
 		Title.sendActionBar(p, ChatColor.RED+"Ce nom d'équipe est déjà prit !");
-	}
-	
-	public static void TeamCreateMessage(Player p, String team) {
-		Title.sendActionBar(p, ChatColor.GREEN+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.GREEN+" a été crée avec succès.");
 	}
 	
 	public static void TeamChangeNameMessage(Player p, String team) {
@@ -121,22 +72,6 @@ public class MessagesClass {
 	}
 	
 	//GAME
-	public static void TaupeAnnonce5Message() {
-		Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des taupes dans 5 secondes.");
-	}
-	
-	public static void SuperTaupeAnnonce5Message() {
-		Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des supertaupes dans 5 secondes.");
-	}
-	
-	public static void MurAnnonce3Message() {
-		Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur va commencer à se réduire dans 3 minutes !");
-	}
-	
-	public static void MurAnnonceNowMessage() {
-		Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
-	}
-		
 	public static void TaupeAnnonceMessage(Player p) {
 		p.sendMessage(ChatColor.RED+"---------------");
 		p.sendMessage(ChatColor.GOLD+" Vous êtes une taupe, retournez votre équipe et remportez la partie avec votre équipe de taupes !");
@@ -192,14 +127,5 @@ public class MessagesClass {
 				Bukkit.broadcastMessage(ChatColor.BOLD+""+ChatColor.GREEN+pc.getCustomName()+": "+ChatColor.RESET+" "+pc.getKill());
 			}
 		}
-	}
-	
-	//TEAMDELETE
-	public static void TeamEliminateMessage(String team) {
-		Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");
-	}
-	
-	public static void TeamVictoryMessage(String team) {
-		Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team+ChatColor.GREEN+" a gagné !");
 	}
 }

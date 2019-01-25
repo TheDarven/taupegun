@@ -1,4 +1,4 @@
-package fr.thedarven.main;
+package fr.thedarven.main.constructors;
 
 public class TeamCreation {
 

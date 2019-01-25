@@ -1,4 +1,4 @@
-package fr.thedarven.main;
+package fr.thedarven.main.constructors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.TaupeGun;
 
 public class PlayerTaupe {
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();

@@ -5,12 +5,14 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.configuration.builders.InventoryRegister;
 
 public class GoNether implements Listener {
 
@@ -31,6 +33,13 @@ public class GoNether implements Listener {
 					Login.boards.get(p).setLine(8, "➋ Centre :§e "+ distance);
 				}
 			}	
+		}
+	}
+	
+	@EventHandler
+	public void onPortalTeleport(PlayerPortalEvent e){
+		if(TaupeGun.timer > InventoryRegister.murtime.getValue()*60 || e.getCause().equals(TeleportCause.END_PORTAL)) {
+			e.setCancelled(true);
 		}
 	}
 }

@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.thedarven.main.EnumGame;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
 
 public class Eat implements Listener {
 

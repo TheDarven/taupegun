@@ -23,12 +23,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.EnumGame;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 
 
 public class TaupeGun extends JavaPlugin implements Listener{	
@@ -115,6 +116,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		Bukkit.getWorld("world_the_end").setGameRuleValue("spectatorsGenerateChunks", "false");
 		Bukkit.getWorld("world_the_end").setGameRuleValue("announceAdvancements", "false");
 		Bukkit.getWorld("world_the_end").setDifficulty(Difficulty.HARD);
+		Bukkit.getWorld("world").setSpawnLocation(0, 64, 0);
 		
 		World world = Bukkit.getWorld("world");
 		WorldBorder border = world.getWorldBorder();

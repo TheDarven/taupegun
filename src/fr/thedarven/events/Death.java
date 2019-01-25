@@ -18,12 +18,10 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.MessagesEventClass;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamDelete;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 
 public class Death implements Listener {
 
@@ -35,7 +33,7 @@ public class Death implements Listener {
 		Player p = e.getEntity();
 		
 		if(TaupeGun.etat.equals(EnumGame.GAME)){
-			MessagesEventClass.DeathMessage(e);
+			e.setDeathMessage(ChatColor.GOLD+""+e.getEntity().getName()+ChatColor.RESET+" est mort");
 			PlayerTaupe.getPlayerManager(p.getUniqueId()).setAlive(false);
 			
 			if(e.getEntity().getKiller() != null){
@@ -77,7 +75,8 @@ public class Death implements Listener {
 				}			
 			}
 			
-			MessagesClass.DeathMessage(p);
+			p.sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
+			p.sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
 			TeamDelete.start();
 		}
 	}

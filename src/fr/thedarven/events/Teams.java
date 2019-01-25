@@ -2,8 +2,8 @@ package fr.thedarven.events;
 
 import java.util.Map.Entry;
 import java.util.Set;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,13 +23,14 @@ import fr.thedarven.configuration.builders.InventoryParametres;
 import fr.thedarven.configuration.builders.InventoryPlayers;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.InventoryTeams;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.ScoreboardSign;
+import fr.thedarven.utils.api.Title;
 
 public class Teams implements Listener {
 	
@@ -75,7 +76,7 @@ static Objective objective = board.registerNewObjective("health", "health");
 					    		}
 					    		if(pl.getCreateTeamName().length() > 16){
 					    			p.closeInventory();
-					    			MessagesClass.CannotTeamCreateNameBigMessage(p);
+					    			Title.sendActionBar(p, ChatColor.RED+"Le nom de l'équipe ne doit pas dépasser 16 caractères.");
 					    			pl.setCreateTeamName(null);
 					    			return;
 					    		}
@@ -118,7 +119,7 @@ static Objective objective = board.registerNewObjective("health", "health");
 					byte tempColor = ((BannerMeta)e.getCurrentItem().getItemMeta()).getBaseColor().getData();
 					newTeam(pl.getCreateTeamName(), tempColor);
 					
-					MessagesClass.TeamCreateMessage(p, pl.getCreateTeamName());
+					Title.sendActionBar(p, ChatColor.GREEN+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+pl.getCreateTeamName()+ChatColor.RESET+ChatColor.GREEN+" a été crée avec succès.");
 					pl.setCreateTeamName(null);
 					p.openInventory(InventoryTeams.getLastChild().getInventory());
 				}
@@ -231,29 +232,17 @@ static Objective objective = board.registerNewObjective("health", "health");
 	public static void scoreboardPlayer(){
 		for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
 			int playerTeam = 0;
-			int teamNick = 0;
+			int teamHidden = 0;
 			Set<Team> teams = board.getTeams();
 			for(Team team : teams){
 				if(team.getName().equals("Spectateurs") || team.getName().equals("Taupes1") || team.getName().equals("Taupes2") || team.getName().equals("SuperTaupe")){
-					teamNick++;
+					teamHidden++;
 				}
 				if(team.getName() != "Spectateurs"){
 					playerTeam += team.getEntries().size();	
 				}
 			}
-			sign.getValue().setLine(7, "➊ Joueurs :§e "+playerTeam+" ("+(board.getTeams().size()-teamNick)+")");
-			
-			// LE MUR EST A PLUS DE 59:59 //
-			if(InventoryRegister.murtime.getValue()*60 - TaupeGun.timer >= 6000){
-				String dateformatMur = DurationFormatUtils.formatDuration(((int) InventoryRegister.murtime.getValue()*60 - TaupeGun.timer)*1000, "mmm:ss");
-				sign.getValue().setLine(11, "➍ Mur :§e "+dateformatMur);
-			}
-			
-			// LE MUR EST A MOINS DE 100:00 //
-			else{
-				String dateformatMur = DurationFormatUtils.formatDuration(((int) InventoryRegister.murtime.getValue()*60 - TaupeGun.timer)*1000, "mm:ss");
-				sign.getValue().setLine(11, "➍ Mur :§e "+dateformatMur);
-			}
+			sign.getValue().setLine(7, "➊ Joueurs :§e "+playerTeam+" ("+(board.getTeams().size()-teamHidden)+")");
 		}
 	}
 }

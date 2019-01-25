@@ -10,12 +10,12 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.ClaimItems;
 import fr.thedarven.utils.MessagesEventClass;
 import fr.thedarven.utils.TeamDelete;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
-import fr.thedarven.main.PlayerTaupe;
 
 public class TaupeCommands implements Listener {
 

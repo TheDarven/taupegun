@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.PlayerTaupe;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import net.md_5.bungee.api.ChatColor;
 
 public class InventoryParametres extends InventoryGUI{

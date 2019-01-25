@@ -19,8 +19,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 
 public class PlayerClick implements Listener {

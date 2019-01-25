@@ -19,11 +19,9 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryPlayers;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.MessagesEventClass;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.ScoreboardSign;
 import fr.thedarven.utils.api.Title;
@@ -44,10 +42,8 @@ public static Map<Player, ScoreboardSign> boards = new HashMap<>();
 		PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
 		SqlRequest.updatePlayerLast(e.getPlayer());
-		
 		joinScoreboard(p);
-		
-		MessagesEventClass.LoginMessage(e);
+		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			InventoryPlayers.reloadInventory();
@@ -60,7 +56,7 @@ public static Map<Player, ScoreboardSign> boards = new HashMap<>();
 	@EventHandler
     public void PlayerQuit(PlayerQuitEvent e){
 		Player player = e.getPlayer();
-		MessagesEventClass.LeaveMessage(e);
+		e.setQuitMessage(ChatColor.DARK_GRAY+"("+ChatColor.RED+"-"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
 		if(Login.boards.containsKey(player)){
 			Login.boards.get(player).destroy();
@@ -81,7 +77,7 @@ public static Map<Player, ScoreboardSign> boards = new HashMap<>();
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.playSound(p.getLocation(), Sound.WITHER_HURT , 1, 1);
-				MessagesClass.StartStopMessage(p);
+				Title.title(p, ChatColor.RED +"Lancement annulé", "", 10);
             }
 		}
 		

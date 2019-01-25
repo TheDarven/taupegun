@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,6 +23,8 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Login;
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.SqlRequest;
@@ -304,7 +307,7 @@ public class Game{
 		// 5s AVANT L'ANNONCE DES TAUPES //
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 5 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 0){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 5){
-				MessagesClass.TaupeAnnonce5Message();
+				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des taupes dans 5 secondes.");
 			}
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
@@ -324,7 +327,7 @@ public class Game{
 		// 5s AVANT L'ANNONCE DES SUPER TAUPES //
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 5 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 > 0 && InventoryRegister.supertaupes.getValue()){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 5){
-				MessagesClass.SuperTaupeAnnonce5Message();
+				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des supertaupes dans 5 secondes.");
 			}
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
@@ -342,7 +345,7 @@ public class Game{
 		}
 	}
 
-	private static void scoreboardMur() {
+	public static void scoreboardMur() {
 		// LE MUR N'EST PAS A 00:00 //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer != 0){	
 			
@@ -365,20 +368,18 @@ public class Game{
 			if(TaupeGun.timer > 5999){
 				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
 					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mmm:ss");
-					sign.getValue().setLine(11, "➎ Chrono :§e "+dateformatChrono);
+					sign.getValue().setLine(12, "➎ Chrono :§e "+dateformatChrono);
 				}
 			}
 			// LE CHRONOMETRE EST A MOINS DE 100:00 //
 			else {
 				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
 					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mm:ss");
-					sign.getValue().setLine(11, "➎ Chrono :§e "+dateformatChrono);
+					sign.getValue().setLine(12, "➎ Chrono :§e "+dateformatChrono);
 				}
 			}
-		}
-		
-		// LE MUR EST A MOINS DE 00:00 //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer < 0){
+		}// LE MUR EST A MOINS DE 00:00 //
+		else{
 			
 			// LE CHRONOMETRE EST A PLUS DE 59:59 //
 			if(TaupeGun.timer > 5999){
@@ -396,12 +397,18 @@ public class Game{
 				}
 			}
 		}
+		
+		for(Player pl : Bukkit.getOnlinePlayers()) {
+			if(Login.boards.containsKey(pl)){
+				Login.boards.get(pl).setLine(14, "➏ Bordures :§e "+Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
+			}
+		}
 	}
 	
 	private static void annoncesMur() {
 		// LE MUR EST A 00H03 //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 180){
-			MessagesClass.MurAnnonce3Message();
+			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur va commencer à se réduire dans 3 minutes !");
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
 			}
@@ -418,7 +425,7 @@ public class Game{
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
 			TaupeGun.timer++;
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
-			MessagesClass.MurAnnonceNowMessage();
+			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
 			for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
 				String dateformatChrono = "";
 				if(TaupeGun.timer < 6000){

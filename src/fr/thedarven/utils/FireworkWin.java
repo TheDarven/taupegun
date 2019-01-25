@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.EnumGame;
-import fr.thedarven.main.PlayerTaupe;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
 
 public class FireworkWin {
 	static int task;
