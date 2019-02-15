@@ -5,7 +5,6 @@ import org.bukkit.plugin.PluginManager;
 
 import fr.thedarven.events.commands.OthersCommands;
 import fr.thedarven.events.commands.StartCommand;
-import fr.thedarven.events.commands.TaupeCommands;
 import fr.thedarven.main.TaupeGun;
 
 public class EventsManager {
@@ -24,8 +23,9 @@ public class EventsManager {
 			
 			pm.registerEvents(new Teams(pl), pl);
 			pm.registerEvents(new StartCommand(pl), pl);
-			pm.registerEvents(new TaupeCommands(pl), pl);
+			// pm.registerEvents(new TaupeCommands(pl), pl);
 			pm.registerEvents(new OthersCommands(pl), pl);
 			pm.registerEvents(new PlayerClick(pl), pl);
+			pm.registerEvents(new SpectateurTchat(pl), pl);
 	}
 }

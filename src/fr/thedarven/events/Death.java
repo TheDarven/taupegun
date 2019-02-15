@@ -39,7 +39,7 @@ public class Death implements Listener {
 			if(e.getEntity().getKiller() != null){
 				PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(e.getEntity().getKiller().getUniqueId());
 				pcKiller.setKill(pcKiller.getKill()+1);;
-				Login.boards.get(e.getEntity().getKiller()).setLine(9, "➌ Kills :§e "+pcKiller.getKill());
+				// Login.boards.get(e.getEntity().getKiller()).setLine(9, "➌ Kills :§e "+pcKiller.getKill());
 				SqlRequest.updateTaupeKill(e.getEntity().getKiller());
 			}
 			

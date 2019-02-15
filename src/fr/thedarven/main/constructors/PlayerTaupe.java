@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
@@ -29,6 +30,7 @@ public class PlayerTaupe {
 	
 	private boolean canClick;
 	private String createTeamName;
+	private String createKitName;
 	
 	public PlayerTaupe(UUID playerUuid) {
 		this.uuid = playerUuid;
@@ -57,6 +59,7 @@ public class PlayerTaupe {
 		revealSuperTaupe = false;
 		canClick = true;
 		createTeamName = null;
+		createKitName = null;
 		
 		playerManagerHashMap.put(this.uuid, this);
 	}
@@ -83,6 +86,22 @@ public class PlayerTaupe {
 	
 	public Location getNetherPortal() {
 		return netherPortal;
+	}
+	
+	public Player getPlayer(){
+		if(isOnline()){
+			return Bukkit.getPlayer(uuid);
+		}
+		return null;
+	}
+	
+	public boolean isOnline(){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(p.getUniqueId().equals(this.uuid)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void setAlive(boolean value) {
@@ -172,12 +191,20 @@ public class PlayerTaupe {
 		return createTeamName;
 	}
 	
+	public String getCreateKitName() {
+		return createKitName;
+	}
+	
 	public void setCanClick(boolean pCanClick) {
 		this.canClick = pCanClick;
 	}
 	
 	public void setCreateTeamName(String pName) {
 		createTeamName = pName;
+	}
+	
+	public void setCreateKitName(String pName) {
+		createKitName = pName;
 	}
 	
 	

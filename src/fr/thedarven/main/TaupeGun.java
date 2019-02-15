@@ -23,11 +23,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
 import fr.thedarven.events.Teams;
+import fr.thedarven.events.commands.Commands;
+import fr.thedarven.events.commands.CommandsTaupe;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 
@@ -63,8 +66,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		sql = new SqlConnection("jdbc:mysql://","sql-7.verygames.net","db565628","db565628","t968fdaf");
         sql.connection();
 		
-		prepareMap();
-		
 		// Recette		
 		ItemStack GoldenHead = new ItemStack(Material.GOLDEN_APPLE, 1);
 		ItemMeta GoldenHeadM = GoldenHead.getItemMeta();
@@ -79,19 +80,41 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		recette.setIngredient('T', Material.SKULL_ITEM, (short) 3);
 		getServer().addRecipe(recette);
 		
+		new ScoreboardModule();
+		configuration = new InventoryRegister();
+		prepareMap();
+		
 		for(Player p: Bukkit.getOnlinePlayers()){		
 			p.setScoreboard(Teams.board);
-			Login.joinScoreboard(p);
+			// Login.joinScoreboard(p);
+			ScoreboardModule.joinScoreboard(p);
 			PlayerTaupe.getPlayerManager(p.getUniqueId());
 			SqlRequest.updatePlayerLast(p);
 		}
-		configuration = new InventoryRegister();
+		
+		// Commandes normales
+		getCommand("revive").setExecutor(new Commands());
+		getCommand("heal").setExecutor(new Commands());
+		getCommand("g").setExecutor(new Commands());
+		getCommand("rules").setExecutor(new Commands());
+		getCommand("scenarios").setExecutor(new Commands());
+		getCommand("taupelist").setExecutor(new Commands());
+		getCommand("timer").setExecutor(new Commands());
+		
+		// Commandes taupes
+		getCommand("claim").setExecutor(new CommandsTaupe());
+		getCommand("reveal").setExecutor(new CommandsTaupe());
+		getCommand("t").setExecutor(new CommandsTaupe());
+		getCommand("superreveal").setExecutor(new CommandsTaupe());
+		getCommand("supert").setExecutor(new CommandsTaupe());
 	}
 	
 
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
-			Login.boards.get(p).destroy();
+			// Login.boards.get(p).destroy();
+			ScoreboardModule.boards.get(p).destroy();
+			
 			SqlRequest.updatePlayerTimePlay(p);
 		}
 		if(SqlRequest.id_partie != 0) {
@@ -121,9 +144,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		World world = Bukkit.getWorld("world");
 		WorldBorder border = world.getWorldBorder();
 		border.setDamageAmount(1.0);
-		border.setSize(2000.0);
 		border.setCenter(0.0, 0.0);	
 		border.setWarningDistance(20);
+		border.setSize(InventoryRegister.murtailleavant.getValue()*2);
 		
 		for(int spawn_x=-15; spawn_x<16; spawn_x++){
 			for(int spawn_z=-15; spawn_z<16; spawn_z++){

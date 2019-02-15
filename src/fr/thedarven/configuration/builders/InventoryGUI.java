@@ -7,14 +7,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import fr.thedarven.configuration.builders.teams.InventoryTeams;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 
 public class InventoryGUI extends InventoryBuilder{
@@ -66,7 +69,7 @@ public class InventoryGUI extends InventoryBuilder{
 	
 	public void addItem(InventoryGUI pInventoryGUI) {
 		boolean setItem = true;
-		if(this.inventory.getItem(pInventoryGUI.getPosition()) != null || this.inventory.getSize() <= pInventoryGUI.getPosition()) {
+		if(this.inventory.getSize() <= pInventoryGUI.getPosition() || this.inventory.getItem(pInventoryGUI.getPosition()) != null) {
 			int i = 0;
 			boolean boucle = true;
 			while(boucle && i < this.inventory.getSize()) {
@@ -122,34 +125,53 @@ public class InventoryGUI extends InventoryBuilder{
 	}
 	
 	@EventHandler
+	public void dragInventory(InventoryDragEvent e) {
+		if(e.getInventory() != null) {
+			for(InventoryGUI inventoryGUI : elements) {
+				if(e.getInventory().equals(inventoryGUI.getInventory())) {
+					e.setCancelled(true);
+					return;
+				}
+			}	
+		}
+	}
+	
+	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
+		
+		if((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && e.getClickedInventory() != null) {
+			for(InventoryGUI inventoryGUI : elements) {
+				if(e.getInventory().equals(inventoryGUI.getInventory())) {
+					e.setCancelled(true);
+					return;
+				}
+			}	
+		}
+		
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			e.setCancelled(true);
-			if(!p.isOp() && !InventoryRegister.scenariosvisibles.getValue()) {
-				p.closeInventory();
-				return;
-			}
 			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour") && (!e.getClickedInventory().equals(InventoryRegister.configuration.getInventory()) || (p.isOp() && TaupeGun.etat.equals(EnumGame.LOBBY)))){
-				p.openInventory(this.getParent().getInventory());
-				return;
-			}
-			
-			if(!e.getCurrentItem().getType().equals(Material.AIR)) {
+			if(click(p, EnumConfiguration.INVENTAIRE) && !e.getCurrentItem().getType().equals(Material.AIR)) {
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(this.getParent().getInventory());
+					return;
+				}
 				for(InventoryGUI inventoryGUI : childs) {
 					if(inventoryGUI.getItem().equals(e.getCurrentItem()) && inventoryGUI != InventoryRegister.addteam) {
-						if((inventoryGUI instanceof OptionBoolean || inventoryGUI instanceof OptionNumeric) && (!p.isOp() || !TaupeGun.etat.equals(EnumGame.LOBBY))) {
-							return;
+						if(inventoryGUI instanceof OptionBoolean || inventoryGUI instanceof OptionNumeric || inventoryGUI instanceof InventoryTeams || inventoryGUI instanceof InventoryStartItem) {
+							if(click(p, EnumConfiguration.OPTION)) {
+								p.openInventory(inventoryGUI.getInventory());
+							}
+						}else {
+							p.openInventory(inventoryGUI.getInventory());
 						}
-						p.openInventory(inventoryGUI.getInventory());
 						return;
 					}
 				}
 			}
 		}
 	}
-	
 	public void delayClick(final PlayerTaupe pl) {
 		pl.setCanClick(false);
 		new BukkitRunnable(){

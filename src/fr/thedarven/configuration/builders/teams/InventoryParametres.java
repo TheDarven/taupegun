@@ -1,4 +1,4 @@
-package fr.thedarven.configuration.builders;
+package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import net.md_5.bungee.api.ChatColor;
 
@@ -42,20 +44,18 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 			final Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
-			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
-				p.openInventory(getParent().getInventory());
-				return;
-			}
-			
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+			if(click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(getParent().getInventory());
+					return;
+				}
 				if(e.getCurrentItem().getType().equals(Material.PAPER)){
 					/* new AnvilGUI(TaupeGun.getInstance(),p, new AnvilGUI.AnvilClickHandler() {
 						
 						@Override
 					    public boolean onClick(AnvilGUI menu, final String text) {
 					    	Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new Runnable() {
-
+	
 					    		@Override
 					    		public void run() {
 						    		if(text.length() > 16){

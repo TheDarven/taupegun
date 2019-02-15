@@ -37,7 +37,7 @@ Scoreboard board = Teams.board;
 		if(args[0].equalsIgnoreCase("/start")){
 			e.setCancelled(true);
 			
-			if(!p.isOp()){
+			/* if(!p.isOp()){
 				MessagesClass.CannotCommandOperatorMessage(p);
 				return;
 			}
@@ -74,7 +74,7 @@ Scoreboard board = Teams.board;
 						return;
 					}
 				}
-			}
+			} */
 			p.sendMessage(ChatColor.BLUE+"La partie peut commencer !");
 			TaupeGun.etat = EnumGame.WAIT;
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){

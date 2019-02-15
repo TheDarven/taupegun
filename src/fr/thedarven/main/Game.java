@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -21,12 +20,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Login;
 import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.MessagesClass;
+import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamDelete;
 import fr.thedarven.utils.api.ScoreboardSign;
@@ -37,196 +37,26 @@ public class Game{
 	public static void start() {
 		TaupeGun.etat = EnumGame.GAME;
 		Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
-			@SuppressWarnings("deprecation")
 			@Override
 			public void run(){
 				// LE CHRONOMETRE EST A 00:00 //
 				if(TaupeGun.timer == 0){
-					SqlRequest.createGame();				
-					Bukkit.getWorld("world").setGameRuleValue("doMobSpawning", "true");
-					
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						player.getInventory().clear();
-						int i;
-						for(i=0; i<45; i++) {
-							if(i<4) {
-								player.getInventory().setItem(39-i, InventoryRegister.startitem.getInventory().getItem(i));
-							}else if(i<36) {
-								player.getInventory().setItem(i, InventoryRegister.startitem.getInventory().getItem(i));
-							}else {
-								player.getInventory().setItem(i-36, InventoryRegister.startitem.getInventory().getItem(i));
-							}
-						}
-						
-						player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2 ));
-						player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0 ));
-						player.setGameMode(GameMode.SURVIVAL);
-                    }
-					
-					int rayon = InventoryRegister.murtailleavant.getValue()-100;
-					double X;
-					int Z = -1;
-					Set<Team> teams = Teams.board.getTeams();
-					for(Team team : teams){
-						int id_team = SqlRequest.createTeam(team.getName(),team.getPrefix());
-						Z++;
-						for(String p : team.getEntries()){
-							X = Z * (6.283184/Teams.board.getTeams().size());
-							for (Player player : Bukkit.getOnlinePlayers()) {
-								if(player.getName().equals(p)){
-									SqlRequest.createTaupe(player, id_team);
-									Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), 250, (int) (rayon * Math.sin(X)));
-									player.teleport(spawnTeam);
-								}
-							}
-						}
-					}
-					Teams.newTeam("Spectateurs",15);
-					Teams.newTeam("Taupes1","c");
-					if(InventoryRegister.supertaupes.getValue()){
-						Teams.newTeam("SuperTaupe",1);
-					}
-					if(InventoryRegister.nombretaupes.getValue() == 2){
-						Teams.newTeam("Taupes2","c");
-					}
-					for(int x = -15; x <= 15; x++){
-						for (int y = 200; y <= 203; y++){
-							for (int z = -15; z <= 15; z++){
-								Bukkit.getWorld("world").getBlockAt(x, y, z).setType(Material.AIR);
-							}
-						}
-					}
+					startGame();
 				}
 													
 				// LE CHRONO  A 00:02 //
 				if(TaupeGun.timer == 2){	
-					ArrayList<String> claim = new ArrayList<>();
-					claim.add("tnt");
-					claim.add("blaze");
-					claim.add("aerien");
-					claim.add("potion");
-					
-					ArrayList<String> claim1 = new ArrayList<>();
-					claim1.add("tnt");
-					claim1.add("blaze");
-					claim1.add("aerien");
-					claim1.add("potion");
-					
-					ArrayList<String> claim2 = new ArrayList<>();
-					claim2.add("tnt");
-					claim2.add("blaze");
-					claim2.add("aerien");
-					claim2.add("potion");
-					
-					Set<Team> teams = Teams.board.getTeams();
-					for(Team team : teams){
-						if(team.getName() != "Spectateurs" && team.getName() != "Taupes1" && team.getName() != "Taupes2" && team.getName() != "SuperTaupe"){
-							ArrayList<OfflinePlayer> playerList = new ArrayList<>();
-							for(OfflinePlayer p : team.getPlayers()){
-								playerList.add(p);
-							}
-							if(InventoryRegister.nombretaupes.getValue() == 1){
-								// Choix du joueur dans l'équipe
-								Random r = new Random();
-								int taupeInt = r.nextInt(team.getSize());
-								
-								// Taupe équipe 1
-								PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt).getUniqueId());
-								if(claim.isEmpty()){
-									claim.add("tnt");
-									claim.add("blaze");
-									claim.add("aerien");
-									claim.add("potion");
-								}
-								int claimInt = r.nextInt(claim.size());
-								pc.setClaimTaupe(claim.get(claimInt));
-								pc.setTaupeTeam(1);
-								claim.remove(claimInt);
-							} else if(InventoryRegister.nombretaupes.getValue() == 2){
-								// Choix des joueurs dans l'équipe
-								Random r = new Random();
-								int taupeInt1 = r.nextInt(team.getSize());
-								int taupeInt2 = r.nextInt(team.getSize());
-								while(taupeInt1 == taupeInt2){
-									taupeInt2 = r.nextInt(team.getSize());
-								}
-								
-								// Taupe équipe 1
-								PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt1).getUniqueId());
-								if(claim1.isEmpty()){
-									claim1.add("tnt");
-									claim1.add("blaze");
-									claim1.add("aerien");
-									claim1.add("potion");
-								}
-								int claimInt = r.nextInt(claim1.size());
-								pc.setClaimTaupe(claim1.get(claimInt));
-								pc.setTaupeTeam(1);
-								claim1.remove(claimInt);
-								
-								// Taupe équipe 2
-								pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt2).getUniqueId());
-								if(claim2.isEmpty()){
-									claim2.add("tnt");
-									claim2.add("blaze");
-									claim2.add("aerien");
-									claim2.add("potion");
-								}
-								claimInt = r.nextInt(claim2.size());
-								pc.setClaimTaupe(claim2.get(claimInt));
-								pc.setTaupeTeam(2);
-								claim2.remove(claimInt);
-							}
-						}		
-					}
+					choixTaupe();
 				}
 				
 				// LE CHRONO  A 00:03 //
 				if(TaupeGun.timer == 3){					
-					if(InventoryRegister.nombretaupes.getValue() == 1 && InventoryRegister.supertaupes.getValue()){
-						Random r = new Random();
-						int superTaupeInt = 0;
-						ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
-						for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
-							if(pc.getTaupeTeam() == 1) {
-								superTaupeInt++;
-								playerList.add(pc);
-							}
-						}
-						superTaupeInt = r.nextInt(superTaupeInt);
-						playerList.get(superTaupeInt).setSuperTaupeTeam(1);
-					}else if(InventoryRegister.nombretaupes.getValue() == 2 && InventoryRegister.supertaupes.getValue()){
-						Random r = new Random();
-						int superTaupeInt = 0;
-						ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
-						for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
-							if(pc.getTaupeTeam() == 1) {
-								superTaupeInt++;
-								playerList.add(pc);
-							}
-						}
-						
-						int superTaupeInt1 = r.nextInt(superTaupeInt);
-						int superTaupeInt2 = r.nextInt(superTaupeInt);
-						while(superTaupeInt1 == superTaupeInt2) {
-							superTaupeInt2 = r.nextInt(superTaupeInt);
-						}
-						playerList.get(superTaupeInt1).setSuperTaupeTeam(1);
-						playerList.get(superTaupeInt2).setSuperTaupeTeam(1);
-					}
+					choixSupertaupe();
 				}
 				
 				// LE CHRONO  A 00:04 //
 				if(TaupeGun.timer == 4){	
-					for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
-						if(pl.isTaupe()) {
-							if(pl.isSuperTaupe()) {
-								SqlRequest.updateTaupeTaupe(1, 1, pl.getUuid().toString());
-							}else {
-								SqlRequest.updateTaupeTaupe(1, 0, pl.getUuid().toString());
-							}
-						}
-					}
+					sqlTaupe();
 				}
 				
 				annoncesTaupes();
@@ -303,6 +133,196 @@ public class Game{
 		},20,20);
 	}
 	
+	private static void sqlTaupe() {
+		for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+			if(pl.isTaupe()) {
+				if(pl.isSuperTaupe()) {
+					SqlRequest.updateTaupeTaupe(1, 1, pl.getUuid().toString());
+				}else {
+					SqlRequest.updateTaupeTaupe(1, 0, pl.getUuid().toString());
+				}
+			}
+		}
+	}
+	
+	private static void choixSupertaupe() {
+		if(InventoryRegister.nombretaupes.getValue() == 1 && InventoryRegister.supertaupes.getValue()){
+			Random r = new Random();
+			int superTaupeInt = 0;
+			ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getTaupeTeam() == 1) {
+					superTaupeInt++;
+					playerList.add(pc);
+				}
+			}
+			superTaupeInt = r.nextInt(superTaupeInt);
+			playerList.get(superTaupeInt).setSuperTaupeTeam(1);
+		}else if(InventoryRegister.nombretaupes.getValue() == 2 && InventoryRegister.supertaupes.getValue()){
+			Random r = new Random();
+			int superTaupeInt = 0;
+			ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getTaupeTeam() == 1) {
+					superTaupeInt++;
+					playerList.add(pc);
+				}
+			}
+			
+			int superTaupeInt1 = r.nextInt(superTaupeInt);
+			int superTaupeInt2 = r.nextInt(superTaupeInt);
+			while(superTaupeInt1 == superTaupeInt2) {
+				superTaupeInt2 = r.nextInt(superTaupeInt);
+			}
+			playerList.get(superTaupeInt1).setSuperTaupeTeam(1);
+			playerList.get(superTaupeInt2).setSuperTaupeTeam(1);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private static void choixTaupe() {
+		ArrayList<String> claim = new ArrayList<>();
+		claim.add("tnt");
+		claim.add("blaze");
+		claim.add("aerien");
+		claim.add("potion");
+		
+		ArrayList<String> claim1 = new ArrayList<>();
+		claim1.add("tnt");
+		claim1.add("blaze");
+		claim1.add("aerien");
+		claim1.add("potion");
+		
+		ArrayList<String> claim2 = new ArrayList<>();
+		claim2.add("tnt");
+		claim2.add("blaze");
+		claim2.add("aerien");
+		claim2.add("potion");
+		
+		Set<Team> teams = Teams.board.getTeams();
+		for(Team team : teams){
+			if(team.getName() != "Spectateurs" && team.getName() != "Taupes1" && team.getName() != "Taupes2" && team.getName() != "SuperTaupe"){
+				ArrayList<OfflinePlayer> playerList = new ArrayList<>();
+				for(OfflinePlayer p : team.getPlayers()){
+					playerList.add(p);
+				}
+				if(InventoryRegister.nombretaupes.getValue() == 1){
+					// Choix du joueur dans l'équipe
+					Random r = new Random();
+					int taupeInt = r.nextInt(team.getSize());
+					
+					// Taupe équipe 1
+					PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt).getUniqueId());
+					if(claim.isEmpty()){
+						claim.add("tnt");
+						claim.add("blaze");
+						claim.add("aerien");
+						claim.add("potion");
+					}
+					int claimInt = r.nextInt(claim.size());
+					pc.setClaimTaupe(claim.get(claimInt));
+					pc.setTaupeTeam(1);
+					claim.remove(claimInt);
+				} else if(InventoryRegister.nombretaupes.getValue() == 2){
+					// Choix des joueurs dans l'équipe
+					Random r = new Random();
+					int taupeInt1 = r.nextInt(team.getSize());
+					int taupeInt2 = r.nextInt(team.getSize());
+					while(taupeInt1 == taupeInt2){
+						taupeInt2 = r.nextInt(team.getSize());
+					}
+					
+					// Taupe équipe 1
+					PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt1).getUniqueId());
+					if(claim1.isEmpty()){
+						claim1.add("tnt");
+						claim1.add("blaze");
+						claim1.add("aerien");
+						claim1.add("potion");
+					}
+					int claimInt = r.nextInt(claim1.size());
+					pc.setClaimTaupe(claim1.get(claimInt));
+					pc.setTaupeTeam(1);
+					claim1.remove(claimInt);
+					
+					// Taupe équipe 2
+					pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt2).getUniqueId());
+					if(claim2.isEmpty()){
+						claim2.add("tnt");
+						claim2.add("blaze");
+						claim2.add("aerien");
+						claim2.add("potion");
+					}
+					claimInt = r.nextInt(claim2.size());
+					pc.setClaimTaupe(claim2.get(claimInt));
+					pc.setTaupeTeam(2);
+					claim2.remove(claimInt);
+				}
+			}		
+		}
+	}
+	
+	private static void startGame() {
+		SqlRequest.createGame();				
+		Bukkit.getWorld("world").setGameRuleValue("doMobSpawning", "true");
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if(!InventoryRegister.coordonneesvisibles.getValue()) {
+				DisableF3.disableF3(player);
+			}
+			player.closeInventory();
+			player.getInventory().clear();
+			int i;
+			for(i=0; i<45; i++) {
+				if(i<4) {
+					player.getInventory().setItem(39-i, InventoryRegister.startitem.getInventory().getItem(i));
+				}else if(i<36) {
+					player.getInventory().setItem(i, InventoryRegister.startitem.getInventory().getItem(i));
+				}else {
+					player.getInventory().setItem(i-36, InventoryRegister.startitem.getInventory().getItem(i));
+				}
+			}
+			
+			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2 ));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0 ));
+			player.setGameMode(GameMode.SURVIVAL);
+        }
+		
+		int rayon = InventoryRegister.murtailleavant.getValue()-100;
+		double X;
+		int Z = -1;
+		Set<Team> teams = Teams.board.getTeams();
+		for(Team team : teams){
+			int id_team = SqlRequest.createTeam(team.getName(),team.getPrefix());
+			Z++;
+			for(String p : team.getEntries()){
+				X = Z * (6.283184/Teams.board.getTeams().size());
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if(player.getName().equals(p)){
+						SqlRequest.createTaupe(player, id_team);
+						Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), Bukkit.getWorld("world").getHighestBlockYAt((int) (rayon * Math.cos(X)), (int) (rayon * Math.sin(X))), (int) (rayon * Math.sin(X)));
+						player.teleport(spawnTeam);
+					}
+				}
+			}
+		}
+		Teams.newTeam("Spectateurs",15);
+		Teams.newTeam("Taupes1","c");
+		if(InventoryRegister.supertaupes.getValue()){
+			Teams.newTeam("SuperTaupe",1);
+		}
+		if(InventoryRegister.nombretaupes.getValue() == 2){
+			Teams.newTeam("Taupes2","c");
+		}
+		for(int x = -15; x <= 15; x++){
+			for (int y = 200; y <= 203; y++){
+				for (int z = -15; z <= 15; z++){
+					Bukkit.getWorld("world").getBlockAt(x, y, z).setType(Material.AIR);
+				}
+			}
+		}
+	}
+	
 	private static void annoncesTaupes() {
 		// 5s AVANT L'ANNONCE DES TAUPES //
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 5 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 0){
@@ -346,8 +366,14 @@ public class Game{
 	}
 
 	public static void scoreboardMur() {
+		for(Entry<Player, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
+			ScoreboardModule.setMur(sign.getKey());
+			ScoreboardModule.setChrono(sign.getKey());
+			ScoreboardModule.setBordures(sign.getKey());
+		}
+		
 		// LE MUR N'EST PAS A 00:00 //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer != 0){	
+		/* if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 0){	
 			
 			// LE MUR EST A MOINS DE 100:00 //
 			if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer < 6000){
@@ -402,7 +428,7 @@ public class Game{
 			if(Login.boards.containsKey(pl)){
 				Login.boards.get(pl).setLine(14, "➏ Bordures :§e "+Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
 			}
-		}
+		} */
 	}
 	
 	private static void annoncesMur() {
@@ -422,11 +448,11 @@ public class Game{
 		}
 		
 		// LE MUR EST A 00H00 //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
+		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 0){
 			TaupeGun.timer++;
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
 			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
-			for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
+			/* for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
 				String dateformatChrono = "";
 				if(TaupeGun.timer < 6000){
 					dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mm:ss");
@@ -435,9 +461,9 @@ public class Game{
 				}
 				sign.getValue().setLine(11, "➍ Chrono :§e "+dateformatChrono);
 				sign.getValue().removeLine(14);
-			}
+			} */
 			
-			World world = Bukkit.getWorld("lguhc");
+			World world = Bukkit.getWorld("world");
 			WorldBorder border = world.getWorldBorder();
 			border.setCenter(0.0, 0.0);
 			double taille = (double) (InventoryRegister.murtailleaprès.getValue())*2.0;
@@ -479,8 +505,7 @@ public class Game{
 					}
 					p.teleport(spawnTeam);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
-					int distance = (int) Math.sqrt(p.getLocation().getX() * p.getLocation().getX() + p.getLocation().getZ()* p.getLocation().getZ());
-					Login.boards.get(p).setLine(8, "➋ Centre :§e "+ distance);
+					ScoreboardModule.setCentre(p);
 				}
 			}
 		}

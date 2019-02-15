@@ -6,17 +6,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.events.Teams;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
 import net.md_5.bungee.api.ChatColor;
 
-public class InventoryDeleteTeams extends InventoryGUI {
-	
-	public InventoryDeleteTeams(InventoryGUI pInventoryGUI) {
-		super("Supprimer l'équipe", "", 1, Material.STAINED_CLAY, pInventoryGUI, 18, (byte) 14);
+abstract public class InventoryDelete extends InventoryGUI {
+
+	public InventoryDelete(InventoryGUI pInventoryGUI, String pName, int pPosition) {
+		super(pName, "", 1, Material.STAINED_CLAY, pInventoryGUI, pPosition, (byte) 14);
 		initItem();
 	}
 	
@@ -36,6 +34,8 @@ public class InventoryDeleteTeams extends InventoryGUI {
 		getInventory().setItem(6, annuler);
 	}
 	
+	protected abstract void deleteElement(Player p);
+	
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(inventory)) {
@@ -43,20 +43,17 @@ public class InventoryDeleteTeams extends InventoryGUI {
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if(e.getCurrentItem().getType().equals(Material.STAINED_CLAY)){
 					if(e.getCurrentItem().getDurability() == 13) {
-						Team team = Teams.board.getTeam(getParent().getName());
-						MessagesClass.TeamDeleteMessage(p, team.getName());
-						Teams.deleteTeam(team.getName());
-						p.openInventory(InventoryRegister.teams.getInventory());
+						deleteElement(p);
 					}else if(e.getCurrentItem().getDurability() == 14) {
 						p.openInventory(getParent().getInventory());
-						
 					}
 				}
 				delayClick(pl);
 			}
 		}
 	}
+	
 }

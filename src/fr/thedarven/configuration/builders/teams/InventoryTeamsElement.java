@@ -1,4 +1,4 @@
-package fr.thedarven.configuration.builders;
+package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +13,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
+import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
 import net.md_5.bungee.api.ChatColor;
 
-public class InventoryTeams extends InventoryGUI{
+public class InventoryTeamsElement extends InventoryGUI{
 
-	protected static ArrayList<InventoryTeams> inventory = new ArrayList<>();
+	protected static ArrayList<InventoryTeamsElement> inventory = new ArrayList<>();
 	private int couleur;
 	
-	public InventoryTeams(String pName, int pColor) {
+	public InventoryTeamsElement(String pName, int pColor) {
 		super(pName, "", 3, Material.BANNER, InventoryRegister.teams, 0);
 		couleur = pColor;
 		inventory.add(this);
 		reloadItem();
-		updateParentInventory();
+		InventoryRegister.teams.reloadInventory();
 	}
 	
 	public int getColor() {
@@ -43,21 +46,6 @@ public class InventoryTeams extends InventoryGUI{
 	public void setName(String pName) {
 		this.name = pName;
 		reloadItem();
-	}
-	
-	public static void updateParentInventory() {
-		for(InventoryGUI inventory : inventory.get(0).getParent().childs) {
-			inventory.getParent().removeItem(inventory);
-		}
-		int i = 0;
-		for(InventoryGUI inventory : inventory.get(0).getParent().childs) {
-			if(inventory instanceof InventoryTeams) {
-				inventory.getParent().modifiyPosition(inventory,i);
-				i++;
-			}else {
-				inventory.getParent().modifiyPosition(inventory,inventory.getParent().childs.size()-1);
-			}
-		}
 	}
 	
 	public void reloadItem(){
@@ -119,17 +107,13 @@ public class InventoryTeams extends InventoryGUI{
 					}
 					InventoryPlayers.reloadInventory();
 				}
-				inventory.get(i).getParent().childs.remove(inventory.get(i));
+				inventory.get(i).getParent().getChilds().remove(inventory.get(i));
 				inventory.get(i).getParent().removeItem(inventory.get(i));
-				updateParentInventory();
+				InventoryRegister.teams.reloadInventory();
 				inventory.remove(i);
 				return;
 			}
 		}
-	}
-	
-	static public InventoryTeams getLastChild() {
-		return inventory.get(inventory.size()-1);
 	}
 	
 	@EventHandler
@@ -139,12 +123,12 @@ public class InventoryTeams extends InventoryGUI{
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
-				p.openInventory(getParent().getInventory());
-				return;
-			}
+			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(getParent().getInventory());
+					return;
+				}
 
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if(e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
 					Teams.leaveTeam(getName(), e.getCurrentItem().getItemMeta().getDisplayName());
 					MessagesEventClass.TeamDeletePlayerMessage(e);
@@ -159,7 +143,7 @@ public class InventoryTeams extends InventoryGUI{
 						}
 					}
 				}
-				delayClick(pl);
+				delayClick(pl);	
 			}
 		}
 	}

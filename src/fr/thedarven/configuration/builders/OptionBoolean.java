@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 
 import org.bukkit.DyeColor;
@@ -89,7 +90,7 @@ public class OptionBoolean extends InventoryGUI{
 	    this.inventory.setItem(5, plus);
 	}
 
-	private void reloadItem() {
+	protected void reloadItem() {
 		// Pour ouvrir l'inventaire
 		String name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+"Activé";
 		if(!this.value) {
@@ -126,12 +127,12 @@ public class OptionBoolean extends InventoryGUI{
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
-				p.openInventory(this.getParent().getInventory());
-				return;
-			}
+			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(this.getParent().getInventory());
+					return;
+				}
 
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if(e.getSlot() == 3 && this.value) {
 					this.value = false;
 					reloadItem();

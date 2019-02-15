@@ -1,10 +1,14 @@
 package fr.thedarven.utils;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 
@@ -19,30 +23,69 @@ public class MessagesClass {
 		p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Les taupes ne sont pas encore annoncées.");
 	}
 	
-	public static void Taupe1ListMessage(Player p) {
-		String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes 1: "+ChatColor.RESET+""+ChatColor.RED;
+	public static void CommandTaupeMessageMessage(Player p, String[] args, int taupeTeam) {
+		String messageCommand = ChatColor.RED+p.getName()+":";
+		for(int messageSize = 0; messageSize < args.length; messageSize++){
+			messageCommand = messageCommand+" "+args[messageSize];
+		}
+		for(Player player : Bukkit.getOnlinePlayers()){
+			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTaupeTeam() == taupeTeam){
+				player.sendMessage(messageCommand);
+			}
+		}
+		
+		Set<Team> teams = Teams.board.getTeams();
+		for(Team team : teams){
+			if(team.getName().equals("Spectateurs")){
+				for(String player : team.getEntries()){
+					Bukkit.getPlayer(player).sendMessage(ChatColor.RED+"[TAUPE "+taupeTeam+"] "+messageCommand);
+				}
+			}
+		}
+	}
+	
+	public static void CommandReavelMessage(Player p) {
+		Bukkit.broadcastMessage(ChatColor.RED+p.getName()+" se révèle être une taupe !");
+	}
+	
+	public static void TaupeListMessage(Player p, int taupeTeam) {
+		String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+taupeTeam+": "+ChatColor.RESET+""+ChatColor.RED;
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getTaupeTeam() == 1) {
+			if(pc.getTaupeTeam() == taupeTeam) {
 				listTaupe = listTaupe +pc.getCustomName()+" ";
 			}
 		}
 		p.getPlayer().sendMessage(listTaupe);
 	}
 	
-	public static void Taupe2ListMessage(Player p) {
-		String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes 2: "+ChatColor.RESET+""+ChatColor.RED;
-		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getTaupeTeam() == 2) {
-				listTaupe = listTaupe +pc.getCustomName()+" ";
-			}
-		}
-		p.getPlayer().sendMessage(listTaupe);
+	public static void CommandSuperreavelMessage(Player p) {
+		Bukkit.broadcastMessage(ChatColor.DARK_RED+p.getName()+" se révèle être une supertaupe !");
 	}
 	
-	public static void SuperTaupeListMessage(Player p) {
-		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"Super taupes: "+ChatColor.RESET+""+ChatColor.DARK_RED;
+	public static void CommandSupertaupeMessageMessage(Player p, String[] args, int taupeTeam) {
+		String messageCommand = ChatColor.DARK_RED+p.getName()+":";
+		for(int messageSize = 0; messageSize < args.length; messageSize++){
+			messageCommand = messageCommand+" "+args[messageSize];
+		}
+		for(Player player : Bukkit.getOnlinePlayers()){
+			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getSuperTaupeTeam() == taupeTeam){
+				player.sendMessage(messageCommand);
+			}
+		}
+		Set<Team> teams = Teams.board.getTeams();
+		for(Team team : teams){
+			if(team.getName().equals("Spectateurs")){
+				for(String player : team.getEntries()){
+					Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED+"[SUPERTAUPE "+taupeTeam+"] "+messageCommand);
+				}
+			}
+		}	
+	}
+	
+	public static void SuperTaupeListMessage(Player p, int teamTaupe) {
+		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+teamTaupe+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getSuperTaupeTeam() == 1) {
+			if(pc.getSuperTaupeTeam() == teamTaupe) {
 				listTaupe = listTaupe +pc.getCustomName()+" ";
 			}
 		}

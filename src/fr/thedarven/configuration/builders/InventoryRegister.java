@@ -2,12 +2,19 @@ package fr.thedarven.configuration.builders;
 
 import org.bukkit.Material;
 
+import fr.thedarven.configuration.builders.kits.InventoryDeleteKits;
+import fr.thedarven.configuration.builders.kits.InventoryKits;
+import fr.thedarven.configuration.builders.kits.InventoryKitsElement;
+import fr.thedarven.configuration.builders.teams.InventoryColor;
+import fr.thedarven.configuration.builders.teams.InventoryTeams;
 import fr.thedarven.configuration.temp.BloodDiamond;
 import fr.thedarven.configuration.temp.CutClean;
 import fr.thedarven.configuration.temp.DiamondLimit;
 import fr.thedarven.configuration.temp.GoldenHead;
 import fr.thedarven.configuration.temp.LavaLimiter;
 import fr.thedarven.configuration.temp.NoEnderPearlDamage;
+import fr.thedarven.configuration.temp.NoNether;
+import fr.thedarven.configuration.temp.OwnTeam;
 import fr.thedarven.configuration.temp.Pomme;
 import fr.thedarven.configuration.temp.Pvp;
 import fr.thedarven.configuration.temp.Silex;
@@ -16,8 +23,19 @@ public class InventoryRegister {
 	
 	public static InventoryGUI menu = new InventoryGUI("Menu", null, 1, Material.GRASS, null);
 	public static InventoryGUI configuration = new InventoryGUI("Configuration", "Menu de configuration.", 2, Material.ANVIL, menu, 3);
-	public static InventoryGUI teams = new InventoryGUI("Equipes", "Menu de équipes.", 6, Material.BANNER, menu, 5, (byte) 15);
+	public static InventoryKits kits = new InventoryKits(menu);
+	public static InventoryTeams teams = new InventoryTeams(menu);
 	public static InventoryStartItem startitem = new InventoryStartItem();
+	
+	public static InventoryGUI addkits = new InventoryGUI("✚ Ajouter un kit", null, 1, Material.PAPER, kits, 0);
+	public static InventoryKitsElement tnt = new InventoryKitsElement("TNT");
+	public static InventoryKitsElement blaze = new InventoryKitsElement("Blaze");
+	public static InventoryKitsElement aerien = new InventoryKitsElement("Aérien");
+	public static InventoryKitsElement potion = new InventoryKitsElement("Potion");
+	public static InventoryDeleteKits a = new InventoryDeleteKits(tnt);
+	public static InventoryDeleteKits b = new InventoryDeleteKits(blaze);
+	public static InventoryDeleteKits c = new InventoryDeleteKits(aerien);
+	public static InventoryDeleteKits d = new InventoryDeleteKits(potion);
 	
 	public static InventoryGUI addteam = new InventoryGUI("✚ Ajouter une équipe", null, 1, Material.BANNER, teams, 0, (byte) 15);
 	public static InventoryColor choisirCouleur = new InventoryColor();
@@ -38,6 +56,7 @@ public class InventoryRegister {
 	public static DiamondLimit OptionBoolean = new DiamondLimit("Diamond Limit", "Limite le nombre de diamant que chaque joueur peu miner dans la partie.", Material.DIAMOND, scenarios, 0, 50, 0, 1, 2, "", 1);
 	public static LavaLimiter lava = new LavaLimiter("Lava Limiter", "Désactive le placement de lave proches des autres joueurs.", Material.LAVA_BUCKET, scenarios, false);
 	public static NoEnderPearlDamage pearldamage = new NoEnderPearlDamage("No Enderpearl Damage", "Désactive les dégâts causés par les ender pearl.", Material.ENDER_PEARL, scenarios, false);
+	public static NoNether nonether = new NoNether("No Nether", "Désactive l'accès au nether.", Material.OBSIDIAN, scenarios, false);
 	
 	public static InventoryGUI drop = new InventoryGUI("Drops", "Menu des drops.", 1, Material.NETHER_STAR, configuration, 6);
 	public static Pomme pomme = new Pomme("Pommes", "Pourcentage de drop des pommes.", Material.APPLE, drop, 1, 200, 1, 1, 3, "%", 2);
@@ -46,7 +65,8 @@ public class InventoryRegister {
 	public static InventoryGUI autre = new InventoryGUI("Autres", "Autres paramètres.", 1, Material.COMMAND, configuration, 8);
 	public static OptionBoolean scenariosvisibles = new OptionBoolean("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.", Material.STAINED_GLASS_PANE,autre, true);
 	public static OptionBoolean supertaupes = new OptionBoolean("Supertaupes", "Activer ou non les supertaupes.", Material.ENCHANTMENT_TABLE, autre, false);
-	public static OptionBoolean coordonneesvisibles = new OptionBoolean("Coordonnées visible", "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative du centre.", Material.EYE_OF_ENDER, autre, false);
+	public static OptionBoolean coordonneesvisibles = new OptionBoolean("Coordonnées visibles", "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative du centre.", Material.EYE_OF_ENDER, autre, true);
 	public static GoldenHead goldenhead = new GoldenHead("Golden Head", "Nombre de coeurs régénérés par les Golden Head.", Material.SKULL_ITEM, autre, 0, 8, 0, 1, 1, "❤", 2);
 	public static OptionNumeric nombretaupes = new OptionNumeric("Nombre de taupes", "Détermine le nombre de taupes par équipe.", Material.ARMOR_STAND, autre, 1, 2, 1, 1, 1, " taupe(s)", 1);
+	public static OwnTeam ownteam = new OwnTeam("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux meês les équipes.", Material.BANNER, autre, (byte) 15, false);
 }

@@ -2,6 +2,7 @@ package fr.thedarven.configuration.builders;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumConfiguration;
+import fr.thedarven.main.constructors.EnumGame;
 
 public abstract class InventoryBuilder implements Listener{
 	protected String name;
@@ -80,6 +83,20 @@ public abstract class InventoryBuilder implements Listener{
 	
 	public void setPosition(int pPosition) {
 		this.position = pPosition;
+	}
+	
+	public boolean click(Player p, EnumConfiguration configuration) {
+		// op --> lobby tout
+		//    --> pas lobby INVENTAIRE
+		// all --> lobby non
+		//     --> pas lobby INVENTAIRE
+		
+		if(p.isOp() && (TaupeGun.etat.equals(EnumGame.LOBBY) || configuration.equals(EnumConfiguration.INVENTAIRE))) {
+			return true;
+		}else if(!p.isOp() && !TaupeGun.etat.equals(EnumGame.LOBBY) && configuration.equals(EnumConfiguration.INVENTAIRE) && InventoryRegister.scenariosvisibles.getValue()) {
+			return true;
+		}
+		return false;
 	}
 	
 }

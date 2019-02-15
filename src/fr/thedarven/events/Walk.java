@@ -16,8 +16,8 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.PlayerOrientation;
+import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.api.Title;
 
@@ -34,16 +34,9 @@ public class Walk implements Listener {
     	Block b = loc.getBlock();
     
     	// DISTANCE DU CENTRE
-		if(Login.boards.containsKey(p)){
-			if(p.getWorld().getName().equals("world_nether")){
-				Location portailLocation = PlayerTaupe.getPlayerManager(p.getUniqueId()).getNetherPortal();
-				int distance = (int) Math.sqrt((portailLocation.getX() - loc.getBlockX())*(portailLocation.getX() - loc.getBlockX()) + (portailLocation.getZ() - loc.getBlockZ())*(portailLocation.getZ() - loc.getBlockZ()) + (portailLocation.getY() - loc.getBlockY())*(portailLocation.getY() - loc.getBlockY()));
-				Login.boards.get(p).setLine(8, "➋ Portail :§e "+ distance);
-			}else{
-				int distance = (int) Math.sqrt(loc.getX() * loc.getX() + loc.getZ()* loc.getZ());
-				Login.boards.get(p).setLine(8, "➋ Centre :§e "+ distance);
-			}
-		}
+    	ScoreboardModule.setCentre(p);
+    	
+    	
     	
     	if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
     		

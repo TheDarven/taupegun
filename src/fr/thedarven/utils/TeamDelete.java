@@ -18,7 +18,9 @@ import fr.thedarven.main.constructors.PlayerTaupe;
 public class TeamDelete {
 
 	public static void start() {
-		if(TaupeGun.etat.equals(EnumGame.GAME)) {
+		if(true) {
+			
+		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			ArrayList<String> deleteTeam = new ArrayList<String>();
 			Set<Team> teams = Teams.board.getTeams();
 			for(Team team : teams){
@@ -78,7 +80,7 @@ public class TeamDelete {
 			if(teams.size() == 2){
 				for(Team team : teams){
 					if(team.getName() != "Spectateurs"){
-						Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team+ChatColor.GREEN+" a gagné !");
+						Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team.getName()+ChatColor.GREEN+" a gagné !");
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
 						}

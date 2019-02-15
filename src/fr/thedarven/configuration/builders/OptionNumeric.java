@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 
 import org.bukkit.DyeColor;
@@ -247,12 +248,12 @@ public class OptionNumeric extends InventoryGUI{
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
-				p.openInventory(this.getParent().getInventory());
-				return;
-			}
-
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(this.getParent().getInventory());
+					return;
+				}
+				
 				if(e.getSlot() == 1 && this.morePas > 2) {
 					operation = 1;
 					number = this.pas*100;

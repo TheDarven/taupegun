@@ -1,4 +1,4 @@
-package fr.thedarven.configuration.builders;
+package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -12,7 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.MessagesEventClass;
@@ -61,12 +63,12 @@ public class InventoryPlayers extends InventoryGUI{
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
-				p.openInventory(getParent().getInventory());
-				return;
-			}
+			if(click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+					p.openInventory(getParent().getInventory());
+					return;
+				}
 
-			if(p.isOp() && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if(e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
 					Set<Team> teams = Teams.board.getTeams();
 					for(Team team : teams){
@@ -75,7 +77,7 @@ public class InventoryPlayers extends InventoryGUI{
 								Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
 								MessagesEventClass.TeamAddPlayerMessage(e);
 								reloadInventory();
-								((InventoryTeams) getParent()).reloadInventory();
+								((InventoryTeamsElement) getParent()).reloadInventory();
 								p.openInventory(getParent().getInventory());
 							}else {
 								MessagesClass.TeamCannotAddPlayerMessage(p, team.getName());

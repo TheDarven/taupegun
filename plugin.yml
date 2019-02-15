@@ -1,4 +1,29 @@
 name: TaupeGun
-version: 1.2
+version: 1.3
 author: TheDarven
 main: fr.thedarven.main.TaupeGun
+commands:
+  timer:
+    description: Pour changer le chronometre en periode de test.
+  revive:
+    description: Pour reanimer un joueur.
+  heal:
+    description: Soigne tous les joueurs.
+  g:
+    description: Envoie une annonce sur le serveur.
+  rules:
+    description: Permet de voir les configurations de la partie.
+  scenarios:
+    description: Permet de configurer la partie.
+  taupelist:
+    description: Permet aux spectateurs de voir la liste des taupes.
+  claim:
+    description: Pour avoir son kit de taupe.
+  reveal:
+    description: Pour se reveler a tous les joueurs en tant que taupe.
+  t:
+    description: Pour envoyer un message a son equipe de taupes.
+  superreveal:
+    description: Pour se reveler a tous les joueurs en tant que supertaupe.
+  supert:
+    description: Pour envoyer un message a son equipe de supertaupes.

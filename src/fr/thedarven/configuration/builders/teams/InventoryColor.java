@@ -1,9 +1,10 @@
-package fr.thedarven.configuration.builders;
+package fr.thedarven.configuration.builders.teams;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.utils.CodeColor;
 
 public class InventoryColor extends InventoryGUI {
