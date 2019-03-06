@@ -7,8 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Teams;
+import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 
@@ -48,14 +48,16 @@ public class MessagesClass {
 		Bukkit.broadcastMessage(ChatColor.RED+p.getName()+" se révèle être une taupe !");
 	}
 	
-	public static void TaupeListMessage(Player p, int taupeTeam) {
-		String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+taupeTeam+": "+ChatColor.RESET+""+ChatColor.RED;
-		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getTaupeTeam() == taupeTeam) {
-				listTaupe = listTaupe +pc.getCustomName()+" ";
+	public static void TaupeListMessage(Player p) {
+		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++) {
+			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+i+": "+ChatColor.RESET+""+ChatColor.RED;
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
+				if(pc.getTaupeTeam() == i) {
+					listTaupe = listTaupe +pc.getCustomName()+" ";
+				}
 			}
+			p.getPlayer().sendMessage(listTaupe);	
 		}
-		p.getPlayer().sendMessage(listTaupe);
 	}
 	
 	public static void CommandSuperreavelMessage(Player p) {
@@ -82,10 +84,10 @@ public class MessagesClass {
 		}	
 	}
 	
-	public static void SuperTaupeListMessage(Player p, int teamTaupe) {
-		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+teamTaupe+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
+	public static void SuperTaupeListMessage(Player p) {
+		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getSuperTaupeTeam() == teamTaupe) {
+			if(pc.getSuperTaupeTeam() == 1) {
 				listTaupe = listTaupe +pc.getCustomName()+" ";
 			}
 		}
@@ -134,27 +136,19 @@ public class MessagesClass {
 	
 	//FIREWORKWIN
 	public static void FinalTaupeAnnonceMessage() {
-		String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes 1: "+ChatColor.RESET+""+ChatColor.RED;
-		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getTaupeTeam() == 1) {
-				listTaupe = listTaupe+pc.getCustomName()+" ";
-			}
-		}
-		Bukkit.getServer().broadcastMessage(listTaupe);	
-		
-		if(InventoryRegister.nombretaupes.getValue() == 2){
-			listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes 2: "+ChatColor.RESET+""+ChatColor.RED;
+		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++) {
+			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+i+": "+ChatColor.RESET+""+ChatColor.RED;
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-				if(pc.getTaupeTeam() == 2) {
-					listTaupe = listTaupe+pc.getCustomName()+" ";
+				if(pc.getTaupeTeam() == i) {
+					listTaupe = listTaupe +pc.getCustomName()+" ";
 				}
 			}
-			Bukkit.getServer().broadcastMessage(listTaupe);		
+			Bukkit.getServer().broadcastMessage(listTaupe);	
 		}
 	}
 	
 	public static void FinalSuperTaupeAnnonceMessage() {
-		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"Super taupes: "+ChatColor.RESET+""+ChatColor.DARK_RED;
+		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
 			if(pc.getSuperTaupeTeam() == 1) {
 				listTaupe = listTaupe +pc.getCustomName()+" ";

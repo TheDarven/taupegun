@@ -3,14 +3,17 @@ package fr.thedarven.configuration.temp;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
+import fr.thedarven.utils.api.Title;
 
 public class DiamondLimit extends OptionNumeric {
 	
@@ -26,17 +29,19 @@ public class DiamondLimit extends OptionNumeric {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent e){
-		if(e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && e.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
-			if(buffer.containsKey(e.getPlayer().getUniqueId())) {
-				if(buffer.get(e.getPlayer().getUniqueId()) < this.value) {
-					buffer.replace(e.getPlayer().getUniqueId(), buffer.get(e.getPlayer().getUniqueId())+1);
+		Player p = e.getPlayer();
+		if(e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && p.getGameMode().equals(GameMode.SURVIVAL)) {
+			if(buffer.containsKey(p.getUniqueId())) {
+				if(buffer.get(p.getUniqueId()) < this.value) {
+					buffer.replace(p.getUniqueId(), buffer.get(p.getUniqueId())+1);
+					Title.sendActionBar(p, ChatColor.BLUE+"DiamondLimit : "+ChatColor.WHITE+buffer.get(p.getUniqueId())+"/"+getValue());
 				}else {
-					e.getPlayer().sendMessage("§cVous avez dépassé la limite de diamant !");
+					p.sendMessage("§cVous avez dépassé la limite de diamant !");
 					e.setCancelled(true);
 					e.getBlock().setType(Material.AIR);
 				}
 			}else {
-				buffer.put(e.getPlayer().getUniqueId(), 1);
+				buffer.put(p.getUniqueId(), 1);
 			}
 		}	
 	}

@@ -107,7 +107,7 @@ public class ScoreboardModule {
 		int teamNick = 0;
 		Set<Team> teams = Teams.board.getTeams();
 		for(Team team : teams){
-			if(team.getName().equals("Spectateurs") || team.getName().equals("Taupes1") || team.getName().equals("Taupes2") || team.getName().equals("SuperTaupe")){
+			if(team.getName().equals("Spectateurs") || team.getName().startsWith("Taupes") || team.getName().startsWith("SuperTaupe")){
 				teamNick++;
 			}
 			if(team.getName() != "Spectateurs"){

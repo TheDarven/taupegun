@@ -18,50 +18,34 @@ import fr.thedarven.main.constructors.PlayerTaupe;
 public class TeamDelete {
 
 	public static void start() {
-		if(true) {
-			
-		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
+		if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			ArrayList<String> deleteTeam = new ArrayList<String>();
 			Set<Team> teams = Teams.board.getTeams();
-			for(Team team : teams){
-				if(team.getName() != "Spectateurs" && team.getName() != "Taupes1" && team.getName() != "Taupes2" && team.getName() != "SuperTaupe" && team.getEntries().size() == 0){
-					deleteTeam.add(team.getName());
-				}
-				
+			for(Team team : teams) {
 				if(TaupeGun.timer > InventoryRegister.annoncetaupes.getValue()*60) {
-					if(team.getName().equals("Taupes1")){
+					if(team.getName().startsWith("Taupes")) {
+						int number = Integer.parseInt(team.getName().substring(6));
 						boolean deleteTeamTaupe1 = true;
 						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
-							if(player.getTaupeTeam() == 1 && player.isAlive()) {
+							if(player.getTaupeTeam() == number && !player.isSuperReveal()) {
 								deleteTeamTaupe1 = false;
 							}
 						}
 						if(deleteTeamTaupe1) {
-							Teams.deleteTeam("Taupes1");
+							Teams.deleteTeam("Taupes"+number);
 						}
-					}else if(team.getName().equals("Taupes2")){
-						boolean deleteTeamTaupe2 = true;
-						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
-							if(player.getTaupeTeam() == 2 && player.isAlive()) {
-								deleteTeamTaupe2 = false;
-							}
-						}
-						if(deleteTeamTaupe2) {
-							Teams.deleteTeam("Taupes2");
-						}
-					}	
-				}
-				if(TaupeGun.timer > InventoryRegister.annoncetaupes.getValue()*60+1200) {
-					if(team.getName().equals("SuperTaupe")) {
+					}else if(team.getName().startsWith("SuperTaupe")) {
 						boolean deleteTeamSuperTaupe = true;
 						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
-							if(player.getSuperTaupeTeam() == 1 && player.isAlive()) {
+							if(player.getSuperTaupeTeam() == 1) {
 								deleteTeamSuperTaupe = false;
 							}
 						}
 						if(deleteTeamSuperTaupe) {
 							Teams.deleteTeam("SuperTaupe");
 						}
+					}else if(team.getName() != "Spectateurs" && team.getEntries().size() == 0) {
+						deleteTeam.add(team.getName());
 					}
 				}
 			}
@@ -80,6 +64,7 @@ public class TeamDelete {
 			if(teams.size() == 2){
 				for(Team team : teams){
 					if(team.getName() != "Spectateurs"){
+						Bukkit.broadcastMessage(" ");
 						Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team.getName()+ChatColor.GREEN+" a gagné !");
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);

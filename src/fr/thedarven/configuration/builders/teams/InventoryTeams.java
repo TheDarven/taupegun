@@ -73,7 +73,7 @@ public class InventoryTeams extends InventoryIncrement {
 					    			return;
 					    		}
 					    			   
-					    		if(pl.getCreateTeamName().equals("Spectateurs") || pl.getCreateTeamName().equals("Taupes1") || pl.getCreateTeamName().equals("Taupes2") || pl.getCreateTeamName().equals("SuperTaupe") || pl.getCreateTeamName().equals("aucune")){
+					    		if(pl.getCreateTeamName().equals("Spectateurs") || pl.getCreateTeamName().startsWith("Taupes") || pl.getCreateTeamName().startsWith("SuperTaupe") || pl.getCreateTeamName().equals("aucune")){
 					    			p.closeInventory();
 				    				MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
 				    				pl.setCreateTeamName(null);

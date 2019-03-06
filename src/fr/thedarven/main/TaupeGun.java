@@ -10,6 +10,9 @@ import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -23,6 +26,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.utils.BiomeEdit;
+import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.SqlConnection;
@@ -43,6 +48,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public static EnumGame etat;
 	public static int timerStart = 10;
 	public static int timer = 0;
+	public static int nbrEquipesTaupes = 0;
 	
 	public SqlConnection sql;
 	
@@ -65,6 +71,35 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		
 		sql = new SqlConnection("jdbc:mysql://","sql-7.verygames.net","db565628","db565628","t968fdaf");
         sql.connection();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /* BiomeEdit.changeBiome("FOREST");
+        WorldCreator c = new WorldCreator("taupegun");
+        c.environment(Environment.NORMAL);
+        c.type(WorldType.NORMAL);
+        Bukkit.createWorld(c);
+        
+        WorldCreator c_nether = new WorldCreator("taupegun_nether");
+        c_nether.environment(Environment.NETHER);
+        Bukkit.createWorld(c_nether); */
+        
+        
+        
+        
+        
+        
+        
+        
+        
 		
 		// Recette		
 		ItemStack GoldenHead = new ItemStack(Material.GOLDEN_APPLE, 1);
@@ -96,10 +131,13 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		getCommand("revive").setExecutor(new Commands());
 		getCommand("heal").setExecutor(new Commands());
 		getCommand("g").setExecutor(new Commands());
+		getCommand("playerkill").setExecutor(new Commands());
+		getCommand("players").setExecutor(new Commands());
 		getCommand("rules").setExecutor(new Commands());
 		getCommand("scenarios").setExecutor(new Commands());
 		getCommand("taupelist").setExecutor(new Commands());
 		getCommand("timer").setExecutor(new Commands());
+		getCommand("updatestats").setExecutor(new Commands());
 		
 		// Commandes taupes
 		getCommand("claim").setExecutor(new CommandsTaupe());
@@ -114,7 +152,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		for(Player p: Bukkit.getOnlinePlayers()){
 			// Login.boards.get(p).destroy();
 			ScoreboardModule.boards.get(p).destroy();
-			
+			DisableF3.enableF3(p);
 			SqlRequest.updatePlayerTimePlay(p);
 		}
 		if(SqlRequest.id_partie != 0) {

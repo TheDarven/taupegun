@@ -85,7 +85,6 @@ public class InventoryKitsElement extends InventoryGUI {
 						if(e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
 							e.setCancelled(true);
 						}
-						delayClick(pl);
 					}	
 				}
 			}

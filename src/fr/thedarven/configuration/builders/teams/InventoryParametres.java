@@ -64,7 +64,7 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 						    			return;
 						    		}
 						    			   
-						    		if(text.equals("Spectateurs") || text.equals("Taupes1") || text.equals("Taupes2") || text.equals("SuperTaupe") || text.equals("aucune")){
+						    		if(pl.getCreateTeamName().equals("Spectateurs") || pl.getCreateTeamName().startsWith("Taupes") || pl.getCreateTeamName().startsWith("SuperTaupe") || pl.getCreateTeamName().equals("aucune")){
 						    			p.openInventory(getInventory());
 					    				MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
 						    			return;

@@ -21,7 +21,6 @@ import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.SqlRequest;
-import fr.thedarven.utils.TeamDelete;
 
 public class Death implements Listener {
 
@@ -29,55 +28,53 @@ public class Death implements Listener {
 	}
 
 	@EventHandler
-	public void PlayerDeath(PlayerDeathEvent e) {
-		Player p = e.getEntity();
+	public void PlayerDeath(PlayerDeathEvent e) {			
+		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()));
 		
+		if(e.getEntity().getKiller() != null){
+			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(e.getEntity().getKiller().getUniqueId());
+			pcKiller.setKill(pcKiller.getKill()+1);;
+			SqlRequest.updateTaupeKill(e.getEntity().getKiller());
+		}
+	}
+	
+	public static void killPlayer(PlayerTaupe pl) {
 		if(TaupeGun.etat.equals(EnumGame.GAME)){
-			e.setDeathMessage(ChatColor.GOLD+""+e.getEntity().getName()+ChatColor.RESET+" est mort");
-			PlayerTaupe.getPlayerManager(p.getUniqueId()).setAlive(false);
-			
-			if(e.getEntity().getKiller() != null){
-				PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(e.getEntity().getKiller().getUniqueId());
-				pcKiller.setKill(pcKiller.getKill()+1);;
-				// Login.boards.get(e.getEntity().getKiller()).setLine(9, "➌ Kills :§e "+pcKiller.getKill());
-				SqlRequest.updateTaupeKill(e.getEntity().getKiller());
-			}
+			Bukkit.broadcastMessage(ChatColor.GOLD+""+pl.getCustomName()+ChatColor.RESET+" est mort");
+			pl.setAlive(false);
 			
 			/* ON S'OCCUPE DU JOUEUR */
 			Set<Team> teams = Teams.board.getTeams();
 			for(Team team : teams){
 				if(team.getName() != "Spectateurs"){
 					for(String player : team.getEntries()){
-						if(p.getName().equals(player)){
+						if(pl.getCustomName().equals(player)){
 							for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 								playerOnline.playSound(playerOnline.getLocation(), Sound.WITHER_SPAWN, 1, 1);
 							}
 							
-							if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60){
+							if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60 && pl.isOnline()){
 								ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
 								SkullMeta teteM = (SkullMeta) tete.getItemMeta();
-								teteM.setOwner(p.getName());
-								teteM.setDisplayName(ChatColor.GOLD+"Tête de "+p.getName());
+								teteM.setOwner(pl.getCustomName());
+								teteM.setDisplayName(ChatColor.GOLD+"Tête de "+pl.getCustomName());
 								tete.setItemMeta(teteM);
 								
-								p.getWorld().dropItem(p.getLocation(), tete);
+								pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
+								pl.getPlayer().setGameMode(GameMode.SPECTATOR);
+								Location spawn = new Location(Bukkit.getWorld("world"),0,200,0);
+								pl.getPlayer().teleport(spawn);
+								pl.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
+								pl.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
 							}
 							
-							SqlRequest.updateTaupeMort(p.getUniqueId().toString(), 1);
-							
-							Teams.leaveTeam(team.getName(),p.getName());		
-							Teams.joinTeam("Spectateurs", p.getName());
-							p.setGameMode(GameMode.SPECTATOR);
-							Location spawn = new Location(Bukkit.getWorld("world"),0,200,0);
-							p.teleport(spawn);
+							SqlRequest.updateTaupeMort(pl.getUuid().toString(), 1);
+							Teams.leaveTeam(team.getName(),pl.getCustomName());		
+							Teams.joinTeam("Spectateurs", pl.getCustomName());
 						}
 					}
 				}			
 			}
-			
-			p.sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
-			p.sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
-			TeamDelete.start();
 		}
 	}
 }

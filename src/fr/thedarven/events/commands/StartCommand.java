@@ -1,9 +1,12 @@
 package fr.thedarven.events.commands;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,16 +20,20 @@ import fr.thedarven.events.Teams;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.utils.GraphEquipes;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.api.Title;
 
 
 public class StartCommand implements Listener {
 Scoreboard board = Teams.board;
+public static GraphEquipes graph;
 
 	public StartCommand(TaupeGun pl) {
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onCommandes(PlayerCommandPreprocessEvent e){
 		Player p = e.getPlayer();
@@ -37,7 +44,7 @@ Scoreboard board = Teams.board;
 		if(args[0].equalsIgnoreCase("/start")){
 			e.setCancelled(true);
 			
-			/* if(!p.isOp()){
+			if(!p.isOp()){
 				MessagesClass.CannotCommandOperatorMessage(p);
 				return;
 			}
@@ -53,9 +60,14 @@ Scoreboard board = Teams.board;
 			}
 			
 			if(teams.size() < 3 && InventoryRegister.supertaupes.getValue()){
-				p.sendMessage(ChatColor.RED+"Il faut au minimum trois équipes.");
+				p.sendMessage(ChatColor.RED+"Il faut au minimum trois équipes pour avoir une supertaupe.");
 				return;
-			} 
+			}
+			
+			if(InventoryRegister.kits.getChilds().size() <= 1) {
+				p.sendMessage(ChatColor.RED+"Il n'y a pas assez de kits.");
+				return;
+			}
 			
 			for(Team team : teams){
 				if(InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() < 3 || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
@@ -74,7 +86,42 @@ Scoreboard board = Teams.board;
 						return;
 					}
 				}
-			} */
+			}
+			
+			graph = new GraphEquipes();
+			
+			Random r = new Random();
+			for(Team team : teams){
+				ArrayList<PlayerTaupe> listTaupes = new ArrayList<PlayerTaupe>();
+				if(team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && InventoryRegister.nombretaupes.getValue() == 1)) {
+					ArrayList<PlayerTaupe> playerList = new ArrayList<>();
+					for(OfflinePlayer player : team.getPlayers()){
+						playerList.add(PlayerTaupe.getPlayerManager(player.getUniqueId()));
+					}
+					listTaupes.add(playerList.get(r.nextInt(team.getSize())));
+					graph.addEquipes(listTaupes);
+					
+				}else if(team.getSize() > 3 && InventoryRegister.nombretaupes.getValue() == 2) {
+					ArrayList<PlayerTaupe> playerList = new ArrayList<>();
+					for(OfflinePlayer player : team.getPlayers()){
+						playerList.add(PlayerTaupe.getPlayerManager(player.getUniqueId()));
+					}
+					int taupeInt1 = r.nextInt(team.getSize());
+					int taupeInt2 = r.nextInt(team.getSize());
+					while(taupeInt1 == taupeInt2){
+						taupeInt2 = r.nextInt(team.getSize());
+					}
+					listTaupes.add(playerList.get(taupeInt1));
+					listTaupes.add(playerList.get(taupeInt2));
+					graph.addEquipes(listTaupes);
+				}
+			}
+			boolean resultat = graph.creationEquipes();
+			if(!resultat) {
+				p.sendMessage(ChatColor.RED+"Nombre de taupes par équipe de taupe incorrect.");
+				return;
+			}
+			
 			p.sendMessage(ChatColor.BLUE+"La partie peut commencer !");
 			TaupeGun.etat = EnumGame.WAIT;
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){

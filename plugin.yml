@@ -11,6 +11,12 @@ commands:
     description: Soigne tous les joueurs.
   g:
     description: Envoie une annonce sur le serveur.
+  playerkill:
+    description: Supprime un joueur de la partie meme si il est deconnecte.
+  players:
+    description: Pour voir la liste des joueurs encore en jeux.
+  updatestats:
+    description: Met a jour la duree de la partie sur le site.
   rules:
     description: Permet de voir les configurations de la partie.
   scenarios:
@@ -21,9 +27,9 @@ commands:
     description: Pour avoir son kit de taupe.
   reveal:
     description: Pour se reveler a tous les joueurs en tant que taupe.
-  t:
-    description: Pour envoyer un message a son equipe de taupes.
   superreveal:
     description: Pour se reveler a tous les joueurs en tant que supertaupe.
   supert:
     description: Pour envoyer un message a son equipe de supertaupes.
+  t:
+    description: Pour envoyer un message a son equipe de taupes.

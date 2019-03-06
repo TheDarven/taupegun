@@ -2,7 +2,6 @@ package fr.thedarven.main;
 
 import java.util.Map.Entry;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -10,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -46,69 +44,12 @@ public class Game{
 													
 				// LE CHRONO  A 00:02 //
 				if(TaupeGun.timer == 2){	
-					choixTaupe();
-				}
-				
-				// LE CHRONO  A 00:03 //
-				if(TaupeGun.timer == 3){					
-					choixSupertaupe();
-				}
-				
-				// LE CHRONO  A 00:04 //
-				if(TaupeGun.timer == 4){	
 					sqlTaupe();
 				}
 				
 				annoncesTaupes();
 				scoreboardMur();
 				annoncesMur();
-								
-				// LE MUR EST A -00H01 //
-				/* if(TaupeGun.timerMur == -1){
-					World world = Bukkit.getWorld("world");
-					Set<Team> teams = Teams.board.getTeams();
-					for(Team team : teams){
-						for(String p : team.getEntries()){
-							Player player = Bukkit.getPlayer(p);
-							if(player.getLocation().getWorld().getName().equals("world_nether")){
-								if(team.getName().equals("Spectateurs")){
-									player.teleport(new Location(world, 0, 150, 0));
-								}else{
-									if(TeleportWorld.size() != 0){
-										netherPlayerList(player);
-									}else{
-										ArrayList<Player> TeleportPlayer = new ArrayList<>();
-										TeleportPlayer.add(player);
-										TeleportWorld.add(TeleportPlayer);
-									}
-								}
-							}else{
-							}
-						}
-					}
-					
-					
-					int rayon = (TaupeGun.wallSize-200);
-					double X;
-					int Z = -1;
-					for(ArrayList<Player> TeleportPlayer : TeleportWorld){
-						Z++;
-						X = Z * (6.283184/TeleportWorld.size());
-						for(Player p : TeleportPlayer){
-							Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), 250, (int) (rayon * Math.sin(X)));
-							while(spawnTeam.getBlock().getType().equals(Material.AIR)){
-								spawnTeam.setY(spawnTeam.getY()-1);
-							}
-							p.teleport(spawnTeam);
-							p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
-							TaupeGun.netherPortail.remove(p.getUniqueId());
-							int distance = (int) Math.sqrt(p.getLocation().getX() * p.getLocation().getX() + p.getLocation().getZ()* p.getLocation().getZ());
-							Login.boards.get(p).setLine(10, "➋ Centre :§e "+ distance);
-						}
-					}
-					TaupeGun.timer++;
-					TaupeGun.timerMur--;
-				} */
 				
 				for(Player player : Bukkit.getOnlinePlayers()) {
 					PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
@@ -136,129 +77,11 @@ public class Game{
 	private static void sqlTaupe() {
 		for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if(pl.isTaupe()) {
-				if(pl.isSuperTaupe()) {
-					SqlRequest.updateTaupeTaupe(1, 1, pl.getUuid().toString());
-				}else {
-					SqlRequest.updateTaupeTaupe(1, 0, pl.getUuid().toString());
-				}
+				if(pl.isSuperTaupe())
+					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam(), pl.getSuperTaupeTeam(), pl.getUuid().toString());
+				else
+					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam(), 0, pl.getUuid().toString());
 			}
-		}
-	}
-	
-	private static void choixSupertaupe() {
-		if(InventoryRegister.nombretaupes.getValue() == 1 && InventoryRegister.supertaupes.getValue()){
-			Random r = new Random();
-			int superTaupeInt = 0;
-			ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
-			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
-				if(pc.getTaupeTeam() == 1) {
-					superTaupeInt++;
-					playerList.add(pc);
-				}
-			}
-			superTaupeInt = r.nextInt(superTaupeInt);
-			playerList.get(superTaupeInt).setSuperTaupeTeam(1);
-		}else if(InventoryRegister.nombretaupes.getValue() == 2 && InventoryRegister.supertaupes.getValue()){
-			Random r = new Random();
-			int superTaupeInt = 0;
-			ArrayList<PlayerTaupe> playerList = new ArrayList<PlayerTaupe>();
-			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
-				if(pc.getTaupeTeam() == 1) {
-					superTaupeInt++;
-					playerList.add(pc);
-				}
-			}
-			
-			int superTaupeInt1 = r.nextInt(superTaupeInt);
-			int superTaupeInt2 = r.nextInt(superTaupeInt);
-			while(superTaupeInt1 == superTaupeInt2) {
-				superTaupeInt2 = r.nextInt(superTaupeInt);
-			}
-			playerList.get(superTaupeInt1).setSuperTaupeTeam(1);
-			playerList.get(superTaupeInt2).setSuperTaupeTeam(1);
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	private static void choixTaupe() {
-		ArrayList<String> claim = new ArrayList<>();
-		claim.add("tnt");
-		claim.add("blaze");
-		claim.add("aerien");
-		claim.add("potion");
-		
-		ArrayList<String> claim1 = new ArrayList<>();
-		claim1.add("tnt");
-		claim1.add("blaze");
-		claim1.add("aerien");
-		claim1.add("potion");
-		
-		ArrayList<String> claim2 = new ArrayList<>();
-		claim2.add("tnt");
-		claim2.add("blaze");
-		claim2.add("aerien");
-		claim2.add("potion");
-		
-		Set<Team> teams = Teams.board.getTeams();
-		for(Team team : teams){
-			if(team.getName() != "Spectateurs" && team.getName() != "Taupes1" && team.getName() != "Taupes2" && team.getName() != "SuperTaupe"){
-				ArrayList<OfflinePlayer> playerList = new ArrayList<>();
-				for(OfflinePlayer p : team.getPlayers()){
-					playerList.add(p);
-				}
-				if(InventoryRegister.nombretaupes.getValue() == 1){
-					// Choix du joueur dans l'équipe
-					Random r = new Random();
-					int taupeInt = r.nextInt(team.getSize());
-					
-					// Taupe équipe 1
-					PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt).getUniqueId());
-					if(claim.isEmpty()){
-						claim.add("tnt");
-						claim.add("blaze");
-						claim.add("aerien");
-						claim.add("potion");
-					}
-					int claimInt = r.nextInt(claim.size());
-					pc.setClaimTaupe(claim.get(claimInt));
-					pc.setTaupeTeam(1);
-					claim.remove(claimInt);
-				} else if(InventoryRegister.nombretaupes.getValue() == 2){
-					// Choix des joueurs dans l'équipe
-					Random r = new Random();
-					int taupeInt1 = r.nextInt(team.getSize());
-					int taupeInt2 = r.nextInt(team.getSize());
-					while(taupeInt1 == taupeInt2){
-						taupeInt2 = r.nextInt(team.getSize());
-					}
-					
-					// Taupe équipe 1
-					PlayerTaupe pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt1).getUniqueId());
-					if(claim1.isEmpty()){
-						claim1.add("tnt");
-						claim1.add("blaze");
-						claim1.add("aerien");
-						claim1.add("potion");
-					}
-					int claimInt = r.nextInt(claim1.size());
-					pc.setClaimTaupe(claim1.get(claimInt));
-					pc.setTaupeTeam(1);
-					claim1.remove(claimInt);
-					
-					// Taupe équipe 2
-					pc = PlayerTaupe.getPlayerManager(playerList.get(taupeInt2).getUniqueId());
-					if(claim2.isEmpty()){
-						claim2.add("tnt");
-						claim2.add("blaze");
-						claim2.add("aerien");
-						claim2.add("potion");
-					}
-					claimInt = r.nextInt(claim2.size());
-					pc.setClaimTaupe(claim2.get(claimInt));
-					pc.setTaupeTeam(2);
-					claim2.remove(claimInt);
-				}
-			}		
 		}
 	}
 	
@@ -307,13 +130,12 @@ public class Game{
 			}
 		}
 		Teams.newTeam("Spectateurs",15);
-		Teams.newTeam("Taupes1","c");
-		if(InventoryRegister.supertaupes.getValue()){
-			Teams.newTeam("SuperTaupe",1);
-		}
-		if(InventoryRegister.nombretaupes.getValue() == 2){
-			Teams.newTeam("Taupes2","c");
-		}
+		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++)
+			Teams.newTeam("Taupes"+i,"c");
+		
+		if(InventoryRegister.supertaupes.getValue())
+			Teams.newTeam("SuperTaupe","4");
+		
 		for(int x = -15; x <= 15; x++){
 			for (int y = 200; y <= 203; y++){
 				for (int z = -15; z <= 15; z++){
@@ -371,64 +193,6 @@ public class Game{
 			ScoreboardModule.setChrono(sign.getKey());
 			ScoreboardModule.setBordures(sign.getKey());
 		}
-		
-		// LE MUR N'EST PAS A 00:00 //
-		/* if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 0){	
-			
-			// LE MUR EST A MOINS DE 100:00 //
-			if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer < 6000){
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatMur = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mm:ss");
-					sign.getValue().setLine(11, "➍ Mur :§e "+dateformatMur);
-				}
-			}
-			// LE MUR EST A PLUS DE 59:59 //
-			else {
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatMur = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mmm:ss");
-					sign.getValue().setLine(11, "➍ Mur :§e "+dateformatMur);
-				}
-			}
-			
-			// LE CHRONOMETRE EST A PLUS DE 59:59 //
-			if(TaupeGun.timer > 5999){
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mmm:ss");
-					sign.getValue().setLine(12, "➎ Chrono :§e "+dateformatChrono);
-				}
-			}
-			// LE CHRONOMETRE EST A MOINS DE 100:00 //
-			else {
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mm:ss");
-					sign.getValue().setLine(12, "➎ Chrono :§e "+dateformatChrono);
-				}
-			}
-		}// LE MUR EST A MOINS DE 00:00 //
-		else{
-			
-			// LE CHRONOMETRE EST A PLUS DE 59:59 //
-			if(TaupeGun.timer > 5999){
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mmm:ss");
-					sign.getValue().setLine(11, "➍ Chrono :§e "+dateformatChrono);
-				}
-			}
-			
-			// LE CHRONOMETRE EST A MOINS DE 100:00 //
-			else {
-				for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-					String dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mm:ss");
-					sign.getValue().setLine(11, "➍ Chrono :§e "+dateformatChrono);
-				}
-			}
-		}
-		
-		for(Player pl : Bukkit.getOnlinePlayers()) {
-			if(Login.boards.containsKey(pl)){
-				Login.boards.get(pl).setLine(14, "➏ Bordures :§e "+Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
-			}
-		} */
 	}
 	
 	private static void annoncesMur() {
@@ -452,16 +216,6 @@ public class Game{
 			TaupeGun.timer++;
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
 			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
-			/* for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-				String dateformatChrono = "";
-				if(TaupeGun.timer < 6000){
-					dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mm:ss");
-				}else{
-					dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer * 1000 , "mmm:ss");
-				}
-				sign.getValue().setLine(11, "➍ Chrono :§e "+dateformatChrono);
-				sign.getValue().removeLine(14);
-			} */
 			
 			World world = Bukkit.getWorld("world");
 			WorldBorder border = world.getWorldBorder();

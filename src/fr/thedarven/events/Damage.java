@@ -22,7 +22,7 @@ public class Damage implements Listener {
 		if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
 			e.setCancelled(true);
 		}
-		if(TaupeGun.etat.equals(EnumGame.GAME) && TaupeGun.timer < 60){
+		if(TaupeGun.etat.equals(EnumGame.GAME) && TaupeGun.timer < 60 && e.getEntity() instanceof Player){
 			e.setCancelled(true);
 		}
 		if(e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent)e).getDamager() instanceof Player){

@@ -54,7 +54,7 @@ static Objective objective = board.registerNewObjective("health", "health");
 	public static void newTeam(String name, String color){
 		Team owner = board.registerNewTeam(name);
 		
-		if(name.equals("Taupes1") || name.equals("Taupes2") || name.equals("SuperTaupe")) {
+		if(name.startsWith("Taupes") || name.startsWith("SuperTaupe")) {
 			owner.setPrefix("§"+color+"["+name+"] ");
 		}else {
 			owner.setPrefix("§"+color);
@@ -142,20 +142,6 @@ static Objective objective = board.registerNewObjective("health", "health");
 	} */
 	
 	public static void scoreboardPlayer(){
-		/* for(Entry<Player, ScoreboardSign> sign : Login.boards.entrySet()){
-			int playerTeam = 0;
-			int teamHidden = 0;
-			Set<Team> teams = board.getTeams();
-			for(Team team : teams){
-				if(team.getName().equals("Spectateurs") || team.getName().equals("Taupes1") || team.getName().equals("Taupes2") || team.getName().equals("SuperTaupe")){
-					teamHidden++;
-				}
-				if(team.getName() != "Spectateurs"){
-					playerTeam += team.getEntries().size();	
-				}
-			}
-			sign.getValue().setLine(7, "➊ Joueurs :§e "+playerTeam+" ("+(board.getTeams().size()-teamHidden)+")");
-		} */
 		for(Entry<Player, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
 			ScoreboardModule.setJoueurs(sign.getKey());
 		}

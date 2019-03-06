@@ -43,11 +43,11 @@ public class FireworkWin {
 					}
 					if(timer == 0){
 						informationEnd();
-						 Bukkit.getScheduler().cancelAllTasks();
-						 TaupeGun.etat = EnumGame.END;
-						 timer = 11;
+						Bukkit.getScheduler().cancelAllTasks();
+						TaupeGun.etat = EnumGame.END;
+						timer = 11;
 			       }else{
-			        	timer --;
+			    	   timer --;
 			        }
 				}
 
