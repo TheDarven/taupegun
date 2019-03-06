@@ -152,7 +152,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		for(Player p: Bukkit.getOnlinePlayers()){
 			// Login.boards.get(p).destroy();
 			ScoreboardModule.boards.get(p).destroy();
-			DisableF3.enableF3(p);
+			if(!InventoryRegister.coordonneesvisibles.getValue())
+				DisableF3.enableF3(p);
 			SqlRequest.updatePlayerTimePlay(p);
 		}
 		if(SqlRequest.id_partie != 0) {

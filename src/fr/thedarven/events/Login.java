@@ -44,7 +44,7 @@ public class Login implements Listener {
 		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.disableF3(p);
-			if(pl.isAlive()) {
+			if(!pl.isAlive()) {
 				p.setGameMode(GameMode.SPECTATOR);
 				p.teleport(new Location(Bukkit.getWorld("world"),0,200,0));
 			}
