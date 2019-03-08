@@ -139,7 +139,7 @@ public class Commands implements CommandExecutor {
 							MessagesClass.SuperTaupeListMessage(p);
 					}
 				}else{
-					MessagesClass.CannotCommandTaupelistMessage(p);
+					p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Les taupes ne sont pas encore annoncées.");
 				}
 			}else if(cmd.getName().equalsIgnoreCase("timer") && args.length > 0) {
 				if(p.isOp()){

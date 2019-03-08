@@ -10,6 +10,7 @@ import fr.thedarven.configuration.builders.kits.InventoryKitsPotion;
 import fr.thedarven.configuration.builders.kits.InventoryKitsTNT;
 import fr.thedarven.configuration.builders.teams.InventoryColor;
 import fr.thedarven.configuration.builders.teams.InventoryTeams;
+import fr.thedarven.configuration.builders.teams.InventoryTeamsRandom;
 import fr.thedarven.configuration.temp.BloodDiamond;
 import fr.thedarven.configuration.temp.CutClean;
 import fr.thedarven.configuration.temp.DiamondLimit;
@@ -41,6 +42,7 @@ public class InventoryRegister {
 	public static InventoryDeleteKits potionDelete = new InventoryDeleteKits(potion);
 	
 	public static InventoryGUI addteam = new InventoryGUI("✚ Ajouter une équipe", null, 1, Material.BANNER, teams, 0, (byte) 15);
+	public static InventoryTeamsRandom teamsrandom = new InventoryTeamsRandom();
 	public static InventoryColor choisirCouleur = new InventoryColor();
 	
 	public static InventoryGUI timers = new InventoryGUI("Timers", "Menu des timers.", 1, Material.WATCH, configuration, 0);

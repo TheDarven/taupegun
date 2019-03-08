@@ -10,7 +10,7 @@ import fr.thedarven.utils.CodeColor;
 public class InventoryColor extends InventoryGUI {
 	
 	public InventoryColor() {
-		super("Choix de la couleur", "", 2, Material.ACACIA_DOOR, null, 22);
+		super("Choix de la couleur", null, 2, Material.ACACIA_DOOR, null, 22);
 		initItem();
 	}
 	

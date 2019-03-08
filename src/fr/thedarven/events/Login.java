@@ -38,7 +38,7 @@ public class Login implements Listener {
 		
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			InventoryPlayers.reloadInventory();
-			if(TaupeGun.developpement && Bukkit.getOnlinePlayers().size() == 1) {
+			if(TaupeGun.developpement) {
 				Title.title(p, ChatColor.GOLD +"Mode test : ON", "", 20);
 			}
 		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +17,8 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.MessagesEventClass;
+import fr.thedarven.utils.api.Title;
 
 public class InventoryPlayers extends InventoryGUI{
 
@@ -80,7 +81,7 @@ public class InventoryPlayers extends InventoryGUI{
 								((InventoryTeamsElement) getParent()).reloadInventory();
 								p.openInventory(getParent().getInventory());
 							}else {
-								MessagesClass.TeamCannotAddPlayerMessage(p, team.getName());
+								Title.sendActionBar(p, ChatColor.RED+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" est déjà complète.");
 							}
 						}
 					}

@@ -19,7 +19,7 @@ public class InventoryParametres extends InventoryGUI{
 protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 	
 	public InventoryParametres(InventoryGUI pInventoryGUI) {
-		super("Paramètres", "", 1, Material.REDSTONE_COMPARATOR, pInventoryGUI, 22);
+		super("Paramètres", null, 1, Material.REDSTONE_COMPARATOR, pInventoryGUI, 22);
 		inventory.add(this);
 		initItem();
 	}

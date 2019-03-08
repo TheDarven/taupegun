@@ -43,7 +43,7 @@ import fr.thedarven.main.constructors.PlayerTaupe;
 public class TaupeGun extends JavaPlugin implements Listener{	
 	
 	public static TaupeGun instance;
-	public static boolean developpement = true;
+	public static boolean developpement = false;
 	
 	public static EnumGame etat;
 	public static int timerStart = 10;

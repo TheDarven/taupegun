@@ -27,7 +27,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	private int couleur;
 	
 	public InventoryTeamsElement(String pName, int pColor) {
-		super(pName, "", 3, Material.BANNER, InventoryRegister.teams, 0);
+		super(pName, null, 3, Material.BANNER, InventoryRegister.teams, 0);
 		couleur = pColor;
 		inventory.add(this);
 		reloadItem();

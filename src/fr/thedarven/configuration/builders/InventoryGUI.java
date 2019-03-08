@@ -158,7 +158,7 @@ public class InventoryGUI extends InventoryBuilder{
 					return;
 				}
 				for(InventoryGUI inventoryGUI : childs) {
-					if(inventoryGUI.getItem().equals(e.getCurrentItem()) && inventoryGUI != InventoryRegister.addteam) {
+					if(inventoryGUI.getItem().equals(e.getCurrentItem()) && inventoryGUI != InventoryRegister.addteam && inventoryGUI != InventoryRegister.teamsrandom) {
 						if(inventoryGUI instanceof OptionBoolean || inventoryGUI instanceof OptionNumeric || inventoryGUI instanceof InventoryTeams || inventoryGUI instanceof InventoryStartItem) {
 							if(click(p, EnumConfiguration.OPTION)) {
 								p.openInventory(inventoryGUI.getInventory());

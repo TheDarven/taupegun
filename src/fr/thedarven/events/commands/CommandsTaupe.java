@@ -54,7 +54,7 @@ public class CommandsTaupe implements CommandExecutor {
 						}
 						
 						/* ON JOUE LE SOND DU REVEAL */
-						MessagesClass.CommandReavelMessage(p);
+						Bukkit.broadcastMessage(ChatColor.RED+p.getName()+" se révèle être une taupe !");
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.GHAST_SCREAM, 1, 1);
 						}
@@ -78,7 +78,7 @@ public class CommandsTaupe implements CommandExecutor {
 						}
 						
 						/* ON JOUE LE SOND DU REVEAL */
-						MessagesClass.CommandSuperreavelMessage(p);
+						Bukkit.broadcastMessage(ChatColor.DARK_RED+p.getName()+" se révèle être une supertaupe !");
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.GHAST_SCREAM, 1, 1);
 						}

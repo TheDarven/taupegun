@@ -114,7 +114,7 @@ public class ScoreboardModule {
 				playerTeam += team.getEntries().size();	
 			}
 		}
-		return getPrefixFixed("Joueurs")+"Joueurs :§e "+playerTeam+" ("+(Teams.board.getTeams().size()-teamNick)+")";
+		return getPrefixFixed("Joueurs")+"Joueurs:§e "+playerTeam+" ("+(Teams.board.getTeams().size()-teamNick)+")";
 	}
 	
 	private static String getCentre(Player p) {
@@ -123,15 +123,15 @@ public class ScoreboardModule {
 		if(p.getWorld().getName().equals("world_nether")){
 			Location portailLocation = PlayerTaupe.getPlayerManager(p.getUniqueId()).getNetherPortal();
 			distance = (int) Math.sqrt((portailLocation.getX() - loc.getBlockX())*(portailLocation.getX() - loc.getBlockX()) + (portailLocation.getZ() - loc.getBlockZ())*(portailLocation.getZ() - loc.getBlockZ()) + (portailLocation.getY() - loc.getBlockY())*(portailLocation.getY() - loc.getBlockY()));
-			return getPrefixFixed("Centre")+"Portail :§e "+distance;
+			return getPrefixFixed("Centre")+"Portail:§e "+distance;
 		}else{
 			distance = (int) Math.sqrt(loc.getX() * loc.getX() + loc.getZ()* loc.getZ());
-			return getPrefixFixed("Centre")+"Centre :§e "+distance;
+			return getPrefixFixed("Centre")+"Centre:§e "+distance;
 		}
 	}
 	
 	private static String getKills(Player p) {
-		return getPrefixFixed("Kills")+"Kills :§e "+PlayerTaupe.getPlayerManager(p.getUniqueId()).getKill();
+		return getPrefixFixed("Kills")+"Kills:§e "+PlayerTaupe.getPlayerManager(p.getUniqueId()).getKill();
 	}
 	
 	private static String getMur() {
@@ -145,7 +145,7 @@ public class ScoreboardModule {
 		}else{
 			dateformatMur = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mm:ss");
 		}
-		return getPrefixFixed("Mur")+"Mur :§e "+dateformatMur;
+		return getPrefixFixed("Mur")+"Mur:§e "+dateformatMur;
 	}
 	
 	public static String getChrono() {
@@ -155,12 +155,12 @@ public class ScoreboardModule {
 		}else{
 			dateformatChrono = DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mm:ss");
 		}
-		return getPrefixFixed("Chrono")+"Chrono :§e "+dateformatChrono;
+		return getPrefixFixed("Chrono")+"Chrono:§e "+dateformatChrono;
 		//return "Chrono :§e "+dateformatChrono;
 	}
 	
 	private static String getBordures() {
-		return getPrefixFixed("Bordures")+"Bordures :§e "+(int) (Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
+		return getPrefixFixed("Bordures")+"Bordures:§e "+(int) (Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
 	}
 	
 	

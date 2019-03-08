@@ -19,10 +19,6 @@ public class MessagesClass {
 	}
 	
 	//TAUPECOMMANDS
-	public static void CannotCommandTaupelistMessage(Player p) {
-		p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Les taupes ne sont pas encore annoncées.");
-	}
-	
 	public static void CommandTaupeMessageMessage(Player p, String[] args, int taupeTeam) {
 		String messageCommand = ChatColor.RED+p.getName()+":";
 		for(int messageSize = 0; messageSize < args.length; messageSize++){
@@ -44,10 +40,6 @@ public class MessagesClass {
 		}
 	}
 	
-	public static void CommandReavelMessage(Player p) {
-		Bukkit.broadcastMessage(ChatColor.RED+p.getName()+" se révèle être une taupe !");
-	}
-	
 	public static void TaupeListMessage(Player p) {
 		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++) {
 			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+i+": "+ChatColor.RESET+""+ChatColor.RED;
@@ -58,10 +50,6 @@ public class MessagesClass {
 			}
 			p.getPlayer().sendMessage(listTaupe);	
 		}
-	}
-	
-	public static void CommandSuperreavelMessage(Player p) {
-		Bukkit.broadcastMessage(ChatColor.DARK_RED+p.getName()+" se révèle être une supertaupe !");
 	}
 	
 	public static void CommandSupertaupeMessageMessage(Player p, String[] args, int taupeTeam) {
@@ -93,11 +81,6 @@ public class MessagesClass {
 		}
 		p.getPlayer().sendMessage(listTaupe);
 	}
-
-	//STARTITEM
-	public static void InventorySaveMessage(Player p) {
-		Title.sendActionBar(p, ChatColor.GREEN+" L'inventaire a été ajouté avec succès !");
-	}
 	
 	//TEAMS	
 	public static void CannotTeamCreateNameAlreadyMessage(Player p) {
@@ -106,14 +89,6 @@ public class MessagesClass {
 	
 	public static void TeamChangeNameMessage(Player p, String team) {
 		Title.sendActionBar(p, ChatColor.GREEN+" L'équipe a été renomé en "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.GREEN+" avec succès.");
-	}
-	
-	public static void TeamDeleteMessage(Player p, String team) {
-		Title.sendActionBar(p, ChatColor.WHITE+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.WHITE+" a été supprimée avec succès.");
-	}
-	
-	public static void TeamCannotAddPlayerMessage(Player p, String team) {
-		Title.sendActionBar(p, ChatColor.RED+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" est déjà complète.");
 	}
 	
 	//GAME

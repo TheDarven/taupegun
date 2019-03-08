@@ -75,41 +75,44 @@ static Objective objective = board.registerNewObjective("health", "health");
 	}
 	
 	public static void joinTeam(String name, String p){
-		
-		for(Player player : Bukkit.getServer().getOnlinePlayers()){
-			if(p.equals(player.getName())){
-				
-				objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-				@SuppressWarnings("deprecation")
-				Score score = objective.getScore(player);
-				score.setScore(20);
-				
-				player.setScoreboard(board);
-				if(!TaupeGun.etat.equals(EnumGame.GAME) || PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeamName().equals("aucune")) {
-					PlayerTaupe.getPlayerManager(player.getUniqueId()).setTeamName(name);
+		Team owner = board.getTeam(name);
+		if(owner.getEntries().size() < 9) {
+			for(Player player : Bukkit.getServer().getOnlinePlayers()){
+				if(p.equals(player.getName())){
+					
+					objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+					@SuppressWarnings("deprecation")
+					Score score = objective.getScore(player);
+					score.setScore(20);
+					
+					player.setScoreboard(board);
+					if(!TaupeGun.etat.equals(EnumGame.GAME) || PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeamName().equals("aucune")) {
+						PlayerTaupe.getPlayerManager(player.getUniqueId()).setTeamName(name);
+					}
 				}
 			}
+			owner.addEntry(p);
+			scoreboardPlayer();	
 		}
-		Team owner = board.getTeam(name);
-		owner.addEntry(p);
-		scoreboardPlayer();
 	}
 	
 	public static void joinInitTeam(String name, String p){
-		for(Player player : Bukkit.getServer().getOnlinePlayers()){
-			if(p.equals(player.getName())){
-				
-				objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-				@SuppressWarnings("deprecation")
-				Score score = objective.getScore(player);
-				score.setScore(20);
-				
-				player.setScoreboard(board);
-			}
-		}
 		Team owner = board.getTeam(name);
-		owner.addEntry(p);
-		scoreboardPlayer();
+		if(owner.getEntries().size() < 9) {
+			for(Player player : Bukkit.getServer().getOnlinePlayers()){
+				if(p.equals(player.getName())){
+					
+					objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+					@SuppressWarnings("deprecation")
+					Score score = objective.getScore(player);
+					score.setScore(20);
+					
+					player.setScoreboard(board);
+				}
+			}
+			owner.addEntry(p);
+			scoreboardPlayer();
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
