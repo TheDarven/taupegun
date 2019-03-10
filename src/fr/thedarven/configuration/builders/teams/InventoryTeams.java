@@ -86,13 +86,16 @@ public class InventoryTeams extends InventoryIncrement {
 					if(teamList.get(idTeam).getEntries().size() == 9)
 						teamList.remove(idTeam);
 					
+					idTeam++;
+					
 					if(idTeam > teamList.size()-1)
 						idTeam = 0;	
+					InventoryPlayers.reloadInventory();
 				}
-				InventoryPlayers.reloadInventory();
 				for(InventoryGUI inv : getChilds()) {
-					if(inv instanceof InventoryTeamsElement)
+					if(inv instanceof InventoryTeamsElement) {
 						((InventoryTeamsElement) inv).reloadInventory();
+					}
 				}
 				Title.sendActionBar(p, ChatColor.GREEN+" Les joueurs ont été réparties dans les équipes.");
 			}else if(e.getCurrentItem().equals(InventoryRegister.addteam.getItem())) {

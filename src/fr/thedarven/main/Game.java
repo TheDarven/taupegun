@@ -95,20 +95,24 @@ public class Game{
 			}
 			player.closeInventory();
 			player.getInventory().clear();
-			int i;
-			for(i=0; i<45; i++) {
-				if(i<4) {
-					player.getInventory().setItem(39-i, InventoryRegister.startitem.getInventory().getItem(i));
-				}else if(i<36) {
-					player.getInventory().setItem(i, InventoryRegister.startitem.getInventory().getItem(i));
-				}else {
-					player.getInventory().setItem(i-36, InventoryRegister.startitem.getInventory().getItem(i));
-				}
-			}
 			
-			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2 ));
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0 ));
-			player.setGameMode(GameMode.SURVIVAL);
+			
+			if(!PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeamName().equals("aucune")) {
+				int i;
+				for(i=0; i<45; i++) {
+					if(i<4) {
+						player.getInventory().setItem(39-i, InventoryRegister.startitem.getInventory().getItem(i));
+					}else if(i<36) {
+						player.getInventory().setItem(i, InventoryRegister.startitem.getInventory().getItem(i));
+					}else {
+						player.getInventory().setItem(i-36, InventoryRegister.startitem.getInventory().getItem(i));
+					}
+				}
+				
+				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2 ));
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0 ));
+				player.setGameMode(GameMode.SURVIVAL);	
+			}
         }
 		
 		int rayon = InventoryRegister.murtailleavant.getValue()-100;

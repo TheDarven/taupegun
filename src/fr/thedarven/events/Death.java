@@ -28,8 +28,9 @@ public class Death implements Listener {
 	}
 
 	@EventHandler
-	public void PlayerDeath(PlayerDeathEvent e) {			
-		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()));
+	public void PlayerDeath(PlayerDeathEvent e) {
+		e.setDeathMessage(ChatColor.GOLD+""+e.getEntity().getName()+ChatColor.RESET+" est mort");
+		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()), false);
 		
 		if(e.getEntity().getKiller() != null){
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(e.getEntity().getKiller().getUniqueId());
@@ -38,9 +39,11 @@ public class Death implements Listener {
 		}
 	}
 	
-	public static void killPlayer(PlayerTaupe pl) {
+	public static void killPlayer(PlayerTaupe pl, boolean showMessage) {
 		if(TaupeGun.etat.equals(EnumGame.GAME)){
-			Bukkit.broadcastMessage(ChatColor.GOLD+""+pl.getCustomName()+ChatColor.RESET+" est mort");
+			if(showMessage) {
+				Bukkit.broadcastMessage(ChatColor.GOLD+""+pl.getCustomName()+ChatColor.RESET+" est mort");
+			}
 			pl.setAlive(false);
 			
 			/* ON S'OCCUPE DU JOUEUR */
@@ -59,14 +62,14 @@ public class Death implements Listener {
 								teteM.setOwner(pl.getCustomName());
 								teteM.setDisplayName(ChatColor.GOLD+"Tête de "+pl.getCustomName());
 								tete.setItemMeta(teteM);
-								
 								pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
-								pl.getPlayer().setGameMode(GameMode.SPECTATOR);
-								Location spawn = new Location(Bukkit.getWorld("world"),0,200,0);
-								pl.getPlayer().teleport(spawn);
-								pl.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
-								pl.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
 							}
+							
+							pl.getPlayer().setGameMode(GameMode.SPECTATOR);
+							Location spawn = new Location(Bukkit.getWorld("world"),0,200,0);
+							pl.getPlayer().teleport(spawn);
+							pl.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
+							pl.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
 							
 							SqlRequest.updateTaupeMort(pl.getUuid().toString(), 1);
 							Teams.leaveTeam(team.getName(),pl.getCustomName());		

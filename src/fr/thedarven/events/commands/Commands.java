@@ -60,7 +60,7 @@ public class Commands implements CommandExecutor {
 						pl.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
 					}else {
 						pl.setAlive(false);
-						Death.killPlayer(pl);
+						Death.killPlayer(pl, true);
 					}	
 				}
 				

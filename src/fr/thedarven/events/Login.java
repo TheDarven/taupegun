@@ -39,7 +39,7 @@ public class Login implements Listener {
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			InventoryPlayers.reloadInventory();
 			if(TaupeGun.developpement) {
-				Title.title(p, ChatColor.GOLD +"Mode test : ON", "", 20);
+				Title.title(p, ChatColor.GOLD +"Mode développement : ON", "Prévenez TheDarven (il doit être désactivé)", 40);
 			}
 		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
