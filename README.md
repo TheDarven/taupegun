@@ -1,6 +1,6 @@
 # TaupeGun
 
-Le plugin a été réalisé pour la version spigot-1.8.8-R0.1-SNAPSHOT-latest
+Le plugin a été réalisé pour la version spigot-1.8.8-R0.1-SNAPSHOT-latest</br>
 Un grand remerciement à UltiXstorm et yukimoki pour leur aide sur des problèmes mathématiques que j'ai eu.
 
 Car sans développeur, pas de plugin, je vous demande tout naturelement de me citer lorsque vous utiliser mon plugin à des fins évènementiels et/ou visuelles.
