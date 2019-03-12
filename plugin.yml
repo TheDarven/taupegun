@@ -14,7 +14,7 @@ commands:
   playerkill:
     description: Supprime un joueur de la partie meme si il est deconnecte.
   players:
-    description: Pour voir la liste des joueurs encore en jeux.
+    description: Pour voir la liste des joueurs encore en jeu.
   updatestats:
     description: Met a jour la duree de la partie sur le site.
   rules:
