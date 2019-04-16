@@ -1,5 +1,6 @@
 package fr.thedarven.events;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -84,9 +85,10 @@ public class PlayerClick implements Listener {
 			potion.setItemMeta(potionM);
 			inv.setItem(6, potion);
 			
+			DecimalFormat df = new DecimalFormat("0.00");
 			ItemStack vie = new ItemStack(Material.GOLDEN_APPLE, (int)Bukkit.getPlayer(playerIsSee).getHealth());
 			ItemMeta vieM = vie.getItemMeta();
-			vieM.setDisplayName(ChatColor.GOLD+"Coeurs : "+ChatColor.RED+(Bukkit.getPlayer(playerIsSee).getHealth())+"/"+Bukkit.getPlayer(playerIsSee).getMaxHealth());
+			vieM.setDisplayName(ChatColor.GOLD+"Coeurs : "+ChatColor.RED+(df.format(Bukkit.getPlayer(playerIsSee).getHealth()))+"/"+Bukkit.getPlayer(playerIsSee).getMaxHealth());
 			vie.setItemMeta(vieM);
 			inv.setItem(7, vie);
 			
@@ -110,7 +112,7 @@ public class PlayerClick implements Listener {
 			inv.setItem(8, paper);
 			
 			Bukkit.getPlayer(playerOpening).openInventory(inv);
-			Title.sendActionBar(Bukkit.getPlayer(playerOpening), ChatColor.GOLD+"Nombre de kills : "+ChatColor.YELLOW+PlayerTaupe.getPlayerManager(playerOpening).getKill());
+			Title.sendActionBar(Bukkit.getPlayer(playerOpening), ChatColor.GOLD+"Nombre de kills : "+ChatColor.YELLOW+PlayerTaupe.getPlayerManager(playerIsSee).getKill());
 		}
 	}
 }

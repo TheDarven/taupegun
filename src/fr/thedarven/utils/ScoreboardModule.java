@@ -50,10 +50,10 @@ public class ScoreboardModule {
 		for(ArrayList<Object> list : scores) {
 			if(((String) list.get(0)).equals(pName) && (Boolean) list.get(1) != pValue){
 				list.set(1, pValue);
-				for(Entry<Player, ScoreboardSign> sign : boards.entrySet()){
-					boards.get(sign.getKey()).destroy();
-					boards.remove(sign.getKey());
-					joinScoreboard(sign.getKey());
+				for(Player sign : boards.keySet()){
+					boards.get(sign).destroy();
+					boards.remove(sign);
+					joinScoreboard(sign);
 				}
 				break;
 			}

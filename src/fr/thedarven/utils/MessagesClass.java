@@ -34,7 +34,8 @@ public class MessagesClass {
 		for(Team team : teams){
 			if(team.getName().equals("Spectateurs")){
 				for(String player : team.getEntries()){
-					Bukkit.getPlayer(player).sendMessage(ChatColor.RED+"[TAUPE "+taupeTeam+"] "+messageCommand);
+					if(Bukkit.getPlayer(player) != null)
+						Bukkit.getPlayer(player).sendMessage(ChatColor.RED+"[TAUPE "+taupeTeam+"] "+messageCommand);
 				}
 			}
 		}
