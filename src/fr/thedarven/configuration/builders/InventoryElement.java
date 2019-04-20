@@ -30,6 +30,4 @@ public abstract class InventoryElement extends InventoryGUI {
 		}
 	}
 	
-	
-	
 }
