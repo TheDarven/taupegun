@@ -69,6 +69,10 @@ static Objective objective = board.registerNewObjective("health", "health");
 	
 	public static void deleteTeam(String name){
 		Team owner = board.getTeam(name);
+		for(PlayerTaupe ps : PlayerTaupe.getAllPlayerManager()) {
+			if(ps.getTeamName().equals(name))
+				ps.setTeamName("aucune");
+		}
 		owner.unregister();
 		scoreboardPlayer();
 		InventoryTeamsElement.removeTeam(name);
