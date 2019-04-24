@@ -22,9 +22,9 @@ public class Eat implements Listener {
 	}
 	
 	@EventHandler
-    public void onFoodLevelChange(FoodLevelChangeEvent event){
+    public void onFoodLevelChange(FoodLevelChangeEvent e){
 		if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
-			event.setFoodLevel(20);
+			e.setFoodLevel(20);
 		}
     }
 	

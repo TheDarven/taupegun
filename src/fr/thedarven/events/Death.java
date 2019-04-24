@@ -29,21 +29,21 @@ public class Death implements Listener {
 
 	@EventHandler
 	public void PlayerDeath(PlayerDeathEvent e) {
-		e.setDeathMessage(ChatColor.GOLD+""+e.getEntity().getName()+ChatColor.RESET+" est mort");
-		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()), false);
+		Player p = e.getEntity();
+		e.setDeathMessage(ChatColor.GOLD+p.getName()+ChatColor.RESET+" est mort");
+		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
 		
-		if(e.getEntity().getKiller() != null){
-			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(e.getEntity().getKiller().getUniqueId());
+		if(p.getKiller() != null){
+			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(p.getKiller().getUniqueId());
 			pcKiller.setKill(pcKiller.getKill()+1);;
-			SqlRequest.updateTaupeKill(e.getEntity().getKiller());
+			SqlRequest.updateTaupeKill(p.getKiller());
 		}
 	}
 	
 	public static void killPlayer(PlayerTaupe pl, boolean showMessage) {
+		if(showMessage)
+			Bukkit.broadcastMessage(ChatColor.GOLD+pl.getCustomName()+ChatColor.RESET+" est mort");
 		if(TaupeGun.etat.equals(EnumGame.GAME)){
-			if(showMessage) {
-				Bukkit.broadcastMessage(ChatColor.GOLD+""+pl.getCustomName()+ChatColor.RESET+" est mort");
-			}
 			pl.setAlive(false);
 			
 			/* ON S'OCCUPE DU JOUEUR */
@@ -66,8 +66,7 @@ public class Death implements Listener {
 							}
 							
 							pl.getPlayer().setGameMode(GameMode.SPECTATOR);
-							Location spawn = new Location(Bukkit.getWorld("world"),0,200,0);
-							pl.getPlayer().teleport(spawn);
+							pl.getPlayer().teleport(new Location(Bukkit.getWorld("world"),0,200,0));
 							pl.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
 							pl.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
 							

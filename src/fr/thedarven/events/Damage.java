@@ -17,8 +17,7 @@ public class Damage implements Listener {
 	}
 	
 	@EventHandler
-    public void onDamage(EntityDamageEvent e)
-    {
+    public void onDamage(EntityDamageEvent e){
 		if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
 			e.setCancelled(true);
 		}
