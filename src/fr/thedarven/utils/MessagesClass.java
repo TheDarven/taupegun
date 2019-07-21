@@ -141,4 +141,8 @@ public class MessagesClass {
 			}
 		}
 	}
+	
+	public static void JoinTabMessage(Player p) {
+		Title.sendTabHF(p, "§6------------------\nTaupeGun\n------------------\n", "\n§2Plugin par TheDarven\n§adiscord.gg/HZyS5T7");
+	}
 }

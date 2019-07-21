@@ -16,14 +16,10 @@ public class SqlConnection {
         this.pass = pass;
     }
    
-    public void connection(){
+    public void connection() throws SQLException{
         if(!isConnected()){
-            try {
-                connection = DriverManager.getConnection(urlbase + host + "/" + database, user, pass);
-                System.out.println("connected ok");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+           connection = DriverManager.getConnection(urlbase + host + "/" + database, user, pass);
+           System.out.println("Connexion a la base de donnee realise avec succes !");
         }
     }
    

@@ -17,6 +17,7 @@ import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.Title;
@@ -49,6 +50,7 @@ public class Login implements Listener {
 				p.teleport(new Location(Bukkit.getWorld("world"),0,200,0));
 			}
 		}
+		MessagesClass.JoinTabMessage(p);
 	}
 	
 	@EventHandler

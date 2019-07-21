@@ -1,5 +1,6 @@
 package fr.thedarven.main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +29,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.BiomeEdit;
 import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.SqlConnection;
+import fr.thedarven.utils.api.Title;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
 import fr.thedarven.events.Teams;
@@ -44,6 +47,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	
 	public static TaupeGun instance;
 	public static boolean developpement = false;
+	public static boolean sqlConnect = false;
 	
 	public static EnumGame etat;
 	public static int timerStart = 10;
@@ -69,18 +73,29 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new Login(this), this);
 		
-		sql = new SqlConnection("jdbc:mysql://","sql-7.verygames.net","db565628","db565628","t968fdaf");
-        sql.connection();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+		this.saveDefaultConfig();
+		
+		String host = this.getConfig().getString("bd.host-address");
+		String database = this.getConfig().getString("bd.database-name");
+		String user = this.getConfig().getString("bd.user");
+		String password = this.getConfig().getString("bd.password");
+		host = host == null ? "" : host;
+		database = database == null ? "" : database;
+		user = user == null ? "" : user;
+		password = password == null ? "" : password;
+		
+		sql = new SqlConnection("jdbc:mysql://",host,database,user,password);
+        try {
+			sql.connection();
+			sqlConnect = true;
+		} catch (SQLException e) {
+			
+		}
+		
+		if(!sqlConnect) {
+			System.out.println("[ERREUR] La connexion a la base de donnee a echoue !");
+		}
+		SqlRequest.verifTable();
         
         /* BiomeEdit.changeBiome("FOREST");
         WorldCreator c = new WorldCreator("taupegun");
@@ -125,6 +140,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			ScoreboardModule.joinScoreboard(p);
 			PlayerTaupe.getPlayerManager(p.getUniqueId());
 			SqlRequest.updatePlayerLast(p);
+			
+			MessagesClass.JoinTabMessage(p);
 		}
 		
 		// Commandes normales
