@@ -58,7 +58,7 @@ public class InventoryRegister {
 	public static InventoryGUI scenarios = new InventoryGUI("Scenarios", "Menu des scénarios.", 1, Material.PAPER, configuration, 4);
 	public static CutClean cutclean = new CutClean("CutClean", "Aucun cuisson n'est nécessaire avec ce scénario.", Material.IRON_INGOT, scenarios, false);
 	public static BloodDiamond bloodiamond = new BloodDiamond("Blood Diamond", "Les diamants infliges des dégats lorsqu'ils sont minés.", Material.TNT, scenarios, 0, 4, 0, 1, 1, "❤", 2);
-	public static DiamondLimit OptionBoolean = new DiamondLimit("Diamond Limit", "Limite le nombre de diamant que chaque joueur peu miner dans la partie.", Material.DIAMOND, scenarios, 0, 50, 0, 1, 2, "", 1);
+	public static DiamondLimit diamondLimit = new DiamondLimit("Diamond Limit", "Limite le nombre de diamant que chaque joueur peu miner dans la partie.", Material.DIAMOND, scenarios, 0, 50, 0, 1, 2, "", 1);
 	public static LavaLimiter lava = new LavaLimiter("Lava Limiter", "Désactive le placement de lave proches des autres joueurs.", Material.LAVA_BUCKET, scenarios, false);
 	public static NoEnderPearlDamage pearldamage = new NoEnderPearlDamage("No Enderpearl Damage", "Désactive les dégâts causés par les ender pearl.", Material.ENDER_PEARL, scenarios, false);
 	public static NoNether nonether = new NoNether("No Nether", "Désactive l'accès au nether.", Material.OBSIDIAN, scenarios, false);

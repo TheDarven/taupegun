@@ -31,24 +31,21 @@ public class Eat implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e){
-		if(TaupeGun.etat.equals(EnumGame.GAME)){
-			Player player = e.getPlayer();
-			if(e.getItem().getItemMeta().hasDisplayName()){
-				if(e.getItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD+"Golden Head")){
-					player.removePotionEffect(PotionEffectType.REGENERATION);
-				    player.removePotionEffect(PotionEffectType.ABSORPTION);
-				    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
-				    player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
-				}
+		Player player = e.getPlayer();
+		if(e.getItem().getItemMeta().hasDisplayName()){
+			if(e.getItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD+"Golden Head")){
+				player.removePotionEffect(PotionEffectType.REGENERATION);
+			    player.removePotionEffect(PotionEffectType.ABSORPTION);
+			    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
+			    player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
 			}
-			if(e.getItem().getType().equals(Material.GOLDEN_APPLE) && e.getItem().getData().getData() == 1){
-				e.setCancelled(true);
-				player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT , 2.0f, 1.0f);
-				ItemStack item = new ItemStack(Material.GOLDEN_APPLE, e.getItem().getAmount());
-				e.getPlayer().setItemInHand(item);
-			}	
 		}
-		
+		if(e.getItem().getType().equals(Material.GOLDEN_APPLE) && e.getItem().getData().getData() == 1){
+			e.setCancelled(true);
+			player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT , 2.0f, 1.0f);
+			ItemStack item = new ItemStack(Material.GOLDEN_APPLE, e.getItem().getAmount());
+			e.getPlayer().setItemInHand(item);
+		}		
 	}	
 	
 	@SuppressWarnings("deprecation")

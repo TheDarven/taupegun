@@ -9,20 +9,19 @@ import fr.thedarven.main.TaupeGun;
 public class EventsManager {
 	
 	public static void registerEvents(TaupeGun pl) {
+		PluginManager pm = Bukkit.getPluginManager();
+		pm.registerEvents(new Login(pl), pl);
+		pm.registerEvents(new Walk(pl), pl);
+		pm.registerEvents(new Damage(pl), pl);
+		pm.registerEvents(new Death(pl), pl);
+		pm.registerEvents(new Break(pl), pl);
+		pm.registerEvents(new Eat(pl), pl);
+		pm.registerEvents(new GoNether(pl), pl);
+		pm.registerEvents(new MobsFixe(pl), pl);
 		
-			PluginManager pm = Bukkit.getPluginManager();
-			pm.registerEvents(new Login(pl), pl);
-			pm.registerEvents(new Walk(pl), pl);
-			pm.registerEvents(new Damage(pl), pl);
-			pm.registerEvents(new Death(pl), pl);
-			pm.registerEvents(new Break(pl), pl);
-			pm.registerEvents(new Eat(pl), pl);
-			pm.registerEvents(new GoNether(pl), pl);
-			pm.registerEvents(new MobsFixe(pl), pl);
-			
-			pm.registerEvents(new Teams(pl), pl);
-			pm.registerEvents(new StartCommand(pl), pl);
-			pm.registerEvents(new PlayerClick(pl), pl);
-			pm.registerEvents(new SpectateurTchat(pl), pl);
+		pm.registerEvents(new Teams(pl), pl);
+		pm.registerEvents(new StartCommand(pl), pl);
+		pm.registerEvents(new PlayerClick(pl), pl);
+		pm.registerEvents(new SpectateurTchat(pl), pl);
 	}
 }

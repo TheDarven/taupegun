@@ -11,7 +11,7 @@ import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import net.md_5.bungee.api.ChatColor;
 
-abstract public class InventoryDelete extends InventoryGUI {
+public abstract class InventoryDelete extends InventoryGUI {
 
 	public InventoryDelete(InventoryGUI pInventoryGUI, String pName, int pPosition) {
 		super(pName, "", 1, Material.STAINED_CLAY, pInventoryGUI, pPosition, (byte) 14);
