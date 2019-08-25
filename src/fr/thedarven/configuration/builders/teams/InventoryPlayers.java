@@ -14,10 +14,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
 
 public class InventoryPlayers extends InventoryGUI{
@@ -35,7 +35,7 @@ public class InventoryPlayers extends InventoryGUI{
 			int i = 0;
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				boolean inTeam = false;
-				Set<Team> teams = Teams.board.getTeams();
+				Set<Team> teams = TeamCustom.board.getTeams();
 				for(Team teamSelect : teams){
 					for(String p : teamSelect.getEntries()){
 						if(player.getName().equals(p)){
@@ -57,6 +57,7 @@ public class InventoryPlayers extends InventoryGUI{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
@@ -71,11 +72,15 @@ public class InventoryPlayers extends InventoryGUI{
 				}
 
 				if(e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
-					Set<Team> teams = Teams.board.getTeams();
+					Set<Team> teams = TeamCustom.board.getTeams();
 					for(Team team : teams){
 						if(team.getName().equals(getParent().getInventory().getName())) {
 							if(team.getEntries().size() < 9) {
-								Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
+								TeamCustom teamJoin = TeamCustom.getTeamCustom(getParent().getInventory().getName());
+								if(teamJoin == null)
+									return;
+								teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId(), false);
+								// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
 								MessagesEventClass.TeamAddPlayerMessage(e);
 								reloadInventory();
 								((InventoryTeamsElement) getParent()).reloadInventory();

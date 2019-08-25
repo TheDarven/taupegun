@@ -10,8 +10,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.utils.TeamCustom;
 
 public class PlayerTaupe {
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
@@ -19,14 +19,13 @@ public class PlayerTaupe {
 	private String name;
 	private boolean alive;
 	private int kill;
-	private String teamName;
 	private Location netherPortal;
 	
-	private int taupe;
-	private int superTaupe;
+	private TeamCustom team;
+	private TeamCustom startTeam;
+	private TeamCustom teamTaupe;
+	private TeamCustom teamSuperTaupe;
 	private String claim;
-	private boolean revealTaupe;
-	private boolean revealSuperTaupe;
 	
 	private boolean canClick;
 	private String createTeamName;
@@ -37,13 +36,14 @@ public class PlayerTaupe {
 		this.name = Bukkit.getPlayer(playerUuid).getName();
 		if(!TaupeGun.etat.equals(EnumGame.WAIT) && !TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			alive = false;
-			Teams.joinInitTeam("Spectateurs", this.name);
+			team = TeamCustom.getSpectatorTeam();
+			team.joinTeam(uuid, true);
 			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SPECTATOR);
 		}else {
 			alive = true;
 			Location lobby_spawn = new Location(Bukkit.getWorld("world"), 0.5, 201, 0.5);
 			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn);
-			
+			team = null;
 			/* Location lobby_spawn = new Location(Bukkit.getWorld("taupegun"), 0.5, 201, 0.5);
 			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn); */
 			
@@ -52,15 +52,14 @@ public class PlayerTaupe {
 			Bukkit.getPlayer(playerUuid).getInventory().clear();
 			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SURVIVAL);
 		}
+		startTeam = null;
+		
 		kill = 0;
-		teamName = "aucune";
 		netherPortal = new Location(Bukkit.getWorld("world_nether"),0.0,0.0,0.0);
 		
-		taupe = -1;
-		superTaupe = -1;
+		teamTaupe = null;
+		teamSuperTaupe = null;
 		claim = "aucun";
-		revealTaupe = false;
-		revealSuperTaupe = false;
 		canClick = true;
 		createTeamName = null;
 		createKitName = null;
@@ -80,12 +79,16 @@ public class PlayerTaupe {
 		return name;
 	}
 	
-	public int getKill() {
-		return kill;
+	public TeamCustom getTeam() {
+		return team;
 	}
 	
-	public String getTeamName() {
-		return teamName;
+	public TeamCustom getStartTeam() {
+		return startTeam;
+	}
+	
+	public int getKill() {
+		return kill;
 	}
 	
 	public Location getNetherPortal() {
@@ -120,8 +123,12 @@ public class PlayerTaupe {
 		kill = value;
 	}
 	
-	public void setTeamName(String value) {
-		teamName = value;
+	public void setTeam(TeamCustom pTeam) {
+		team = pTeam;
+	}
+	
+	public void setStartTeam(TeamCustom pTeam) {
+		startTeam = pTeam;
 	}
 	
 	public void setNetherPortal(Location loc) {
@@ -135,56 +142,46 @@ public class PlayerTaupe {
 	
 	
 	public boolean isTaupe() {
-		if(taupe == -1) {
-			return false;
-		}
-		return true;
+		return teamTaupe != null;
 	}
 	
 	public boolean isSuperTaupe() {
-		if(superTaupe == -1) {
-			return false;
-		}
-		return true;
+		return teamSuperTaupe != null;
 	}
 	
-	public int getTaupeTeam() {
-		return taupe;
+	public TeamCustom getTaupeTeam() {
+		return teamTaupe;
 	}
 	
-	public int getSuperTaupeTeam() {
-		return superTaupe;
+	public TeamCustom getSuperTaupeTeam() {
+		return teamSuperTaupe;
 	}
 	
-	public void setTaupeTeam(int team) {
-		taupe = team;
+	public void setTaupeTeam(TeamCustom pTeam) {
+		teamTaupe = pTeam;
 	}
 	
-	public void setSuperTaupeTeam(int team) {
-		superTaupe = team;
+	public void setSuperTaupeTeam(TeamCustom pTeam) {
+		teamSuperTaupe = pTeam;
 	}
 	
 	public boolean isReveal() {
-		return revealTaupe;
+		return (isTaupe() && isAlive() && (team == teamTaupe || team == teamSuperTaupe));
 	}
 	
 	public boolean isSuperReveal() {
-		return revealSuperTaupe;
+		return (isSuperTaupe() && isAlive() && team == teamSuperTaupe);
 	}
 	
 	public boolean revealTaupe() {
-		if(!revealTaupe && isTaupe() && isAlive()) {
-			revealTaupe = true;
+		if(!isReveal())
 			return true;
-		}
 		return false;
 	}
 	
 	public boolean revealSuperTaupe() {
-		if(!revealSuperTaupe && isSuperTaupe() && isAlive()) {
-			revealSuperTaupe = true;
+		if(!isSuperReveal())
 			return true;
-		}
 		return false;
 	}
 	
@@ -192,8 +189,7 @@ public class PlayerTaupe {
 		return claim;
 	}
 	
-	
-	
+
 	
 	public boolean getCanClick() {
 		return this.canClick;

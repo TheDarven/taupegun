@@ -13,7 +13,6 @@ encoding//src/fr/thedarven/configuration/builders/teams/InventoryTeamsElement.ja
 encoding//src/fr/thedarven/events/Death.java=UTF-8
 encoding//src/fr/thedarven/events/GoNether.java=UTF-8
 encoding//src/fr/thedarven/events/Login.java=UTF-8
-encoding//src/fr/thedarven/events/Teams.java=UTF-8
 encoding//src/fr/thedarven/events/Walk.java=UTF-8
 encoding//src/fr/thedarven/events/commands/Commands.java=UTF-8
 encoding//src/fr/thedarven/events/commands/StartCommand.java=UTF-8

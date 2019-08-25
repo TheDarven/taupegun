@@ -3,6 +3,7 @@ package fr.thedarven.main;
 import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
@@ -26,6 +26,7 @@ import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.TeamDelete;
 import fr.thedarven.utils.api.ScoreboardSign;
 
@@ -41,7 +42,7 @@ public class Game{
 				if(TaupeGun.timer == 0){
 					startGame();
 				}
-													
+				
 				// LE CHRONO  A 00:02 //
 				if(TaupeGun.timer == 2){	
 					sqlTaupe();
@@ -52,11 +53,11 @@ public class Game{
 				annoncesMur();
 				
 				for(Player player : Bukkit.getOnlinePlayers()) {
-					PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
-					if(pc.getTeamName().equals("aucune")){
-						Teams.joinTeam("Spectateurs",player.getName());
+					PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+					if(pl.getTeam() == null && !pl.isAlive()){
+						TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId(), false);
 						player.setGameMode(GameMode.SPECTATOR);
-						pc.setAlive(false);
+						pl.setAlive(false);
 					}
 				}
 				
@@ -78,9 +79,9 @@ public class Game{
 		for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if(pl.isTaupe()) {
 				if(pl.isSuperTaupe())
-					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam(), pl.getSuperTaupeTeam(), pl.getUuid().toString());
+					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam().getTaupeTeamNumber(), pl.getSuperTaupeTeam().getSuperTaupeTeamNumber(), pl.getUuid().toString());
 				else
-					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam(), 0, pl.getUuid().toString());
+					SqlRequest.updateTaupeTaupe(pl.getTaupeTeam().getTaupeTeamNumber(), 0, pl.getUuid().toString());
 			}
 		}
 	}
@@ -88,6 +89,7 @@ public class Game{
 	private static void startGame() {
 		SqlRequest.createGame();				
 		Bukkit.getWorld("world").setGameRuleValue("doMobSpawning", "true");
+		Bukkit.getWorld("world").getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if(!InventoryRegister.coordonneesvisibles.getValue()) {
@@ -97,7 +99,7 @@ public class Game{
 			player.getInventory().clear();
 			
 			
-			if(!PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeamName().equals("aucune")) {
+			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam() != null) {
 				int i;
 				for(i=0; i<45; i++) {
 					if(i<4) {
@@ -112,33 +114,29 @@ public class Game{
 				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2 ));
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0 ));
 				player.setGameMode(GameMode.SURVIVAL);	
+			}else {
+				PlayerTaupe.getPlayerManager(player.getUniqueId()).setAlive(false);
 			}
         }
 		
 		int rayon = InventoryRegister.murtailleavant.getValue()-100;
 		double X;
 		int Z = -1;
-		Set<Team> teams = Teams.board.getTeams();
-		for(Team team : teams){
-			int id_team = SqlRequest.createTeam(team.getName(),team.getPrefix());
+		for(TeamCustom team : TeamCustom.getAllStartAliveTeams()) {
+			int id_team = SqlRequest.createTeam(team.getTeam().getName(),team.getTeam().getPrefix());
 			Z++;
-			for(String p : team.getEntries()){
-				X = Z * (6.283184/Teams.board.getTeams().size());
+			for(String p : team.getTeam().getEntries()){
+				X = Z * (6.283184/TeamCustom.getAllTeams().size()-TeamCustom.getTaupeTeams().size()-TeamCustom.getSuperTaupeTeams().size());
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if(player.getName().equals(p)){
 						SqlRequest.createTaupe(player, id_team);
-						Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), Bukkit.getWorld("world").getHighestBlockYAt((int) (rayon * Math.cos(X)), (int) (rayon * Math.sin(X))), (int) (rayon * Math.sin(X)));
+						Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), Bukkit.getWorld("world").getHighestBlockYAt((int) (rayon * Math.cos(X)), (int) (rayon * Math.sin(X)))+2, (int) (rayon * Math.sin(X)));
 						player.teleport(spawnTeam);
 					}
 				}
 			}
 		}
-		Teams.newTeam("Spectateurs",15);
-		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++)
-			Teams.newTeam("Taupes"+i,"c");
-		
-		if(InventoryRegister.supertaupes.getValue())
-			Teams.newTeam("SuperTaupe","4");
+		new TeamCustom("Spectateurs", 15, 0, 0, true, false);
 		
 		for(int x = -15; x <= 15; x++){
 			for (int y = 200; y <= 203; y++){
@@ -192,7 +190,7 @@ public class Game{
 	}
 
 	public static void scoreboardMur() {
-		for(Entry<Player, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
+		for(Entry<UUID, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
 			ScoreboardModule.setMur(sign.getKey());
 			ScoreboardModule.setChrono(sign.getKey());
 			ScoreboardModule.setBordures(sign.getKey());
@@ -227,7 +225,7 @@ public class Game{
 			double taille = (double) (InventoryRegister.murtailleaprès.getValue())*2.0;
 			border.setSize(taille, (long) ((long) (InventoryRegister.murtailleavant.getValue() - InventoryRegister.murtailleaprès.getValue())/(InventoryRegister.murvitesse.getValue()/100)));
 			
-			Set<Team> teams = Teams.board.getTeams();
+			Set<Team> teams = TeamCustom.board.getTeams();
 			for(Team team : teams){
 				for(String p : team.getEntries()){
 					Player player = Bukkit.getPlayer(p);
@@ -293,7 +291,7 @@ public class Game{
 	
 	private static boolean isInTeam(Player player1, Player player2){
 		String TeamPlayer = null;
-		Set<Team> teams = Teams.board.getTeams();
+		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team team : teams){
 			for(String p : team.getEntries()){
 				if(player1.getName().equals(p)){

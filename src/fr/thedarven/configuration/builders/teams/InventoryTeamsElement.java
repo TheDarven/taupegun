@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,10 +16,10 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
+import fr.thedarven.utils.TeamCustom;
 import net.md_5.bungee.api.ChatColor;
 
 public class InventoryTeamsElement extends InventoryGUI{
@@ -55,7 +56,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 		ItemMeta itemM = item.getItemMeta();
 		itemM.setDisplayName(getName());
 		List<String> itemLore = new ArrayList<String>();
-		Set<Team> teams = Teams.board.getTeams();
+		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team teamSelect : teams){
 			if(teamSelect.getName().equals(getName())) {
 				if(teamSelect.getEntries().size() > 0) {
@@ -74,7 +75,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	
 	public void reloadInventory() {
 		int i = 0;
-		Set<Team> teams = Teams.board.getTeams();
+		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team teamSelect : teams){
 			if(teamSelect.getName().equals(getName())) {
 				for(String p : teamSelect.getEntries()){
@@ -116,6 +117,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
@@ -130,7 +132,10 @@ public class InventoryTeamsElement extends InventoryGUI{
 				}
 
 				if(e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
-					Teams.leaveTeam(getName(), e.getCurrentItem().getItemMeta().getDisplayName());
+					TeamCustom teamLeave = TeamCustom.getTeamCustom(getName());
+					if(teamLeave == null)
+						return;
+					teamLeave.leaveTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
 					MessagesEventClass.TeamDeletePlayerMessage(e);
 					reloadInventory();
 					InventoryPlayers.reloadInventory();

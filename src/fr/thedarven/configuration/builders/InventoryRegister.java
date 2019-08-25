@@ -47,13 +47,14 @@ public class InventoryRegister {
 	
 	public static InventoryGUI timers = new InventoryGUI("Timers", "Menu des timers.", 1, Material.WATCH, configuration, 0);
 	public static Pvp pvp = new Pvp("Pvp", "La minute à laquelle le pvp s'active.", Material.IRON_SWORD, timers, 0, 30, 10, 1, 2, "min", 1);
-	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.",Material.PAPER, timers, 20, 70, 30, 5, 2, "min", 1);
+	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.",Material.PAPER, timers, 20, 70, 1, 5, 2, "min", 1);
 	public static OptionNumeric murtime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", Material.BARRIER, timers, 30, 180, 80, 5, 2, "min", 1);
 	
 	public static InventoryGUI mur = new InventoryGUI("Mur", "Menu du mur.", 1, Material.BARRIER, configuration, 2);
 	public static OptionNumeric murtailleavant = new OptionNumeric("Taille avant la réduction", "La taille du mur avant le début de la réduction.", Material.STONE, mur, 500, 5000, 750, 50, 3, " blocs +/-", 1);
 	public static OptionNumeric murtailleaprès = new OptionNumeric("Taille après la réduction", "La taille du mur à la fin de la réduction.", Material.BEDROCK, mur, 25, 200, 100, 5, 2, " blocs +/-", 1);
 	public static OptionNumeric murvitesse = new OptionNumeric("Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", Material.DIAMOND_BARDING, mur, 20, 200, 100, 10, 2, " blocs/seconde", 100);
+	public static OptionNumeric murdegats = new OptionNumeric("Dégats du mur", "Les dégats infligés par le mur.", Material.TNT, mur, 10, 200, 100, 10, 2, " dégats", 100);
 	
 	public static InventoryGUI scenarios = new InventoryGUI("Scenarios", "Menu des scénarios.", 1, Material.PAPER, configuration, 4);
 	public static CutClean cutclean = new CutClean("CutClean", "Aucun cuisson n'est nécessaire avec ce scénario.", Material.IRON_INGOT, scenarios, false);
@@ -72,7 +73,8 @@ public class InventoryRegister {
 	public static OptionBoolean coordonneesvisibles = new OptionBoolean("Coordonnées visibles", "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative du centre.", Material.EYE_OF_ENDER, autre, true);
 	public static GoldenHead goldenhead = new GoldenHead("Golden Head", "Nombre de coeurs régénérés par les Golden Head.", Material.SKULL_ITEM, autre, 0, 8, 0, 1, 1, "❤", 2);
 	public static OwnTeam ownteam = new OwnTeam("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux meês les équipes.", Material.BANNER, autre, (byte) 15, false);
-
+	public static OptionBoolean tchatequipe = new OptionBoolean("Tchat équipe", "Activer ou non les tchat privées des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tous les joueurs.", Material.PAPER, autre, true);
+	
 	public static InventoryGUI taupes = new InventoryGUI("Taupes", "Tous les paramètres des taupes.", 1, Material.SEA_LANTERN, configuration, 10);
 	public static OptionBoolean supertaupes = new OptionBoolean("Supertaupes", "Activer ou non les supertaupes.", Material.ENCHANTMENT_TABLE, taupes, false);
 	public static OptionNumeric nombretaupes = new OptionNumeric("Nombre de taupes", "Détermine le nombre de taupes par équipe de départ.", Material.ARMOR_STAND, taupes, 1, 2, 1, 1, 1, " taupe(s)", 1);

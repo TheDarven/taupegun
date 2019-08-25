@@ -15,11 +15,11 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumConfiguration;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
 
@@ -57,14 +57,14 @@ public class InventoryTeams extends InventoryIncrement {
 				ArrayList<Team> teamList = new ArrayList<Team>();
 				ArrayList<Player> playerList = new ArrayList<Player>();
 				
-				Set<Team> teams = Teams.board.getTeams();
+				Set<Team> teams = TeamCustom.board.getTeams();
 				for(Team team : teams) {
 					if(team.getEntries().size() < 9)
 						teamList.add(team);
 				}
 				
 				for(Player player : Bukkit.getOnlinePlayers()) {
-					if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeamName().equals("aucune"))
+					if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam() == null)
 						playerList.add(player);
 				}
 				
@@ -80,7 +80,9 @@ public class InventoryTeams extends InventoryIncrement {
 				
 				int idTeam = 0;
 				while(playerList.size() != 0 && teamList.size() != 0) {
-					Teams.joinTeam(teamList.get(idTeam).getName(), playerList.get(0).getName());
+					TeamCustom teamJoin = TeamCustom.getTeamCustom(teamList.get(idTeam).getName());
+					if(teamJoin != null)
+						teamJoin.joinTeam(playerList.get(0).getUniqueId(), false);
 					
 					playerList.remove(0);
 					if(teamList.get(idTeam).getEntries().size() == 9)
@@ -100,7 +102,7 @@ public class InventoryTeams extends InventoryIncrement {
 				Title.sendActionBar(p, ChatColor.GREEN+" Les joueurs ont été réparties dans les équipes.");
 			}else if(e.getCurrentItem().equals(InventoryRegister.addteam.getItem())) {
 				e.setCancelled(true);
-				if(Teams.board.getTeams().size() < 36) {
+				if(TeamCustom.board.getTeams().size() < 36) {
 					new AnvilGUI(TaupeGun.getInstance(),p, new AnvilGUI.AnvilClickHandler() {
 						
 						@Override
@@ -130,7 +132,7 @@ public class InventoryTeams extends InventoryIncrement {
 						    			return;
 					    			}
 						    		
-						    		Set<Team> teams = Teams.board.getTeams();
+						    		Set<Team> teams = TeamCustom.board.getTeams();
 						    		for(Team team : teams){
 						    			if(pl.getCreateTeamName().equals(team.getName())){
 						    				p.closeInventory();
@@ -153,7 +155,7 @@ public class InventoryTeams extends InventoryIncrement {
 				/* POUR CHOISIR SA COULEUR */
 				e.setCancelled(true);
 				if(e.getCurrentItem().getType() == Material.BANNER){
-					Set<Team> teams = Teams.board.getTeams();
+					Set<Team> teams = TeamCustom.board.getTeams();
 		    		for(Team team : teams){
 		    			if(pl.getCreateTeamName().equals(team.getName())){
 		    				p.closeInventory();
@@ -164,9 +166,9 @@ public class InventoryTeams extends InventoryIncrement {
 		    		}
 					@SuppressWarnings("deprecation")
 					byte tempColor = ((BannerMeta)e.getCurrentItem().getItemMeta()).getBaseColor().getData();
-					Teams.newTeam(pl.getCreateTeamName(), tempColor);
+					new TeamCustom(pl.getCreateTeamName(), tempColor, 0, 0, false, true);
 					
-					Title.sendActionBar(p, ChatColor.GREEN+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+pl.getCreateTeamName()+ChatColor.RESET+ChatColor.GREEN+" a été crée avec succès.");
+					Title.sendActionBar(p, ChatColor.GREEN+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+pl.getCreateTeamName()+ChatColor.RESET+ChatColor.GREEN+" a été créée avec succès.");
 					pl.setCreateTeamName(null);
 					p.openInventory(InventoryRegister.teams.getLastChild().getInventory());
 				}

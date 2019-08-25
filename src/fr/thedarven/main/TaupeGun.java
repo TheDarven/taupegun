@@ -28,15 +28,14 @@ import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
-import fr.thedarven.events.Teams;
 import fr.thedarven.events.commands.Commands;
 import fr.thedarven.events.commands.CommandsTaupe;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
-
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 	
@@ -130,7 +129,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		prepareMap();
 		
 		for(Player p: Bukkit.getOnlinePlayers()){		
-			p.setScoreboard(Teams.board);
+			p.setScoreboard(TeamCustom.board);
 			// Login.joinScoreboard(p);
 			ScoreboardModule.joinScoreboard(p);
 			PlayerTaupe.getPlayerManager(p.getUniqueId());
@@ -163,7 +162,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
 			// Login.boards.get(p).destroy();
-			ScoreboardModule.boards.get(p).destroy();
+			ScoreboardModule.boards.get(p.getUniqueId()).destroy();
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.enableF3(p);
 			SqlRequest.updatePlayerTimePlay(p);

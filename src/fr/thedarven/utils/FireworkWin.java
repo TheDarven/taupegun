@@ -38,7 +38,6 @@ public class FireworkWin {
 						    fM.addEffect(effect);
 						    f.setFireworkMeta(fM);
 						    f.detonate();
-							
 						}
 					}
 					if(timer == 0){

@@ -16,18 +16,18 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.GraphEquipes;
 import fr.thedarven.utils.MessagesClass;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
 
 
 public class StartCommand implements Listener {
-Scoreboard board = Teams.board;
+Scoreboard board = TeamCustom.board;
 public static GraphEquipes graph;
 
 	public StartCommand(TaupeGun pl) {
@@ -54,7 +54,7 @@ public static GraphEquipes graph;
 			}
 			
 			Set<Team> teams = board.getTeams();
-			if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
+			/* if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
 				p.sendMessage(ChatColor.RED+"Il faut au minimum deux équipes.");
 				return;
 			}
@@ -86,7 +86,7 @@ public static GraphEquipes graph;
 						return;
 					}
 				}
-			}
+			} */
 			
 			graph = new GraphEquipes();
 			
@@ -108,9 +108,8 @@ public static GraphEquipes graph;
 					}
 					int taupeInt1 = r.nextInt(team.getSize());
 					int taupeInt2 = r.nextInt(team.getSize());
-					while(taupeInt1 == taupeInt2){
+					while(taupeInt1 == taupeInt2)
 						taupeInt2 = r.nextInt(team.getSize());
-					}
 					listTaupes.add(playerList.get(taupeInt1));
 					listTaupes.add(playerList.get(taupeInt2));
 					graph.addEquipes(listTaupes);
@@ -119,6 +118,11 @@ public static GraphEquipes graph;
 			boolean resultat = graph.creationEquipes();
 			if(!resultat) {
 				p.sendMessage(ChatColor.RED+"Nombre de taupes par équipe de taupe incorrect.");
+				TeamCustom.deleteTeamTaupe();
+				for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+					pl.setTaupeTeam(null);
+					pl.setSuperTaupeTeam(null);
+				}
 				return;
 			}
 			

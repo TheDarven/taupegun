@@ -1,6 +1,5 @@
 package fr.thedarven.events.commands;
 
-import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -13,16 +12,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Death;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.TeamCustom;
 import net.md_5.bungee.api.ChatColor;
 
 public class Commands implements CommandExecutor {
@@ -59,7 +57,6 @@ public class Commands implements CommandExecutor {
 					if(pl.isOnline()) {
 						pl.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
 					}else {
-						pl.setAlive(false);
 						Death.killPlayer(pl, true);
 					}	
 				}
@@ -90,30 +87,28 @@ public class Commands implements CommandExecutor {
 				if(p.isOp()){
 					if(TaupeGun.timer < InventoryRegister.annoncetaupes.getValue()*60 && args.length >= 1){
 						for(PlayerTaupe pc : PlayerTaupe.getDeathPlayerManager()) {
-							if(args[0].equals(pc.getCustomName()) &&  Bukkit.getPlayer(pc.getUuid()) != null && pc.isOnline()) {
-								Set<Team> teams = Teams.board.getTeams();
-								for(Team team : teams){
-									if(team.getName().equals(pc.getTeamName())) {
-										Teams.leaveTeam("Spectateurs", pc.getCustomName());
-										Teams.joinTeam(pc.getTeamName(), pc.getCustomName());
-										for(String player : team.getEntries()){
-											if(!player.equals(pc.getCustomName())) {
-												if(Bukkit.getPlayer(player) != null) {
-													Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
-													Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+Bukkit.getPlayer(args[0]).getName()+" a été réssuscité.");
-													for(Player pl : Bukkit.getOnlinePlayers()) {
-														pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
-													}
-													Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
-													Bukkit.getPlayer(pc.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 2 ));
-													pc.setAlive(true);
-													SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
-													return true;
+							if(args[0].equals(pc.getCustomName()) && pc.getPlayer() != null && pc.isOnline() && !pc.isAlive()) {
+								TeamCustom team = pc.getStartTeam();
+								if(team != null) {
+									team.joinTeam(pc.getUuid(), false);
+									
+									for(String player : team.getTeam().getEntries()){
+										if(!player.equals(pc.getCustomName())) {
+											if(Bukkit.getPlayer(player) != null) {
+												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
+												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+Bukkit.getPlayer(args[0]).getName()+" a été réssuscité.");
+												for(Player pl : Bukkit.getOnlinePlayers()) {
+													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
 												}
+												Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
+												Bukkit.getPlayer(pc.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 2 ));
+												pc.setAlive(true);
+												SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
+												return true;
 											}
 										}
-										pc.getPlayer().teleport(new Location(Bukkit.getWorld("world"), 0, Bukkit.getWorld("world").getHighestBlockYAt(0, 0)+2, 0));
 									}
+									pc.getPlayer().teleport(new Location(Bukkit.getWorld("world"), 0, Bukkit.getWorld("world").getHighestBlockYAt(0, 0)+2, 0));
 								}
 								return true;
 							}

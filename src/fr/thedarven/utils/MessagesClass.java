@@ -1,14 +1,9 @@
 package fr.thedarven.utils;
 
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.events.Teams;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 
@@ -19,68 +14,76 @@ public class MessagesClass {
 	}
 	
 	//TAUPECOMMANDS
-	public static void CommandTaupeMessageMessage(Player p, String[] args, int taupeTeam) {
-		String messageCommand = ChatColor.RED+p.getName()+":";
+	public static void CommandTaupeMessageMessage(Player p, String[] args, TeamCustom taupeTeam) {
+		String messageCommand = "";
 		for(int messageSize = 0; messageSize < args.length; messageSize++){
 			messageCommand = messageCommand+" "+args[messageSize];
 		}
 		for(Player player : Bukkit.getOnlinePlayers()){
-			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTaupeTeam() == taupeTeam){
-				player.sendMessage(messageCommand);
+			PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
+			if(pc.getTaupeTeam() == taupeTeam && pc.isAlive() && !pc.isSuperReveal()){
+				if(!PlayerTaupe.getPlayerManager(p.getUniqueId()).isSuperReveal()) {
+					if(pc.isReveal())
+						player.sendMessage("§e[Equipe] §7"+p.getName()+": "+messageCommand);
+					else
+						player.sendMessage("§c"+p.getName()+":"+messageCommand);
+				}
 			}
 		}
-		
-		Set<Team> teams = Teams.board.getTeams();
-		for(Team team : teams){
-			if(team.getName().equals("Spectateurs")){
-				for(String player : team.getEntries()){
-					if(Bukkit.getPlayer(player) != null)
-						Bukkit.getPlayer(player).sendMessage(ChatColor.RED+"[TAUPE "+taupeTeam+"] "+messageCommand);
-				}
+
+		TeamCustom spectatorTeam = TeamCustom.getSpectatorTeam();
+		if(spectatorTeam != null) {
+			for(String player : spectatorTeam.getTeam().getEntries()){
+				if(Bukkit.getPlayer(player) != null)
+					Bukkit.getPlayer(player).sendMessage("§c["+taupeTeam.getTeam().getName()+"] "+p.getName()+":"+messageCommand);
 			}
 		}
 	}
 	
 	public static void TaupeListMessage(Player p) {
-		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++) {
-			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+i+": "+ChatColor.RESET+""+ChatColor.RED;
-			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-				if(pc.getTaupeTeam() == i) {
+		for(TeamCustom team : TeamCustom.getTaupeTeams()) {
+			String listTaupe = "§c"+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+"§c";
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getTaupeTeam() == team)
 					listTaupe = listTaupe +pc.getCustomName()+" ";
-				}
 			}
-			p.getPlayer().sendMessage(listTaupe);	
+			p.getPlayer().sendMessage(listTaupe);
 		}
 	}
 	
-	public static void CommandSupertaupeMessageMessage(Player p, String[] args, int taupeTeam) {
-		String messageCommand = ChatColor.DARK_RED+p.getName()+":";
+	public static void CommandSupertaupeMessageMessage(Player p, String[] args, TeamCustom taupeTeam) {
+		String messageCommand = "";
 		for(int messageSize = 0; messageSize < args.length; messageSize++){
 			messageCommand = messageCommand+" "+args[messageSize];
 		}
 		for(Player player : Bukkit.getOnlinePlayers()){
-			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getSuperTaupeTeam() == taupeTeam){
-				player.sendMessage(messageCommand);
+			PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
+			if(pc.getSuperTaupeTeam() == taupeTeam && pc.isAlive()) {
+				if(pc.isSuperReveal())
+					player.sendMessage("§e[Equipe] §7"+p.getName()+": "+messageCommand);
+				else
+					player.sendMessage("§4"+p.getName()+":"+messageCommand);
 			}
 		}
-		Set<Team> teams = Teams.board.getTeams();
-		for(Team team : teams){
-			if(team.getName().equals("Spectateurs")){
-				for(String player : team.getEntries()){
-					Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED+"[SUPERTAUPE "+taupeTeam+"] "+messageCommand);
-				}
+		
+		TeamCustom spectatorTeam = TeamCustom.getSpectatorTeam();
+		if(spectatorTeam != null) {
+			for(String player : spectatorTeam.getTeam().getEntries()){
+				if(Bukkit.getPlayer(player) != null)
+					Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED+"["+taupeTeam.getTeam().getName()+"] "+p.getName()+":"+messageCommand);
 			}
-		}	
+		}
 	}
 	
 	public static void SuperTaupeListMessage(Player p) {
-		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
-		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getSuperTaupeTeam() == 1) {
-				listTaupe = listTaupe +pc.getCustomName()+" ";
+		for(TeamCustom team : TeamCustom.getSuperTaupeTeams()) {
+			String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getSuperTaupeTeam() == team)
+					listTaupe = listTaupe +pc.getCustomName()+" ";
 			}
+			p.getPlayer().sendMessage(listTaupe);
 		}
-		p.getPlayer().sendMessage(listTaupe);
 	}
 	
 	//TEAMS	
@@ -112,25 +115,25 @@ public class MessagesClass {
 	
 	//FIREWORKWIN
 	public static void FinalTaupeAnnonceMessage() {
-		for(int i=1; i<TaupeGun.nbrEquipesTaupes+1; i++) {
-			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+"Taupes "+i+": "+ChatColor.RESET+""+ChatColor.RED;
-			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-				if(pc.getTaupeTeam() == i) {
+		for(TeamCustom team : TeamCustom.getTaupeTeams()) {
+			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.RED;
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getTaupeTeam() == team)
 					listTaupe = listTaupe +pc.getCustomName()+" ";
-				}
 			}
-			Bukkit.getServer().broadcastMessage(listTaupe);	
+			Bukkit.getServer().broadcastMessage(listTaupe);
 		}
 	}
 	
 	public static void FinalSuperTaupeAnnonceMessage() {
-		String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+"SuperTaupes "+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
-		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()){
-			if(pc.getSuperTaupeTeam() == 1) {
-				listTaupe = listTaupe +pc.getCustomName()+" ";
+		for(TeamCustom team : TeamCustom.getSuperTaupeTeams()) {
+			String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
+			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
+				if(pc.getSuperTaupeTeam() == team)
+					listTaupe = listTaupe +pc.getCustomName()+" ";
 			}
+			Bukkit.getServer().broadcastMessage(listTaupe);	
 		}
-		Bukkit.getServer().broadcastMessage(listTaupe);	
 	}
 	
 	public static void FinalKillAnnonceMessage() {

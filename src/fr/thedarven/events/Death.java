@@ -1,7 +1,5 @@
 package fr.thedarven.events;
 
-import java.util.Set;
-
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -14,13 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.TeamCustom;
 
 public class Death implements Listener {
 
@@ -47,36 +45,34 @@ public class Death implements Listener {
 			pl.setAlive(false);
 			
 			/* ON S'OCCUPE DU JOUEUR */
-			Set<Team> teams = Teams.board.getTeams();
-			for(Team team : teams){
-				if(team.getName() != "Spectateurs"){
-					for(String player : team.getEntries()){
-						if(pl.getCustomName().equals(player)){
-							for(Player playerOnline : Bukkit.getOnlinePlayers()) {
-								playerOnline.playSound(playerOnline.getLocation(), Sound.WITHER_SPAWN, 1, 1);
-							}
-							
-							if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60 && pl.isOnline()){
-								ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-								SkullMeta teteM = (SkullMeta) tete.getItemMeta();
-								teteM.setOwner(pl.getCustomName());
-								teteM.setDisplayName(ChatColor.GOLD+"Tête de "+pl.getCustomName());
-								tete.setItemMeta(teteM);
-								pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
-							}
-							
-							pl.getPlayer().setGameMode(GameMode.SPECTATOR);
-							pl.getPlayer().teleport(new Location(Bukkit.getWorld("world"),0,200,0));
-							pl.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
-							pl.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
-							
-							SqlRequest.updateTaupeMort(pl.getUuid().toString(), 1);
-							Teams.leaveTeam(team.getName(),pl.getCustomName());		
-							Teams.joinTeam("Spectateurs", pl.getCustomName());
-						}
-					}
-				}			
+			TeamCustom team = pl.getTeam();
+			for(Player playerOnline : Bukkit.getOnlinePlayers()) {
+				playerOnline.playSound(playerOnline.getLocation(), Sound.WITHER_SPAWN, 1, 1);
 			}
+			
+			if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60 && pl.isOnline()){
+				ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+				SkullMeta teteM = (SkullMeta) tete.getItemMeta();
+				teteM.setOwner(pl.getCustomName());
+				teteM.setDisplayName(ChatColor.GOLD+"Tête de "+pl.getCustomName());
+				tete.setItemMeta(teteM);
+				if(pl.getPlayer() != null)
+					pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
+			}
+			
+			Player p = pl.getPlayer();
+			if(p != null){
+				p.getPlayer().setGameMode(GameMode.SPECTATOR);
+				p.getPlayer().teleport(new Location(Bukkit.getWorld("world"),0,200,0));
+				p.getPlayer().sendMessage("§cVous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
+				p.getPlayer().sendMessage("§cVous pouvez savoir la liste des taupes en faisant /taupelist");
+			}
+			
+			
+			SqlRequest.updateTaupeMort(pl.getUuid().toString(), 1);
+			if(team != null)
+				team.leaveTeam(pl.getUuid());
+			TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid(), false);
 		}
 	}
 }

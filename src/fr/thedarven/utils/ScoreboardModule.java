@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.api.ScoreboardSign;
@@ -23,7 +23,7 @@ public class ScoreboardModule {
 	
 	public static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	public static Scoreboard board = manager.getNewScoreboard();
-	public static Map<Player, ScoreboardSign> boards = new HashMap<>();
+	public static Map<UUID, ScoreboardSign> boards = new HashMap<>();
 	public static ArrayList<ArrayList<Object>> scores = new ArrayList<ArrayList<Object>>();
 	
 	public ScoreboardModule() {
@@ -49,10 +49,12 @@ public class ScoreboardModule {
 		for(ArrayList<Object> list : scores) {
 			if(((String) list.get(0)).equals(pName) && (Boolean) list.get(1) != pValue){
 				list.set(1, pValue);
-				for(Player sign : boards.keySet()){
+				for(UUID sign : boards.keySet()){
 					boards.get(sign).destroy();
 					boards.remove(sign);
-					joinScoreboard(sign);
+					Player p = Bukkit.getPlayer(sign);
+					if(p != null)
+						joinScoreboard(p);
 				}
 				break;
 			}
@@ -95,7 +97,7 @@ public class ScoreboardModule {
 				position+=1;
 			}
 		}	
-		boards.put(p, scoreboard);
+		boards.put(p.getUniqueId(), scoreboard);
 	}
 	
 	
@@ -104,7 +106,7 @@ public class ScoreboardModule {
 	private static String getJoueurs() {
 		int playerTeam = 0;
 		int teamNick = 0;
-		Set<Team> teams = Teams.board.getTeams();
+		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team team : teams){
 			if(team.getName().equals("Spectateurs") || team.getName().startsWith("Taupes") || team.getName().startsWith("SuperTaupe")){
 				teamNick++;
@@ -113,7 +115,7 @@ public class ScoreboardModule {
 				playerTeam += team.getEntries().size();	
 			}
 		}
-		return getPrefixFixed("Joueurs")+"Joueurs:§e "+playerTeam+" ("+(Teams.board.getTeams().size()-teamNick)+")";
+		return getPrefixFixed("Joueurs")+"Joueurs:§e "+playerTeam+" ("+(TeamCustom.board.getTeams().size()-teamNick)+")";
 	}
 	
 	private static String getCentre(Player p) {
@@ -165,34 +167,34 @@ public class ScoreboardModule {
 	
 	
 	
-	public static void setJoueurs(Player p) {
-		boards.get(p).setLine(getLine("Joueurs"),getJoueurs());
+	public static void setJoueurs(UUID uuid) {
+		boards.get(uuid).setLine(getLine("Joueurs"),getJoueurs());
 	}
 	
 	public static void setCentre(Player p) {
-		boards.get(p).setLine(getLine("Centre"),getCentre(p));
+		boards.get(p.getUniqueId()).setLine(getLine("Centre"),getCentre(p));
 	}
 	
-	public static void setMur(Player p) {
+	public static void setMur(UUID uuid) {
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 0) {
 			int a = getLine("Mur");
 			String b = getMur();
-			boards.get(p).setLine(a,b);
+			boards.get(uuid).setLine(a,b);
 		}else if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 0) {
 			modifyElement("Mur",false);
 		}
 	}
 	
-	public static void setChrono(Player p) {
+	public static void setChrono(UUID uuid) {
 		int a = getLine("Chrono");
 		String b = getChrono();	
-		boards.get(p).setLine(a,b);
+		boards.get(uuid).setLine(a,b);
 	}
 	
-	public static void setBordures(Player p) {
+	public static void setBordures(UUID uuid) {
 		int a = getLine("Bordures");
 		String b = getBordures();
-		boards.get(p).setLine(a,b);
+		boards.get(uuid).setLine(a,b);
 	}
 	
 	

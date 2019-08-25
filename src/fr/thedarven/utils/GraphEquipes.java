@@ -26,13 +26,15 @@ public class GraphEquipes {
 	
 	public boolean creationEquipes() {
 		int pNbrTaupes = InventoryRegister.tailletaupes.getValue();
-		if(pNbrTaupes > joueursTaupe.size() || joueursTaupe.size() == 0) {
+		/* if(pNbrTaupes > joueursTaupe.size() || joueursTaupe.size() == 0) {
 			return false;
-		}else {
+		}else { */
 			// TAUPES
 			ArrayList<String> kits = new ArrayList<String>();
-			for(InventoryGUI kit : InventoryRegister.kits.getChilds())
-				kits.add(kit.getName());
+			for(InventoryGUI kit : InventoryRegister.kits.getChilds()) {
+				if(kit != InventoryRegister.addkits)
+					kits.add(kit.getName());
+			}
 			int numTeam = 0;
 			while(joueursTaupe.size() > 0) {
 				numTeam++;
@@ -41,11 +43,13 @@ public class GraphEquipes {
 					pNbrTaupes = joueursTaupe.size();
 				ArrayList<PlayerTaupe> teamTaupe = new ArrayList<PlayerTaupe>();
 				
+				TeamCustom taupe = new TeamCustom("Taupes"+numTeam,"c", numTeam, 0, false, true);
+				
 				// Crée une équipe de taupe
 				for(int i=0; i<pNbrTaupes; i++) {
 					int random = r.nextInt(joueursTaupe.get(i).size());
 					teamTaupe.add(joueursTaupe.get(i).get(random));
-					joueursTaupe.get(i).get(random).setTaupeTeam(numTeam);
+					joueursTaupe.get(i).get(random).setTaupeTeam(taupe);
 					joueursTaupe.get(i).get(random).setClaimTaupe(kits.get(r.nextInt(kits.size())));
 				}
 				equipesTaupe.add(teamTaupe);
@@ -55,18 +59,21 @@ public class GraphEquipes {
 			
 			// SUPERTAUPES
 			if(InventoryRegister.supertaupes.getValue()) {
+				
+				TeamCustom supertaupe = new TeamCustom("SuperTaupe","4", 0, 1, false, true);
+				
 				ArrayList<PlayerTaupe> teamSupertaupe = new ArrayList<PlayerTaupe>();
 				// Prend une taupe par équipe de taupe
 				for(int i=0; i<equipesTaupe.size(); i++) {
 					int random = r.nextInt(equipesTaupe.get(i).size());
 					teamSupertaupe.add(equipesTaupe.get(i).get(random));
-					equipesTaupe.get(i).get(random).setSuperTaupeTeam(1);	
+					equipesTaupe.get(i).get(random).setSuperTaupeTeam(supertaupe);	
 				}
 				equipesSuperTaupe.add(teamSupertaupe);	
 			}
 			
 			return true;
-		}
+		// }
 	}
 	
 	private void verifJoueursTaupes() {

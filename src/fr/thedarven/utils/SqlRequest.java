@@ -196,10 +196,7 @@ public class SqlRequest {
 		    }
 		}
 	}
-	
-	
-	
-	
+
 	public static void createTaupe(Player p, int id_team) {
 		if(!TaupeGun.developpement && TaupeGun.sqlConnect) {	
 			try {

@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.Teams;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
@@ -26,6 +25,7 @@ public class CommandsTaupe implements CommandExecutor {
 		if(sender instanceof Player){
 			Player p = (Player) sender;
 			PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
+			
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 0 && pc.isTaupe() && pc.isAlive()){
 				
 				if(cmd.getName().equalsIgnoreCase("claim")) {
@@ -44,8 +44,7 @@ public class CommandsTaupe implements CommandExecutor {
 					}
 				} else if(cmd.getName().equalsIgnoreCase("reveal")) {
 					if(pc.revealTaupe()){
-						Teams.leaveTeam(pc.getTeamName(), p.getName());
-						Teams.joinTeam("Taupes"+pc.getTaupeTeam(), p.getName());
+						pc.getTaupeTeam().joinTeam(pc.getUuid(), false);
 						p.getWorld().dropItem(p.getLocation(), new ItemStack(Material.GOLDEN_APPLE,1));
 						if(p.getHealth() < 16.0){
 							p.setHealth(p.getHealth()+4.0);
@@ -67,9 +66,9 @@ public class CommandsTaupe implements CommandExecutor {
 				if(cmd.getName().equalsIgnoreCase("superreveal")) {
 					if(!pc.isReveal())
 						p.sendMessage(ChatColor.RED+"Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.");
-					else if(pc.isReveal() && pc.revealSuperTaupe()) {
-						Teams.leaveTeam("Taupes"+pc.getTaupeTeam(), p.getName());
-						Teams.joinTeam("SuperTaupe", p.getName());
+					else if(pc.revealSuperTaupe()) {
+						pc.getSuperTaupeTeam().joinTeam(pc.getUuid(), false);
+						
 						p.getWorld().dropItem(p.getLocation(), new ItemStack(Material.GOLDEN_APPLE,1));
 						if(p.getHealth() < 16.0){
 							p.setHealth(p.getHealth()+4.0);

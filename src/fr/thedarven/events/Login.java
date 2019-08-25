@@ -20,6 +20,7 @@ import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import net.md_5.bungee.api.ChatColor;
 
@@ -33,6 +34,8 @@ public class Login implements Listener {
 		Player p = e.getPlayer();
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
+		p.setScoreboard(TeamCustom.board);
+		
 		SqlRequest.updatePlayerLast(e.getPlayer());
 		ScoreboardModule.joinScoreboard(p);
 		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
@@ -45,9 +48,10 @@ public class Login implements Listener {
 		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.disableF3(p);
-			if(!pl.isAlive()) {
+			if(!pl.isAlive() || pl.getTeam() == null) {
 				p.setGameMode(GameMode.SPECTATOR);
 				p.teleport(new Location(Bukkit.getWorld("world"),0,200,0));
+				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid(), true);
 			}
 		}
 		MessagesClass.JoinTabMessage(p);
@@ -58,8 +62,8 @@ public class Login implements Listener {
 		Player player = e.getPlayer();
 		e.setQuitMessage(ChatColor.DARK_GRAY+"("+ChatColor.RED+"-"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
-		if(ScoreboardModule.boards.containsKey(player)){
-			ScoreboardModule.boards.get(player).destroy();
+		if(ScoreboardModule.boards.containsKey(player.getUniqueId())){
+			ScoreboardModule.boards.get(player.getUniqueId()).destroy();
 		}
 		
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
@@ -81,9 +85,11 @@ public class Login implements Listener {
             }
 			
 			for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
-				pl.setTaupeTeam(-1);
-				pl.setSuperTaupeTeam(-1);
+				pl.setTaupeTeam(null);
+				pl.setSuperTaupeTeam(null);
 			}
+			
+			TeamCustom.deleteTeamTaupe();
 		}
 		
 		SqlRequest.updatePlayerTimePlay(player);
