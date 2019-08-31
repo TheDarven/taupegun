@@ -82,7 +82,7 @@ public class InventoryTeams extends InventoryIncrement {
 				while(playerList.size() != 0 && teamList.size() != 0) {
 					TeamCustom teamJoin = TeamCustom.getTeamCustom(teamList.get(idTeam).getName());
 					if(teamJoin != null)
-						teamJoin.joinTeam(playerList.get(0).getUniqueId(), false);
+						teamJoin.joinTeam(playerList.get(0).getUniqueId());
 					
 					playerList.remove(0);
 					if(teamList.get(idTeam).getEntries().size() == 9)

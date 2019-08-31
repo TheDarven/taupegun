@@ -22,6 +22,7 @@ import fr.thedarven.configuration.temp.OwnTeam;
 import fr.thedarven.configuration.temp.Pomme;
 import fr.thedarven.configuration.temp.Pvp;
 import fr.thedarven.configuration.temp.Silex;
+import fr.thedarven.configuration.temp.WallSize;
 
 public class InventoryRegister {
 	
@@ -47,11 +48,11 @@ public class InventoryRegister {
 	
 	public static InventoryGUI timers = new InventoryGUI("Timers", "Menu des timers.", 1, Material.WATCH, configuration, 0);
 	public static Pvp pvp = new Pvp("Pvp", "La minute à laquelle le pvp s'active.", Material.IRON_SWORD, timers, 0, 30, 10, 1, 2, "min", 1);
-	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.",Material.PAPER, timers, 20, 70, 1, 5, 2, "min", 1);
-	public static OptionNumeric murtime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", Material.BARRIER, timers, 30, 180, 80, 5, 2, "min", 1);
+	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.",Material.PAPER, timers, 1, 70, 30, 5, 2, "min", 1);
+	public static OptionNumeric murtime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", Material.BARRIER, timers, 1, 180, 80, 5, 2, "min", 1);
 	
 	public static InventoryGUI mur = new InventoryGUI("Mur", "Menu du mur.", 1, Material.BARRIER, configuration, 2);
-	public static OptionNumeric murtailleavant = new OptionNumeric("Taille avant la réduction", "La taille du mur avant le début de la réduction.", Material.STONE, mur, 500, 5000, 750, 50, 3, " blocs +/-", 1);
+	public static WallSize murtailleavant = new WallSize("Taille avant la réduction", "La taille du mur avant le début de la réduction.", Material.STONE, mur, 500, 5000, 750, 50, 3, " blocs +/-", 1);
 	public static OptionNumeric murtailleaprès = new OptionNumeric("Taille après la réduction", "La taille du mur à la fin de la réduction.", Material.BEDROCK, mur, 25, 200, 100, 5, 2, " blocs +/-", 1);
 	public static OptionNumeric murvitesse = new OptionNumeric("Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", Material.DIAMOND_BARDING, mur, 20, 200, 100, 10, 2, " blocs/seconde", 100);
 	public static OptionNumeric murdegats = new OptionNumeric("Dégats du mur", "Les dégats infligés par le mur.", Material.TNT, mur, 10, 200, 100, 10, 2, " dégats", 100);

@@ -37,7 +37,7 @@ public class PlayerTaupe {
 		if(!TaupeGun.etat.equals(EnumGame.WAIT) && !TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			alive = false;
 			team = TeamCustom.getSpectatorTeam();
-			team.joinTeam(uuid, true);
+			team.joinTeam(name);
 			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SPECTATOR);
 		}else {
 			alive = true;

@@ -2,7 +2,6 @@ package fr.thedarven.events;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,11 +12,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.utils.PlayerOrientation;
-import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.api.Title;
@@ -33,17 +30,8 @@ public class Walk implements Listener {
     	Player p = e.getPlayer();
     	Location loc = p.getLocation();
     	Block b = loc.getBlock();
-    
-    	// DISTANCE DU CENTRE
-    	ScoreboardModule.setCentre(p);
     	
     	if(TaupeGun.etat == EnumGame.LOBBY || TaupeGun.etat == EnumGame.WAIT){
-    		
-    		// TAILLE DU WORLD BORDER
-    		if((int) Bukkit.getWorld("world").getWorldBorder().getSize()/2 != InventoryRegister.murtailleavant.getValue()) {
-    			Bukkit.getWorld("world").getWorldBorder().setCenter(0, 0);
-    			Bukkit.getWorld("world").getWorldBorder().setSize(InventoryRegister.murtailleavant.getValue()*2);
-    		}
     		
     		// COLORE SOUS LES PIEDS
     		for(int y=-3; y<0; y++){
@@ -58,7 +46,6 @@ public class Walk implements Listener {
 					}
 				}
     		}
-    		Game.scoreboardMur();
     	}else if(TaupeGun.etat.equals(EnumGame.GAME)){
     		// AFFICHE L'ORIENTATION DES TEAMMATES
 			if(TaupeGun.timer < InventoryRegister.annoncetaupes.getValue()*60){

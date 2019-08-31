@@ -1,9 +1,7 @@
 package fr.thedarven.main;
 
-import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,11 +22,9 @@ import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.TeamDelete;
-import fr.thedarven.utils.api.ScoreboardSign;
 
 public class Game{
 
@@ -49,13 +45,12 @@ public class Game{
 				}
 				
 				annoncesTaupes();
-				scoreboardMur();
 				annoncesMur();
 				
 				for(Player player : Bukkit.getOnlinePlayers()) {
 					PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 					if(pl.getTeam() == null && !pl.isAlive()){
-						TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId(), false);
+						TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId());
 						player.setGameMode(GameMode.SPECTATOR);
 						pl.setAlive(false);
 					}
@@ -149,8 +144,8 @@ public class Game{
 	
 	private static void annoncesTaupes() {
 		// 5s AVANT L'ANNONCE DES TAUPES //
-		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 5 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 0){
-			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 5){
+		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 1){
+			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 6){
 				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des taupes dans 5 secondes.");
 			}
 			for(Player player : Bukkit.getOnlinePlayers()) {
@@ -159,7 +154,7 @@ public class Game{
 		}
 		
 		// ANNONCE DES TAUPES //
-		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 0){
+		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 1){
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ANVIL_LAND , 1, 1);
 				if(PlayerTaupe.getPlayerManager(player.getUniqueId()).isTaupe()){
@@ -169,8 +164,8 @@ public class Game{
 		}
 		
 		// 5s AVANT L'ANNONCE DES SUPER TAUPES //
-		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 5 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 > 0 && InventoryRegister.supertaupes.getValue()){
-			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 5){
+		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 > 1 && InventoryRegister.supertaupes.getValue()){
+			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 6){
 				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des supertaupes dans 5 secondes.");
 			}
 			for(Player player : Bukkit.getOnlinePlayers()) {
@@ -179,7 +174,7 @@ public class Game{
 		}
 		
 		// ANNONCE DES SUPER TAUPES //
-		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 0 && InventoryRegister.supertaupes.getValue()){
+		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 1 && InventoryRegister.supertaupes.getValue()){
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ANVIL_LAND , 1, 1);
 				if(PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()){
@@ -188,18 +183,10 @@ public class Game{
 			}
 		}
 	}
-
-	public static void scoreboardMur() {
-		for(Entry<UUID, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
-			ScoreboardModule.setMur(sign.getKey());
-			ScoreboardModule.setChrono(sign.getKey());
-			ScoreboardModule.setBordures(sign.getKey());
-		}
-	}
 	
 	private static void annoncesMur() {
 		// LE MUR EST A 00H03 //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 180){
+		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 181){
 			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur va commencer à se réduire dans 3 minutes !");
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
@@ -207,15 +194,14 @@ public class Game{
 		}
 		
 		// LE MUR EST ENTRE 5s ET 00s //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer <= 6 && InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 1){
+		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer <= 6 && InventoryRegister.murtime.getValue()*60-TaupeGun.timer >= 1){
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
 			}
 		}
 		
 		// LE MUR EST A 00H00 //
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 0){
-			TaupeGun.timer++;
+		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
 			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
 			
@@ -261,7 +247,6 @@ public class Game{
 					}
 					p.teleport(spawnTeam);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
-					ScoreboardModule.setCentre(p);
 				}
 			}
 		}

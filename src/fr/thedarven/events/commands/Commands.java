@@ -90,7 +90,7 @@ public class Commands implements CommandExecutor {
 							if(args[0].equals(pc.getCustomName()) && pc.getPlayer() != null && pc.isOnline() && !pc.isAlive()) {
 								TeamCustom team = pc.getStartTeam();
 								if(team != null) {
-									team.joinTeam(pc.getUuid(), false);
+									team.joinTeam(pc.getUuid());
 									
 									for(String player : team.getTeam().getEntries()){
 										if(!player.equals(pc.getCustomName())) {
@@ -138,7 +138,11 @@ public class Commands implements CommandExecutor {
 				}
 			}else if(cmd.getName().equalsIgnoreCase("timer") && args.length > 0) {
 				if(p.isOp()){
-					TaupeGun.timer = Integer.parseInt(args[0]);
+					try {
+						TaupeGun.timer = Integer.parseInt(args[0]);	
+					}catch(NumberFormatException e) {
+						p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Nombre incorrect.");
+					}
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}

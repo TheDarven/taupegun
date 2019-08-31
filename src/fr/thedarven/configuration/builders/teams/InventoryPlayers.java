@@ -79,7 +79,7 @@ public class InventoryPlayers extends InventoryGUI{
 								TeamCustom teamJoin = TeamCustom.getTeamCustom(getParent().getInventory().getName());
 								if(teamJoin == null)
 									return;
-								teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId(), false);
+								teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
 								// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
 								MessagesEventClass.TeamAddPlayerMessage(e);
 								reloadInventory();

@@ -47,7 +47,7 @@ public class Tchat implements Listener {
 								}
 							}	
 						}
-					}	
+					}
 				}else {
 					String color = "";
 					if(pl.getTeam() != null && pl.getTeam().getTeam() != null)

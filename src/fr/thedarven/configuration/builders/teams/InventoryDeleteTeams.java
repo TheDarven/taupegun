@@ -23,5 +23,6 @@ public class InventoryDeleteTeams extends InventoryDelete {
 		if(teamDelete != null)
 			teamDelete.deleteTeam();
 		p.openInventory(InventoryRegister.teams.getInventory());
+		InventoryPlayers.reloadInventory();
 	}
 }

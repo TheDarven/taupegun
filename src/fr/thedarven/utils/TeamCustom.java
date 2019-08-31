@@ -3,7 +3,6 @@ package fr.thedarven.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,7 +20,6 @@ import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
-import fr.thedarven.utils.api.ScoreboardSign;
 
 public class TeamCustom {
 
@@ -50,7 +48,6 @@ public class TeamCustom {
 		listPlayer = new ArrayList<>();
 		alive = pAlive;
 		
-		scoreboardPlayer();
 		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(CodeColor.codeColorBP(pColor)));
 		new InventoryParametres(inv);
 		new InventoryPlayers(inv);
@@ -73,7 +70,6 @@ public class TeamCustom {
 		listPlayer = new ArrayList<>();
 		alive = pAlive;
 		
-		scoreboardPlayer();
 		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(pColor));
 		new InventoryParametres(inv);
 		new InventoryPlayers(inv);
@@ -132,12 +128,10 @@ public class TeamCustom {
 		InventoryTeamsElement.removeTeam(team.getName());
 		team.unregister();
 		listTeam.remove(this);
-		
-		scoreboardPlayer();
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void joinTeam(UUID uuid, boolean initJoin) {
+	public void joinTeam(UUID uuid) {
 		if((alive && team.getEntries().size() < maxPlayer) || this.spectator) {
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 			Player p = Bukkit.getPlayer(uuid);
@@ -154,11 +148,25 @@ public class TeamCustom {
 				p.setScoreboard(board);
 			}
 			
-			if(!initJoin)
-				pl.setTeam(this);
+			pl.setTeam(this);
 			if(TaupeGun.etat.equals(EnumGame.LOBBY))
 				pl.setStartTeam(this);
-			scoreboardPlayer();
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void joinTeam(String pseudo) {
+		if((alive && team.getEntries().size() < maxPlayer) || this.spectator) {
+			Player p = Bukkit.getPlayer(pseudo);
+			
+			team.addEntry(pseudo);	
+			listPlayer.add(p.getUniqueId());	
+			objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+			if(p != null) {
+				Score score = objective.getScore(p);
+				score.setScore(20);
+				p.setScoreboard(board);
+			}
 		}
 	}
 	
@@ -174,7 +182,6 @@ public class TeamCustom {
 		if(p != null)
 			board.resetScores(p);
 		pl.setTeam(null);
-		scoreboardPlayer();
 	}
 	
 	public static List<TeamCustom> getAllTeams() {
@@ -238,12 +245,6 @@ public class TeamCustom {
 			if(teamParcours.isTaupeTeam() || teamParcours.isSuperTaupeTeam()) {
 				teamParcours.deleteTeam();
 			}
-		}
-	}
-	
-	public static void scoreboardPlayer(){
-		for(Entry<UUID, ScoreboardSign> sign : ScoreboardModule.boards.entrySet()){
-			ScoreboardModule.setJoueurs(sign.getKey());
 		}
 	}
 }

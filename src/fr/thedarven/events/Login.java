@@ -18,7 +18,6 @@ import fr.thedarven.main.constructors.EnumGame;
 import fr.thedarven.main.constructors.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
@@ -33,11 +32,6 @@ public class Login implements Listener {
 	public void join(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
-		
-		p.setScoreboard(TeamCustom.board);
-		
-		SqlRequest.updatePlayerLast(e.getPlayer());
-		ScoreboardModule.joinScoreboard(p);
 		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
@@ -51,20 +45,16 @@ public class Login implements Listener {
 			if(!pl.isAlive() || pl.getTeam() == null) {
 				p.setGameMode(GameMode.SPECTATOR);
 				p.teleport(new Location(Bukkit.getWorld("world"),0,200,0));
-				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid(), true);
+				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
 			}
 		}
-		MessagesClass.JoinTabMessage(p);
+		loginAction(p);
 	}
 	
 	@EventHandler
     public void PlayerQuit(PlayerQuitEvent e){
 		Player player = e.getPlayer();
 		e.setQuitMessage(ChatColor.DARK_GRAY+"("+ChatColor.RED+"-"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
-		
-		if(ScoreboardModule.boards.containsKey(player.getUniqueId())){
-			ScoreboardModule.boards.get(player.getUniqueId()).destroy();
-		}
 		
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			new BukkitRunnable(){
@@ -91,8 +81,21 @@ public class Login implements Listener {
 			
 			TeamCustom.deleteTeamTaupe();
 		}
+		leaveAction(player);
+	}
+	
+	public static void loginAction(Player p) {
+		p.setScoreboard(TeamCustom.board);
+		PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
-		SqlRequest.updatePlayerTimePlay(player);
-		SqlRequest.updatePlayerLast(player);
+		MessagesClass.JoinTabMessage(p);
+		TaupeGun.scoreboardManager.onLogin(p);
+		SqlRequest.updatePlayerLast(p);
+	}
+	
+	public static void leaveAction(Player p) {
+		TaupeGun.scoreboardManager.onLogout(p);
+		SqlRequest.updatePlayerTimePlay(p);
+		SqlRequest.updatePlayerLast(p);
 	}
 }

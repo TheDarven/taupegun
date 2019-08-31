@@ -72,7 +72,7 @@ public class Death implements Listener {
 			SqlRequest.updateTaupeMort(pl.getUuid().toString(), 1);
 			if(team != null)
 				team.leaveTeam(pl.getUuid());
-			TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid(), false);
+			TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
 		}
 	}
 }

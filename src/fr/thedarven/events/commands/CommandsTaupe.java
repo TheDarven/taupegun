@@ -44,7 +44,7 @@ public class CommandsTaupe implements CommandExecutor {
 					}
 				} else if(cmd.getName().equalsIgnoreCase("reveal")) {
 					if(pc.revealTaupe()){
-						pc.getTaupeTeam().joinTeam(pc.getUuid(), false);
+						pc.getTaupeTeam().joinTeam(pc.getUuid());
 						p.getWorld().dropItem(p.getLocation(), new ItemStack(Material.GOLDEN_APPLE,1));
 						if(p.getHealth() < 16.0){
 							p.setHealth(p.getHealth()+4.0);
@@ -67,7 +67,7 @@ public class CommandsTaupe implements CommandExecutor {
 					if(!pc.isReveal())
 						p.sendMessage(ChatColor.RED+"Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.");
 					else if(pc.revealSuperTaupe()) {
-						pc.getSuperTaupeTeam().joinTeam(pc.getUuid(), false);
+						pc.getSuperTaupeTeam().joinTeam(pc.getUuid());
 						
 						p.getWorld().dropItem(p.getLocation(), new ItemStack(Material.GOLDEN_APPLE,1));
 						if(p.getHealth() < 16.0){

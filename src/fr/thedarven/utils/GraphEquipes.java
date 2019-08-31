@@ -26,9 +26,9 @@ public class GraphEquipes {
 	
 	public boolean creationEquipes() {
 		int pNbrTaupes = InventoryRegister.tailletaupes.getValue();
-		/* if(pNbrTaupes > joueursTaupe.size() || joueursTaupe.size() == 0) {
+		if(pNbrTaupes > joueursTaupe.size() || joueursTaupe.size() == 0) {
 			return false;
-		}else { */
+		}else {
 			// TAUPES
 			ArrayList<String> kits = new ArrayList<String>();
 			for(InventoryGUI kit : InventoryRegister.kits.getChilds()) {
@@ -73,7 +73,7 @@ public class GraphEquipes {
 			}
 			
 			return true;
-		// }
+		}
 	}
 	
 	private void verifJoueursTaupes() {

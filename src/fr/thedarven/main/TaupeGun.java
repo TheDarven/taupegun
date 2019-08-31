@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -25,17 +28,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.ScoreboardModule;
 import fr.thedarven.utils.SqlRequest;
-import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.SqlConnection;
+import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
 import fr.thedarven.events.commands.Commands;
 import fr.thedarven.events.commands.CommandsTaupe;
 import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 	
@@ -52,6 +52,10 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	
 	public static Inventory inv = Bukkit.createInventory(null, 45, "Stuff de départ");
 	public static InventoryRegister configuration;
+	
+	public static ScheduledExecutorService executorMonoThread = Executors.newScheduledThreadPool(1);
+	public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(16);
+	public static ScoreboardManager scoreboardManager = new ScoreboardManager();
 	
 	public static TaupeGun getInstance(){
 		return instance;
@@ -124,18 +128,11 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		recette.setIngredient('T', Material.SKULL_ITEM, (short) 3);
 		getServer().addRecipe(recette);
 		
-		new ScoreboardModule();
 		configuration = new InventoryRegister();
 		prepareMap();
 		
 		for(Player p: Bukkit.getOnlinePlayers()){		
-			p.setScoreboard(TeamCustom.board);
-			// Login.joinScoreboard(p);
-			ScoreboardModule.joinScoreboard(p);
-			PlayerTaupe.getPlayerManager(p.getUniqueId());
-			SqlRequest.updatePlayerLast(p);
-			
-			MessagesClass.JoinTabMessage(p);
+			Login.loginAction(p);
 		}
 		
 		// Commandes normales
@@ -161,11 +158,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
-			// Login.boards.get(p).destroy();
-			ScoreboardModule.boards.get(p.getUniqueId()).destroy();
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.enableF3(p);
-			SqlRequest.updatePlayerTimePlay(p);
+			Login.leaveAction(p);
 		}
 		if(SqlRequest.id_partie != 0) {
 			SqlRequest.updateGameDuree();

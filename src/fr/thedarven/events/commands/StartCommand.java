@@ -54,7 +54,7 @@ public static GraphEquipes graph;
 			}
 			
 			Set<Team> teams = board.getTeams();
-			/* if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
+			if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
 				p.sendMessage(ChatColor.RED+"Il faut au minimum deux équipes.");
 				return;
 			}
@@ -70,7 +70,7 @@ public static GraphEquipes graph;
 			}
 			
 			for(Team team : teams){
-				if(InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() < 3 || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
+				if((InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() == 2) || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
 					p.sendMessage(ChatColor.RED+"Il n'y a pas assez de joueurs par équipe.");
 					return;
 				}
@@ -86,7 +86,7 @@ public static GraphEquipes graph;
 						return;
 					}
 				}
-			} */
+			}
 			
 			graph = new GraphEquipes();
 			
