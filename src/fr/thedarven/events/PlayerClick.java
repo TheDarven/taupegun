@@ -94,12 +94,12 @@ public class PlayerClick implements Listener {
 			
 			lores.clear();
 			if(PlayerTaupe.getPlayerManager(playerIsSee).isTaupe()) {
-				lores.add(ChatColor.YELLOW+"Taupe : "+ChatColor.RESET+PlayerTaupe.getPlayerManager(playerIsSee).getTaupeTeam());
+				lores.add(ChatColor.YELLOW+"Taupe : "+ChatColor.RESET+PlayerTaupe.getPlayerManager(playerIsSee).getTaupeTeam().getTeam().getName());
 			}else {
 				lores.add(ChatColor.YELLOW+"Taupe : "+ChatColor.RESET+"Non");
 			}
 			if(PlayerTaupe.getPlayerManager(playerIsSee).isSuperTaupe()) {
-				lores.add(ChatColor.YELLOW+"SuperTaupe : "+ChatColor.RESET+PlayerTaupe.getPlayerManager(playerIsSee).getSuperTaupeTeam());
+				lores.add(ChatColor.YELLOW+"SuperTaupe : "+ChatColor.RESET+PlayerTaupe.getPlayerManager(playerIsSee).getSuperTaupeTeam().getTeam().getName());
 			}else {
 				lores.add(ChatColor.YELLOW+"SuperTaupe : "+ChatColor.RESET+"Non");
 			}

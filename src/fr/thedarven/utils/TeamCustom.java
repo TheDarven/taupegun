@@ -241,9 +241,10 @@ public class TeamCustom {
 	}
 	
 	public static void deleteTeamTaupe() {
-		for(TeamCustom teamParcours : listTeam){
-			if(teamParcours.isTaupeTeam() || teamParcours.isSuperTaupeTeam()) {
-				teamParcours.deleteTeam();
+		for(int i=0; i<listTeam.size(); i++) {
+			if(listTeam.get(i).isTaupeTeam() || listTeam.get(i).isSuperTaupeTeam()) {
+				listTeam.get(i).deleteTeam();
+				i--;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -67,6 +68,8 @@ public class InventoryTeams extends InventoryIncrement {
 					if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam() == null)
 						playerList.add(player);
 				}
+				
+				Collections.shuffle(playerList);
 				
 				for(int i=0; i<teamList.size(); i++) {
 					for(int j=i; j<teamList.size(); j++) {

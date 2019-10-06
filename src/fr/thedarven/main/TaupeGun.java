@@ -25,6 +25,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.DisableF3;
@@ -133,6 +134,14 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		
 		for(Player p: Bukkit.getOnlinePlayers()){		
 			Login.loginAction(p);
+			for(PotionEffect potion : p.getActivePotionEffects())
+				p.removePotionEffect(potion.getType());
+			p.setHealth(20);
+			p.setMaxHealth(20.0);
+			p.setFoodLevel(20);
+			p.setExhaustion(5F);
+			p.setExp(0L+0F);
+			p.setLevel(0);
 		}
 		
 		// Commandes normales

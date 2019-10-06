@@ -203,13 +203,12 @@ public class Game{
 		// LE MUR EST A 00H00 //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
-			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
 			
 			World world = Bukkit.getWorld("world");
 			WorldBorder border = world.getWorldBorder();
 			border.setCenter(0.0, 0.0);
 			double taille = (double) (InventoryRegister.murtailleaprès.getValue())*2.0;
-			border.setSize(taille, (long) ((long) (InventoryRegister.murtailleavant.getValue() - InventoryRegister.murtailleaprès.getValue())/(InventoryRegister.murvitesse.getValue()/100)));
+			border.setSize(taille, (long) ((long) (InventoryRegister.murtailleavant.getValue() - InventoryRegister.murtailleaprès.getValue())/(((long) InventoryRegister.murvitesse.getValue())/100.0)));
 			
 			Set<Team> teams = TeamCustom.board.getTeams();
 			for(Team team : teams){
@@ -249,6 +248,8 @@ public class Game{
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
 				}
 			}
+			
+			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
 		}
 	}
 
