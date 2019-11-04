@@ -49,7 +49,6 @@ public class PlayerTaupe {
 			
 			Bukkit.getPlayer(playerUuid).setHealth(20);
 			Bukkit.getPlayer(playerUuid).setLevel(0);
-			Bukkit.getPlayer(playerUuid).getInventory().clear();
 			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SURVIVAL);
 		}
 		startTeam = null;

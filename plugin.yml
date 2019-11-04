@@ -1,5 +1,5 @@
 name: TaupeGun
-version: 2.2.6
+version: 2.3.0
 author: TheDarven
 main: fr.thedarven.main.TaupeGun
 commands:

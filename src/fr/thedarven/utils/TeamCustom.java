@@ -182,6 +182,8 @@ public class TeamCustom {
 		if(p != null)
 			board.resetScores(p);
 		pl.setTeam(null);
+		if(TaupeGun.etat.equals(EnumGame.LOBBY))
+			pl.setStartTeam(null);
 	}
 	
 	public static List<TeamCustom> getAllTeams() {

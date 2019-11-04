@@ -24,7 +24,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class InventoryTeamsElement extends InventoryGUI{
 
-	protected static ArrayList<InventoryTeamsElement> inventory = new ArrayList<>();
+	public static ArrayList<InventoryTeamsElement> inventory = new ArrayList<>();
 	private int couleur;
 	
 	public InventoryTeamsElement(String pName, int pColor) {

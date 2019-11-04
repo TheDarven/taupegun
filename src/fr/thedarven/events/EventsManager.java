@@ -19,6 +19,9 @@ public class EventsManager {
 		pm.registerEvents(new GoNether(pl), pl);
 		pm.registerEvents(new MobsFixe(pl), pl);
 		
+		pm.registerEvents(new Drop(pl), pl);
+		pm.registerEvents(new InventoryTeamInteract(pl), pl);
+		
 		pm.registerEvents(new StartCommand(pl), pl);
 		pm.registerEvents(new PlayerClick(pl), pl);
 		pm.registerEvents(new Tchat(pl), pl);
