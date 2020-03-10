@@ -28,20 +28,18 @@ import fr.thedarven.utils.TeamDelete;
 
 public class Game{
 
-	public static ArrayList<ArrayList<Player>> TeleportWorld = new ArrayList<>();
+	public static ArrayList<ArrayList<Player>> teleportationInWorld = new ArrayList<>();
 	public static void start() {
 		TaupeGun.etat = EnumGame.GAME;
 		Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 			@Override
 			public void run(){
-				// LE CHRONOMETRE EST A 00:00 //
 				if(TaupeGun.timer == 0){
 					startGame();
 				}
 				
-				// LE CHRONO  A 00:02 //
 				if(TaupeGun.timer == 2){	
-					sqlTaupe();
+					setMolesInDb();
 				}
 				
 				annoncesTaupes();
@@ -70,7 +68,7 @@ public class Game{
 		},20,20);
 	}
 	
-	private static void sqlTaupe() {
+	private static void setMolesInDb() {
 		for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if(pl.isTaupe()) {
 				if(pl.isSuperTaupe())
@@ -143,7 +141,7 @@ public class Game{
 	}
 	
 	private static void annoncesTaupes() {
-		// 5s AVANT L'ANNONCE DES TAUPES //
+		// 5s AVANT L'ANNONCE DES TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 1){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 6){
 				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des taupes dans 5 secondes.");
@@ -153,7 +151,7 @@ public class Game{
 			}
 		}
 		
-		// ANNONCE DES TAUPES //
+		// ANNONCE DES TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 1){
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ANVIL_LAND , 1, 1);
@@ -163,7 +161,7 @@ public class Game{
 			}
 		}
 		
-		// 5s AVANT L'ANNONCE DES SUPER TAUPES //
+		// 5s AVANT L'ANNONCE DES SUPER TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 > 1 && InventoryRegister.supertaupes.getValue()){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 6){
 				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des supertaupes dans 5 secondes.");
@@ -173,7 +171,7 @@ public class Game{
 			}
 		}
 		
-		// ANNONCE DES SUPER TAUPES //
+		// ANNONCE DES SUPER TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 1 && InventoryRegister.supertaupes.getValue()){
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ANVIL_LAND , 1, 1);
@@ -219,12 +217,12 @@ public class Game{
 							if(team.getName().equals("Spectateurs")){
 								player.teleport(new Location(world, 0, 150, 0));
 							}else{
-								if(TeleportWorld.size() != 0){
+								if(teleportationInWorld.size() != 0){
 									netherPlayerList(player);
 								}else{
 									ArrayList<Player> TeleportPlayer = new ArrayList<>();
 									TeleportPlayer.add(player);
-									TeleportWorld.add(TeleportPlayer);
+									teleportationInWorld.add(TeleportPlayer);
 								}
 							}
 						}
@@ -236,9 +234,9 @@ public class Game{
 			int rayon = InventoryRegister.murtailleavant.getValue()-200;
 			double X;
 			int Z = -1;
-			for(ArrayList<Player> TeleportPlayer : TeleportWorld){
+			for(ArrayList<Player> TeleportPlayer : teleportationInWorld){
 				Z++;
-				X = Z * (6.283184/TeleportWorld.size());
+				X = Z * (6.283184/teleportationInWorld.size());
 				for(Player p : TeleportPlayer){
 					Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), 250, (int) (rayon * Math.sin(X)));
 					while(spawnTeam.getBlock().getType().equals(Material.AIR)){
@@ -254,15 +252,15 @@ public class Game{
 	}
 
 	private static void netherPlayerList(Player player){
-		for(ArrayList<Player> TeleportPlayer : TeleportWorld){
-			if(isInTeam(player,TeleportPlayer.get(0))){
+		for(ArrayList<Player> TeleportPlayer : teleportationInWorld){
+			if(playerAreInSameTeam(player,TeleportPlayer.get(0))){
 				int distance = (int) Math.sqrt((player.getLocation().getX() - TeleportPlayer.get(0).getLocation().getBlockX())*(player.getLocation().getX() - TeleportPlayer.get(0).getLocation().getBlockX()) + (player.getLocation().getZ() - TeleportPlayer.get(0).getLocation().getBlockZ())*(player.getLocation().getZ() - TeleportPlayer.get(0).getLocation().getBlockZ()) + (player.getLocation().getY() - TeleportPlayer.get(0).getLocation().getBlockY())*(player.getLocation().getY() - TeleportPlayer.get(0).getLocation().getBlockY()));
 				if(distance <= 75){
 					// PROBLEME PEUT VENIR D'ICI
-					for(int idArray = 0; idArray < TeleportWorld.size(); idArray++){
-						if(TeleportWorld.get(idArray).get(0).equals(TeleportPlayer.get(0))){
+					for(int idArray = 0; idArray < teleportationInWorld.size(); idArray++){
+						if(teleportationInWorld.get(idArray).get(0).equals(TeleportPlayer.get(0))){
 							TeleportPlayer.add(player);
-							TeleportWorld.set(idArray,TeleportPlayer);
+							teleportationInWorld.set(idArray,TeleportPlayer);
 							return;
 						}
 					}
@@ -271,26 +269,31 @@ public class Game{
 		}
 		ArrayList<Player> TeleportPlayer = new ArrayList<>();
 		TeleportPlayer.add(player);
-		TeleportWorld.add(TeleportPlayer);
+		teleportationInWorld.add(TeleportPlayer);
 		return;
 	}
 	
-	private static boolean isInTeam(Player player1, Player player2){
-		String TeamPlayer = null;
+	private static boolean playerAreInSameTeam(Player player1, Player player2){
+		String teamPlayer1 = null;
 		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team team : teams){
 			for(String p : team.getEntries()){
 				if(player1.getName().equals(p)){
-					TeamPlayer = team.getName();
+					teamPlayer1 = team.getName();
 				}
 			}
 		}
-		for(Team team : teams){
-			for(String p : team.getEntries()){
-				if(player2.getName().equals(p) && TeamPlayer.equals(team.getName())){
-					return true;
+		
+		if(teamPlayer1 != null) {
+			for(Team team : teams){
+				for(String p : team.getEntries()){
+					if(player2.getName().equals(p)){
+						if(teamPlayer1.equals(team.getName()))
+							return true;
+						return false;
+					}
 				}
-			}
+			}	
 		}
 		return false;
 	}

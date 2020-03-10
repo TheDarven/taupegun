@@ -38,7 +38,7 @@ public class GraphEquipes {
 			int numTeam = 0;
 			while(joueursTaupe.size() > 0) {
 				numTeam++;
-				trier();
+				sortByNumberPlayerInTeam();
 				if(pNbrTaupes > joueursTaupe.size())
 					pNbrTaupes = joueursTaupe.size();
 				ArrayList<PlayerTaupe> teamTaupe = new ArrayList<PlayerTaupe>();
@@ -96,7 +96,7 @@ public class GraphEquipes {
 		}
 	}
 	
-	public void trier() {
+	public void sortByNumberPlayerInTeam() {
 		for(int i=0; i<joueursTaupe.size(); i++) {
 			for(int j=i; j<joueursTaupe.size(); j++) {
 				if(joueursTaupe.get(i).size() < joueursTaupe.get(j).size()) {

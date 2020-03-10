@@ -27,6 +27,7 @@ import fr.thedarven.configuration.temp.WallSize;
 public class InventoryRegister {
 	
 	public static InventoryGUI menu = new InventoryGUI("Menu", null, 1, Material.GRASS, null);
+	public static InventoryGUI language = new InventoryGUI("Langue", "Changer de langue.", 1, Material.SKULL_ITEM, menu, 0);
 	public static InventoryGUI configuration = new InventoryGUI("Configuration", "Menu de configuration.", 2, Material.ANVIL, menu, 3);
 	public static InventoryKits kits = new InventoryKits(menu);
 	public static InventoryTeams teams = new InventoryTeams(menu);

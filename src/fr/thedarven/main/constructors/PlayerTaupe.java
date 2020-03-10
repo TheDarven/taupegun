@@ -44,8 +44,6 @@ public class PlayerTaupe {
 			Location lobby_spawn = new Location(Bukkit.getWorld("world"), 0.5, 201, 0.5);
 			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn);
 			team = null;
-			/* Location lobby_spawn = new Location(Bukkit.getWorld("taupegun"), 0.5, 201, 0.5);
-			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn); */
 			
 			Bukkit.getPlayer(playerUuid).setHealth(20);
 			Bukkit.getPlayer(playerUuid).setLevel(0);

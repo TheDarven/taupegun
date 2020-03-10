@@ -17,7 +17,6 @@ public class TeamDelete {
 			for(TeamCustom team : TeamCustom.getAllAliveTeams()) {
 				if(TaupeGun.timer > InventoryRegister.annoncetaupes.getValue()*60) {
 					if(team.isTaupeTeam()) {
-						// int number = Integer.parseInt(team.getName().substring(6));
 						boolean deleteTeamTaupe1 = true;
 						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
 							if(player.getTaupeTeam() == team && !player.isSuperReveal()) {
@@ -49,7 +48,6 @@ public class TeamDelete {
 			}
 			
 			/* ON REGARDE SI IL NE RESTE QUE UNE EQUIPE */
-			
 			if(TeamCustom.getAllAliveTeams().size() == 1){
 				TeamCustom team = TeamCustom.getAllAliveTeams().get(0);
 				Bukkit.broadcastMessage(" ");

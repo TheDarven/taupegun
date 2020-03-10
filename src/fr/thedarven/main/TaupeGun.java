@@ -9,25 +9,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.utils.Crafts;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.api.SqlConnection;
@@ -62,7 +57,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		return instance;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -71,9 +65,40 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		EventsManager.registerEvents(this);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new Login(this), this);
-		
 		this.saveDefaultConfig();
 		
+		loadDatabase(); 
+		Crafts.createCrafts();
+		configuration = new InventoryRegister();
+		prepareMap();
+		
+		for(Player p: Bukkit.getOnlinePlayers()){		
+			Login.loginAction(p);
+			for(PotionEffect potion : p.getActivePotionEffects())
+				p.removePotionEffect(potion.getType());
+			p.setHealth(20);
+			p.setMaxHealth(20.0);
+			p.setFoodLevel(20);
+			p.setExhaustion(5F);
+			p.setExp(0L+0F);
+			p.setLevel(0);
+		}
+		loadCommands();
+	}
+	
+
+	public void onDisable(){
+		for(Player p: Bukkit.getOnlinePlayers()){
+			if(!InventoryRegister.coordonneesvisibles.getValue())
+				DisableF3.enableF3(p);
+			Login.leaveAction(p);
+		}
+		if(SqlRequest.id_partie != 0) {
+			SqlRequest.updateGameDuree();
+		}
+	}
+	
+	private void loadDatabase() {
 		String host = this.getConfig().getString("bd.host-address");
 		String database = this.getConfig().getString("bd.database-name");
 		String user = this.getConfig().getString("bd.user");
@@ -95,85 +120,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			System.out.println("[ERREUR] La connexion a la base de donnee a echoue !");
 		}
 		SqlRequest.verifTable();
-        
-        /* BiomeEdit.changeBiome("FOREST");
-        WorldCreator c = new WorldCreator("taupegun");
-        c.environment(Environment.NORMAL);
-        c.type(WorldType.NORMAL);
-        Bukkit.createWorld(c);
-        
-        WorldCreator c_nether = new WorldCreator("taupegun_nether");
-        c_nether.environment(Environment.NETHER);
-        Bukkit.createWorld(c_nether); */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-		
-		// Recette		
-		ItemStack GoldenHead = new ItemStack(Material.GOLDEN_APPLE, 1);
-		ItemMeta GoldenHeadM = GoldenHead.getItemMeta();
-		GoldenHeadM.addEnchant(Enchantment.DURABILITY, 1, false);
-		GoldenHeadM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		GoldenHeadM.setDisplayName(ChatColor.GOLD+"Golden Head");
-		GoldenHead.setItemMeta(GoldenHeadM);
-		
-		ShapedRecipe recette = new ShapedRecipe(GoldenHead);
-		recette.shape("OOO", "OTO", "OOO");
-		recette.setIngredient('O', Material.GOLD_INGOT);
-		recette.setIngredient('T', Material.SKULL_ITEM, (short) 3);
-		getServer().addRecipe(recette);
-		
-		configuration = new InventoryRegister();
-		prepareMap();
-		
-		for(Player p: Bukkit.getOnlinePlayers()){		
-			Login.loginAction(p);
-			for(PotionEffect potion : p.getActivePotionEffects())
-				p.removePotionEffect(potion.getType());
-			p.setHealth(20);
-			p.setMaxHealth(20.0);
-			p.setFoodLevel(20);
-			p.setExhaustion(5F);
-			p.setExp(0L+0F);
-			p.setLevel(0);
-		}
-		
-		// Commandes normales
-		getCommand("revive").setExecutor(new Commands());
-		getCommand("heal").setExecutor(new Commands());
-		getCommand("g").setExecutor(new Commands());
-		getCommand("playerkill").setExecutor(new Commands());
-		getCommand("players").setExecutor(new Commands());
-		getCommand("rules").setExecutor(new Commands());
-		getCommand("scenarios").setExecutor(new Commands());
-		getCommand("taupelist").setExecutor(new Commands());
-		getCommand("timer").setExecutor(new Commands());
-		getCommand("updatestats").setExecutor(new Commands());
-		
-		// Commandes taupes
-		getCommand("claim").setExecutor(new CommandsTaupe());
-		getCommand("reveal").setExecutor(new CommandsTaupe());
-		getCommand("t").setExecutor(new CommandsTaupe());
-		getCommand("superreveal").setExecutor(new CommandsTaupe());
-		getCommand("supert").setExecutor(new CommandsTaupe());
-	}
-	
-
-	public void onDisable(){
-		for(Player p: Bukkit.getOnlinePlayers()){
-			if(!InventoryRegister.coordonneesvisibles.getValue())
-				DisableF3.enableF3(p);
-			Login.leaveAction(p);
-		}
-		if(SqlRequest.id_partie != 0) {
-			SqlRequest.updateGameDuree();
-		}
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -209,7 +155,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 				 
 				Random r = new Random();
 				int lobby_random = 0 + r.nextInt(15);
-				lobby_setblock(lobby_random, lobby_block);
+				lobby_block.setType(Material.STAINED_GLASS);
+				lobby_block.setData((byte)lobby_random);
 				if(spawn_x == -15 || spawn_x == 15 || spawn_z == -15 || spawn_z == 15){
 					for(int spawn_y=201; spawn_y<204; spawn_y++){
 						Block lobby_block_wall = getServer().getWorld("world").getBlockAt(spawn_x, spawn_y, spawn_z);
@@ -223,10 +170,25 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	private void lobby_setblock(int r, Block lobby_block){
-		lobby_block.setType(Material.STAINED_GLASS);
-		lobby_block.setData((byte)r);
+	private void loadCommands() {
+		// Commandes normales
+		getCommand("revive").setExecutor(new Commands());
+		getCommand("heal").setExecutor(new Commands());
+		getCommand("g").setExecutor(new Commands());
+		getCommand("playerkill").setExecutor(new Commands());
+		getCommand("players").setExecutor(new Commands());
+		getCommand("rules").setExecutor(new Commands());
+		getCommand("scenarios").setExecutor(new Commands());
+		getCommand("taupelist").setExecutor(new Commands());
+		getCommand("timer").setExecutor(new Commands());
+		getCommand("updatestats").setExecutor(new Commands());
+		
+		// Commandes taupes
+		getCommand("claim").setExecutor(new CommandsTaupe());
+		getCommand("reveal").setExecutor(new CommandsTaupe());
+		getCommand("t").setExecutor(new CommandsTaupe());
+		getCommand("superreveal").setExecutor(new CommandsTaupe());
+		getCommand("supert").setExecutor(new CommandsTaupe());
 	}
 	
 	public static ArrayList<String> toLoreItem(String pDescription, String pColor, int pSize){
