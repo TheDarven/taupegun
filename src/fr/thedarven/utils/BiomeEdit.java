@@ -25,6 +25,6 @@ public class BiomeEdit {
             terrainBiomes.set(null, biomes);
 		}catch (Exception e) {
 			System.out.println(e);
-		}      
+		}
 	}  
 }

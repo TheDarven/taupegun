@@ -1,10 +1,11 @@
 package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,22 +15,61 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryPlayers extends InventoryGUI{
 
+	private static String TEAM_FULL_FORMAT = "L'équipe {teamName} est déjà complète.";
 	protected static ArrayList<InventoryPlayers> inventory = new ArrayList<>();
 	
 	public InventoryPlayers(InventoryGUI pInventoryGUI) {
-		super("Ajouter un joueur", "", 6, Material.ARMOR_STAND, pInventoryGUI, 0);
+		super("Ajouter un joueur", null, "MENU_TEAM_ITEM_ADD_PLAYER", 6, Material.ARMOR_STAND, pInventoryGUI, 0);
 		inventory.add(this);
 		reloadInventory();
+		
+		updateLanguage(InventoryRegister.language.getSelectedLanguage());
 	}
 	
+	
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {
+		TEAM_FULL_FORMAT = LanguageBuilder.getContent("TEAM", "full", language, true);
+		
+		super.updateLanguage(language);
+	}
+	
+	/**
+	 * Pour initier des traductions par défaut
+	 * 
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 */
+	protected LanguageBuilder initDefaultTranslation() {
+		LanguageBuilder languageElement = super.initDefaultTranslation();
+		
+		LanguageBuilder languageTeam = LanguageBuilder.getLanguageBuilder("TEAM");
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "full", TEAM_FULL_FORMAT);
+		
+		return languageElement;
+	}
+	
+	
+	
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
 	public static void reloadInventory() {
 		for(InventoryPlayers inv : inventory) {
 			int i = 0;
@@ -57,6 +97,11 @@ public class InventoryPlayers extends InventoryGUI{
 		}
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
@@ -66,7 +111,7 @@ public class InventoryPlayers extends InventoryGUI{
 			e.setCancelled(true);
 			
 			if(click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(getParent().getInventory());
 					return;
 				}
@@ -86,7 +131,9 @@ public class InventoryPlayers extends InventoryGUI{
 								((InventoryTeamsElement) getParent()).reloadInventory();
 								p.openInventory(getParent().getInventory());
 							}else {
-								Title.sendActionBar(p, ChatColor.RED+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" est déjà complète.");
+								Map<String, String> params = new HashMap<String, String>();
+								params.put("teamName", "§e§l"+team.getName()+"§r§c");
+								Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
 							}
 						}
 					}

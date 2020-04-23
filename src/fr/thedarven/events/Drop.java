@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.metier.EnumGame;
 
 public class Drop implements Listener {
 

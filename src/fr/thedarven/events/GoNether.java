@@ -8,8 +8,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.configuration.builders.InventoryRegister;
 
 public class GoNether implements Listener {

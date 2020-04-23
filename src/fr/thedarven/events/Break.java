@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.metier.EnumGame;
 
 public class Break implements Listener {
 

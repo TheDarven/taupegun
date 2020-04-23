@@ -1,16 +1,19 @@
 package fr.thedarven.configuration.builders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -20,47 +23,153 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.md_5.bungee.api.ChatColor;
-
 public class OptionBoolean extends InventoryGUI{
+	
+	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
+	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+	
+	private static String ENABLE_FORMAT = "§a{enable}";
+	private static String DISABLE_FORMAT = "§c{disable}";
+	
+	private static String ENABLED = "Activé";
+	private static String DISABLED = "Désactivé";
+	
+	private static String ENABLE = "Activer";
+	private static String DISABLE = "Désactiver";
 	
 	protected boolean value;
 	
-	public OptionBoolean(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
-		super(pName, pDescription, 1, pItem, pParent, pPosition, pData);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition, pData);
 		this.value = pValue;
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
-		super(pName, pDescription, 1, pItem, pParent, pData);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pData);
 		this.value = pValue;
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, 1, pItem, pParent, pPosition);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition);
 		this.value = pValue;
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, 1, pItem, pParent);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent);
 		this.value = pValue;
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
+	/**
+	 * Pour avoir la valeur
+	 * 
+	 * @return La valeur
+	 */
 	public boolean getValue() {
 		return this.value;
 	}
 	
+	
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {
+		ENABLE = LanguageBuilder.getContent("CONTENT", "enable", language, true);
+		DISABLE = LanguageBuilder.getContent("CONTENT", "disable", language, true);
+		ENABLED = LanguageBuilder.getContent("CONTENT", "enabled", language, true);
+		DISABLED = LanguageBuilder.getContent("CONTENT", "disabled", language, true);
+		
+		super.updateLanguage(language);
+	}
+	
+	/**
+	 * Pour initier des traductions par défaut
+	 * 
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 */
+	protected LanguageBuilder initDefaultTranslation() {
+		LanguageBuilder languageElement = super.initDefaultTranslation();
+		
+		LanguageBuilder languageContent = LanguageBuilder.getLanguageBuilder("CONTENT");
+		languageContent.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "enable", ENABLE);
+		languageContent.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "disable", DISABLE);
+		languageContent.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "enabled", ENABLED);
+		languageContent.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "disabled", DISABLED);
+		
+		return languageElement;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedItemName() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("name", this.name);
+		if(value)
+			params.put("enable", ENABLED);
+		else
+			params.put("enable", DISABLED);
+		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
+	}
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedInventoryName() {
+		return name;
+	}
+	
+	/**
+	 * Pour la description formatée
+	 */
+	protected ArrayList<String> getFormattedDescription() {
+		ArrayList<String> returnArray = super.getFormattedDescription();
+		returnArray.add("");
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", InventoryRegister.language.getSelectedLanguage(), true));
+		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
+		
+		return returnArray;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pour initier les items
+	 * 
+	 * @param pItem Le material
+	 */
 	private void initItem(Material pItem) {
 		ItemStack item = new ItemStack(pItem,1);
-		this.inventory.setItem(4, item);
+		inventory.setItem(4, item);
 		
 		ItemStack moins = new ItemStack(Material.BANNER, 1);
 	    BannerMeta moinsM = (BannerMeta)moins.getItemMeta();
@@ -70,9 +179,8 @@ public class OptionBoolean extends InventoryGUI{
 	    patternsMoins.add(new Pattern(DyeColor.RED, PatternType.BORDER));
 	    moinsM.setPatterns(patternsMoins);
 	    moinsM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-	    moinsM.setDisplayName(ChatColor.RED+"Désactiver");
 	    moins.setItemMeta(moinsM);
-	    this.inventory.setItem(3, moins);
+	    inventory.setItem(3, moins);
 	    
 		ItemStack plus = new ItemStack(Material.BANNER, 1);
 	    BannerMeta plusM = (BannerMeta)plus.getItemMeta();
@@ -85,41 +193,56 @@ public class OptionBoolean extends InventoryGUI{
 	    patternsPlus.add(new Pattern(DyeColor.GREEN, PatternType.STRIPE_BOTTOM));
 	    plusM.setPatterns(patternsPlus);
 	    plusM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-	    plusM.setDisplayName(ChatColor.GREEN+"Activer");
 	    plus.setItemMeta(plusM);
-	    this.inventory.setItem(5, plus);
-	}
-
-	protected void reloadItem() {
-		// Pour ouvrir l'inventaire
-		String name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+"Activé";
-		if(!this.value) {
-			name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+"Désactivé";
-		}
-		
-		
-		ItemStack item = this.getItem();
-		int hashCode = item.hashCode();
-		ItemMeta itemM = item.getItemMeta();
-		itemM.setDisplayName(name);
-		List<String> itemLore = new ArrayList<String>();
-		if(this.getDescription() != null) {
-			itemLore = TaupeGun.toLoreItem(this.getDescription(),"§7", this.getName().length()+15);
-			itemLore.add("");
-		}
-		itemLore.add(ChatColor.GREEN+"► Cliquez pour configurer");
-		itemM.setLore(itemLore);
-		item.setItemMeta(itemM);
-		this.getParent().modifyItemstack(hashCode, item);
-		
-		// Dans l'inventaire
-		ItemStack item2 = this.inventory.getItem(4);
-		ItemMeta itemM2 = item2.getItemMeta();
-		itemM2.setDisplayName(name);
-		item2.setItemMeta(itemM2);
-		this.inventory.setItem(4, item2);
+	    inventory.setItem(5, plus);
 	}
 	
+	/**
+	 * Pour mettre à jour des items dans l'inventaire
+	 */
+	protected void reloadItems() {
+		super.reloadItems();
+		reloadItem();
+	}
+
+	/**
+	 * Pour recharger les items dans l'inventaire
+	 */
+	protected void reloadItem() {
+		// Dans l'inventaire
+		if(inventory != null) {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", InventoryRegister.language.getSelectedLanguage(), true));
+			String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
+			
+			ItemStack moins = inventory.getItem(3);
+			ItemMeta moinsM = moins.getItemMeta();
+			moinsM.setDisplayName(enableMessage);
+			moins.setItemMeta(moinsM);
+			
+			params.clear();
+			params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", InventoryRegister.language.getSelectedLanguage(), true));
+			enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
+			
+			ItemStack plus = inventory.getItem(5);
+			ItemMeta plusM = plus.getItemMeta();
+			plusM.setDisplayName(enableMessage);
+			plus.setItemMeta(plusM);
+
+			ItemStack item2 = inventory.getItem(4);
+			ItemMeta itemM2 = item2.getItemMeta();
+			itemM2.setDisplayName(getFormattedItemName());
+			item2.setItemMeta(itemM2);
+			inventory.setItem(4, item2);
+			updateName(false);
+		}
+	}
+	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
@@ -128,7 +251,7 @@ public class OptionBoolean extends InventoryGUI{
 			e.setCancelled(true);
 			
 			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}

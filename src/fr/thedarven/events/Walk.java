@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
+import fr.thedarven.main.metier.EnumGame;
 import fr.thedarven.utils.PlayerOrientation;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.CodeColor;

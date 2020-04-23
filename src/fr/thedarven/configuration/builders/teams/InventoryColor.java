@@ -10,10 +10,13 @@ import fr.thedarven.utils.CodeColor;
 public class InventoryColor extends InventoryGUI {
 	
 	public InventoryColor() {
-		super("Choix de la couleur", null, 2, Material.ACACIA_DOOR, null, 22);
+		super("Choix de la couleur", null, "MENU_TEAM_ADD_COLOR", 2, Material.ACACIA_DOOR, null, 22);
 		initItem();
 	}
 	
+	/**
+	 * Pour initier les items
+	 */
 	private void initItem(){
 		for(int color=0; color<14; color++){
     		ItemStack banner = new ItemStack(Material.BANNER, 1);

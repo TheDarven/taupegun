@@ -8,6 +8,6 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 public class InventoryTeamsRandom extends InventoryGUI {
 	
 	public InventoryTeamsRandom() {
-		super("Equipes randoms", null, 1, Material.PAPER, InventoryRegister.teams, 45);
+		super("Equipes randoms", null, "MENU_TEAM_RANDOM", 1, Material.PAPER, InventoryRegister.teams, 45);
 	}
 }

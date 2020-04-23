@@ -16,8 +16,8 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.MessagesEventClass;
 import fr.thedarven.utils.TeamCustom;
 import net.md_5.bungee.api.ChatColor;
@@ -28,51 +28,68 @@ public class InventoryTeamsElement extends InventoryGUI{
 	private int couleur;
 	
 	public InventoryTeamsElement(String pName, int pColor) {
-		super(pName, null, 3, Material.BANNER, InventoryRegister.teams, 0);
+		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, InventoryRegister.teams, 0);
 		couleur = pColor;
 		inventory.add(this);
 		reloadItem();
 		InventoryRegister.teams.reloadInventory();
 	}
 	
+	/**
+	 * Pour récupérer la couleur de l'équipe
+	 * 
+	 * @return La couleur
+	 */
 	public int getColor() {
 		return couleur;
 	}
 	
+	/**
+	 * Pour changer la couleur de l'équipe
+	 * 
+	 * @param pColor La nouvelle couleur
+	 */
 	public void setColor(int pColor) {
 		this.couleur = pColor;
 		reloadItem();
 	}
 	
-	public void setName(String pName) {
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {}
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedInventoryName() {
+		return name;
+	}
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedItemName() {
+		return name;
+	}
+	
+	/* public void setName(String pName) {
 		this.name = pName;
 		reloadItem();
-	}
+	} */
 	
-	public void reloadItem(){
-		ItemStack item = getItem();
-		int hashCode = item.hashCode();
-		item.setDurability((short) couleur);
-		ItemMeta itemM = item.getItemMeta();
-		itemM.setDisplayName(getName());
-		List<String> itemLore = new ArrayList<String>();
-		Set<Team> teams = TeamCustom.board.getTeams();
-		for(Team teamSelect : teams){
-			if(teamSelect.getName().equals(getName())) {
-				if(teamSelect.getEntries().size() > 0) {
-					itemLore.add("");
-				}
-				for(String player : teamSelect.getEntries()){
-					itemLore.add(ChatColor.GREEN+"• "+player);
-				}
-			}
-		}
-		
-		itemM.setLore(itemLore);
-		item.setItemMeta(itemM);
-		getParent().modifyItemstack(hashCode, item);			
-	}
 	
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
 	public void reloadInventory() {
 		int i = 0;
 		Set<Team> teams = TeamCustom.board.getTeams();
@@ -99,6 +116,38 @@ public class InventoryTeamsElement extends InventoryGUI{
 		}
 	}
 	
+	/**
+	 * Pour recharger les items dans l'inventaire
+	 */
+	public void reloadItem(){
+		ItemStack item = getItem();
+		int hashCode = item.hashCode();
+		item.setDurability((short) couleur);
+		ItemMeta itemM = item.getItemMeta();
+		itemM.setDisplayName(getFormattedItemName());
+		List<String> itemLore = new ArrayList<String>();
+		Set<Team> teams = TeamCustom.board.getTeams();
+		for(Team teamSelect : teams){
+			if(teamSelect.getName().equals(getName())) {
+				if(teamSelect.getEntries().size() > 0) {
+					itemLore.add("");
+				}
+				for(String player : teamSelect.getEntries()){
+					itemLore.add(ChatColor.GREEN+"• "+player);
+				}
+			}
+		}
+		
+		itemM.setLore(itemLore);
+		item.setItemMeta(itemM);
+		updateItem(hashCode, item);			
+	}
+	
+	/**
+	 * Pour supprimer une équipe
+	 * 
+	 * @param pNom Le nom de l'équipe à supprimer
+	 */
 	static public void removeTeam(String pNom) {
 		for(int i=0; i<inventory.size(); i++) {
 			if(inventory.get(i).getName().equals(pNom)) {
@@ -117,6 +166,11 @@ public class InventoryTeamsElement extends InventoryGUI{
 		}
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
@@ -126,7 +180,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 			e.setCancelled(true);
 			
 			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(getParent().getInventory());
 					return;
 				}

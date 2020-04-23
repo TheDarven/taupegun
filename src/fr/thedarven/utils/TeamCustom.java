@@ -18,8 +18,8 @@ import fr.thedarven.configuration.builders.teams.InventoryParametres;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
 
 public class TeamCustom {
 

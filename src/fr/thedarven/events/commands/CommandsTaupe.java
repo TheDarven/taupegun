@@ -1,5 +1,8 @@
 package fr.thedarven.events.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,9 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.TeamDelete;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class CommandsTaupe implements CommandExecutor {
 
@@ -52,8 +57,13 @@ public class CommandsTaupe implements CommandExecutor {
 							p.setHealth(20.0);
 						}
 						
+						Map<String, String> params = new HashMap<String, String>();
+						params.put("playerName", p.getName());
+						String revealMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "reveal", InventoryRegister.language.getSelectedLanguage(), true), params);
+						
+						
 						/* ON JOUE LE SOND DU REVEAL */
-						Bukkit.broadcastMessage(ChatColor.RED+p.getName()+" se révèle être une taupe !");
+						Bukkit.broadcastMessage(ChatColor.RED+revealMessage);
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.GHAST_SCREAM, 1, 1);
 						}
@@ -65,7 +75,7 @@ public class CommandsTaupe implements CommandExecutor {
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 0 && pc.isSuperTaupe() && pc.isAlive()){
 				if(cmd.getName().equalsIgnoreCase("superreveal")) {
 					if(!pc.isReveal())
-						p.sendMessage(ChatColor.RED+"Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.");
+						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", InventoryRegister.language.getSelectedLanguage(), true));
 					else if(pc.revealSuperTaupe()) {
 						pc.getSuperTaupeTeam().joinTeam(pc.getUuid());
 						
@@ -76,8 +86,12 @@ public class CommandsTaupe implements CommandExecutor {
 							p.setHealth(20.0);
 						}
 						
+						Map<String, String> params = new HashMap<String, String>();
+						params.put("playerName", p.getName());
+						String superRevealMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "superReveal", InventoryRegister.language.getSelectedLanguage(), true), params);
+						
 						/* ON JOUE LE SOND DU REVEAL */
-						Bukkit.broadcastMessage(ChatColor.DARK_RED+p.getName()+" se révèle être une supertaupe !");
+						Bukkit.broadcastMessage(ChatColor.DARK_RED+superRevealMessage);
 						for(Player playerOnline : Bukkit.getOnlinePlayers()) {
 							playerOnline.playSound(playerOnline.getLocation(), Sound.GHAST_SCREAM, 1, 1);
 						}

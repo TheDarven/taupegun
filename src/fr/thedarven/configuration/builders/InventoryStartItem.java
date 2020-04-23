@@ -7,17 +7,20 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 
 
 public class InventoryStartItem extends InventoryGUI{
 
 	public InventoryStartItem() {
-		super("Stuff de départ", "Configuration du stuff de départ.", 6, Material.CHEST, InventoryRegister.menu, 8);
+		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, InventoryRegister.menu, 8);
 		initItem();
 	}
 	
+	/**
+	 * Pour initier les items
+	 */
 	private void initItem() {
 		int i = 0;
 		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
@@ -33,6 +36,11 @@ public class InventoryStartItem extends InventoryGUI{
 		}
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
@@ -40,7 +48,7 @@ public class InventoryStartItem extends InventoryGUI{
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
 			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;

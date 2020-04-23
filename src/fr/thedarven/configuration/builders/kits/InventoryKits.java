@@ -1,7 +1,9 @@
 package fr.thedarven.configuration.builders.kits;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,21 +13,72 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryKits extends InventoryIncrement {
 	
+	private static String TOO_LONG_NAME_FORMAT = "Le nom du kit ne doit pas dépasser 16 caractères.";
+	private static String NAME_ALREADY_USED_FORMAT = "Le nom est déjà utilisé pour un autre kit.";
+	private static String KIT_CREATE = "Le kit {kitName} a été crée avec succès.";
+	private static String CREATE_KIT_NAME_FORMAT = "Nom du kit";
+	
 	public InventoryKits(InventoryGUI pInventoryGUI) {
-		super("Kits", "Menu des kits.", 2, Material.ENDER_CHEST, InventoryRegister.menu, 4);
+		super("Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, InventoryRegister.menu, 4);
 	}
 
+	
+	
+	
+	
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {
+		TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("KIT", "nameTooLong", language, true);
+		NAME_ALREADY_USED_FORMAT = LanguageBuilder.getContent("KIT", "nameAlreadyUsed", language, true);
+		KIT_CREATE = LanguageBuilder.getContent("KIT", "create", language, true);
+		CREATE_KIT_NAME_FORMAT = LanguageBuilder.getContent("KIT", "createNameMessage", language, true);
+		
+		super.updateLanguage(language);
+	}
+	
+	/**
+	 * Pour initier des traductions par défaut
+	 * 
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 */
+	protected LanguageBuilder initDefaultTranslation() {
+		LanguageBuilder languageElement = super.initDefaultTranslation();
+		
+		LanguageBuilder languageKit = LanguageBuilder.getLanguageBuilder("KIT");
+		languageKit.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameTooLong", TOO_LONG_NAME_FORMAT);
+		languageKit.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameAlreadyUsed", NAME_ALREADY_USED_FORMAT);
+		languageKit.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "create", KIT_CREATE);
+		languageKit.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "createNameMessage", CREATE_KIT_NAME_FORMAT);
+		
+		return languageElement;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
 	public void reloadInventory() {
-		for(InventoryGUI inv : getChilds()) {
+		for(InventoryGUI inv : getChilds())
 			inv.getParent().removeItem(inv);
-		}
+		
 		int i = 0;
 		for(InventoryGUI inv : getChilds()) {
 			if(inv instanceof InventoryKitsElement) {
@@ -37,6 +90,11 @@ public class InventoryKits extends InventoryIncrement {
 		}
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
@@ -56,7 +114,7 @@ public class InventoryKits extends InventoryIncrement {
 				    		public void run() {
 					    		if(pl.getCreateKitName().length() > 16){
 					    			p.closeInventory();
-					    			Title.sendActionBar(p, ChatColor.RED+"Le nom du kit ne doit pas dépasser 16 caractères.");
+					    			Title.sendActionBar(p, "§c"+TOO_LONG_NAME_FORMAT);			
 					    			pl.setCreateKitName(null);
 					    			return;
 					    		}
@@ -64,7 +122,7 @@ public class InventoryKits extends InventoryIncrement {
 					    		for(InventoryGUI inv : getChilds()) {
 					    			if(inv instanceof InventoryKitsElement && inv.getName().equals(pl.getCreateKitName())) {
 					    				p.openInventory(InventoryRegister.kits.getInventory());
-						    			Title.sendActionBar(p, ChatColor.RED+"Le nom est déjà utilisé pour un autre kit.");
+						    			Title.sendActionBar(p, "§c"+NAME_ALREADY_USED_FORMAT);
 						    			pl.setCreateKitName(null);
 						    			return;
 					    			}
@@ -72,17 +130,20 @@ public class InventoryKits extends InventoryIncrement {
 					    		
 					    		InventoryKitsElement kit = new InventoryKitsElement(pl.getCreateKitName());
 					    		new InventoryDeleteKits(kit);
-					    		Title.sendActionBar(p, ChatColor.GREEN+" Le kit "+ChatColor.YELLOW+ChatColor.BOLD+pl.getCreateKitName()+ChatColor.RESET+ChatColor.GREEN+" a été crée avec succès.");
-								pl.setCreateKitName(null);
+					    		
+					    		Map<String, String> params = new HashMap<String, String>();
+					    		params.put("kitName", "§e§l"+pl.getCreateKitName()+"§r§a");
+					    		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+KIT_CREATE, params));
+					    		pl.setCreateKitName(null);
 								p.openInventory(InventoryRegister.kits.getLastChild().getInventory());
 					    	}
 				    	});
 				    	return true;
 				    }
-				}).setInputName("Nom du kit").open();
+				}).setInputName(CREATE_KIT_NAME_FORMAT).open();
 			}else if(e.getClickedInventory().equals(getInventory())) {
 				
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;
@@ -90,8 +151,10 @@ public class InventoryKits extends InventoryIncrement {
 					for(InventoryGUI inventoryGUI : childs) {
 						if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
 							e.setCancelled(true);
-							p.openInventory(inventoryGUI.getInventory());
-							delayClick(pl);
+							if(inventoryGUI != InventoryRegister.addkits || click(p, EnumConfiguration.OPTION)) {
+								p.openInventory(inventoryGUI.getInventory());
+								delayClick(pl);
+							}
 							return;
 						}
 					}

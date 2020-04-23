@@ -2,6 +2,8 @@ package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -17,19 +19,67 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryTeams extends InventoryIncrement {
 	
+	private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
+	private static String TOO_LONG_NAME_FORMAT = "Le nom de l'équipe ne doit pas dépasser 16 caractères.";
+	private static String CREATE_TEAM = "Choix du nom";
+	private static String TOO_MUCH_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
+	private static String SUCCESS_TEAM_CREATE_FORMAT = "L'équipe {teamName} a été créée avec succès.";
+	
 	public InventoryTeams(InventoryGUI pInventoryGUI) {
-		super("Equipes", "Menu de équipes.", 6, Material.BANNER, pInventoryGUI, 5, (byte) 15);
+		super("Equipes", "Menu de équipes.", "MENU_TEAM", 6, Material.BANNER, pInventoryGUI, 5, (byte) 15);
 	}
 
+	
+
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {
+		PLAYER_REPARTITION = LanguageBuilder.getContent("TEAM", "playersDistributed", language, true);
+		TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("TEAM", "nameTooLong", language, true);
+		CREATE_TEAM = LanguageBuilder.getContent("TEAM", "nameChoice", language, true);
+		TOO_MUCH_TEAM = LanguageBuilder.getContent("TEAM", "tooManyTeams", language, true);
+		SUCCESS_TEAM_CREATE_FORMAT = LanguageBuilder.getContent("TEAM", "create", language, true);
+		
+		super.updateLanguage(language);
+	}
+	
+	/**
+	 * Pour initier des traductions par défaut
+	 * 
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 */
+	protected LanguageBuilder initDefaultTranslation() {
+		LanguageBuilder languageElement = super.initDefaultTranslation();
+		
+		LanguageBuilder languageTeam = LanguageBuilder.getLanguageBuilder("TEAM");
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "playersDistributed", PLAYER_REPARTITION);
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameTooLong", TOO_LONG_NAME_FORMAT);
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameChoice", CREATE_TEAM);
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "tooManyTeams", TOO_MUCH_TEAM);
+		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "create", SUCCESS_TEAM_CREATE_FORMAT);
+		
+		return languageElement;
+	}
+	
+	
+	
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
 	public void reloadInventory() {
 		for(InventoryGUI inv : getChilds()) {
 			inv.getParent().removeItem(inv);
@@ -47,8 +97,13 @@ public class InventoryTeams extends InventoryIncrement {
 		}
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
-	public void onClickInventory(InventoryClickEvent e){
+	public void clickInventory(InventoryClickEvent e){
 		final Player p = (Player) e.getWhoClicked();
 		final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
@@ -102,7 +157,7 @@ public class InventoryTeams extends InventoryIncrement {
 						((InventoryTeamsElement) inv).reloadInventory();
 					}
 				}
-				Title.sendActionBar(p, ChatColor.GREEN+" Les joueurs ont été réparties dans les équipes.");
+				Title.sendActionBar(p, ChatColor.GREEN+PLAYER_REPARTITION);
 			}else if(e.getCurrentItem().equals(InventoryRegister.addteam.getItem())) {
 				e.setCancelled(true);
 				if(TeamCustom.board.getTeams().size() < 36) {
@@ -116,14 +171,14 @@ public class InventoryTeams extends InventoryIncrement {
 					    		@Override
 					    		public void run() {
 						    		/* OUVERTURE DE L'INVENTAIRE COULEUR */
-					    			p.openInventory(InventoryRegister.choisirCouleur.getInventory());
+					    			p.openInventory(InventoryRegister.choisirCouleurEquipe.getInventory());
 						    		if(pl.getCreateTeamName() == null) {
 						    			p.closeInventory();
 						    			return;
 						    		}
 						    		if(pl.getCreateTeamName().length() > 16){
 						    			p.closeInventory();
-						    			Title.sendActionBar(p, ChatColor.RED+"Le nom de l'équipe ne doit pas dépasser 16 caractères.");
+						    			Title.sendActionBar(p, ChatColor.RED+TOO_LONG_NAME_FORMAT);
 						    			pl.setCreateTeamName(null);
 						    			return;
 						    		}
@@ -148,12 +203,12 @@ public class InventoryTeams extends InventoryIncrement {
 					    	});
 					    	return true;
 					    }
-					}).setInputName("Choix du nom").open();	
+					}).setInputName(CREATE_TEAM).open();	
 				}else {
-					Title.sendActionBar(p, ChatColor.RED+" Vous ne pouvez pas créer plus d'équipe.");
+					Title.sendActionBar(p, ChatColor.RED+TOO_MUCH_TEAM);
 					p.closeInventory();
 				}
-			}else if(e.getInventory().getTitle().equalsIgnoreCase("Choix de la couleur")){
+			}else if(e.getInventory().equals(InventoryRegister.choisirCouleurEquipe.getInventory())){
 				
 				/* POUR CHOISIR SA COULEUR */
 				e.setCancelled(true);
@@ -171,12 +226,17 @@ public class InventoryTeams extends InventoryIncrement {
 					byte tempColor = ((BannerMeta)e.getCurrentItem().getItemMeta()).getBaseColor().getData();
 					new TeamCustom(pl.getCreateTeamName(), tempColor, 0, 0, false, true);
 					
-					Title.sendActionBar(p, ChatColor.GREEN+" L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+pl.getCreateTeamName()+ChatColor.RESET+ChatColor.GREEN+" a été créée avec succès.");
+					Map<String, String> params = new HashMap<String, String>();
+		    		params.put("teamName", "§e§l"+pl.getCreateTeamName()+"§r§a");
+		    		String successTeamCreateMessage = TextInterpreter.textInterpretation("§a"+SUCCESS_TEAM_CREATE_FORMAT, params);
+		    		
+		    		Title.sendActionBar(p, successTeamCreateMessage);
+		    		
 					pl.setCreateTeamName(null);
 					p.openInventory(InventoryRegister.teams.getLastChild().getInventory());
 				}
 			}else if(e.getClickedInventory().equals(getInventory())) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;

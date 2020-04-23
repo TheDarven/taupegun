@@ -11,21 +11,46 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.PlayerTaupe;
 
 public class InventoryKitsElement extends InventoryGUI {
 	
 	protected static ArrayList<InventoryKitsElement> inventory = new ArrayList<>();
 	
 	public InventoryKitsElement(String pName) {
-		super(pName, "", 2, Material.CHEST, InventoryRegister.kits, 0);
+		super(pName, "", "MENU_KIT_ITEM", 2, Material.CHEST, InventoryRegister.kits, 0);
 		inventory.add(this);
 		initItem();
 		reloadItem();
 		InventoryRegister.kits.reloadInventory();
 	}
-
+	
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {}
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedInventoryName() {
+		return name;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pour initier les items
+	 */
 	private void initItem() {
 		int i = 0;
 		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
@@ -38,6 +63,11 @@ public class InventoryKitsElement extends InventoryGUI {
 		}
 	}
 	
+	/**
+	 * Pour supprimer un kit
+	 * 
+	 * @param pNom Le nom du kit à supprimer
+	 */
 	static public void removeKit(String pNom) {
 		for(int i=0; i<inventory.size(); i++) {
 			if(inventory.get(i).getName().equals(pNom)) {
@@ -50,22 +80,30 @@ public class InventoryKitsElement extends InventoryGUI {
 		}
 	}
 	
+	/**
+	 * Pour recharger les items dans l'inventaire
+	 */
 	public void reloadItem(){
 		ItemStack item = getItem();
 		int hashCode = item.hashCode();
 		ItemMeta itemM = item.getItemMeta();
 		itemM.setDisplayName(getName());
 		item.setItemMeta(itemM);
-		getParent().modifyItemstack(hashCode, item);			
+		updateItem(hashCode, item);			
 	}
 	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			if(e.getClickedInventory().equals(getInventory())) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;

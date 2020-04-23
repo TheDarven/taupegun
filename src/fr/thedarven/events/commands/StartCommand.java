@@ -18,12 +18,13 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.GraphEquipes;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
 
 
 public class StartCommand implements Listener {
@@ -49,29 +50,29 @@ public static GraphEquipes graph;
 				return;
 			}
 			if(!TaupeGun.etat.equals(EnumGame.LOBBY)){
-				p.sendMessage(ChatColor.RED+"La partie a déjà commencé !");
+				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameAlreadyStarted", InventoryRegister.language.getSelectedLanguage(), true));
 				return;
 			}
 			
 			Set<Team> teams = board.getTeams();
 			if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
-				p.sendMessage(ChatColor.RED+"Il faut au minimum deux équipes.");
+				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", InventoryRegister.language.getSelectedLanguage(), true));
 				return;
 			}
 			
 			if(teams.size() < 3 && InventoryRegister.supertaupes.getValue()){
-				p.sendMessage(ChatColor.RED+"Il faut au minimum trois équipes pour avoir une supertaupe.");
+				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", InventoryRegister.language.getSelectedLanguage(), true));
 				return;
 			}
 			
 			if(InventoryRegister.kits.getChilds().size() <= 1) {
-				p.sendMessage(ChatColor.RED+"Il n'y a pas assez de kits.");
+				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", InventoryRegister.language.getSelectedLanguage(), true));
 				return;
 			}
 			
 			for(Team team : teams){
 				if((InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() == 2) || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
-					p.sendMessage(ChatColor.RED+"Il n'y a pas assez de joueurs par équipe.");
+					p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", InventoryRegister.language.getSelectedLanguage(), true));
 					return;
 				}
 				for(String player : team.getEntries()){
@@ -82,7 +83,7 @@ public static GraphEquipes graph;
 						}
 					}
 					if(online == false){
-						p.sendMessage(ChatColor.RED+"Les joueurs ne sont pas tous connectés.");
+						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", InventoryRegister.language.getSelectedLanguage(), true));
 						return;
 					}
 				}
@@ -117,7 +118,7 @@ public static GraphEquipes graph;
 			}
 			boolean resultat = graph.creationEquipes();
 			if(!resultat) {
-				p.sendMessage(ChatColor.RED+"Nombre de taupes par équipe de taupe incorrect.");
+				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", InventoryRegister.language.getSelectedLanguage(), true));
 				TeamCustom.deleteTeamTaupe();
 				for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 					pl.setTaupeTeam(null);
@@ -126,7 +127,7 @@ public static GraphEquipes graph;
 				return;
 			}
 			
-			p.sendMessage(ChatColor.BLUE+"La partie peut commencer !");
+			p.sendMessage(ChatColor.BLUE+LanguageBuilder.getContent("START_COMMAND", "gameCanStart", InventoryRegister.language.getSelectedLanguage(), true));
 			TaupeGun.etat = EnumGame.WAIT;
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 				@Override
@@ -173,7 +174,7 @@ public static GraphEquipes graph;
 						Game.start();
 						for (Player player : Bukkit.getOnlinePlayers()) {
 							player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL , 1, 1);
-							Title.title(player, ChatColor.DARK_GREEN +"Go !", "", 10);
+							Title.title(player, ChatColor.DARK_GREEN +LanguageBuilder.getContent("START_COMMAND", "gameIsStarting", InventoryRegister.language.getSelectedLanguage(), true), "", 10);
 						}
 					}
 					TaupeGun.timerStart--;

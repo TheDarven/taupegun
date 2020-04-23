@@ -1,14 +1,18 @@
 package fr.thedarven.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class TeamDelete {
 
@@ -50,18 +54,23 @@ public class TeamDelete {
 			/* ON REGARDE SI IL NE RESTE QUE UNE EQUIPE */
 			if(TeamCustom.getAllAliveTeams().size() == 1){
 				TeamCustom team = TeamCustom.getAllAliveTeams().get(0);
+				
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("teamName", "§6"+team.getTeam().getName()+"§a");
+				String teamWinMessage = TextInterpreter.textInterpretation("§a"+LanguageBuilder.getContent("GAME", "teamWin", InventoryRegister.language.getSelectedLanguage(), true), params);
+				
 				Bukkit.broadcastMessage(" ");
-				Bukkit.broadcastMessage(ChatColor.GREEN+"L'équipe "+ChatColor.GOLD+team.getTeam().getName()+ChatColor.GREEN+" a gagné !");
-				for(Player playerOnline : Bukkit.getOnlinePlayers()) {
+				Bukkit.broadcastMessage(teamWinMessage);
+				for(Player playerOnline : Bukkit.getOnlinePlayers())
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
-				}
 				TaupeGun.etat = EnumGame.END_FIREWORK;
 			}else if(TeamCustom.getAllAliveTeams().size() == 0){
+				String nobodyWinMessage = "§a"+LanguageBuilder.getContent("GAME", "nobodyWin", InventoryRegister.language.getSelectedLanguage(), true);
+				
 				Bukkit.broadcastMessage(" ");
-				Bukkit.broadcastMessage(ChatColor.GREEN+"Personne n'a gagné !");
-				for(Player playerOnline : Bukkit.getOnlinePlayers()) {
+				Bukkit.broadcastMessage(nobodyWinMessage);
+				for(Player playerOnline : Bukkit.getOnlinePlayers())
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
-				}
 				TaupeGun.etat = EnumGame.END_FIREWORK;
 			}
 		}

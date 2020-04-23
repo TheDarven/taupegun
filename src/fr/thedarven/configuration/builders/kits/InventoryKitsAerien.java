@@ -14,6 +14,9 @@ public class InventoryKitsAerien extends InventoryKitsElement {
 		reloadInventory();
 	}
 	
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
 	private void reloadInventory() {
 		Inventory inv = this.getInventory();
 		

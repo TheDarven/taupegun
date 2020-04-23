@@ -1,16 +1,20 @@
 package fr.thedarven.configuration.builders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumConfiguration;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumConfiguration;
+import fr.thedarven.main.metier.NumericHelper;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -24,6 +28,9 @@ import net.md_5.bungee.api.ChatColor;
 
 public class OptionNumeric extends InventoryGUI{
 	
+	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
+	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+	
 	protected int min;
 	protected int max;
 	protected int value;
@@ -31,64 +38,172 @@ public class OptionNumeric extends InventoryGUI{
 	protected String afterName;
 	protected int diviseur;
 	protected int morePas;
+	protected boolean showDisabled;
 	
-	public OptionNumeric(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pPosition, int pMin, int pMax, int pValue, int pPas, int pMorePas, String pAfterName, int pDiviseur, byte pData) {
-		super(pName, pDescription, 1, pItem, pParent, pPosition, pData);
-		this.min = pMin;
-		this.max = pMax;
-		this.value = pValue;
-		this.pas = pPas;
-		this.morePas = pMorePas;
-		this.afterName = pAfterName;
-		this.diviseur = pDiviseur;
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition, pData);
+		this.min = infos.min;
+		this.max = infos.max;
+		this.value = infos.value;
+		this.pas = infos.pas;
+		this.morePas = infos.morePas;
+		this.afterName = infos.afterName;
+		this.diviseur = infos.diviseur;
+		this.showDisabled = infos.showDisabled;
+		
+		initDefaultTranslation();
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pMin, int pMax, int pValue, int pPas, int pMorePas, String pAfterName, int pDiviseur, byte pData) {
-		super(pName, pDescription, 1, pItem, pParent, pData);
-		this.min = pMin;
-		this.max = pMax;
-		this.value = pValue;
-		this.pas = pPas;
-		this.morePas = pMorePas;
-		this.afterName = pAfterName;
-		this.diviseur = pDiviseur;
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pData);
+		this.min = infos.min;
+		this.max = infos.max;
+		this.value = infos.value;
+		this.pas = infos.pas;
+		this.morePas = infos.morePas;
+		this.afterName = infos.afterName;
+		this.diviseur = infos.diviseur;
+		this.showDisabled = infos.showDisabled;
+		
+		initDefaultTranslation();
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pPosition, int pMin, int pMax, int pValue, int pPas, int pMorePas, String pAfterName, int pDiviseur) {
-		super(pName, pDescription, 1, pItem, pParent, pPosition);
-		this.min = pMin;
-		this.max = pMax;
-		this.value = pValue;
-		this.pas = pPas;
-		this.morePas = pMorePas;
-		this.afterName = pAfterName;
-		this.diviseur = pDiviseur;
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition);
+		this.min = infos.min;
+		this.max = infos.max;
+		this.value = infos.value;
+		this.pas = infos.pas;
+		this.morePas = infos.morePas;
+		this.afterName = infos.afterName;
+		this.diviseur = infos.diviseur;
+		this.showDisabled = infos.showDisabled;
+		
+		initDefaultTranslation();
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, Material pItem, InventoryGUI pParent, int pMin, int pMax, int pValue, int pPas, int pMorePas, String pAfterName, int pDiviseur) {
-		super(pName, pDescription, 1, pItem, pParent);
-		this.min = pMin;
-		this.max = pMax;
-		this.value = pValue;
-		this.pas = pPas;
-		this.morePas = pMorePas;
-		this.afterName = pAfterName;
-		this.diviseur = pDiviseur;
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos) {
+		super(pName, pDescription, pTranslationName, 1, pItem, pParent);
+		this.min = infos.min;
+		this.max = infos.max;
+		this.value = infos.value;
+		this.pas = infos.pas;
+		this.morePas = infos.morePas;
+		this.afterName = infos.afterName;
+		this.diviseur = infos.diviseur;
+		this.showDisabled = infos.showDisabled;
+		
+		initDefaultTranslation();
+		
 		initItem(pItem);
 		reloadItem();
 	}
 	
+	/**
+	 * Pour avoir la valeur
+	 * 
+	 * @return La valeur
+	 */
+	public int getValue() {
+		return this.value;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire
+	 * 
+	 * @param language La langue
+	 */
+	public void updateLanguage(String language) {
+		afterName = LanguageBuilder.getContent(getTranslationName(), "afterName", language, true);
+		
+		super.updateLanguage(language);
+	}
+	
+	/**
+	 * Pour initier des traductions par défaut
+	 * 
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 */
+	protected LanguageBuilder initDefaultTranslation() {
+		LanguageBuilder languageElement = super.initDefaultTranslation();
+		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "afterName", afterName, false);
+		return languageElement;
+	}
+	
+	
+	
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedItemName() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("name", this.name);
+		if(value == 0 && showDisabled) {
+			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", InventoryRegister.language.getSelectedLanguage(), true));
+			params.put("afterName", "");
+		}else {
+			if(diviseur == 1) {
+				params.put("value", Integer.toString(this.value));
+			}else {
+				params.put("value", Double.toString(((double)this.value/ (double) this.diviseur)));
+			}
+			params.put("afterName", afterName);
+		}
+		
+		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
+	}
+	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedInventoryName() {
+		return name;
+	}
+	
+	/**
+	 * Pour la description formatée
+	 */
+	protected ArrayList<String> getFormattedDescription() {
+		ArrayList<String> returnArray = super.getFormattedDescription();
+		returnArray.add("");
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", InventoryRegister.language.getSelectedLanguage(), true));
+		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
+		
+		return returnArray;
+	}
+	
+	
+	/**
+	 * Pour initier les items
+	 * 
+	 * @param pItem Le material
+	 * @param pData Le subid
+	 */
 	private void initItem(Material pItem) {
 		ItemStack item = new ItemStack(pItem,1);
-		this.inventory.setItem(4, item);
+		inventory.setItem(4, item);
 		
-		if(morePas> 1) {
+		if(morePas > 1) {
 			ItemStack moins2 = new ItemStack(Material.BANNER, 1);
 			BannerMeta moinsM2 = (BannerMeta)moins2.getItemMeta();
 			moinsM2.setBaseColor(DyeColor.ORANGE);
@@ -103,7 +218,7 @@ public class OptionNumeric extends InventoryGUI{
 				moinsM2.setDisplayName(ChatColor.GOLD+"-"+((double) this.pas*10.0/(double) this.diviseur)+this.afterName);
 			}
 			moins2.setItemMeta(moinsM2);
-			this.inventory.setItem(2, moins2);
+			inventory.setItem(2, moins2);
 			
 			
 			
@@ -125,7 +240,7 @@ public class OptionNumeric extends InventoryGUI{
 				plusM2.setDisplayName(ChatColor.GREEN+"+"+((double) this.pas*10.0/(double) this.diviseur)+this.afterName);
 			}
 			plus2.setItemMeta(plusM2);
-			this.inventory.setItem(6, plus2);
+			inventory.setItem(6, plus2);
 		}
 		
 		if(morePas > 2) {
@@ -200,45 +315,37 @@ public class OptionNumeric extends InventoryGUI{
 		plus.setItemMeta(plusM);
 		this.inventory.setItem(5, plus);
 	}
+	
+	/**
+	 * Pour mettre à jour des items dans l'inventaire
+	 */
+	protected void reloadItems() {
+		super.reloadItems();
+		reloadItem();
+	}
 
+	/**
+	 * Pour recharger les items dans l'inventaire
+	 */
 	protected void reloadItem() {
-		// Pour ouvrir l'inventaire
-		String name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+"Désactivé";
-		if(this.value > 0) {
-			if(this.diviseur == 1) {
-				name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+this.value+this.afterName;
-			}else {
-				name = ChatColor.BOLD+""+ChatColor.YELLOW+this.getName()+ChatColor.RESET+" ► "+ChatColor.GOLD+((double) this.value/(double) this.diviseur)+this.afterName;
+		// Dans l'inventaire
+		if(inventory != null) {	
+			ItemStack item2 = this.inventory.getItem(4);
+			if(item2 != null) {
+				ItemMeta itemM2 = item2.getItemMeta();
+				itemM2.setDisplayName(getFormattedItemName());
+				item2.setItemMeta(itemM2);
+				this.inventory.setItem(4, item2);
+				updateName(false);
 			}
 		}
-		
-		
-		ItemStack item = this.getItem();
-		int hashCode = item.hashCode();
-		ItemMeta itemM = item.getItemMeta();
-		itemM.setDisplayName(name);
-		List<String> itemLore = new ArrayList<String>();
-		if(this.getDescription() != null) {
-			itemLore = TaupeGun.toLoreItem(this.getDescription(),"§7", this.getName().length()+15);
-			itemLore.add("");
-		}
-		itemLore.add(ChatColor.GREEN+"► Cliquez pour configurer");
-		itemM.setLore(itemLore);
-		item.setItemMeta(itemM);
-		this.getParent().modifyItemstack(hashCode, item);
-		
-		// Dans l'inventaire
-		ItemStack item2 = this.inventory.getItem(4);
-		ItemMeta itemM2 = item2.getItemMeta();
-		itemM2.setDisplayName(name);
-		item2.setItemMeta(itemM2);
-		this.inventory.setItem(4, item2);
 	}
 	
-	public int getValue() {
-		return this.value;
-	}
-	
+	/**
+	 * L'évènement de clique dans l'inventaire
+	 * 
+	 * @param e L'évènement de clique
+	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		int operation = 0;
@@ -249,7 +356,7 @@ public class OptionNumeric extends InventoryGUI{
 			e.setCancelled(true);
 			
 			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals("§cRetour")){
+				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}

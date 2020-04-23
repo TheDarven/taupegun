@@ -1,16 +1,23 @@
 package fr.thedarven.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class MessagesClass {
 	
 	public static void CannotCommandOperatorMessage(Player p) {
-		p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" Vous n'avez pas les permissions pour utiliser cette commande.");
+		String operatorMessage = "Â§a"+"[TaupeGun]Â§c "+LanguageBuilder.getContent("COMMAND", "operator", InventoryRegister.language.getSelectedLanguage(), true);
+		p.sendMessage(operatorMessage);
 	}
 	
 	//TAUPECOMMANDS
@@ -23,10 +30,13 @@ public class MessagesClass {
 			PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			if(pc.getTaupeTeam() == taupeTeam && pc.isAlive() && !pc.isSuperReveal()){
 				if(!PlayerTaupe.getPlayerManager(p.getUniqueId()).isSuperReveal()) {
-					if(pc.isReveal())
-						player.sendMessage("§e[Equipe] §7"+p.getName()+": "+messageCommand);
+					if(pc.isReveal()) {
+						// String teamMessage = "Â§lÂ§7"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"â‹™ Â§rÂ§f"+p.getName()+": "+messageCommand;
+						String teamMessage = "Â§e"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"Â§7"+p.getName()+": "+messageCommand;
+						player.sendMessage(teamMessage);
+					}
 					else
-						player.sendMessage("§c"+p.getName()+":"+messageCommand);
+						player.sendMessage("Â§c"+p.getName()+":"+messageCommand);
 				}
 			}
 		}
@@ -35,14 +45,14 @@ public class MessagesClass {
 		if(spectatorTeam != null) {
 			for(String player : spectatorTeam.getTeam().getEntries()){
 				if(Bukkit.getPlayer(player) != null)
-					Bukkit.getPlayer(player).sendMessage("§c["+taupeTeam.getTeam().getName()+"] "+p.getName()+":"+messageCommand);
+					Bukkit.getPlayer(player).sendMessage("Â§c["+taupeTeam.getTeam().getName()+"] "+p.getName()+":"+messageCommand);
 			}
 		}
 	}
 	
 	public static void TaupeListMessage(Player p) {
 		for(TeamCustom team : TeamCustom.getTaupeTeams()) {
-			String listTaupe = "§c"+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+"§c";
+			String listTaupe = "Â§c"+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+"Â§c";
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 				if(pc.getTaupeTeam() == team)
 					listTaupe = listTaupe +pc.getCustomName()+" ";
@@ -59,10 +69,12 @@ public class MessagesClass {
 		for(Player player : Bukkit.getOnlinePlayers()){
 			PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			if(pc.getSuperTaupeTeam() == taupeTeam && pc.isAlive()) {
-				if(pc.isSuperReveal())
-					player.sendMessage("§e[Equipe] §7"+p.getName()+": "+messageCommand);
+				if(pc.isSuperReveal()) {
+					String teamMessage = "Â§e"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"Â§7"+p.getName()+": "+messageCommand;
+					player.sendMessage(teamMessage);
+				}
 				else
-					player.sendMessage("§4"+p.getName()+":"+messageCommand);
+					player.sendMessage("Â§4"+p.getName()+":"+messageCommand);
 			}
 		}
 		
@@ -88,28 +100,45 @@ public class MessagesClass {
 	
 	//TEAMS	
 	public static void CannotTeamCreateNameAlreadyMessage(Player p) {
-		Title.sendActionBar(p, ChatColor.RED+"Ce nom d'équipe est déjà prit !");
+		String nameAlreadyUsedMessage = "Â§c"+LanguageBuilder.getContent("TEAM", "nameAlreadyUsed", InventoryRegister.language.getSelectedLanguage(), true);
+		Title.sendActionBar(p, nameAlreadyUsedMessage);
 	}
 	
 	public static void TeamChangeNameMessage(Player p, String team) {
-		Title.sendActionBar(p, ChatColor.GREEN+" L'équipe a été renomé en "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.GREEN+" avec succès.");
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("teamName", "Â§eÂ§l"+team+"Â§rÂ§a");
+		String teamRenamedMessage = TextInterpreter.textInterpretation("Â§a"+LanguageBuilder.getContent("TEAM", "teamRenamed", InventoryRegister.language.getSelectedLanguage(), true), params);
+		
+		Title.sendActionBar(p, teamRenamedMessage);
 	}
 	
 	//GAME
 	public static void TaupeAnnonceMessage(Player p) {
+		String moleMessageInfo = "Â§6"+LanguageBuilder.getContent("CONTENT", "moleMessageInfo", InventoryRegister.language.getSelectedLanguage(), true);
+		String moleMessageT = "Â§6"+LanguageBuilder.getContent("CONTENT", "moleMessageT", InventoryRegister.language.getSelectedLanguage(), true);
+		String moleMessageReveal = "Â§6"+LanguageBuilder.getContent("CONTENT", "moleMessageReveal", InventoryRegister.language.getSelectedLanguage(), true);
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("teamName", "Â§eÂ§l"+PlayerTaupe.getPlayerManager(p.getUniqueId()).getClaimTaupe()+"Â§rÂ§6");
+		String moleMessageClaim = TextInterpreter.textInterpretation("Â§6"+LanguageBuilder.getContent("CONTENT", "moleMessageClaim", InventoryRegister.language.getSelectedLanguage(), true), params);
+		
 		p.sendMessage(ChatColor.RED+"---------------");
-		p.sendMessage(ChatColor.GOLD+" Vous êtes une taupe, retournez votre équipe et remportez la partie avec votre équipe de taupes !");
-		p.sendMessage(ChatColor.GOLD+" Tapez /t pour envoyer un message à votre équipe.");
-		p.sendMessage(ChatColor.GOLD+" Tapez /reveal pour vous révèler aux yeux de tous et gagner une pomme d'or.");
-		p.sendMessage(ChatColor.GOLD+" Tapez /claim pour reçevoir votre kit "+ChatColor.YELLOW+ChatColor.BOLD+PlayerTaupe.getPlayerManager(p.getUniqueId()).getClaimTaupe()+ChatColor.RESET+ChatColor.GOLD+". Attention, les items peuvent dropper au sol !");
+		p.sendMessage(moleMessageInfo);
+		p.sendMessage(moleMessageT);
+		p.sendMessage(moleMessageReveal);
+		p.sendMessage(moleMessageClaim);
 		p.sendMessage(ChatColor.RED+"---------------");
 	}
 	
 	public static void SuperTaupeAnnonceMessage(Player p) {
+		String superMoleMessageInfo = "Â§6"+LanguageBuilder.getContent("CONTENT", "superMoleMessageInfo", InventoryRegister.language.getSelectedLanguage(), true);
+		String superMoleMessageT = "Â§6"+LanguageBuilder.getContent("CONTENT", "superMoleMessageT", InventoryRegister.language.getSelectedLanguage(), true);
+		String superMoleMessageReveal = "Â§6"+LanguageBuilder.getContent("CONTENT", "superMoleMessageReveal", InventoryRegister.language.getSelectedLanguage(), true);
+		
 		p.sendMessage(ChatColor.RED+"---------------");
-		p.sendMessage(ChatColor.GOLD+" Vous êtes une super taupe, retournez votre équipe de taupe et remportez la partie avec votre équipe de taupes !");
-		p.sendMessage(ChatColor.GOLD+" Tapez /supert pour envoyer un message à votre équipe.");
-		p.sendMessage(ChatColor.GOLD+" Tapez /superreveal pour vous révèler aux yeux de tous et gagner une pomme d'or.");
+		p.sendMessage(superMoleMessageInfo);
+		p.sendMessage(superMoleMessageT);
+		p.sendMessage(superMoleMessageReveal);
 		p.sendMessage(ChatColor.RED+"---------------");
 	}
 	
@@ -137,7 +166,8 @@ public class MessagesClass {
 	}
 	
 	public static void FinalKillAnnonceMessage() {
-		Bukkit.broadcastMessage(ChatColor.BOLD+""+ChatColor.GOLD+"======== Liste des kills ========");
+		String killListMessage = "Â§lÂ§6"+LanguageBuilder.getContent("CONTENT", "killList", InventoryRegister.language.getSelectedLanguage(), true);
+		Bukkit.broadcastMessage(killListMessage);
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 			if(pc.getKill() != 0) {
 				Bukkit.broadcastMessage(ChatColor.BOLD+""+ChatColor.GREEN+pc.getCustomName()+": "+ChatColor.RESET+" "+pc.getKill());
@@ -145,7 +175,8 @@ public class MessagesClass {
 		}
 	}
 	
-	public static void JoinTabMessage(Player p) {
-		Title.sendTabHF(p, "§6------------------\nTaupeGun\n------------------\n", "\n§2Plugin par TheDarven\n§adiscord.gg/HZyS5T7");
+	public static void TabMessage(Player p) {
+		String authorMessage = LanguageBuilder.getContent("SCOREBOARD", "author", InventoryRegister.language.getSelectedLanguage(), true);
+		Title.sendTabHF(p, "Â§6------------------\nTaupeGun\n------------------\n", "\nÂ§2"+authorMessage+"\nÂ§adiscord.gg/HZyS5T7");
 	}
 }

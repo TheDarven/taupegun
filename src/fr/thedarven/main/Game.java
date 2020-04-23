@@ -1,10 +1,11 @@
 package fr.thedarven.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,14 +18,16 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.TeamDelete;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.texts.TextInterpreter;
 
 public class Game{
 
@@ -42,6 +45,7 @@ public class Game{
 					setMolesInDb();
 				}
 				
+				episodeAnnouncing();
 				annoncesTaupes();
 				annoncesMur();
 				
@@ -140,15 +144,28 @@ public class Game{
 		}
 	}
 	
+	private static void episodeAnnouncing() {
+		if(TaupeGun.timer != 0 && TaupeGun.timer%(InventoryRegister.episode.getValue()*60) == 0) {
+			for(Player player : Bukkit.getOnlinePlayers())
+				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);		
+			int episodeNumber = (TaupeGun.timer/InventoryRegister.episode.getValue()*60)+1;
+
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("episodeNumber", episodeNumber+"");
+			String episodeMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("GAME", "episodeIsStarting", InventoryRegister.language.getSelectedLanguage(), true), params);
+			Bukkit.broadcastMessage(episodeMessage);
+		}
+	}
+	
 	private static void annoncesTaupes() {
 		// 5s AVANT L'ANNONCE DES TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer > 1){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer == 6){
-				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des taupes dans 5 secondes.");
+				String moleAnnouncement = "§a"+LanguageBuilder.getContent("GAME", "moleAnnouncement", InventoryRegister.language.getSelectedLanguage(), true);
+				Bukkit.broadcastMessage(moleAnnouncement);
 			}
-			for(Player player : Bukkit.getOnlinePlayers()) {
+			for(Player player : Bukkit.getOnlinePlayers())
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-			}
 		}
 		
 		// ANNONCE DES TAUPES
@@ -164,7 +181,8 @@ public class Game{
 		// 5s AVANT L'ANNONCE DES SUPER TAUPES
 		if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 6 && InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 > 1 && InventoryRegister.supertaupes.getValue()){
 			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 == 6){
-				Bukkit.broadcastMessage(ChatColor.GREEN+"Annonce des supertaupes dans 5 secondes.");
+				String superMoleAnnouncement = "§a"+LanguageBuilder.getContent("GAME", "superMoleAnnouncement", InventoryRegister.language.getSelectedLanguage(), true);
+				Bukkit.broadcastMessage(superMoleAnnouncement);
 			}
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
@@ -185,7 +203,8 @@ public class Game{
 	private static void annoncesMur() {
 		// LE MUR EST A 00H03 //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 181){
-			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur va commencer à se réduire dans 3 minutes !");
+			String wallShrinking3Minutes = "§a[TaupeGun]§f "+LanguageBuilder.getContent("GAME", "wallShrinking3Minutes", InventoryRegister.language.getSelectedLanguage(), true);
+			Bukkit.broadcastMessage(wallShrinking3Minutes);
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
 			}
@@ -246,8 +265,8 @@ public class Game{
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
 				}
 			}
-			
-			Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" Le mur commence à se réduire !");
+			String wallShrinking = "§a[TaupeGun]§f "+LanguageBuilder.getContent("GAME", "wallShrinking", InventoryRegister.language.getSelectedLanguage(), true);
+			Bukkit.broadcastMessage(wallShrinking);
 		}
 	}
 

@@ -14,13 +14,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.constructors.EnumGame;
-import fr.thedarven.main.constructors.PlayerTaupe;
+import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 
 public class Login implements Listener {
@@ -37,7 +38,11 @@ public class Login implements Listener {
 		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
 			InventoryPlayers.reloadInventory();
 			if(TaupeGun.developpement) {
-				Title.title(p, ChatColor.GOLD +"Mode développement : ON", "Prévenez TheDarven (il doit être désactivé)", 40);
+				Title.title(p, 
+					ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", InventoryRegister.language.getSelectedLanguage(), true),
+					LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", InventoryRegister.language.getSelectedLanguage(), true), 
+					40
+				);
 			}
 		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
@@ -71,7 +76,7 @@ public class Login implements Listener {
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.playSound(p.getLocation(), Sound.WITHER_HURT , 1, 1);
-				Title.title(p, ChatColor.RED +"Lancement annulé", "", 10);
+				Title.title(p, ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", InventoryRegister.language.getSelectedLanguage(), true), "", 10);
             }
 			
 			for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
@@ -88,14 +93,19 @@ public class Login implements Listener {
 		p.setScoreboard(TeamCustom.board);
 		PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
-		MessagesClass.JoinTabMessage(p);
+		MessagesClass.TabMessage(p);
 		TaupeGun.scoreboardManager.onLogin(p);
 		SqlRequest.updatePlayerLast(p);
+		
+		if(TaupeGun.etat.equals(EnumGame.LOBBY))
+			ScenariosItemInteract.actionBeacon(p);
 	}
 	
 	public static void leaveAction(Player p) {
 		TaupeGun.scoreboardManager.onLogout(p);
 		SqlRequest.updatePlayerTimePlay(p);
 		SqlRequest.updatePlayerLast(p);
+		
+		ScenariosItemInteract.removeBeacon(p);
 	}
 }
