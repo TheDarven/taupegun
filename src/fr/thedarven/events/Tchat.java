@@ -11,8 +11,8 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGame;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
 
 @SuppressWarnings("deprecation")
 public class Tchat implements Listener {

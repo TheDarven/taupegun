@@ -1,4 +1,4 @@
-package fr.thedarven.utils;
+package fr.thedarven.utils.messages;
 
 import java.util.HashMap;
 import java.util.Map;

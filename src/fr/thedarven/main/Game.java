@@ -20,13 +20,14 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumGame;
 import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
-import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.SqlRequest;
-import fr.thedarven.utils.TeamCustom;
-import fr.thedarven.utils.TeamDelete;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
+import fr.thedarven.utils.teams.TeamDelete;
+import fr.thedarven.utils.teams.TeamUtils;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class Game{
@@ -133,7 +134,7 @@ public class Game{
 				}
 			}
 		}
-		new TeamCustom("Spectateurs", 15, 0, 0, true, false);
+		new TeamCustom(TeamUtils.getSpectatorTeamName(), 15, 0, 0, true, false);
 		
 		for(int x = -15; x <= 15; x++){
 			for (int y = 200; y <= 203; y++){
@@ -227,13 +228,15 @@ public class Game{
 			double taille = (double) (InventoryRegister.murtailleaprès.getValue())*2.0;
 			border.setSize(taille, (long) ((long) (InventoryRegister.murtailleavant.getValue() - InventoryRegister.murtailleaprès.getValue())/(((long) InventoryRegister.murvitesse.getValue())/100.0)));
 			
+			String spectatorTeamName = TeamUtils.getSpectatorTeamName();
+			
 			Set<Team> teams = TeamCustom.board.getTeams();
 			for(Team team : teams){
 				for(String p : team.getEntries()){
 					Player player = Bukkit.getPlayer(p);
 					if(player != null && player.isOnline()){
 						if(player.getLocation().getWorld().getName().equals("world_nether")){
-							if(team.getName().equals("Spectateurs")){
+							if(team.getName().equals(spectatorTeamName)){
 								player.teleport(new Location(world, 0, 150, 0));
 							}else{
 								if(teleportationInWorld.size() != 0){

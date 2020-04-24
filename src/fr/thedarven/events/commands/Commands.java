@@ -20,10 +20,10 @@ import fr.thedarven.events.Death;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGame;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
+import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.SqlRequest;
-import fr.thedarven.utils.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.texts.TextInterpreter;
 import net.md_5.bungee.api.ChatColor;
 

@@ -18,8 +18,8 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesEventClass;
-import fr.thedarven.utils.TeamCustom;
+import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.utils.messages.MessagesEventClass;
 import net.md_5.bungee.api.ChatColor;
 
 public class InventoryTeamsElement extends InventoryGUI{

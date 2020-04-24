@@ -1,3 +1,7 @@
+/*
+* AUTHORS :
+* Janeo (en_US)
+*/
 [
 	{
 		"title": "CONTENT",
@@ -144,7 +148,8 @@
 				"isAdding": "Le joueur {playerName} a été ajouté à l'équipe.",
 				"nameAlreadyUsed": "Ce nom d'équipe est déjà pris !",
 				"teamRenamed": "L'équipe a été renommé en {teamName} avec succès.",
-				"teamChoiceTitle": "Menu des équipes"
+				"teamChoiceTitle": "Menu des équipes",
+				"spectatorTeamName": "Spectateurs"
 			},
 			"en_US": {
 				"changeName": "Change the name",
@@ -164,7 +169,8 @@
 				"isAdding": "{playerName} has been added to the team.",
 				"nameAlreadyUsed": "This team's name is already taken.",
 				"teamRenamed": "The team has been successfully renamed {teamName}.",
-				"teamChoiceTitle": "Team menu"
+				"teamChoiceTitle": "Team menu",
+				"spectatorTeamName": "Spectators"
 			}
 		}
 	},

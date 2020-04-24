@@ -18,9 +18,9 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.TeamDelete;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
+import fr.thedarven.utils.teams.TeamDelete;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class CommandsTaupe implements CommandExecutor {

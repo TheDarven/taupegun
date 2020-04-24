@@ -8,14 +8,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.utils.teams.TeamUtils;
+
 public class PlayerOrientation {
 	
 	public static String Orientation(Player p){
 		String bar = "";
+		String spectatorTeamName = TeamUtils.getSpectatorTeamName();
 		
 		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team team : teams){
-			if(team.getEntries().contains(p.getName()) && !team.getName().equals("Spectateurs")){
+			if(team.getEntries().contains(p.getName()) && !team.getName().equals(spectatorTeamName)){
 				for(String player : team.getEntries()){
 					if(!player.equals(p.getName())){
 						bar = bar + getOrientation(p, player);

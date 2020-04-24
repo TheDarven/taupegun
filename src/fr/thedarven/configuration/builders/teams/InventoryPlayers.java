@@ -18,10 +18,10 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesEventClass;
-import fr.thedarven.utils.TeamCustom;
+import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesEventClass;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryPlayers extends InventoryGUI{

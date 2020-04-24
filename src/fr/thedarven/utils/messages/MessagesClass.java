@@ -1,4 +1,4 @@
-package fr.thedarven.utils;
+package fr.thedarven.utils.messages;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;

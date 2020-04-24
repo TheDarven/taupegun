@@ -1,7 +1,10 @@
 package fr.thedarven.utils.languages;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class LanguageBuilder {
 	
@@ -34,6 +37,21 @@ public class LanguageBuilder {
 			return null;
 		
 		return element.getInsideContent(language, valueTitle, defaultValue);
+	}
+	
+	/**
+	 * Pour avoir dans toutes les langues la valeur associée à un titre
+	 * 
+	 * @param name Le nom de la traduction
+	 * @param valueTitle La clé de la valeur
+	 * @return La liste des valeurs associées à la clé
+	 */
+	public static List<String> getAllContent(String name, String valueTitle){
+		LanguageBuilder element = allElements.get(name);
+		if(element == null)
+			return new ArrayList<String>();
+		
+		return element.getInsideAllContent(valueTitle);
 	}
 	
 	/**
@@ -89,12 +107,12 @@ public class LanguageBuilder {
 	}
 	
 	/**
-	 * Pour avoir le valeur associée à un language et à une langue
+	 * Pour avoir le valeur associée à un titre et à une langue
 	 * 
 	 * @param language La langue
-	 * @param valueTitle La clé de la valeur
+	 * @param valueTitle Le titre de la valeur
 	 * @param defaultValue La valeur
-	 * @return
+	 * @return La valeur associée, null si elle n'existe pas
 	 */
 	private String getInsideContent(String language, String valueTitle, boolean defaultValue) {
 		LanguageElement element = content.get(language);
@@ -110,6 +128,22 @@ public class LanguageBuilder {
 				return element.getElement(valueTitle);	
 		}
 		return null;
+	}
+	
+	/**
+	 * Pour avoir l'entièreté des traductions d'une valeur
+	 * 
+	 * @param valueTitle Le titre de la valeur
+	 * @return La liste des valeurs associées à la clé
+	 */
+	private List<String> getInsideAllContent(String valueTitle) {
+		List<String> allTranslations = new ArrayList<>();
+		for(Entry<String, LanguageElement> translation: content.entrySet()) {
+			String translationValue = translation.getValue().getElement(valueTitle);
+			if(translationValue != null)
+				allTranslations.add(translationValue);
+		}
+		return allTranslations;
 	}
 
 }

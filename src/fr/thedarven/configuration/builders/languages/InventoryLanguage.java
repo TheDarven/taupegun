@@ -15,10 +15,10 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.events.ScenariosItemInteract;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.MessagesClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryLanguage extends InventoryGUI{

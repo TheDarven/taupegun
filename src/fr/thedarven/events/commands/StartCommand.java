@@ -20,16 +20,16 @@ import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGame;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.GraphEquipes;
-import fr.thedarven.utils.MessagesClass;
-import fr.thedarven.utils.TeamCustom;
+import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
+import fr.thedarven.utils.teams.TeamGraph;
 
 
 public class StartCommand implements Listener {
 Scoreboard board = TeamCustom.board;
-public static GraphEquipes graph;
+public static TeamGraph graph;
 
 	public StartCommand(TaupeGun pl) {
 	}
@@ -89,7 +89,7 @@ public static GraphEquipes graph;
 				}
 			}
 			
-			graph = new GraphEquipes();
+			graph = new TeamGraph();
 			
 			Random r = new Random();
 			for(Team team : teams){

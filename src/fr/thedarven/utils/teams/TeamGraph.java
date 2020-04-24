@@ -1,4 +1,4 @@
-package fr.thedarven.utils;
+package fr.thedarven.utils.teams;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -7,14 +7,15 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.main.metier.TeamCustom;
 
-public class GraphEquipes {
+public class TeamGraph {
 	private ArrayList<ArrayList<PlayerTaupe>> joueursTaupe;
 	private ArrayList<ArrayList<PlayerTaupe>> equipesTaupe;
 	private ArrayList<ArrayList<PlayerTaupe>> equipesSuperTaupe;
 	private static Random r = new Random();
 	
-	public GraphEquipes() {
+	public TeamGraph() {
 		joueursTaupe = new ArrayList<ArrayList<PlayerTaupe>>();
 		equipesTaupe = new ArrayList<ArrayList<PlayerTaupe>>();
 		equipesSuperTaupe = new ArrayList<ArrayList<PlayerTaupe>>();

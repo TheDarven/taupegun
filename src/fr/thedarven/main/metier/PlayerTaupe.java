@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.utils.TeamCustom;
 
 public class PlayerTaupe {
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();

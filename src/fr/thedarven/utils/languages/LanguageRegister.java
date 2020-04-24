@@ -23,7 +23,8 @@ public class LanguageRegister {
 			String readLine = null;		
 			BufferedReader br = new BufferedReader(new InputStreamReader(plugin.getResource("translate.json"), "UTF-8"));
 			while((readLine = br.readLine()) != null) {
-				contentBuilder.append(readLine);
+				if(!readLine.startsWith("/*") && !readLine.startsWith("*") & !readLine.endsWith("*/"))
+					contentBuilder.append(readLine);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -116,6 +117,8 @@ public class LanguageRegister {
 		teamElement.addTranslation("fr_FR", "nameAlreadyUsed", "Ce nom d'équipe est déjà prit !");
 		teamElement.addTranslation("fr_FR", "teamRenamed", "L'équipe a été renommé en {teamName} avec succès.");
 		teamElement.addTranslation("fr_FR", "teamChoiceTitle", "Menu des équipes");
+		teamElement.addTranslation("fr_FR", "spectatorTeamName", "Spectateurs");
+		
 		
 		LanguageBuilder startCommandElement = LanguageBuilder.getLanguageBuilder("START_COMMAND");
 		startCommandElement.addTranslation("fr_FR", "gameAlreadyStarted", "La partie a déjà commencé !");
