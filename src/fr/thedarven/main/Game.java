@@ -24,6 +24,7 @@ import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.teams.TeamDelete;
@@ -85,9 +86,10 @@ public class Game{
 	}
 	
 	private static void startGame() {
-		SqlRequest.createGame();				
-		Bukkit.getWorld("world").setGameRuleValue("doMobSpawning", "true");
-		Bukkit.getWorld("world").getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
+		SqlRequest.createGame();
+		World world = UtilsClass.getWorld();
+		world.setGameRuleValue("doMobSpawning", "true");
+		world.getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if(!InventoryRegister.coordonneesvisibles.getValue()) {
@@ -128,7 +130,7 @@ public class Game{
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if(player.getName().equals(p)){
 						SqlRequest.createTaupe(player, id_team);
-						Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), Bukkit.getWorld("world").getHighestBlockYAt((int) (rayon * Math.cos(X)), (int) (rayon * Math.sin(X)))+2, (int) (rayon * Math.sin(X)));
+						Location spawnTeam = new Location(world, (int) (rayon * Math.cos(X)), world.getHighestBlockYAt((int) (rayon * Math.cos(X)), (int) (rayon * Math.sin(X)))+2, (int) (rayon * Math.sin(X)));
 						player.teleport(spawnTeam);
 					}
 				}
@@ -139,14 +141,14 @@ public class Game{
 		for(int x = -15; x <= 15; x++){
 			for (int y = 200; y <= 203; y++){
 				for (int z = -15; z <= 15; z++){
-					Bukkit.getWorld("world").getBlockAt(x, y, z).setType(Material.AIR);
+					world.getBlockAt(x, y, z).setType(Material.AIR);
 				}
 			}
 		}
 	}
 	
 	private static void episodeAnnouncing() {
-		if(TaupeGun.timer != 0 && TaupeGun.timer%(InventoryRegister.episode.getValue()*60) == 0) {
+		if(InventoryRegister.episode.getValue() > 0 && TaupeGun.timer != 0 && TaupeGun.timer%(InventoryRegister.episode.getValue()*60) == 0) {
 			for(Player player : Bukkit.getOnlinePlayers())
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);		
 			int episodeNumber = (TaupeGun.timer/InventoryRegister.episode.getValue()*60)+1;
@@ -222,7 +224,9 @@ public class Game{
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
 			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
 			
-			World world = Bukkit.getWorld("world");
+			World world = UtilsClass.getWorld();
+			World worldNether = UtilsClass.getWorldNether();
+			
 			WorldBorder border = world.getWorldBorder();
 			border.setCenter(0.0, 0.0);
 			double taille = (double) (InventoryRegister.murtailleaprès.getValue())*2.0;
@@ -235,7 +239,7 @@ public class Game{
 				for(String p : team.getEntries()){
 					Player player = Bukkit.getPlayer(p);
 					if(player != null && player.isOnline()){
-						if(player.getLocation().getWorld().getName().equals("world_nether")){
+						if(player.getLocation().getWorld() == worldNether){
 							if(team.getName().equals(spectatorTeamName)){
 								player.teleport(new Location(world, 0, 150, 0));
 							}else{
@@ -260,7 +264,7 @@ public class Game{
 				Z++;
 				X = Z * (6.283184/teleportationInWorld.size());
 				for(Player p : TeleportPlayer){
-					Location spawnTeam = new Location(Bukkit.getWorld("world"), (int) (rayon * Math.cos(X)), 250, (int) (rayon * Math.sin(X)));
+					Location spawnTeam = new Location(world, (int) (rayon * Math.cos(X)), 250, (int) (rayon * Math.sin(X)));
 					while(spawnTeam.getBlock().getType().equals(Material.AIR)){
 						spawnTeam.setY(spawnTeam.getY()-1);
 					}

@@ -10,6 +10,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import fr.thedarven.utils.UtilsClass;
+
 public class PlayerTaupe {
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
 	private UUID uuid;
@@ -39,7 +41,7 @@ public class PlayerTaupe {
 			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SPECTATOR);
 		}else {
 			alive = true;
-			Location lobby_spawn = new Location(Bukkit.getWorld("world"), 0.5, 201, 0.5);
+			Location lobby_spawn = new Location(UtilsClass.getWorld(), 0.5, 201, 0.5);
 			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn);
 			team = null;
 			
@@ -50,7 +52,7 @@ public class PlayerTaupe {
 		startTeam = null;
 		
 		kill = 0;
-		netherPortal = new Location(Bukkit.getWorld("world_nether"),0.0,0.0,0.0);
+		netherPortal = new Location(UtilsClass.getWorldNether(),0.0,0.0,0.0);
 		opennedInventory = new InventoryManager();
 		
 		teamTaupe = null;

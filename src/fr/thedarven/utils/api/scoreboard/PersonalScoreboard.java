@@ -13,6 +13,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
@@ -112,7 +113,7 @@ public class PersonalScoreboard {
 		objectiveSign.setLine(i++, "§3");
 		
 		// DISTANCE
-		if(p.getWorld().getName().equals("world_nether")){
+		if(p.getWorld() == UtilsClass.getWorldNether()){
 			Location portailLocation = PlayerTaupe.getPlayerManager(p.getUniqueId()).getNetherPortal();
 			// distance = (int) Math.sqrt((portailLocation.getX() - loc.getBlockX())*(portailLocation.getX() - loc.getBlockX()) + (portailLocation.getZ() - loc.getBlockZ())*(portailLocation.getZ() - loc.getBlockZ()) + (portailLocation.getY() - loc.getBlockY())*(portailLocation.getY() - loc.getBlockY()));
 			distance = (int) portailLocation.distance(loc);
@@ -132,7 +133,7 @@ public class PersonalScoreboard {
 			objectiveSign.setLine(i++, centerMessage);
 		}
 		// BORDER
-		int border = (int) (Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2);
+		int border = (int) (UtilsClass.getWorld().getWorldBorder().getSize()/2);
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");

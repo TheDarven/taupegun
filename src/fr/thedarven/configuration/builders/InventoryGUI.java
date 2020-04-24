@@ -67,8 +67,23 @@ public class InventoryGUI extends InventoryBuilder{
 			this.setName(LanguageBuilder.getContent(getTranslationName(), "name", language, true));
 			this.setDescription(LanguageBuilder.getContent(this.getTranslationName(), "description", language, false));
 		}
+		reloadItems();
 	}
 	
+	/**
+	 * Pour mettre à jours les traductions de l'inventaire avec ou sans le nom et la description
+	 * 
+	 * @param language La langue
+	 * @param reloadName Pour savoir si on doit mettre à jour le nom et la description
+	 */
+	public void updateLanguage(String language, boolean reloadName) {
+		BACK_STRING = LanguageBuilder.getContent("CONTENT", "back", language, true);
+		if(getTranslationName() != null && reloadName) {
+			this.setName(LanguageBuilder.getContent(getTranslationName(), "name", language, true));
+			this.setDescription(LanguageBuilder.getContent(this.getTranslationName(), "description", language, false));
+		}
+		reloadItems();
+	}
 	
 	
 	/**

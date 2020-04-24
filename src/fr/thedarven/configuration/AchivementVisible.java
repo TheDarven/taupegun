@@ -3,9 +3,10 @@ package fr.thedarven.configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import fr.thedarven.utils.UtilsClass;
 
 public class AchivementVisible extends Configuration<Boolean>{
 
@@ -15,9 +16,8 @@ public class AchivementVisible extends Configuration<Boolean>{
 
 	@Override
 	public String messageNom(){
-		if((boolean)this.value){
+		if((boolean)this.value)
 			return ChatColor.GREEN+this.name+" "+ChatColor.GRAY+"Activé";
-		}
 		return ChatColor.GREEN+this.name+" "+ChatColor.GRAY+"Désactivé";
 	}
 	
@@ -33,17 +33,17 @@ public class AchivementVisible extends Configuration<Boolean>{
 
 	@Override
 	public void actionEnlever() {
-		Bukkit.getWorld("world").setGameRuleValue("announceAdvancements", "false");
-		Bukkit.getWorld("world_nether").setGameRuleValue("announceAdvancements", "false");
-		Bukkit.getWorld("world_the_end").setGameRuleValue("announceAdvancements", "false");
+		UtilsClass.getWorld().setGameRuleValue("announceAdvancements", "false");
+		UtilsClass.getWorldNether().setGameRuleValue("announceAdvancements", "false");
+		UtilsClass.getWorldEnd().setGameRuleValue("announceAdvancements", "false");
 		this.value = false;
 	}
 
 	@Override
 	public void actionAjouter() {
-		Bukkit.getWorld("world").setGameRuleValue("announceAdvancements", "true");
-		Bukkit.getWorld("world_nether").setGameRuleValue("announceAdvancements", "true");
-		Bukkit.getWorld("world_the_end").setGameRuleValue("announceAdvancements", "true");
+		UtilsClass.getWorld().setGameRuleValue("announceAdvancements", "true");
+		UtilsClass.getWorldNether().setGameRuleValue("announceAdvancements", "true");
+		UtilsClass.getWorldEnd().setGameRuleValue("announceAdvancements", "true");
 		this.value = true;
 	}
 }

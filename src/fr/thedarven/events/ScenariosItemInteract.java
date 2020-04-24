@@ -23,15 +23,17 @@ public class ScenariosItemInteract implements Listener{
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
 			Player p = e.getPlayer();
 			ItemStack playerItem = p.getItemInHand();
 			
 			if(playerItem != null && playerItem.getType().equals(Material.BEACON) && playerItem.getItemMeta().getDisplayName().equals(getFormattedScenariosItemName())) {
-				if(p.isOp())
-					p.openInventory(InventoryRegister.menu.getInventory());
-				else if(InventoryRegister.scenariosvisibles.getValue())
-					p.openInventory(InventoryRegister.configuration.getInventory());
+				if(EnumGameState.isCurrentState(EnumGameState.LOBBY)){
+					if(p.isOp())
+						p.openInventory(InventoryRegister.menu.getInventory());
+					else if(InventoryRegister.scenariosvisibles.getValue())
+						p.openInventory(InventoryRegister.configuration.getInventory());	
+				}
 				e.setCancelled(true);
 			}
 		}

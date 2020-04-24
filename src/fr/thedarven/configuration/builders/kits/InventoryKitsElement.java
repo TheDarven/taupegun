@@ -33,7 +33,9 @@ public class InventoryKitsElement extends InventoryGUI {
 	 * 
 	 * @param language La langue
 	 */
-	public void updateLanguage(String language) {}
+	public void updateLanguage(String language) {
+		updateLanguage(language, false);
+	}
 	
 	/**
 	 * Pour avoir le nom formaté
@@ -44,7 +46,14 @@ public class InventoryKitsElement extends InventoryGUI {
 		return name;
 	}
 	
-	
+	/**
+	 * Pour avoir le nom formaté
+	 * 
+	 * @return Le nom formaté
+	 */
+	protected String getFormattedItemName() {
+		return name;
+	}
 	
 	
 	

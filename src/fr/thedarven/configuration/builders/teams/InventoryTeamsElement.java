@@ -25,11 +25,11 @@ import net.md_5.bungee.api.ChatColor;
 public class InventoryTeamsElement extends InventoryGUI{
 
 	public static ArrayList<InventoryTeamsElement> inventory = new ArrayList<>();
-	private int couleur;
+	private int color;
 	
 	public InventoryTeamsElement(String pName, int pColor) {
 		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, InventoryRegister.teams, 0);
-		couleur = pColor;
+		color = pColor;
 		inventory.add(this);
 		reloadItem();
 		InventoryRegister.teams.reloadInventory();
@@ -41,7 +41,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	 * @return La couleur
 	 */
 	public int getColor() {
-		return couleur;
+		return color;
 	}
 	
 	/**
@@ -50,9 +50,10 @@ public class InventoryTeamsElement extends InventoryGUI{
 	 * @param pColor La nouvelle couleur
 	 */
 	public void setColor(int pColor) {
-		this.couleur = pColor;
+		this.color = pColor;
 		reloadItem();
 	}
+	
 	
 	
 	
@@ -61,7 +62,9 @@ public class InventoryTeamsElement extends InventoryGUI{
 	 * 
 	 * @param language La langue
 	 */
-	public void updateLanguage(String language) {}
+	public void updateLanguage(String language) {
+		updateLanguage(language, false);
+	}
 	
 	/**
 	 * Pour avoir le nom formaté
@@ -122,7 +125,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	public void reloadItem(){
 		ItemStack item = getItem();
 		int hashCode = item.hashCode();
-		item.setDurability((short) couleur);
+		item.setDurability((short) color);
 		ItemMeta itemM = item.getItemMeta();
 		itemM.setDisplayName(getFormattedItemName());
 		List<String> itemLore = new ArrayList<String>();

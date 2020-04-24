@@ -21,6 +21,7 @@ import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
@@ -81,7 +82,7 @@ public class Death implements Listener {
 			Player p = pl.getPlayer();
 			if(p != null){
 				p.getPlayer().setGameMode(GameMode.SPECTATOR);
-				p.getPlayer().teleport(new Location(Bukkit.getWorld("world"),0,200,0));
+				p.getPlayer().teleport(new Location(UtilsClass.getWorld(),0,200,0));
 				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", InventoryRegister.language.getSelectedLanguage(), true));
 				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", InventoryRegister.language.getSelectedLanguage(), true));
 			}

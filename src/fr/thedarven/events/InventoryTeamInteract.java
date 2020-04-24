@@ -42,7 +42,7 @@ public class InventoryTeamInteract implements Listener {
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
 			Player p = e.getPlayer();
 			PlayerTaupe tPlayer = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			ItemStack playerItem = p.getItemInHand();
@@ -50,24 +50,24 @@ public class InventoryTeamInteract implements Listener {
 			String teamChoiceItem = "§e"+LanguageBuilder.getContent("MENU_CONFIGURATION_OTHER_TEAM", "teamChoice", InventoryRegister.language.getSelectedLanguage(), true);
 			
 			if(playerItem != null && playerItem.getType().equals(Material.BANNER) && playerItem.getItemMeta().getDisplayName().equals(teamChoiceItem)) {
-				openTeamsInventory(p, tPlayer);
-				new BukkitRunnable(){
-					@Override
-					public void run() {
-						/* p.getOpenInventory().getTitle().equals("§7Menu des équipes") */
-						if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && InventoryRegister.ownteam.getValue()){
-							openTeamsInventory(p, tPlayer);
-						}else {
-							if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM)/* p.getOpenInventory() != null && p.getOpenInventory().getTitle().equals("§7Menu des équipes") */)
-								p.closeInventory();
-							tPlayer.getOpennedInventory().setInventory(null, EnumInventory.NOONE);
-							this.cancel();
+				if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+					openTeamsInventory(p, tPlayer);
+					new BukkitRunnable(){
+						@Override
+						public void run() {
+							/* p.getOpenInventory().getTitle().equals("§7Menu des équipes") */
+							if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && InventoryRegister.ownteam.getValue()){
+								openTeamsInventory(p, tPlayer);
+							}else {
+								if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM)/* p.getOpenInventory() != null && p.getOpenInventory().getTitle().equals("§7Menu des équipes") */)
+									p.closeInventory();
+								tPlayer.getOpennedInventory().setInventory(null, EnumInventory.NOONE);
+								this.cancel();
+							}
 						}
-					}
-				}.runTaskTimer(TaupeGun.instance,0,20);
+					}.runTaskTimer(TaupeGun.instance,0,20);	
+				}
 				e.setCancelled(true);
-				return;
-
 			}
 		}
 	}

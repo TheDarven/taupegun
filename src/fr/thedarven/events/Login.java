@@ -19,6 +19,7 @@ import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
@@ -49,7 +50,7 @@ public class Login implements Listener {
 				DisableF3.disableF3(p);
 			if(!pl.isAlive() || pl.getTeam() == null) {
 				p.setGameMode(GameMode.SPECTATOR);
-				p.teleport(new Location(Bukkit.getWorld("world"),0,200,0));
+				p.teleport(new Location(UtilsClass.getWorld(),0,200,0));
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
 			}
 		}

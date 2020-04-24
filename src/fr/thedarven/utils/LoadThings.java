@@ -3,7 +3,6 @@ package fr.thedarven.utils;
 import java.sql.SQLException;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
@@ -79,9 +78,10 @@ public class LoadThings {
 	
 	@SuppressWarnings("deprecation")
 	private static void loadMap() {
-		World world = Bukkit.getWorld("world");
-		World worldNether = Bukkit.getWorld("world_nether");
-		World worldEnd = Bukkit.getWorld("world_the_end");
+		World world = UtilsClass.getWorld();
+		World worldNether = UtilsClass.getWorldNether();
+		World worldEnd = UtilsClass.getWorldEnd();
+		
 		if(world != null) {
 			world.setTime(6000);
 			world.setGameRuleValue("doMobSpawning", "false");
