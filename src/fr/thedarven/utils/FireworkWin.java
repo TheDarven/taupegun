@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.messages.MessagesClass;
 
@@ -19,7 +19,7 @@ public class FireworkWin {
 	static int timer = 10;
 	
 	public static void start() {
-		if(TaupeGun.etat.equals(EnumGame.END_FIREWORK)){
+		if(EnumGameState.isCurrentState(EnumGameState.END_FIREWORK)){
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 				@Override
 	            public void run() {
@@ -44,7 +44,7 @@ public class FireworkWin {
 					if(timer == 0){
 						informationEnd();
 						Bukkit.getScheduler().cancelAllTasks();
-						TaupeGun.etat = EnumGame.END;
+						EnumGameState.setState(EnumGameState.END);
 						timer = 11;
 			       }else{
 			    	   timer --;

@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.SqlRequest;
@@ -55,7 +55,7 @@ public class Death implements Listener {
 			
 			Bukkit.broadcastMessage(deathAllMessage);
 		}
-		if(TaupeGun.etat.equals(EnumGame.GAME)){
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			pl.setAlive(false);
 			
 			/* ON S'OCCUPE DU JOUEUR */

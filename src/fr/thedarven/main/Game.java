@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.DisableF3;
@@ -34,7 +34,7 @@ public class Game{
 
 	public static ArrayList<ArrayList<Player>> teleportationInWorld = new ArrayList<>();
 	public static void start() {
-		TaupeGun.etat = EnumGame.GAME;
+		EnumGameState.setState(EnumGameState.GAME);
 		Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 			@Override
 			public void run(){
@@ -61,7 +61,7 @@ public class Game{
 				
 				TeamDelete.start();
 				
-				if(TaupeGun.etat.equals(EnumGame.END_FIREWORK)){
+				if(EnumGameState.isCurrentState(EnumGameState.END_FIREWORK)){
 					Bukkit.getScheduler().cancelAllTasks();
 					SqlRequest.updateGameDuree();
 					FireworkWin.start();

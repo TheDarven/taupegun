@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.DisableF3;
@@ -35,7 +35,7 @@ public class Login implements Listener {
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
-		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			InventoryPlayers.reloadInventory();
 			if(TaupeGun.developpement) {
 				Title.title(p, 
@@ -44,7 +44,7 @@ public class Login implements Listener {
 					40
 				);
 			}
-		}else if(TaupeGun.etat.equals(EnumGame.GAME)) {
+		}else if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.disableF3(p);
 			if(!pl.isAlive() || pl.getTeam() == null) {
@@ -61,7 +61,7 @@ public class Login implements Listener {
 		Player player = e.getPlayer();
 		e.setQuitMessage(ChatColor.DARK_GRAY+"("+ChatColor.RED+"-"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
-		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			new BukkitRunnable(){
 				@Override
 				public void run() {
@@ -69,10 +69,10 @@ public class Login implements Listener {
 					this.cancel();
 				}
 			}.runTaskTimer(TaupeGun.instance,0, 20);
-		}else if(TaupeGun.etat.equals(EnumGame.WAIT)){
+		}else if(EnumGameState.isCurrentState(EnumGameState.WAIT)){
 			Bukkit.getScheduler().cancelAllTasks();
 			TaupeGun.timerStart = 10;
-			TaupeGun.etat = EnumGame.LOBBY;
+			EnumGameState.setState(EnumGameState.LOBBY);
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.playSound(p.getLocation(), Sound.WITHER_HURT , 1, 1);
@@ -97,7 +97,7 @@ public class Login implements Listener {
 		TaupeGun.scoreboardManager.onLogin(p);
 		SqlRequest.updatePlayerLast(p);
 		
-		if(TaupeGun.etat.equals(EnumGame.LOBBY))
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			ScenariosItemInteract.actionBeacon(p);
 	}
 	

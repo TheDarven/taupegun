@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 
 public class Damage implements Listener {
 
@@ -18,10 +18,10 @@ public class Damage implements Listener {
 	
 	@EventHandler
     public void onDamage(EntityDamageEvent e){
-		if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)){
 			e.setCancelled(true);
 		}
-		if(TaupeGun.etat.equals(EnumGame.GAME) && TaupeGun.timer < 60 && e.getEntity() instanceof Player){
+		if(EnumGameState.isCurrentState(EnumGameState.GAME) && TaupeGun.timer < 60 && e.getEntity() instanceof Player){
 			e.setCancelled(true);
 		}
 		if(e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent)e).getDamager() instanceof Player){

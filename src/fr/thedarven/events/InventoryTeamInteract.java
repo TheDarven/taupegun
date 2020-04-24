@@ -27,7 +27,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.EnumInventory;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
@@ -42,7 +42,7 @@ public class InventoryTeamInteract implements Listener {
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
-		if(TaupeGun.etat == EnumGame.LOBBY && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
 			Player p = e.getPlayer();
 			PlayerTaupe tPlayer = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			ItemStack playerItem = p.getItemInHand();
@@ -55,7 +55,7 @@ public class InventoryTeamInteract implements Listener {
 					@Override
 					public void run() {
 						/* p.getOpenInventory().getTitle().equals("§7Menu des équipes") */
-						if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && TaupeGun.etat == EnumGame.LOBBY && InventoryRegister.ownteam.getValue()){
+						if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && InventoryRegister.ownteam.getValue()){
 							openTeamsInventory(p, tPlayer);
 						}else {
 							if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM)/* p.getOpenInventory() != null && p.getOpenInventory().getTitle().equals("§7Menu des équipes") */)
@@ -121,7 +121,7 @@ public class InventoryTeamInteract implements Listener {
 	
 	@EventHandler
 	public void inventoryDrag(InventoryDragEvent e) {
-		if(TaupeGun.etat == EnumGame.LOBBY && e.getWhoClicked() instanceof Player) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && e.getWhoClicked() instanceof Player) {
 			Player p = (Player) e.getWhoClicked();
 			/* if(p.getOpenInventory().getTopInventory() != null) {
 				Inventory clickInv = e.getInventory();

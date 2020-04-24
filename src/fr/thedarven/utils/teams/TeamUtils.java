@@ -3,8 +3,7 @@ package fr.thedarven.utils.teams;
 import java.util.List;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class TeamUtils {
@@ -19,7 +18,7 @@ public class TeamUtils {
 	 * @return Le nom de l'équipe des spectateurs
 	 */
 	public static String getSpectatorTeamName() {
-		if(TaupeGun.etat == EnumGame.LOBBY || TaupeGun.etat == EnumGame.WAIT)
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
 			return LanguageBuilder.getContent("TEAM", "spectatorTeamName", InventoryRegister.language.getSelectedLanguage(), true);
 		if(SPECTATOR_TEAM_NAME == null)
 			SPECTATOR_TEAM_NAME = LanguageBuilder.getContent("TEAM", "spectatorTeamName", InventoryRegister.language.getSelectedLanguage(), true);
@@ -41,7 +40,7 @@ public class TeamUtils {
 	 * @return Le nom de l'équipe des taupes
 	 */
 	public static String getMoleTeamName() {
-		if(TaupeGun.etat == EnumGame.LOBBY || TaupeGun.etat == EnumGame.WAIT)
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
 			return LanguageBuilder.getContent("TEAM", "moleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
 		if(MOLE_TEAM_NAME == null)
 			MOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "moleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
@@ -63,7 +62,7 @@ public class TeamUtils {
 	 * @return Le nom de l'équipe des supertaupes
 	 */
 	public static String getSuperMoleTeamName() {
-		if(TaupeGun.etat == EnumGame.LOBBY || TaupeGun.etat == EnumGame.WAIT)
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
 			return LanguageBuilder.getContent("TEAM", "superMoleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
 		if(SUPERMOLE_TEAM_NAME == null)
 			SUPERMOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "superMoleTeamName", InventoryRegister.language.getSelectedLanguage(), true);

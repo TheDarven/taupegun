@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
@@ -22,7 +22,7 @@ public class Tchat implements Listener {
 	
 	@EventHandler
 	public void writeTchat(PlayerChatEvent e){
-		if(TaupeGun.etat.equals(EnumGame.GAME)){
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
 			Player p = e.getPlayer();
 			
@@ -69,7 +69,7 @@ public class Tchat implements Listener {
 	public void writeCommand(PlayerCommandPreprocessEvent e){
 		Player p = e.getPlayer();
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
-		if(TaupeGun.etat.equals(EnumGame.GAME)) {
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			if(e.getMessage().startsWith("/me") && !pl.isAlive()){
 				e.setCancelled(true);
 			}else if((e.getMessage().startsWith("/tell") || e.getMessage().startsWith("/msg")) && !pl.isAlive()) {

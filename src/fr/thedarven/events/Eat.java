@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 
 public class Eat implements Listener {
 
@@ -23,7 +23,7 @@ public class Eat implements Listener {
 	
 	@EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent e){
-		if(TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)){
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)){
 			e.setFoodLevel(20);
 		}
     }
@@ -51,7 +51,7 @@ public class Eat implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e){
-		if(TaupeGun.etat.equals(EnumGame.GAME)){
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			if(e.getCurrentItem() != null){
 				if(e.getCurrentItem().getType().equals(Material.GOLDEN_APPLE) && e.getCurrentItem().getData().getData() == 1){
 					((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.ENDERMAN_TELEPORT , 2.0f, 1.0f);

@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class ScenariosItemInteract implements Listener{
@@ -23,7 +23,7 @@ public class ScenariosItemInteract implements Listener{
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
-		if(TaupeGun.etat == EnumGame.LOBBY && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
 			Player p = e.getPlayer();
 			ItemStack playerItem = p.getItemInHand();
 			
@@ -45,7 +45,7 @@ public class ScenariosItemInteract implements Listener{
 	public static void actionBeacon(String exName) {
 		for(Player p: Bukkit.getOnlinePlayers()) {
 			removeBeacon(p, exName);
-			if(TaupeGun.etat.equals(EnumGame.LOBBY) && p.isOp())
+			if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && p.isOp())
 				giveBeacon(p);
 		}
 	}
@@ -57,7 +57,7 @@ public class ScenariosItemInteract implements Listener{
 	 */
 	public static void actionBeacon(Player p) {
 		removeBeacon(p, getFormattedScenariosItemName());
-		if(TaupeGun.etat.equals(EnumGame.LOBBY))
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			giveBeacon(p);
 	}
 

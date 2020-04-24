@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.Death;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.SqlRequest;
@@ -44,7 +44,7 @@ public class Commands implements CommandExecutor {
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}
-			}else if(cmd.getName().equalsIgnoreCase("heal") && TaupeGun.etat.equals(EnumGame.GAME)){
+			}else if(cmd.getName().equalsIgnoreCase("heal") && EnumGameState.isCurrentState(EnumGameState.GAME)){
 				if(p.isOp()){
 					for(Player player : Bukkit.getOnlinePlayers()) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 20, 100, true, false));
@@ -53,7 +53,7 @@ public class Commands implements CommandExecutor {
 				}else {
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}
-			}else if(cmd.getName().equalsIgnoreCase("playerkill") && args.length >= 1 && TaupeGun.etat.equals(EnumGame.GAME) && playerInGame(args[0]) != null){
+			}else if(cmd.getName().equalsIgnoreCase("playerkill") && args.length >= 1 && EnumGameState.isCurrentState(EnumGameState.GAME) && playerInGame(args[0]) != null){
 				if(p.isOp()) {
 					PlayerTaupe pl = PlayerTaupe.getPlayerManager(playerInGame(args[0]));
 					if(!pl.isAlive()) {
@@ -68,7 +68,7 @@ public class Commands implements CommandExecutor {
 				
 			}else if(cmd.getName().equalsIgnoreCase("players")){
 				String message = "§e"+LanguageBuilder.getContent("COMMAND", "playerList", InventoryRegister.language.getSelectedLanguage(), true);
-				if(TaupeGun.etat.equals(EnumGame.WAIT) || TaupeGun.etat.equals(EnumGame.LOBBY)) {
+				if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
 					for(PlayerTaupe player : PlayerTaupe.getAllPlayerManager()) {
 						if(player.isOnline()) {
 							message+="§a";
@@ -130,7 +130,7 @@ public class Commands implements CommandExecutor {
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}
 			}else if(cmd.getName().equalsIgnoreCase("rules") || cmd.getName().equalsIgnoreCase("scenarios")){
-				if(p.isOp() && TaupeGun.etat.equals(EnumGame.LOBBY)) {
+				if(p.isOp() && EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 					p.openInventory(InventoryRegister.menu.getInventory());
 				}else if(InventoryRegister.scenariosvisibles.getValue()) {
 					p.openInventory(InventoryRegister.configuration.getInventory());

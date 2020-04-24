@@ -22,22 +22,19 @@ import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
-import fr.thedarven.main.metier.EnumGame;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 	
 	public static TaupeGun instance;
 	public static boolean developpement = false;
 	public static boolean sqlConnect = false;
-	
-	public static EnumGame etat;
+
 	public static int timerStart = 10;
 	public static int timer = 0;
 	public static int nbrEquipesTaupes = 0;
 	
 	public SqlConnection sql;
 	
-	// public static Inventory inv = Bukkit.createInventory(null, 45, "Stuff de départ");
 	public static InventoryRegister configuration;
 	
 	public static ScheduledExecutorService executorMonoThread = Executors.newScheduledThreadPool(1);
@@ -51,7 +48,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable(){
 		instance = this;
-		etat = EnumGame.LOBBY;
 		
 		EventsManager.registerEvents(this);
 		PluginManager pm = getServer().getPluginManager();

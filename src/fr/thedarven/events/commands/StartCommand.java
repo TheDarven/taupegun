@@ -18,7 +18,7 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.Game;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.api.Title;
@@ -49,7 +49,7 @@ public static TeamGraph graph;
 				MessagesClass.CannotCommandOperatorMessage(p);
 				return;
 			}
-			if(!TaupeGun.etat.equals(EnumGame.LOBBY)){
+			if(!EnumGameState.isCurrentState(EnumGameState.LOBBY)){
 				p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameAlreadyStarted", InventoryRegister.language.getSelectedLanguage(), true));
 				return;
 			}
@@ -128,7 +128,7 @@ public static TeamGraph graph;
 			}
 			
 			p.sendMessage(ChatColor.BLUE+LanguageBuilder.getContent("START_COMMAND", "gameCanStart", InventoryRegister.language.getSelectedLanguage(), true));
-			TaupeGun.etat = EnumGame.WAIT;
+			EnumGameState.setState(EnumGameState.WAIT);
 			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
 				@Override
 				public void run(){

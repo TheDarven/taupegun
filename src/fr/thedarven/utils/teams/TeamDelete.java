@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.SqlRequest;
@@ -19,7 +19,7 @@ import fr.thedarven.utils.texts.TextInterpreter;
 public class TeamDelete {
 
 	public static void start() {
-		if(TaupeGun.etat.equals(EnumGame.GAME)) {
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			for(TeamCustom team : TeamCustom.getAllAliveTeams()) {
 				if(TaupeGun.timer > InventoryRegister.annoncetaupes.getValue()*60) {
 					if(team.isTaupeTeam()) {
@@ -65,7 +65,7 @@ public class TeamDelete {
 				Bukkit.broadcastMessage(teamWinMessage);
 				for(Player playerOnline : Bukkit.getOnlinePlayers())
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
-				TaupeGun.etat = EnumGame.END_FIREWORK;
+				EnumGameState.setState(EnumGameState.END_FIREWORK);
 			}else if(TeamCustom.getAllAliveTeams().size() == 0){
 				String nobodyWinMessage = "§a"+LanguageBuilder.getContent("GAME", "nobodyWin", InventoryRegister.language.getSelectedLanguage(), true);
 				
@@ -73,7 +73,7 @@ public class TeamDelete {
 				Bukkit.broadcastMessage(nobodyWinMessage);
 				for(Player playerOnline : Bukkit.getOnlinePlayers())
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
-				TaupeGun.etat = EnumGame.END_FIREWORK;
+				EnumGameState.setState(EnumGameState.END_FIREWORK);
 			}
 		}
 	}

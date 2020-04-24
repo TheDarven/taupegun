@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.PlayerOrientation;
 import fr.thedarven.utils.CodeColor;
@@ -31,7 +31,7 @@ public class Walk implements Listener {
     	Location loc = p.getLocation();
     	Block b = loc.getBlock();
     	
-    	if(TaupeGun.etat == EnumGame.LOBBY || TaupeGun.etat == EnumGame.WAIT){
+    	if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)){
     		
     		// COLORE SOUS LES PIEDS
     		for(int y=-3; y<0; y++){
@@ -46,7 +46,7 @@ public class Walk implements Listener {
 					}
 				}
     		}
-    	}else if(TaupeGun.etat.equals(EnumGame.GAME)){
+    	}else if(EnumGameState.isCurrentState(EnumGameState.GAME)){
     		// AFFICHE L'ORIENTATION DES TEAMMATES
 			if(TaupeGun.timer < InventoryRegister.annoncetaupes.getValue()*60){
 				Title.sendActionBar(p, PlayerOrientation.Orientation(p));

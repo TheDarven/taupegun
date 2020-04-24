@@ -10,8 +10,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.main.TaupeGun;
-
 public class PlayerTaupe {
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
 	private UUID uuid;
@@ -34,7 +32,7 @@ public class PlayerTaupe {
 	public PlayerTaupe(UUID playerUuid) {
 		this.uuid = playerUuid;
 		this.name = Bukkit.getPlayer(playerUuid).getName();
-		if(!TaupeGun.etat.equals(EnumGame.WAIT) && !TaupeGun.etat.equals(EnumGame.LOBBY)) {
+		if(!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
 			alive = false;
 			team = TeamCustom.getSpectatorTeam();
 			team.joinTeam(name);

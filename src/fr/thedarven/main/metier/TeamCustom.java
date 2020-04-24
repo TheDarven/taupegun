@@ -17,7 +17,6 @@ import fr.thedarven.configuration.builders.teams.InventoryDeleteTeams;
 import fr.thedarven.configuration.builders.teams.InventoryParametres;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.teams.TeamUtils;
 
@@ -149,7 +148,7 @@ public class TeamCustom {
 			}
 			
 			pl.setTeam(this);
-			if(TaupeGun.etat.equals(EnumGame.LOBBY))
+			if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 				pl.setStartTeam(this);
 		}
 	}
@@ -182,7 +181,7 @@ public class TeamCustom {
 		if(p != null)
 			board.resetScores(p);
 		pl.setTeam(null);
-		if(TaupeGun.etat.equals(EnumGame.LOBBY))
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			pl.setStartTeam(null);
 	}
 	

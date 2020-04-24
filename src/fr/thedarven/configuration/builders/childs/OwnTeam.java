@@ -13,9 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
@@ -73,7 +72,7 @@ public class OwnTeam extends OptionBoolean{
 	 */
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
-		if(TaupeGun.etat.equals(EnumGame.LOBBY) && value)
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && value)
 			giveBanner(e.getPlayer());
 	}
 	
@@ -93,7 +92,7 @@ public class OwnTeam extends OptionBoolean{
 	 * @param exName L'ancien nom de l'item bannière
 	 */
 	private void actionBanner(String exName) {
-		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				removeBanner(p, exName);
 				if(value)
@@ -108,7 +107,7 @@ public class OwnTeam extends OptionBoolean{
 	 * @param p Le joueur
 	 */
 	public void actionBanner(Player p) {
-		if(TaupeGun.etat.equals(EnumGame.LOBBY)) {
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			removeBanner(p);
 			if(value)
 				giveBanner(p);

@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.configuration.builders.InventoryRegister;
 
@@ -19,7 +19,7 @@ public class GoNether implements Listener {
 
 	@EventHandler
 	public void join(PlayerTeleportEvent e) {
-		if(TaupeGun.etat.equals(EnumGame.GAME)){
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			if(e.getCause().equals(TeleportCause.NETHER_PORTAL)){
 				Player p = e.getPlayer();
 				if(p.getWorld().getName().equals("world")){

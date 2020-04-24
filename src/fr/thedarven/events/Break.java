@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import fr.thedarven.main.TaupeGun;
-import fr.thedarven.main.metier.EnumGame;
+import fr.thedarven.main.metier.EnumGameState;
 
 public class Break implements Listener {
 
@@ -18,7 +18,7 @@ public class Break implements Listener {
 	@EventHandler
 	public void breakBlock(BlockBreakEvent e) {
 		Player p = e.getPlayer();
-		if((TaupeGun.etat.equals(EnumGame.LOBBY) || TaupeGun.etat.equals(EnumGame.WAIT)) && !p.getGameMode().equals(GameMode.CREATIVE)){
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT) && !p.getGameMode().equals(GameMode.CREATIVE)){
 			e.setCancelled(true);
 		}
 	}
