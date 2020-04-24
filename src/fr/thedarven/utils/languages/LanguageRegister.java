@@ -118,7 +118,8 @@ public class LanguageRegister {
 		teamElement.addTranslation("fr_FR", "teamRenamed", "L'équipe a été renommé en {teamName} avec succès.");
 		teamElement.addTranslation("fr_FR", "teamChoiceTitle", "Menu des équipes");
 		teamElement.addTranslation("fr_FR", "spectatorTeamName", "Spectateurs");
-		
+		teamElement.addTranslation("fr_FR", "moleTeamName", "Taupes");
+		teamElement.addTranslation("fr_FR", "superMoleTeamName", "SuperTaupe");
 		
 		LanguageBuilder startCommandElement = LanguageBuilder.getLanguageBuilder("START_COMMAND");
 		startCommandElement.addTranslation("fr_FR", "gameAlreadyStarted", "La partie a déjà commencé !");

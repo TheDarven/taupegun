@@ -22,6 +22,7 @@ import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -184,7 +185,7 @@ public class InventoryTeams extends InventoryIncrement {
 						    			return;
 						    		}
 				
-						    		if(TeamUtils.getAllSpectatorTeamName().contains(pl.getCreateTeamName()) || pl.getCreateTeamName().startsWith("Taupes") || pl.getCreateTeamName().startsWith("SuperTaupe") || pl.getCreateTeamName().equals(LanguageBuilder.getContent("TEAM", "nameChoice", InventoryRegister.language.getSelectedLanguage(), true))){
+						    		if(TeamUtils.getAllSpectatorTeamName().contains(pl.getCreateTeamName()) || UtilsClass.startsWith(pl.getCreateTeamName(), TeamUtils.getAllMoleTeamName()) || UtilsClass.startsWith(pl.getCreateTeamName(), TeamUtils.getAllSuperMoleTeamName()) || pl.getCreateTeamName().equals(LanguageBuilder.getContent("TEAM", "nameChoice", InventoryRegister.language.getSelectedLanguage(), true))){
 						    			p.closeInventory();
 					    				MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
 					    				pl.setCreateTeamName(null);

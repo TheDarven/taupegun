@@ -19,6 +19,7 @@ import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.utils.CodeColor;
+import fr.thedarven.utils.teams.TeamUtils;
 
 public class TeamCustom {
 
@@ -57,7 +58,7 @@ public class TeamCustom {
 	
 	public TeamCustom(String name, String pColor, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
 		team = board.registerNewTeam(name);
-		if(name.startsWith("Taupes") || name.startsWith("SuperTaupe"))
+		if(name.startsWith(TeamUtils.getMoleTeamName()) || name.startsWith(TeamUtils.getSuperMoleTeamName()))
 			team.setPrefix("§"+pColor+"["+name+"] ");
 		else
 			team.setPrefix("§"+pColor);

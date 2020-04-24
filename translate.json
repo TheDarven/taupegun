@@ -149,7 +149,9 @@
 				"nameAlreadyUsed": "Ce nom d'équipe est déjà pris !",
 				"teamRenamed": "L'équipe a été renommé en {teamName} avec succès.",
 				"teamChoiceTitle": "Menu des équipes",
-				"spectatorTeamName": "Spectateurs"
+				"spectatorTeamName": "Spectateurs",
+				"moleTeamName": "Taupes",
+				"superMoleTeamName": "SuperTaupe"
 			},
 			"en_US": {
 				"changeName": "Change the name",
@@ -170,7 +172,9 @@
 				"nameAlreadyUsed": "This team's name is already taken.",
 				"teamRenamed": "The team has been successfully renamed {teamName}.",
 				"teamChoiceTitle": "Team menu",
-				"spectatorTeamName": "Spectators"
+				"spectatorTeamName": "Spectators",
+				"moleTeamName": "Moles",
+				"superMoleTeamName": "SuperMole"
 			}
 		}
 	},

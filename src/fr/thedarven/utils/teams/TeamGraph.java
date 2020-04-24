@@ -44,7 +44,7 @@ public class TeamGraph {
 					pNbrTaupes = joueursTaupe.size();
 				ArrayList<PlayerTaupe> teamTaupe = new ArrayList<PlayerTaupe>();
 				
-				TeamCustom taupe = new TeamCustom("Taupes"+numTeam,"c", numTeam, 0, false, true);
+				TeamCustom taupe = new TeamCustom(TeamUtils.getMoleTeamName()+numTeam,"c", numTeam, 0, false, true);
 				
 				// Crée une équipe de taupe
 				for(int i=0; i<pNbrTaupes; i++) {
@@ -61,7 +61,7 @@ public class TeamGraph {
 			// SUPERTAUPES
 			if(InventoryRegister.supertaupes.getValue()) {
 				
-				TeamCustom supertaupe = new TeamCustom("SuperTaupe","4", 0, 1, false, true);
+				TeamCustom supertaupe = new TeamCustom(TeamUtils.getMoleTeamName(),"4", 0, 1, false, true);
 				
 				ArrayList<PlayerTaupe> teamSupertaupe = new ArrayList<PlayerTaupe>();
 				// Prend une taupe par équipe de taupe
