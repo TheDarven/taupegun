@@ -1,6 +1,6 @@
 # TaupeGun
 
-If you want use the this source code or a part of this, read **LICENCE** file.
+If you want use the this source code or a part of this, read **LICENSE** file.
 
 The plugin was made for the **spigot-1.8.8.8-R0.1-SNAPSHOT-latest version**.
 A big thank you to UltiXstorm and yukimoki for their help on mathematical problems that I had.
