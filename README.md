@@ -1,8 +1,11 @@
 # TaupeGun
 
-The plugin was made for the spigot-1.8.8.8-R0.1-SNAPSHOT-latest version.
+If you want use the this source code or a part of this, read **LICENCE** file.
+
+The plugin was made for the **spigot-1.8.8.8-R0.1-SNAPSHOT-latest version**.
 A big thank you to UltiXstorm and yukimoki for their help on mathematical problems that I had.
 Thanks also to ANerdUnicorn who helped me to create the image of the plugin.
+Thanks to Janeo who helped me translate this page in english and create the english translation of the plugin itself.
 
 Because without a developer, no plugin, I ask you not to remove my nickname from the tab.
 
@@ -16,10 +19,11 @@ Available commands :
 /heal - Heals all players.
 /g <message> - To send an alert in the chat room.
 /playerkill <pseudo> - Removes a player from the game even if he is disconnected.
-/players - To see the list of players still in play.
+/players - To display the list of players still in play.
 
 • All the players :
 /rules - To see the configuration of the game (in game).
+/item - Gives the lobby item to the player (add in 2.4.1)
 
 • Moles :
 /claim - Get his mole kit back.

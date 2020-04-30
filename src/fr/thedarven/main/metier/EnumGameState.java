@@ -13,6 +13,6 @@ public enum EnumGameState {
 	}
 	
 	public static boolean isCurrentState(EnumGameState... states) {
-		return Arrays.stream(states).anyMatch(state -> state == currentState);
+		return Arrays.asList(states).contains(currentState);
 	}
 }
