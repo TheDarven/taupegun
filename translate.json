@@ -15,6 +15,7 @@
 				"cancel": "✘ Annuler",
 				"click_configuration": "Cliquez pour configurer",
 				"back": "Retour",
+				"info": "[Info]",
 
 				"moleMessageInfo": " Vous êtes une taupe, trahissez votre équipe et remportez la partie avec votre équipe de taupes !",
 				"moleMessageT": " Tapez /t pour envoyer un message à votre équipe de taupes.",
@@ -35,6 +36,7 @@
 				"cancel": "✘ Cancel",
 				"click_configuration": "Click here to configure",
 				"back": "Back",
+				"info": "[Info]",
 
 				"moleMessageInfo": " You are a mole, betray your team and win the game along your mole team !",
 				"moleMessageT": " Type /t to send a message to your mole team.",
@@ -201,7 +203,8 @@
 				"wallShrinking": "Le mur commence à se réduire !",
 				"teamWin": "L'équipe {teamName} a gagné !",
 				"nobodyWin": "Personne n'a gagné !",
-				"episodeIsStarting": "===== Début de l'épisode {episodeNumber} ====="
+				"episodeIsStarting": "===== Début de l'épisode {episodeNumber} =====",
+				"pvpIsStarting": "[PVP] Le pvp est désormais activé !"
 			},
 			"en_US": {
 				"moleAnnouncement": "Mole will be announced in 5 seconds",
@@ -210,7 +213,8 @@
 				"wallShrinking": "The wall is starting to shrink !",
 				"teamWin": "The {teamName} have won !",
 				"nobodyWin": "Nobody has won !",
-				"episodeIsStarting": "===== Start of episode {episodeNumber} ====="
+				"episodeIsStarting": "===== Start of episode {episodeNumber} =====",
+				"pvpIsStarting": "[PVP] PVP is now enabled"
 			}
 		}
 	},

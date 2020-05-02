@@ -35,7 +35,7 @@ public class Commands implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
 			Player p = (Player) sender;
-			if(cmd.getName().equalsIgnoreCase("g")) {
+			if(cmd.getName().equalsIgnoreCase("say")) {
 				if(p.isOp()){
 					String message = " ";
 					for(int i=0; i<args.length; i++){
@@ -46,6 +46,17 @@ public class Commands implements CommandExecutor {
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}
+			}else if(cmd.getName().equalsIgnoreCase("g")) {
+				if(p.isOp()){
+					String message = " ";
+					for(int i=0; i<args.length; i++){
+						message = message+args[i]+" ";
+					}
+					String infoMessage = LanguageBuilder.getContent("CONTENT", "info", InventoryRegister.language.getSelectedLanguage(), true);
+					Bukkit.broadcastMessage("§e"+infoMessage+"§a"+message);
+				}else{
+					MessagesClass.CannotCommandOperatorMessage(p);
+				}	
 			}else if(cmd.getName().equalsIgnoreCase("heal") && EnumGameState.isCurrentState(EnumGameState.GAME)){
 				if(p.isOp()){
 					for(Player player : Bukkit.getOnlinePlayers()) {
@@ -102,20 +113,20 @@ public class Commands implements CommandExecutor {
 									for(String player : team.getTeam().getEntries()){
 										if(!player.equals(pc.getCustomName())) {
 											if(Bukkit.getPlayer(player) != null) {
-												
-												Map<String, String> params = new HashMap<String, String>();
-												params.put("playerName", pc.getCustomName());
-												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMANtD", "revive", InventoryRegister.language.getSelectedLanguage(), true), params);
-												
-												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
-												
-												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+reviveMessage);
 												for(Player pl : Bukkit.getOnlinePlayers())
 													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
 												Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
 												Bukkit.getPlayer(pc.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 2 ));
 												pc.setAlive(true);
 												SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
+												
+												Map<String, String> params = new HashMap<String, String>();
+												params.put("playerName", pc.getCustomName());
+												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "revive", InventoryRegister.language.getSelectedLanguage(), true), params);
+												
+												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
+												
+												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+reviveMessage);
 												return true;
 											}
 										}

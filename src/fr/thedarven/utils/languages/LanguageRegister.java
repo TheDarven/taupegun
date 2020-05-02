@@ -145,6 +145,7 @@ public class LanguageRegister {
 		gameElement.addTranslation("fr_FR", "teamWin", "L'équipe {teamName} a gagné !");
 		gameElement.addTranslation("fr_FR", "nobodyWin", "Personne n'a gagné !");
 		gameElement.addTranslation("fr_FR", "episodeIsStarting", "===== Début de l'épisode {episodeNumber} =====");
+		gameElement.addTranslation("fr_FR", "pvpIsStarting", "[PVP] Le pvp est désormais activé !");
 		
 		LanguageBuilder contentElement = LanguageBuilder.getLanguageBuilder("CONTENT");
 		contentElement.addTranslation("fr_FR", "moleMessageInfo", " Vous êtes une taupe, retournez votre équipe et remportez la partie avec votre équipe de taupes !");
@@ -156,6 +157,7 @@ public class LanguageRegister {
 		contentElement.addTranslation("fr_FR", "superMoleMessageReveal", " Tapez /superreveal pour vous révèler aux yeux de tous et gagner une pomme d'or.");
 		contentElement.addTranslation("fr_FR", "killList", "======== Liste des kills ========");
 		contentElement.addTranslation("fr_FR", "selected", "Sélectionné");
+		contentElement.addTranslation("fr_FR", "info", "[Info]");
 		
 		LanguageBuilder invSeeElement = LanguageBuilder.getLanguageBuilder("INVSEE");
 		invSeeElement.addTranslation("fr_FR", "inventoryTitle", "Inventaire de {playerName}");

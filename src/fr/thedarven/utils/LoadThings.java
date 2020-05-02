@@ -140,6 +140,7 @@ public class LoadThings {
 		plugin.getCommand("revive").setExecutor(new Commands());
 		plugin.getCommand("heal").setExecutor(new Commands());
 		plugin.getCommand("g").setExecutor(new Commands());
+		plugin.getCommand("say").setExecutor(new Commands());
 		plugin.getCommand("playerkill").setExecutor(new Commands());
 		plugin.getCommand("players").setExecutor(new Commands());
 		plugin.getCommand("rules").setExecutor(new Commands());

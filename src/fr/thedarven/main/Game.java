@@ -47,6 +47,7 @@ public class Game{
 					setMolesInDb();
 				}
 				
+				pvpEnabling();
 				episodeAnnouncing();
 				annoncesTaupes();
 				annoncesMur();
@@ -147,11 +148,21 @@ public class Game{
 		}
 	}
 	
+	private static void pvpEnabling() {
+		if(InventoryRegister.pvp.getValue()*60 == TaupeGun.timer) {
+			for(Player player : Bukkit.getOnlinePlayers())
+				player.playSound(player.getLocation(), Sound.WOLF_GROWL, 1, 1);
+
+			String pvpMessage = "§e"+LanguageBuilder.getContent("GAME", "pvpIsStarting", InventoryRegister.language.getSelectedLanguage(), true);
+			Bukkit.broadcastMessage(pvpMessage);
+		}
+	}
+	
 	private static void episodeAnnouncing() {
 		if(InventoryRegister.episode.getValue() > 0 && TaupeGun.timer != 0 && TaupeGun.timer%(InventoryRegister.episode.getValue()*60) == 0) {
 			for(Player player : Bukkit.getOnlinePlayers())
 				player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);		
-			int episodeNumber = (TaupeGun.timer/InventoryRegister.episode.getValue()*60)+1;
+			int episodeNumber = TaupeGun.timer/(InventoryRegister.episode.getValue()*60)+1;
 
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("episodeNumber", episodeNumber+"");
