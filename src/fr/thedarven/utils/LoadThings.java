@@ -33,6 +33,7 @@ public class LoadThings {
 		loadCrafts();
 		loadMap();
 		loadCommands(plugin);
+		loadDatabase(plugin);
 	}
 	
 	public static void loadDatabase(TaupeGun plugin) {

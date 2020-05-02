@@ -113,19 +113,20 @@ public class Commands implements CommandExecutor {
 									for(String player : team.getTeam().getEntries()){
 										if(!player.equals(pc.getCustomName())) {
 											if(Bukkit.getPlayer(player) != null) {
-												for(Player pl : Bukkit.getOnlinePlayers())
-													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
+												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
 												Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
 												Bukkit.getPlayer(pc.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 2 ));
 												pc.setAlive(true);
 												SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
 												
+												
+												for(Player pl : Bukkit.getOnlinePlayers())
+													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
+												
 												Map<String, String> params = new HashMap<String, String>();
 												params.put("playerName", pc.getCustomName());
 												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "revive", InventoryRegister.language.getSelectedLanguage(), true), params);
-												
-												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
-												
+																					
 												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+reviveMessage);
 												return true;
 											}
