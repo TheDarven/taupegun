@@ -8,7 +8,6 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -17,8 +16,7 @@ import fr.thedarven.utils.messages.MessagesClass;
 @SuppressWarnings("deprecation")
 public class Tchat implements Listener {
 
-	public Tchat(TaupeGun pl) {
-	}
+	public Tchat() {}
 	
 	@EventHandler
 	public void writeTchat(PlayerChatEvent e){

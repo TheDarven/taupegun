@@ -56,7 +56,7 @@ public class MessagesClass {
 			String listTaupe = "§c"+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+"§c";
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 				if(pc.getTaupeTeam() == team)
-					listTaupe = listTaupe +pc.getCustomName()+" ";
+					listTaupe = listTaupe +pc.getName()+" ";
 			}
 			p.getPlayer().sendMessage(listTaupe);
 		}
@@ -93,7 +93,7 @@ public class MessagesClass {
 			String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 				if(pc.getSuperTaupeTeam() == team)
-					listTaupe = listTaupe +pc.getCustomName()+" ";
+					listTaupe = listTaupe +pc.getName()+" ";
 			}
 			p.getPlayer().sendMessage(listTaupe);
 		}
@@ -149,7 +149,7 @@ public class MessagesClass {
 			String listTaupe = ChatColor.RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.RED;
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 				if(pc.getTaupeTeam() == team)
-					listTaupe = listTaupe +pc.getCustomName()+" ";
+					listTaupe = listTaupe +pc.getName()+" ";
 			}
 			Bukkit.getServer().broadcastMessage(listTaupe);
 		}
@@ -160,7 +160,7 @@ public class MessagesClass {
 			String listTaupe = ChatColor.DARK_RED+""+ChatColor.BOLD+team.getTeam().getName()+": "+ChatColor.RESET+""+ChatColor.DARK_RED;
 			for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 				if(pc.getSuperTaupeTeam() == team)
-					listTaupe = listTaupe +pc.getCustomName()+" ";
+					listTaupe = listTaupe +pc.getName()+" ";
 			}
 			Bukkit.getServer().broadcastMessage(listTaupe);	
 		}
@@ -171,7 +171,7 @@ public class MessagesClass {
 		Bukkit.broadcastMessage(killListMessage);
 		for(PlayerTaupe pc : PlayerTaupe.getAllPlayerManager()) {
 			if(pc.getKill() != 0) {
-				Bukkit.broadcastMessage(ChatColor.BOLD+""+ChatColor.GREEN+pc.getCustomName()+": "+ChatColor.RESET+" "+pc.getKill());
+				Bukkit.broadcastMessage(ChatColor.BOLD+""+ChatColor.GREEN+pc.getName()+": "+ChatColor.RESET+" "+pc.getKill());
 			}
 		}
 	}

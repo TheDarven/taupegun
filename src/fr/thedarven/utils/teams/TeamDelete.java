@@ -42,7 +42,7 @@ public class TeamDelete {
 						if(deleteTeamSuperTaupe) {
 							team.setAlive(false);
 						}
-					}else if(!team.getSpectator() && team.getTeam().getEntries().size() == 0) {
+					}else if(!team.isSpectator() && team.getTeam().getEntries().size() == 0) {
 						SqlRequest.updateTeamMort(team.getTeam().getName());
 						team.setAlive(false);
 						/* Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");

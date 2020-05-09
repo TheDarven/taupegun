@@ -19,7 +19,7 @@ public class SqlConnection {
     public void connection() throws SQLException{
         if(!isConnected()){
            connection = DriverManager.getConnection(urlbase + host + "/" + database, user, pass);
-           System.out.println("Connexion a la base de donnee realise avec succes !");
+           System.out.println("[TaupeGun-SUCCESS] Connexion a la base de donnee realise avec succes !");
         }
     }
    

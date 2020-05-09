@@ -1,6 +1,7 @@
 package fr.thedarven.configuration.builders.childs;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -27,11 +28,13 @@ public class Pvp extends OptionNumeric {
 	 */
 	@EventHandler
     public void onOtherDamage(EntityDamageByEntityEvent e){
-        if(e.getDamager() instanceof Player && e.getEntity() instanceof Player){
-        	if(this.value*60 - TaupeGun.timer >= 0){
-        		e.setCancelled(true);
-        	}
-        }
+		if(this.value*60 - TaupeGun.timer >= 0){
+			if(e.getEntity() instanceof Player){
+	        	if(e.getDamager() instanceof Player || e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
+	        		e.setCancelled(true);
+	        	}
+	        }	
+		}
     }
 
 }

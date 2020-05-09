@@ -31,7 +31,10 @@ public class StartCommand implements Listener {
 Scoreboard board = TeamCustom.board;
 public static TeamGraph graph;
 
+	private TaupeGun plugin;
+
 	public StartCommand(TaupeGun pl) {
+		this.plugin = pl;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -129,7 +132,7 @@ public static TeamGraph graph;
 			
 			p.sendMessage(ChatColor.BLUE+LanguageBuilder.getContent("START_COMMAND", "gameCanStart", InventoryRegister.language.getSelectedLanguage(), true));
 			EnumGameState.setState(EnumGameState.WAIT);
-			Bukkit.getScheduler().runTaskTimer(TaupeGun.instance, new Runnable(){
+			Bukkit.getScheduler().runTaskTimer(plugin, new Runnable(){
 				@Override
 				public void run(){
 					if(TaupeGun.timerStart == 10){

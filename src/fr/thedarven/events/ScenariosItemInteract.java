@@ -12,14 +12,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class ScenariosItemInteract implements Listener{
 
-	public ScenariosItemInteract(TaupeGun pl) {
-	}
+	public ScenariosItemInteract() {}
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {

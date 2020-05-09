@@ -11,18 +11,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.PlayerOrientation;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.api.Title;
 
 public class Walk implements Listener {
 
-	public Walk(TaupeGun pl) {
-	}
+	public Walk() {};
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -48,7 +46,7 @@ public class Walk implements Listener {
     		}
     	}else if(EnumGameState.isCurrentState(EnumGameState.GAME)){
     		// AFFICHE L'ORIENTATION DES TEAMMATES
-			if(TaupeGun.timer < InventoryRegister.annoncetaupes.getValue()*60){
+			if(!UtilsClass.molesEnabled()){
 				Title.sendActionBar(p, PlayerOrientation.Orientation(p));
 			}
     	}

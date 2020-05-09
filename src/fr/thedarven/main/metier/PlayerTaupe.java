@@ -8,13 +8,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import fr.thedarven.utils.UtilsClass;
 
-public class PlayerTaupe {
+public class PlayerTaupe extends PlayerCustom{
 	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
-	private UUID uuid;
 	private String name;
 	private boolean alive;
 	private int kill;
@@ -32,7 +30,8 @@ public class PlayerTaupe {
 	private String createKitName;
 	
 	public PlayerTaupe(UUID playerUuid) {
-		this.uuid = playerUuid;
+		super(playerUuid);
+		
 		this.name = Bukkit.getPlayer(playerUuid).getName();
 		if(!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
 			alive = false;
@@ -65,15 +64,11 @@ public class PlayerTaupe {
 		playerManagerHashMap.put(this.uuid, this);
 	}
 	
-	public UUID getUuid() {
-		return uuid;
-	}
-	
 	public boolean isAlive() {
 		return alive;
 	}
 	
-	public String getCustomName() {
+	public String getName() {
 		return name;
 	}
 	
@@ -95,22 +90,6 @@ public class PlayerTaupe {
 	
 	public InventoryManager getOpennedInventory() {
 		return this.opennedInventory;
-	}
-	
-	public Player getPlayer(){
-		if(isOnline()){
-			return Bukkit.getPlayer(uuid);
-		}
-		return null;
-	}
-	
-	public boolean isOnline(){
-		for(Player p : Bukkit.getOnlinePlayers()){
-			if(p.getUniqueId().equals(this.uuid)){
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public void setAlive(boolean value) {
@@ -159,6 +138,18 @@ public class PlayerTaupe {
 		return teamSuperTaupe;
 	}
 	
+	public int getTaupeTeamNumber() {
+		if(isTaupe())
+			return teamTaupe.getTaupeTeamNumber();
+		return 0;
+	}
+	
+	public int getSuperTaupeTeamNumber() {
+		if(isSuperTaupe())
+			return teamSuperTaupe.getSuperTaupeTeamNumber();
+		return 0;
+	}
+	
 	public void setTaupeTeam(TeamCustom pTeam) {
 		teamTaupe = pTeam;
 	}
@@ -192,7 +183,9 @@ public class PlayerTaupe {
 	}
 	
 
-	
+	/*
+	 * CONFIG
+	 */
 	public boolean getCanClick() {
 		return this.canClick;
 	}
@@ -216,7 +209,6 @@ public class PlayerTaupe {
 	public void setCreateKitName(String pName) {
 		createKitName = pName;
 	}
-	
 	
 	
 	

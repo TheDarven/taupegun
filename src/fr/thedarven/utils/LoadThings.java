@@ -46,16 +46,18 @@ public class LoadThings {
 		user = user == null ? "" : user;
 		password = password == null ? "" : password;
 		
-		plugin.sql = new SqlConnection("jdbc:mysql://",host,database,user,password);
-        try {
-        	plugin.sql.connection();
-        	TaupeGun.sqlConnect = true;
-		} catch (SQLException e) {
-			
+		if(host.length() + database.length() + user.length() + password.length()  != 0) {
+			plugin.sql = new SqlConnection("jdbc:mysql://",host,database,user,password);
+	        try {
+	        	plugin.sql.connection();
+	        	TaupeGun.sqlConnect = true;
+			} catch (SQLException e) {
+				TaupeGun.sqlConnect = false;
+			}	
 		}
 		
 		if(!TaupeGun.sqlConnect) {
-			System.out.println("[ERREUR] La connexion a la base de donnee a echoue !");
+			System.out.println("[TaupeGun-WARN] La connexion a la base de donnee a echoue !");
 		}
 		SqlRequest.verifTable();
 	}

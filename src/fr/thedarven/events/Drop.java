@@ -7,15 +7,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 
 public class Drop implements Listener {
 
 	private static Material[] noDropMaterials = {Material.BANNER, Material.BEACON, Material.PAPER};
 	
-	public Drop(TaupeGun pl) {
-	}
+	public Drop() {}
 	
 	@EventHandler
 	public void onItemDrop (PlayerDropItemEvent e) {

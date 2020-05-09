@@ -15,8 +15,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 
 public class GoNether implements Listener {
 
-	public GoNether(TaupeGun pl) {
-	}
+	public GoNether() {}
 
 	@EventHandler
 	public void join(PlayerTeleportEvent e) {

@@ -97,7 +97,7 @@ public class TeamCustom {
 		return superTaupeTeam;
 	}
 	
-	public boolean getSpectator() {
+	public boolean isSpectator() {
 		return spectator;
 	}
 	
@@ -138,7 +138,7 @@ public class TeamCustom {
 			if(pl.getTeam() != null)
 				pl.getTeam().leaveTeam(pl.getUuid());
 			
-			team.addEntry(pl.getCustomName());	
+			team.addEntry(pl.getName());	
 			listPlayer.add(uuid);	
 			objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 			if(p != null) {
@@ -176,7 +176,7 @@ public class TeamCustom {
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 		Player p = Bukkit.getPlayer(uuid);
 		
-		team.removeEntry(pl.getCustomName());
+		team.removeEntry(pl.getName());
 		listPlayer.remove(uuid);
 		if(p != null)
 			board.resetScores(p);
@@ -192,7 +192,7 @@ public class TeamCustom {
 	public static List<TeamCustom> getAllAliveTeams() {
 		List<TeamCustom> list = new ArrayList<>();
 		for(TeamCustom team : listTeam){
-			if(!team.getSpectator() && team.isAlive())
+			if(!team.isSpectator() && team.isAlive())
 				list.add(team);
 		}
 		return list;
@@ -201,7 +201,16 @@ public class TeamCustom {
 	public static List<TeamCustom> getAllStartAliveTeams() {
 		List<TeamCustom> list = new ArrayList<>();
 		for(TeamCustom team : listTeam){
-			if(!team.getSpectator() && !team.isTaupeTeam() && !team.isSuperTaupeTeam() && team.isAlive())
+			if(!team.isSpectator() && !team.isTaupeTeam() && !team.isSuperTaupeTeam() && team.isAlive())
+				list.add(team);
+		}
+		return list;
+	}
+	
+	public static List<TeamCustom> getAllStartTeams() {
+		List<TeamCustom> list = new ArrayList<>();
+		for(TeamCustom team : listTeam){
+			if(!team.isSpectator() && !team.isTaupeTeam() && !team.isSuperTaupeTeam())
 				list.add(team);
 		}
 		return list;
@@ -217,7 +226,7 @@ public class TeamCustom {
 	
 	public static TeamCustom getSpectatorTeam() {
 		for(TeamCustom team : listTeam){
-			if(team.getSpectator())
+			if(team.isSpectator())
 				return team;
 		}
 		return null;

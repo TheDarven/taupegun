@@ -86,7 +86,7 @@ public class DiamondLimit extends OptionNumeric {
 			}else {
 				buffer.put(p.getUniqueId(), 1);
 			}
-		}	
+		}
 	}
 	
 }

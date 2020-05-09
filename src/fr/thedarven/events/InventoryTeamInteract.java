@@ -37,7 +37,10 @@ import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryTeamInteract implements Listener {
 
+	private TaupeGun plugin;
+	
 	public InventoryTeamInteract(TaupeGun pl) {
+		this.plugin = pl;
 	}
 
 	@EventHandler
@@ -65,7 +68,7 @@ public class InventoryTeamInteract implements Listener {
 								this.cancel();
 							}
 						}
-					}.runTaskTimer(TaupeGun.instance,0,20);	
+					}.runTaskTimer(plugin,0,20);	
 				}
 				e.setCancelled(true);
 			}

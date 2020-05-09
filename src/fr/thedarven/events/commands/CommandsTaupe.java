@@ -16,8 +16,8 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.teams.TeamDelete;
@@ -31,7 +31,7 @@ public class CommandsTaupe implements CommandExecutor {
 			Player p = (Player) sender;
 			PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer <= 0 && pc.isTaupe() && pc.isAlive()){
+			if(UtilsClass.molesEnabled() && pc.isTaupe() && pc.isAlive()){
 				
 				if(cmd.getName().equalsIgnoreCase("claim")) {
 					if(!pc.getClaimTaupe().equals("aucun")){
@@ -72,7 +72,7 @@ public class CommandsTaupe implements CommandExecutor {
 					MessagesClass.CommandTaupeMessageMessage(p, args, pc.getTaupeTeam());
 				}
 			}
-			if(InventoryRegister.annoncetaupes.getValue()*60-TaupeGun.timer+1200 <= 0 && pc.isSuperTaupe() && pc.isAlive()){
+			if(UtilsClass.superMolesEnabled() && pc.isSuperTaupe() && pc.isAlive()){
 				if(cmd.getName().equalsIgnoreCase("superreveal")) {
 					if(!pc.isReveal())
 						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", InventoryRegister.language.getSelectedLanguage(), true));

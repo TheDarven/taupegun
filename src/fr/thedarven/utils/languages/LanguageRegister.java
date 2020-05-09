@@ -158,6 +158,7 @@ public class LanguageRegister {
 		contentElement.addTranslation("fr_FR", "killList", "======== Liste des kills ========");
 		contentElement.addTranslation("fr_FR", "selected", "Sélectionné");
 		contentElement.addTranslation("fr_FR", "info", "[Info]");
+		contentElement.addTranslation("fr_FR", "statsLink", "Les statistiques de votre partie sont disponibles ici : {link}");
 		
 		LanguageBuilder invSeeElement = LanguageBuilder.getLanguageBuilder("INVSEE");
 		invSeeElement.addTranslation("fr_FR", "inventoryTitle", "Inventaire de {playerName}");

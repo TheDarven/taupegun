@@ -27,13 +27,17 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumInventory;
 import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InvSee implements Listener {
 
+	private TaupeGun plugin;
+	
 	public InvSee(TaupeGun pl) {
+		this.plugin = pl;
 	}
 	
 	@EventHandler
@@ -58,7 +62,7 @@ public class InvSee implements Listener {
 						this.cancel();
 					}	
 				}
-			}.runTaskTimer(TaupeGun.instance,20,1);
+			}.runTaskTimer(plugin,20,1);
 		}
 	}
 	
@@ -143,7 +147,13 @@ public class InvSee implements Listener {
 			
 			// MOLE		
 			lores.clear();
-			if(viewedPlayerTaupe.isTaupe()) {
+			if(!UtilsClass.molesEnabled()) {
+				params.clear();
+				params.put("valueColor", "§r§k");
+				params.put("endValueColor", "§r§e");
+				String unknownMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				lores.add(unknownMoleMessage);
+			}else if(viewedPlayerTaupe.isTaupe()) {
 				params.clear();
 				params.put("teamName", "§r"+viewedPlayerTaupe.getTaupeTeam().getTeam().getName()+"§e");
 				String moleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "mole", InventoryRegister.language.getSelectedLanguage(), true), params);
@@ -158,7 +168,13 @@ public class InvSee implements Listener {
 			}
 			
 			// SUPERMOLE
-			if(viewedPlayerTaupe.isSuperTaupe()) {
+			if(!UtilsClass.molesEnabled()) {
+				params.clear();
+				params.put("valueColor", "§r§k");
+				params.put("endValueColor", "§r§e");
+				String unknownSuperMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownSuperMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				lores.add(unknownSuperMoleMessage);
+			}else if(viewedPlayerTaupe.isSuperTaupe()) {
 				params.clear();
 				params.put("teamName", "§r"+viewedPlayerTaupe.getSuperTaupeTeam().getTeam().getName()+"§e");
 				String superMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "superMole", InventoryRegister.language.getSelectedLanguage(), true), params);

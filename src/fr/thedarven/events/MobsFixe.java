@@ -7,12 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import fr.thedarven.main.TaupeGun;
-
 public class MobsFixe implements Listener {
 
-	public MobsFixe(TaupeGun pl) {
-	}
+	public MobsFixe() {}
 	
 	@EventHandler()
 	public void onCreeperOneShot(EntityDamageByEntityEvent e) {

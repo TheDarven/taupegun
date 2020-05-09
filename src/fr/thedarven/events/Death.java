@@ -16,10 +16,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.statsgame.RestGame;
+import fr.thedarven.statsgame.RestPlayerDeath;
+import fr.thedarven.statsgame.RestPlayerKill;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -27,31 +29,37 @@ import fr.thedarven.utils.texts.TextInterpreter;
 
 public class Death implements Listener {
 
-	public Death(TaupeGun pl) {
-	}
+	public Death() {}
 
 	@EventHandler
 	public void PlayerDeath(PlayerDeathEvent e) {
-		Player p = e.getEntity();
+		Player victim = e.getEntity();
+		Player killer = victim.getKiller();
 		
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("playerName", "§6"+p.getName()+"§r");
+		params.put("playerName", "§6"+victim.getName()+"§r");
 		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", InventoryRegister.language.getSelectedLanguage(), true), params);
 		
 		e.setDeathMessage(deathAllMessage);
 		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
+		if(killer != null){
+			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
+			pcKiller.setKill(pcKiller.getKill()+1);
+			SqlRequest.updateTaupeKill(killer);
+		}
 		
-		if(p.getKiller() != null){
-			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(p.getKiller().getUniqueId());
-			pcKiller.setKill(pcKiller.getKill()+1);;
-			SqlRequest.updateTaupeKill(p.getKiller());
+		if(EnumGameState.isCurrentState(EnumGameState.GAME) && killer.getGameMode().equals(GameMode.SURVIVAL)) {
+			RestGame.getCurrentGame().addPlayerDeath(new RestPlayerDeath(victim.getUniqueId(), victim.getLastDamageCause().getCause().toString(), victim.getLastDamageCause().getEntityType().toString()));
+			if(killer != null){
+				RestGame.getCurrentGame().addPlayerKill(new RestPlayerKill(victim.getUniqueId(), killer.getUniqueId(), killer.getHealth()));
+			}
 		}
 	}
 	
 	public static void killPlayer(PlayerTaupe pl, boolean showMessage) {
 		if(showMessage) {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("playerName", "§6"+pl.getCustomName()+"§r");
+			params.put("playerName", "§6"+pl.getName()+"§r");
 			String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", InventoryRegister.language.getSelectedLanguage(), true), params);
 			
 			Bukkit.broadcastMessage(deathAllMessage);
@@ -65,14 +73,14 @@ public class Death implements Listener {
 				playerOnline.playSound(playerOnline.getLocation(), Sound.WITHER_SPAWN, 1, 1);
 			}
 			
-			if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60 && pl.isOnline()){
+			if(UtilsClass.molesEnabled() && pl.isOnline()){
 				Map<String, String> params = new HashMap<String, String>();
-				params.put("playerName", pl.getCustomName());
+				params.put("playerName", pl.getName());
 				String headName = "§6"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", InventoryRegister.language.getSelectedLanguage(), true), params);
 				
 				ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
 				SkullMeta teteM = (SkullMeta) tete.getItemMeta();
-				teteM.setOwner(pl.getCustomName());
+				teteM.setOwner(pl.getName());
 				teteM.setDisplayName(headName);
 				tete.setItemMeta(teteM);
 				if(pl.getPlayer() != null)

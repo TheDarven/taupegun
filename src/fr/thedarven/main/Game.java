@@ -21,6 +21,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.FireworkWin;
 import fr.thedarven.utils.SqlRequest;
@@ -67,6 +68,7 @@ public class Game{
 					Bukkit.getScheduler().cancelAllTasks();
 					SqlRequest.updateGameDuree();
 					FireworkWin.start();
+					RestGame.endGames();
 				}
 							
 				TaupeGun.timer++;

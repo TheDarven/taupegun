@@ -22,6 +22,7 @@ import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.events.EventsManager;
 import fr.thedarven.events.Login;
+import fr.thedarven.statsgame.RestGame;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 	
@@ -68,6 +69,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			p.setExp(0L+0F);
 			p.setLevel(0);
 		}
+		new RestGame();
 	}
 	
 	@Override

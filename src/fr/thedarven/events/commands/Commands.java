@@ -22,6 +22,8 @@ import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.statsgame.RestGame;
+import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -103,15 +105,15 @@ public class Commands implements CommandExecutor {
 				p.sendMessage(message);
 			}else if(cmd.getName().equalsIgnoreCase("revive") && args.length > 0){
 				if(p.isOp()){
-					if(TaupeGun.timer < InventoryRegister.annoncetaupes.getValue()*60 && args.length >= 1){
+					if(!UtilsClass.molesEnabled() && args.length >= 1){
 						for(PlayerTaupe pc : PlayerTaupe.getDeathPlayerManager()) {
-							if(args[0].equalsIgnoreCase(pc.getCustomName()) && pc.getPlayer() != null && pc.isOnline() && !pc.isAlive()) {
+							if(args[0].equalsIgnoreCase(pc.getName()) && pc.getPlayer() != null && pc.isOnline() && !pc.isAlive()) {
 								TeamCustom team = pc.getStartTeam();
-								if(team != null) {
+								if(team != null && !team.isSpectator()) {
 									team.joinTeam(pc.getUuid());
 									
 									for(String player : team.getTeam().getEntries()){
-										if(!player.equals(pc.getCustomName())) {
+										if(!player.equals(pc.getName())) {
 											if(Bukkit.getPlayer(player) != null) {
 												Bukkit.getPlayer(pc.getUuid()).teleport(Bukkit.getPlayer(player));
 												Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
@@ -119,12 +121,16 @@ public class Commands implements CommandExecutor {
 												pc.setAlive(true);
 												SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
 												
+												for(RestPlayerDeath playerDeath: RestGame.getCurrentGame().getStats().getPlayerDeath()) {
+													if(playerDeath.getVictim().toString().equalsIgnoreCase(pc.getUuid().toString()))
+														playerDeath.setRevived(true);
+												}
 												
 												for(Player pl : Bukkit.getOnlinePlayers())
 													pl.playSound(pl.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
 												
 												Map<String, String> params = new HashMap<String, String>();
-												params.put("playerName", pc.getCustomName());
+												params.put("playerName", pc.getName());
 												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "revive", InventoryRegister.language.getSelectedLanguage(), true), params);
 																					
 												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+reviveMessage);
@@ -151,7 +157,7 @@ public class Commands implements CommandExecutor {
 					p.openInventory(InventoryRegister.configuration.getInventory());
 				}
 			}else if(cmd.getName().equalsIgnoreCase("taupelist")) {
-				if(TaupeGun.timer >= InventoryRegister.annoncetaupes.getValue()*60){
+				if(UtilsClass.molesEnabled()){
 					if(!PlayerTaupe.getPlayerManager(p.getUniqueId()).isAlive()) {
 						MessagesClass.TaupeListMessage(p);
 						

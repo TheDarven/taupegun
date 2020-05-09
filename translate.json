@@ -25,7 +25,8 @@
 				"superMoleMessageT": " Tapez /supert pour envoyer un message à votre équipe de super taupes.",
 				"superMoleMessageReveal": " Tapez /superreveal pour vous révèler aux yeux de tous et gagner une pomme d'or.",
 				"killList": "======== Liste des kills ========",
-				"selected": "Sélectionné"
+				"selected": "Sélectionné",
+				"statsLink": "Les statistiques de votre partie sont disponibles ici : {link}"
 			},
 			"en_US": {
 				"enable": "Enable",
@@ -46,7 +47,8 @@
 				"superMoleMessageT": " Type /supert to send a message to your super mole team.",
 				"superMoleMessageReveal": " Type /superreveal to reveal yourself to everyone and get a golden apple.",
 				"killList": "======== Kills list ========",
-				"selected": "Selected"
+				"selected": "Selected",
+				"statsLink": "Your game stats are available here: {link}"
 			}
 		}
 	},
@@ -228,8 +230,10 @@
 				"heart": "Coeurs : {valueColor}{heart}/{heartMax}{endValueColor}",
 				"mole": "Taupe : {teamName}",
 				"notMole": "Taupe : {valueColor}Non{endValueColor}",
+				"unknownMole": "Taupe: {valueColor}Inconnu{endValueColor}",
 				"superMole": "SuperTaupe : {teamName}",
 				"notSuperMole": "SuperTaupe : {valueColor}Non{endValueColor}",
+				"unknownSuperMole": "SuperTaupe: {valueColor}Inconnu{endValueColor}",
 				"information": "Informations",
 				"kill": "Nombre de kills : {kill}"
 			},
@@ -240,8 +244,10 @@
 				"heart": "Hearts : {valueColor}{heart}/{heartMax}{endValueColor}",
 				"mole": "Mole : {teamName}",
 				"notMole": "Mole : {valueColor}No{endValueColor}",
+				"unknownMole": "Mole: {valueColor}Unknown{endValueColor}",
 				"superMole": "Supermole : {teamName}",
 				"notSuperMole": "SuperMole : {valueColor}No{endValueColor}",
+				"unknownSuperMole": "SuperMole: {valueColor}Unknown{endValueColor}",
 				"information": "Information",
 				"kill": "Number of kills : {kill}"
 			}

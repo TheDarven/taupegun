@@ -27,7 +27,10 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Login implements Listener {
 
-	public Login(TaupeGun taupeGun) {	
+	private TaupeGun plugin;
+	
+	public Login(TaupeGun pl) {	
+		this.plugin = pl;
 	}
 	
 	@EventHandler
@@ -69,7 +72,7 @@ public class Login implements Listener {
 					InventoryPlayers.reloadInventory();
 					this.cancel();
 				}
-			}.runTaskTimer(TaupeGun.instance,0, 20);
+			}.runTaskTimer(plugin,0, 20);
 		}else if(EnumGameState.isCurrentState(EnumGameState.WAIT)){
 			Bukkit.getScheduler().cancelAllTasks();
 			TaupeGun.timerStart = 10;
@@ -100,6 +103,10 @@ public class Login implements Listener {
 		
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			ScenariosItemInteract.actionBeacon(p);
+		
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		pl.setCustomName(p.getName());
+		pl.setLastConnection();
 	}
 	
 	public static void leaveAction(Player p) {
@@ -108,5 +115,8 @@ public class Login implements Listener {
 		SqlRequest.updatePlayerLast(p);
 		
 		ScenariosItemInteract.removeBeacon(p);
+		
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		pl.addTimePlayed((int) (SqlRequest.getLongTimestamp()-pl.getLastConnection()));
 	}
 }

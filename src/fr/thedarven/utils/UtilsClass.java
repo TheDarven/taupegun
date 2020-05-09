@@ -5,6 +5,9 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.main.TaupeGun;
+
 public class UtilsClass {
 	
 	public static boolean startsWith(String text, List<String> testString) {
@@ -25,5 +28,13 @@ public class UtilsClass {
 	
 	public static World getWorldEnd() {
 		return Bukkit.getWorlds().get(2);
+	}
+	
+	public static boolean molesEnabled() {
+		return InventoryRegister.annoncetaupes.getValue()*60 <= TaupeGun.timer;
+	}
+	
+	public static boolean superMolesEnabled() {
+		return InventoryRegister.supertaupes.getValue() && InventoryRegister.annoncetaupes.getValue()*60+1200 <= TaupeGun.timer;
 	}
 }

@@ -359,4 +359,9 @@ public class SqlRequest {
 		long date = new Date().getTime();
 		return (int) ((date-(date%100))/1000);
 	}
+	
+	public static long getLongTimestamp() {
+		long date = new Date().getTime();
+		return (date-(date%100))/1000;
+	}
 }
