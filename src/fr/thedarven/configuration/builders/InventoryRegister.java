@@ -15,6 +15,7 @@ import fr.thedarven.configuration.builders.childs.PotionII;
 import fr.thedarven.configuration.builders.childs.Pvp;
 import fr.thedarven.configuration.builders.childs.Silex;
 import fr.thedarven.configuration.builders.childs.WallSize;
+import fr.thedarven.configuration.builders.childs.Weather;
 import fr.thedarven.configuration.builders.kits.InventoryDeleteKits;
 import fr.thedarven.configuration.builders.kits.InventoryKits;
 import fr.thedarven.configuration.builders.kits.InventoryKitsAerien;
@@ -77,14 +78,17 @@ public class InventoryRegister {
 	public static Pomme pomme = new Pomme("Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, drop, new NumericHelper(1, 200, 1, 1, 3, "%", 2, false));
 	public static Silex silex = new Silex("Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT, drop, new NumericHelper(1, 200, 20, 1, 3, "%", 2, false));
 	
-	public static InventoryGUI autre = new InventoryGUI("Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 1, Material.COMMAND, configuration, 8);
+	public static InventoryGUI autre = new InventoryGUI("Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 2, Material.COMMAND, configuration, 8);
 	public static OptionBoolean scenariosvisibles = new OptionBoolean("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.", "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE,autre, true);
 	public static OptionBoolean coordonneesvisibles = new OptionBoolean("Coordonnées visibles", "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, autre, true);
 	public static GoldenHead goldenhead = new GoldenHead("Golden Head", "Nombre de coeurs régénérés par les Golden Head.", "MENU_CONFIGURATION_OTHER_GOLDENHEAD", Material.SKULL_ITEM, autre, new NumericHelper(0, 8, 0, 1, 1, "❤", 2, true));
-	public static OwnTeam ownteam = new OwnTeam("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM", Material.BANNER, autre, (byte) 15, true);
+	public static OwnTeam ownteam = new OwnTeam("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM", Material.BANNER, autre, true, (byte) 15);
 	public static OptionBoolean tchatequipe = new OptionBoolean("Tchat équipe", "Activer ou non les tchat privées des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, autre, true);
 	public static PotionII potionLevel2 = new PotionII("Potion II", "Activer ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, autre, true);
 	public static OptionNumeric episode = new OptionNumeric("Durée d'un épisode", "La durée d'une épisode.", "MENU_CONFIGURATION_OTHER_EPISODE", Material.PAINTING, autre, new NumericHelper(0, 60, 0, 5, 1, "min", 1, true));
+	public static Weather weather = new Weather("Météo", "Activer ou non les changements métérologiques.", "MENU_CONFIGURATION_OTHER_WEATHER", Material.DAYLIGHT_DETECTOR, autre, 9, true);
+	public static OptionBoolean daylightCycle = new OptionBoolean("Cycle jour/nuit", "Activer ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, autre, 10, true);
+	
 	
 	public static InventoryGUI taupes = new InventoryGUI("Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configuration, 10);
 	public static OptionBoolean supertaupes = new OptionBoolean("Supertaupes", "Activer ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, taupes, false);

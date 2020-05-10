@@ -107,6 +107,8 @@ public class LoadThings {
 			world.setGameRuleValue("announceAdvancements", "false");
 			world.setDifficulty(Difficulty.HARD);
 			world.setSpawnLocation(0, 64, 0);
+			world.setStorm(false);
+			world.setThundering(false);
 			
 			WorldBorder border = world.getWorldBorder();
 			border.setDamageAmount(1.0);

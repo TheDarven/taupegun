@@ -92,6 +92,8 @@ public class Game{
 		SqlRequest.createGame();
 		World world = UtilsClass.getWorld();
 		world.setGameRuleValue("doMobSpawning", "true");
+		if(InventoryRegister.daylightCycle.getValue())
+			world.setGameRuleValue("doDaylightCycle", "true");
 		world.getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {

@@ -935,6 +935,32 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_WEATHER",
+		"translations": {
+			"fr_FR": {
+				"name": "Météo",
+				"description": "Activer ou non les changements métérologiques."
+			},
+			"en_US": {
+				"name": "Weather",
+				"description": "Toggle weather changes."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Cycle jour/nuit",
+				"description": "Activer ou non le cycle jour/nuit."
+			},
+			"en_US": {
+				"name": "Day/night cycle",
+				"description": "Toggle the day/night cycle."
+			}
+		}
+	},
 
 
 

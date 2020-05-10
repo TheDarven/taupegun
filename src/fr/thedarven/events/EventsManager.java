@@ -19,6 +19,7 @@ public class EventsManager {
 		pm.registerEvents(new Eat(), pl);
 		pm.registerEvents(new GoNether(), pl);
 		pm.registerEvents(new MobsFixe(), pl);
+		pm.registerEvents(new WeatherChangement(), pl);
 		
 		pm.registerEvents(new Drop(), pl);
 		pm.registerEvents(new InventoryTeamInteract(pl), pl);
@@ -27,7 +28,7 @@ public class EventsManager {
 		pm.registerEvents(new InvSee(pl), pl);
 		pm.registerEvents(new Tchat(), pl);
 		
-		
+		// Stats
 		pm.registerEvents(new RegeneratesHealth(), pl);
 		pm.registerEvents(new ThrowedArrow(), pl);
 	}

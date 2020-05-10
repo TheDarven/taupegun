@@ -22,8 +22,8 @@ public class OwnTeam extends OptionBoolean{
 
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
-	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
+	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, pItem, pParent, pValue, pData);
 		actionBanner(TEAM_CHOICE);
 	}
 	
