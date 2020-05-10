@@ -17,9 +17,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.commands.CommandItem;
-import fr.thedarven.events.commands.Commands;
-import fr.thedarven.events.commands.CommandsTaupe;
+import fr.thedarven.events.commands.ItemCommand;
+import fr.thedarven.events.commands.PlayersCommand;
+import fr.thedarven.events.commands.ScenariosCommand;
+import fr.thedarven.events.commands.TaupelistCommand;
+import fr.thedarven.events.commands.moles.ClaimCommand;
+import fr.thedarven.events.commands.moles.RevealCommand;
+import fr.thedarven.events.commands.moles.SuperrevealCommand;
+import fr.thedarven.events.commands.moles.SupertCommand;
+import fr.thedarven.events.commands.moles.TCommand;
+import fr.thedarven.events.commands.operators.GCommand;
+import fr.thedarven.events.commands.operators.HealCommand;
+import fr.thedarven.events.commands.operators.PlayerkillCommand;
+import fr.thedarven.events.commands.operators.ReviveCommand;
+import fr.thedarven.events.commands.operators.SayCommand;
+import fr.thedarven.events.commands.operators.StartCommand;
+import fr.thedarven.events.commands.operators.TimerCommand;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.languages.LanguageRegister;
@@ -139,26 +152,29 @@ public class LoadThings {
 	}
 	
 	private static void loadCommands(TaupeGun plugin) {
-		// Commandes normales
-		plugin.getCommand("revive").setExecutor(new Commands());
-		plugin.getCommand("heal").setExecutor(new Commands());
-		plugin.getCommand("g").setExecutor(new Commands());
-		plugin.getCommand("say").setExecutor(new Commands());
-		plugin.getCommand("playerkill").setExecutor(new Commands());
-		plugin.getCommand("players").setExecutor(new Commands());
-		plugin.getCommand("rules").setExecutor(new Commands());
-		plugin.getCommand("scenarios").setExecutor(new Commands());
-		plugin.getCommand("taupelist").setExecutor(new Commands());
-		plugin.getCommand("timer").setExecutor(new Commands());
-		plugin.getCommand("updatestats").setExecutor(new Commands());
+		// Operator's commands
+		plugin.getCommand("revive").setExecutor(new ReviveCommand());
+		plugin.getCommand("heal").setExecutor(new HealCommand());
+		plugin.getCommand("g").setExecutor(new GCommand());
+		plugin.getCommand("say").setExecutor(new SayCommand());
+		plugin.getCommand("playerkill").setExecutor(new PlayerkillCommand());
+		plugin.getCommand("timer").setExecutor(new TimerCommand());
+		plugin.getCommand("rules").setExecutor(new ScenariosCommand());
+		plugin.getCommand("scenarios").setExecutor(new ScenariosCommand());
+		plugin.getCommand("start").setExecutor(new StartCommand());
 		
-		// Commandes taupes
-		plugin.getCommand("claim").setExecutor(new CommandsTaupe());
-		plugin.getCommand("reveal").setExecutor(new CommandsTaupe());
-		plugin.getCommand("t").setExecutor(new CommandsTaupe());
-		plugin.getCommand("superreveal").setExecutor(new CommandsTaupe());
-		plugin.getCommand("supert").setExecutor(new CommandsTaupe());
+		// User's commands
+		plugin.getCommand("players").setExecutor(new PlayersCommand());
+		plugin.getCommand("taupelist").setExecutor(new TaupelistCommand());
+		plugin.getCommand("item").setExecutor(new ItemCommand());
 		
-		plugin.getCommand("item").setExecutor(new CommandItem());
+		// Mole's commands
+		plugin.getCommand("claim").setExecutor(new ClaimCommand());
+		plugin.getCommand("reveal").setExecutor(new RevealCommand());
+		plugin.getCommand("t").setExecutor(new TCommand());
+		
+		// Supermole's commands
+		plugin.getCommand("superreveal").setExecutor(new SuperrevealCommand());
+		plugin.getCommand("supert").setExecutor(new SupertCommand());
 	}
 }

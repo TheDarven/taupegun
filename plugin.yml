@@ -16,8 +16,6 @@ commands:
     description: Supprime un joueur de la partie meme si il est deconnecte.
   players:
     description: Pour voir la liste des joueurs encore en jeu.
-  updatestats:
-    description: Met a jour la duree de la partie sur le site.
   rules:
     description: Permet de voir les configurations de la partie.
   scenarios:
@@ -36,6 +34,8 @@ commands:
   t:
     description: Pour envoyer un message a son equipe de taupes.
   item:
-    description: Pour recuperer les items au lobby
+    description: Pour recuperer les items au lobby.
   say:
     description: Pour envoyer une annonce avec le pseudonyme de l'auteur.
+  start:
+    description: Pour lancer la partie.

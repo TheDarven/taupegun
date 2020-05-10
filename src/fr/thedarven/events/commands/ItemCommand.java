@@ -9,7 +9,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.events.ScenariosItemInteract;
 import fr.thedarven.main.metier.EnumGameState;
 
-public class CommandItem implements CommandExecutor {
+public class ItemCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
@@ -19,10 +19,9 @@ public class CommandItem implements CommandExecutor {
 				if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 					ScenariosItemInteract.actionBeacon(p);
 					InventoryRegister.ownteam.actionBanner(p);
-					return true;
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 }

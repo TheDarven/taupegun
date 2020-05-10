@@ -61,7 +61,5 @@ public class Title {
 	    }
 	    
 	    connection.sendPacket(packet);
-	   
-		
 	}
 }

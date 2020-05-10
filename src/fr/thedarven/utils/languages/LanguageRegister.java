@@ -100,6 +100,7 @@ public class LanguageRegister {
 		commandElement.addTranslation("fr_FR", "revive", "{playerName} a été réssuscité.");
 		commandElement.addTranslation("fr_FR", "cannotRevive", "Il est impossible de réanimer quelqu'un à ce stade de la partie.");
 		commandElement.addTranslation("fr_FR", "molesNotAnnounced", "Les taupes ne sont pas encore annoncées.");
+		commandElement.addTranslation("fr_FR", "invalidNumber", "Nombre incorrect.");
 		
 		commandElement.addTranslation("fr_FR", "reveal", "{playerName} se révèle être une taupe !");
 		commandElement.addTranslation("fr_FR", "cannotSuperReveal", "Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.");

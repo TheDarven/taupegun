@@ -3,7 +3,6 @@ package fr.thedarven.events;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
-import fr.thedarven.events.commands.StartCommand;
 import fr.thedarven.events.stats.RegeneratesHealth;
 import fr.thedarven.events.stats.ThrowedArrow;
 import fr.thedarven.main.TaupeGun;
@@ -25,7 +24,6 @@ public class EventsManager {
 		pm.registerEvents(new InventoryTeamInteract(pl), pl);
 		pm.registerEvents(new ScenariosItemInteract(), pl);
 		
-		pm.registerEvents(new StartCommand(pl), pl);
 		pm.registerEvents(new InvSee(pl), pl);
 		pm.registerEvents(new Tchat(), pl);
 		
