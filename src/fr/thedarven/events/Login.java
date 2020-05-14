@@ -55,6 +55,8 @@ public class Login implements Listener {
 				p.setGameMode(GameMode.SPECTATOR);
 				p.teleport(new Location(UtilsClass.getWorld(),0,200,0));
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
+				
+				UtilsClass.clearPlayer(p);
 			}
 		}
 		loginAction(p);
@@ -95,7 +97,7 @@ public class Login implements Listener {
 	
 	public static void loginAction(Player p) {
 		p.setScoreboard(TeamCustom.board);
-		PlayerTaupe.getPlayerManager(p.getUniqueId());
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
 		MessagesClass.TabMessage(p);
 		TaupeGun.scoreboardManager.onLogin(p);
@@ -104,7 +106,6 @@ public class Login implements Listener {
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			ScenariosItemInteract.actionBeacon(p);
 		
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		pl.setCustomName(p.getName());
 		pl.setLastConnection();
 	}

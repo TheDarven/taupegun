@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class ScenariosItemInteract implements Listener{
@@ -26,12 +27,8 @@ public class ScenariosItemInteract implements Listener{
 			ItemStack playerItem = p.getItemInHand();
 			
 			if(playerItem != null && playerItem.getType().equals(Material.BEACON) && playerItem.getItemMeta().getDisplayName().equals(getFormattedScenariosItemName())) {
-				if(EnumGameState.isCurrentState(EnumGameState.LOBBY)){
-					if(p.isOp())
-						p.openInventory(InventoryRegister.menu.getInventory());
-					else if(InventoryRegister.scenariosvisibles.getValue())
-						p.openInventory(InventoryRegister.configuration.getInventory());	
-				}
+				if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
+					UtilsClass.openConfigInventory(p);
 				e.setCancelled(true);
 			}
 		}

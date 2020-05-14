@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import fr.thedarven.utils.UtilsClass;
 
@@ -31,22 +32,23 @@ public class PlayerTaupe extends PlayerCustom{
 	
 	public PlayerTaupe(UUID playerUuid) {
 		super(playerUuid);
-		
 		this.name = Bukkit.getPlayer(playerUuid).getName();
+		
+		Player player = Bukkit.getPlayer(playerUuid);
 		if(!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
 			alive = false;
 			team = TeamCustom.getSpectatorTeam();
 			team.joinTeam(name);
-			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SPECTATOR);
+			
+			player.setGameMode(GameMode.SPECTATOR);
 		}else {
 			alive = true;
-			Location lobby_spawn = new Location(UtilsClass.getWorld(), 0.5, 201, 0.5);
-			Bukkit.getPlayer(playerUuid).teleport(lobby_spawn);
 			team = null;
 			
-			Bukkit.getPlayer(playerUuid).setHealth(20);
-			Bukkit.getPlayer(playerUuid).setLevel(0);
-			Bukkit.getPlayer(playerUuid).setGameMode(GameMode.SURVIVAL);
+			player.setHealth(20);
+			player.setLevel(0);
+			player.setGameMode(GameMode.SURVIVAL);
+			player.teleport(new Location(UtilsClass.getWorld(), 0.5, 201, 0.5));
 		}
 		startTeam = null;
 		

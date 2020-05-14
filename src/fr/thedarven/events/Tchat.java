@@ -20,26 +20,24 @@ public class Tchat implements Listener {
 	
 	@EventHandler
 	public void writeTchat(PlayerChatEvent e){
-		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
-			Player p = e.getPlayer();
-			
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
+		Player p = e.getPlayer();
+		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)){
 			e.setCancelled(true);
-			
+			Bukkit.broadcastMessage("ยง7"+getTeamColor(pl)+p.getName()+": ยงr"+e.getMessage());	
+		}else if(EnumGameState.isCurrentState(EnumGameState.GAME)){
+			e.setCancelled(true);
 			if(pl.isAlive()) {
 				if(InventoryRegister.tchatequipe.getValue()) {
-					if(e.getMessage().startsWith("!")) {
-						String color = "";
-						if(pl.getTeam() != null && pl.getTeam().getTeam() != null)
-							color = pl.getTeam().getTeam().getPrefix();
-						Bukkit.broadcastMessage(color+p.getName()+": ง7"+e.getMessage().substring(1));
-					}else {
+					if(e.getMessage().startsWith("!") || e.getMessage().startsWith("*")) 
+						Bukkit.broadcastMessage(getTeamColor(pl)+p.getName()+": ยง7"+e.getMessage().substring(1));
+					else {
 						if(pl.isTaupe() && pl.getTeam() == pl.getTaupeTeam())
 							MessagesClass.CommandTaupeMessageMessage(p, e.getMessage().split(" "), pl.getTeam());
 						else if(pl.isSuperTaupe() && pl.getTaupeTeam() == pl.getSuperTaupeTeam())
 							MessagesClass.CommandSupertaupeMessageMessage(p, e.getMessage().split(" "), pl.getTeam());
 						else {
-							String teamMessage = "งe"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"ง7"+p.getName()+": "+e.getMessage();
+							String teamMessage = "ยงe"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"ยง7"+p.getName()+": "+e.getMessage();
 							for(PlayerTaupe pl1 : PlayerTaupe.getAllPlayerManager()) {
 								if(pl1.getTeam() == pl.getTeam() && pl1.isOnline()) {
 									pl1.getPlayer().sendMessage(teamMessage);
@@ -47,14 +45,10 @@ public class Tchat implements Listener {
 							}	
 						}
 					}
-				}else {
-					String color = "";
-					if(pl.getTeam() != null && pl.getTeam().getTeam() != null)
-						color = pl.getTeam().getTeam().getPrefix();
-					Bukkit.broadcastMessage(color+p.getName()+": ง7"+e.getMessage());
-				}
+				}else 
+					Bukkit.broadcastMessage(getTeamColor(pl)+p.getName()+": ยง7"+e.getMessage());
 			}else {
-				String spectatorMessage = "ง7"+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", InventoryRegister.language.getSelectedLanguage(), true)+p.getName()+": "+e.getMessage();
+				String spectatorMessage = "ยง7"+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", InventoryRegister.language.getSelectedLanguage(), true)+p.getName()+": "+e.getMessage();
 				for(PlayerTaupe pl1 : PlayerTaupe.getAllPlayerManager()) {
 					if(!pl1.isAlive() && pl1.isOnline())
 						pl1.getPlayer().sendMessage(spectatorMessage);
@@ -72,10 +66,17 @@ public class Tchat implements Listener {
 				e.setCancelled(true);
 			}else if((e.getMessage().startsWith("/tell") || e.getMessage().startsWith("/msg")) && !pl.isAlive()) {
 				e.setCancelled(true);
-				String cannotPrivateMessage = "งa[TaupeGun]งc "+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", InventoryRegister.language.getSelectedLanguage(), true);
+				String cannotPrivateMessage = "ยงa[TaupeGun]ยงc "+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", InventoryRegister.language.getSelectedLanguage(), true);
 				p.sendMessage(cannotPrivateMessage);
 			}
 		}
+	}
+	
+	private String getTeamColor(PlayerTaupe pl) {
+		String color = "";
+		if(pl.getTeam() != null && pl.getTeam().getTeam() != null)
+			color = pl.getTeam().getTeam().getPrefix();
+		return color;
 	}
 
 }

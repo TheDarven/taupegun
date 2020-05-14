@@ -105,7 +105,7 @@ public class InventoryTeams extends InventoryIncrement {
 	 * @param e L'évènement de clique
 	 */
 	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
+	public void clickInventory(InventoryClickEvent e){	
 		final Player p = (Player) e.getWhoClicked();
 		final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		

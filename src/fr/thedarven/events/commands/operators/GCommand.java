@@ -17,12 +17,14 @@ public class GCommand implements CommandExecutor{
 			Player p = (Player) sender;
 			if(cmd.getName().equalsIgnoreCase("g")) {
 				if(p.isOp() || p.hasPermission("taupegun.g")){
-					String message = " ";
-					for(int i=0; i<args.length; i++){
-						message = message+args[i]+" ";
+					if(args.length > 0) {
+						String message = " ";
+						for(int i=0; i<args.length; i++){
+							message = message+args[i]+" ";
+						}
+						String infoMessage = LanguageBuilder.getContent("CONTENT", "info", InventoryRegister.language.getSelectedLanguage(), true);
+						Bukkit.broadcastMessage("§e"+infoMessage+"§a"+message);	
 					}
-					String infoMessage = LanguageBuilder.getContent("CONTENT", "info", InventoryRegister.language.getSelectedLanguage(), true);
-					Bukkit.broadcastMessage("§e"+infoMessage+"§a"+message);
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}	

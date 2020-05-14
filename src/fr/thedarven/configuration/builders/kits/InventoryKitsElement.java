@@ -111,6 +111,7 @@ public class InventoryKitsElement extends InventoryGUI {
 		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+			
 			if(e.getClickedInventory().equals(getInventory())) {
 				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
@@ -134,6 +135,11 @@ public class InventoryKitsElement extends InventoryGUI {
 						}
 					}	
 				}
+			}
+			
+			if(p.getOpenInventory() != null && p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
+				if(!click(p, EnumConfiguration.OPTION))
+					e.setCancelled(true);
 			}
 		}
 	}

@@ -15,12 +15,14 @@ public class SayCommand implements CommandExecutor{
 			Player p = (Player) sender;
 			if(cmd.getName().equalsIgnoreCase("say")) {
 				if(p.isOp() || p.hasPermission("taupegun.say")){
-					String message = " ";
-					for(int i=0; i<args.length; i++){
-						message = message+args[i]+" ";
+					if(args.length > 0) {
+						String message = " ";
+						for(int i=0; i<args.length; i++){
+							message = message+args[i]+" ";
+						}
+						message = "§l︳ §e"+p.getName()+" §r§7≫§a"+message;
+						Bukkit.broadcastMessage(" \n"+message+"\n ");	
 					}
-					message = "§l︳ §e"+p.getName()+" §r§7≫§a"+message;
-					Bukkit.broadcastMessage(" \n"+message+"\n ");
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}

@@ -48,9 +48,9 @@ public class Death implements Listener {
 			SqlRequest.updateTaupeKill(killer);
 		}
 		
-		if(EnumGameState.isCurrentState(EnumGameState.GAME) && killer.getGameMode().equals(GameMode.SURVIVAL)) {
+		if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			RestGame.getCurrentGame().addPlayerDeath(new RestPlayerDeath(victim.getUniqueId(), victim.getLastDamageCause().getCause().toString(), victim.getLastDamageCause().getEntityType().toString()));
-			if(killer != null){
+			if(killer != null && killer.getGameMode().equals(GameMode.SURVIVAL)){
 				RestGame.getCurrentGame().addPlayerKill(new RestPlayerKill(victim.getUniqueId(), killer.getUniqueId(), killer.getHealth()));
 			}
 		}

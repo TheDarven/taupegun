@@ -97,12 +97,9 @@ public class Game{
 		world.getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if(!InventoryRegister.coordonneesvisibles.getValue()) {
+			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.disableF3(player);
-			}
-			player.closeInventory();
-			player.getInventory().clear();
-			
+			UtilsClass.clearPlayer(player);
 			
 			if(PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam() != null) {
 				int i;

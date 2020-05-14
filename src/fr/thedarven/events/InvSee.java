@@ -158,8 +158,7 @@ public class InvSee implements Listener {
 				params.put("teamName", "§r"+viewedPlayerTaupe.getTaupeTeam().getTeam().getName()+"§e");
 				String moleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "mole", InventoryRegister.language.getSelectedLanguage(), true), params);
 				lores.add(moleMessage);
-			}
-			else {
+			}else {
 				params.clear();
 				params.put("valueColor", "§r");
 				params.put("endValueColor", "§e");
@@ -179,8 +178,7 @@ public class InvSee implements Listener {
 				params.put("teamName", "§r"+viewedPlayerTaupe.getSuperTaupeTeam().getTeam().getName()+"§e");
 				String superMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "superMole", InventoryRegister.language.getSelectedLanguage(), true), params);
 				lores.add(superMoleMessage);
-			}
-			else {
+			}else {
 				params.clear();
 				params.put("valueColor", "§r");
 				params.put("endValueColor", "§e");

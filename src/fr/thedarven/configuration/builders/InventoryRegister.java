@@ -57,8 +57,8 @@ public class InventoryRegister {
 	
 	public static InventoryGUI timers = new InventoryGUI("Timers", "Menu des timers.", "MENU_CONFIGURATION_TIMER", 1, Material.WATCH, configuration, 0);
 	public static Pvp pvp = new Pvp("Pvp", "La minute à laquelle le pvp s'active.", "MENU_CONFIGURATION_TIMER_PVP", Material.IRON_SWORD, timers, new NumericHelper(0, 30, 10, 1, 2, "min", 1, false));
-	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.", "MENU_CONFIGURATION_TIMER_MOLES", Material.PAPER, timers, new NumericHelper(1, 70, 30, 5, 2, "min", 1, false));
-	public static OptionNumeric murtime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", "MENU_CONFIGURATION_TIMER_SHRINK", Material.BARRIER, timers, new NumericHelper(1, 180, 80, 5, 2, "min", 1, false));
+	public static OptionNumeric annoncetaupes = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.", "MENU_CONFIGURATION_TIMER_MOLES", Material.PAPER, timers, new NumericHelper(1, 70, 30, 1, 2, "min", 1, false));
+	public static OptionNumeric murtime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", "MENU_CONFIGURATION_TIMER_SHRINK", Material.BARRIER, timers, new NumericHelper(1, 180, 80, 1, 3, "min", 1, false));
 	
 	public static InventoryGUI mur = new InventoryGUI("Mur", "Menu du mur.", "MENU_CONFIGURATION_WALL", 1, Material.BARRIER, configuration, 2);
 	public static WallSize murtailleavant = new WallSize("Taille avant la réduction", "La taille du mur avant le début de la réduction.", "MENU_CONFIGURATION_WALL_BEFORE", Material.STONE, mur, new NumericHelper(500, 5000, 750, 50, 3, " blocs +/-", 1, false));

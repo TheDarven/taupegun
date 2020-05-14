@@ -18,6 +18,7 @@ import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.LoadThings;
 import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.events.EventsManager;
@@ -78,7 +79,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.enableF3(p);
 			Login.leaveAction(p);
-			p.closeInventory();
+			
+			UtilsClass.clearPlayer(p);
 		}
 		if(SqlRequest.id_partie != 0) {
 			SqlRequest.updateGameDuree();

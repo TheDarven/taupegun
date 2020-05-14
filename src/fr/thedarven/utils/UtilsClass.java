@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
+import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 
 public class UtilsClass {
@@ -49,5 +51,19 @@ public class UtilsClass {
 			}
 		}
 		return null;
+	}
+	
+	public static void clearPlayer(Player p) {
+		p.getOpenInventory().setCursor(null);
+		p.getInventory().clear();
+		p.getInventory().setArmorContents(null);
+		p.closeInventory();
+	}
+	
+	public static void openConfigInventory(Player p) {
+		if((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
+			p.openInventory(InventoryRegister.menu.getInventory());	
+		else if(InventoryRegister.scenariosvisibles.getValue())
+			p.openInventory(InventoryRegister.configuration.getInventory());
 	}
 }
