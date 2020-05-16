@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
@@ -41,7 +43,7 @@ public class Damage implements Listener {
 				for(PotionEffect potion : ((Player) entityEvent.getDamager()).getActivePotionEffects()) {		
 					if(potion.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
 						double originalDamages = e.getDamage()/(1+(1+potion.getAmplifier())*1.3);
-						e.setDamage(originalDamages+originalDamages*((1+potion.getAmplifier())*0.8));
+						e.setDamage(originalDamages+originalDamages*((1+potion.getAmplifier())*(InventoryRegister.strengthPourcentage.getValue()/100)));
 					}
 				}
 			}
@@ -52,6 +54,8 @@ public class Damage implements Listener {
 					saveDamageStats((Player) entityEvent.getDamager(), victim, e.getDamage(), false);
 				}else if(entityEvent.getDamager() instanceof Arrow && ((Arrow) entityEvent.getDamager()).getShooter() instanceof Player) {
 					saveDamageStats((Player) ((Arrow) entityEvent.getDamager()).getShooter(), victim, e.getDamage(), true);
+				}else if(entityEvent.getDamager() instanceof Creeper && e.getDamage() >= victim.getHealth() && !InventoryRegister.creeperDeath.getValue()) {
+					e.setCancelled(true);
 				}
 			}
 		}

@@ -58,14 +58,14 @@ public class StartCommand implements CommandExecutor{
 								p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", InventoryRegister.language.getSelectedLanguage(), true));
 								return true;
 							}
+							boolean online = false;
 							for(String player : team.getEntries()){
-								boolean online = false;
+								online = false;
 								for(Player login : Bukkit.getServer().getOnlinePlayers()){
-									if(player.equals(login.getName())){
+									if(player.equals(login.getName()))
 										online = true;
-									}
 								}
-								if(online == false){
+								if(!online){
 									p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", InventoryRegister.language.getSelectedLanguage(), true));
 									return true;
 								}

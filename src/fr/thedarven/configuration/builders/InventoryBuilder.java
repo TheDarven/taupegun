@@ -29,6 +29,7 @@ public abstract class InventoryBuilder implements Listener{
 	private ItemStack item;
 	private int lines;
 	private String description;
+	private byte data;
 	private InventoryGUI parent;
 	private int position;
 	protected String translationName;
@@ -36,6 +37,7 @@ public abstract class InventoryBuilder implements Listener{
 	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, int pPosition, byte pData) {
 		this.name = pName;
 		this.description = pDescription;
+		this.data = pData;
 		
 		this.translationName = pTranslationName;
 		this.lines = (pLines < 1 || pLines > 6) ? 1 : pLines;			
@@ -52,6 +54,7 @@ public abstract class InventoryBuilder implements Listener{
 	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, byte pData) {
 		this.name = pName;
 		this.description = pDescription;
+		this.data = pData;
 		
 		this.translationName = pTranslationName;
 		this.lines = pLines;
@@ -81,6 +84,15 @@ public abstract class InventoryBuilder implements Listener{
 	 */
 	final public String getDescription() {
 		return description;
+	}
+	
+	/**
+	 * Pour avoir la data de l'item
+	 * 
+	 * @return La data de l'item
+	 */
+	final public byte getData() {
+		return this.data;
 	}
 	
 	/**
@@ -258,6 +270,7 @@ public abstract class InventoryBuilder implements Listener{
 		ItemStack item = new ItemStack(pItem,1, pData);
 		ItemMeta itemM = item.getItemMeta();
 		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 		item.setItemMeta(itemM);
 		this.item = item;
 		updateDescription();

@@ -86,7 +86,8 @@
 				"superReveal": "{playerName} se révèle être une supertaupe !",
 				"cannotSuperReveal": "Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.",
 
-				"operator": "Vous n'avez pas les permissions pour utiliser cette commande."
+				"operator": "Vous n'avez pas les permissions pour utiliser cette commande.",
+				"disabledCommand": "La commande est désactivé."
 			},
 			"en_US": {
 				"heal": "You've been healed.",
@@ -100,7 +101,8 @@
 				"superReveal": "{playerName} has been revealed as a supermole.",
 				"cannotSuperReveal": "You have to reveal yourself as a mole first using the command /reveal",
 
-				"operator": "You do not have the necessary permissions to use this command."
+				"operator": "You do not have the necessary permissions to use this command.",
+				"disabledCommand": "The command is disabled."
 			}
 		}
 	},
@@ -110,7 +112,7 @@
 			"fr_FR": {
 				"gameAlreadyStarted": "La partie a déjà commencé !",
 				"needTwoTeams": "Il faut au minimum deux équipes.",
-				"needThreeTeams": "Il faut au minimum trois équipes pour avoir une supertaupe.",
+				"needThreez": "Il faut au minimum trois équipes pour avoir une supertaupe.",
 				"notEnoughKits": "Il n'y a pas assez de kits.",
 				"notEnoughPlayersPerTeam": "Il n'y a pas assez de joueurs par équipe.",
 				"disconnectedPlayer": "Les joueurs ne sont pas tous connectés.",
@@ -591,6 +593,21 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_TIMER_EPISODE",
+		"translations": {
+			"fr_FR": {
+				"name": "Durée d'un épisode",
+				"description": "La durée d'une épisode.",
+				"afterName": "min"
+			},
+			"en_US": {
+				"name": "Episode length",
+				"description": "The episode's length.",
+				"afterName": "min"
+			}
+		}
+	},
 
 
 
@@ -921,21 +938,6 @@
 		}
 	},
 	{
-		"title": "MENU_CONFIGURATION_OTHER_EPISODE",
-		"translations": {
-			"fr_FR": {
-				"name": "Durée d'un épisode",
-				"description": "La durée d'une épisode.",
-				"afterName": "min"
-			},
-			"en_US": {
-				"name": "Episode length",
-				"description": "The episode's length.",
-				"afterName": "min"
-			}
-		}
-	},
-	{
 		"title": "MENU_CONFIGURATION_OTHER_WEATHER",
 		"translations": {
 			"fr_FR": {
@@ -961,8 +963,32 @@
 			}
 		}
 	},
-
-
+	{
+		"title": "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL",
+		"translations": {
+			"fr_FR": {
+				"name": "Potion de force",
+				"description": "Détermine le pourcentage de dégats supplémentaire par palier des potions de force (par défaut 130%)."
+			},
+			"en_US": {
+				"name": "Strength potion",
+				"description": "Sets the percentage of additional damage per strength potion level (default: +130% per level)"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_CREEPER",
+		"translations": {
+			"fr_FR": {
+				"name": "Mort par creeper",
+				"description": "Activer ou non la mort par les explosions de creeper."
+			},
+			"en_US": {
+				"name": "Death by creeper",
+				"description": "Toggle death by creeper explosion."
+			}
+		}
+	},
 
 
 
@@ -1019,6 +1045,35 @@
 				"name": "Team size",
 				"description": "Chooses the moles' team size.",
 				"afterName": " mole(s)"
+			}
+		}
+	},
+	
+	
+	
+	{
+		"title": "MENU_CONFIGURATION_COMMAND",
+		"translations": {
+			"fr_FR": {
+				"name": "Commandes",
+				"description": "Activation des commandes."
+			},
+			"en_US": {
+				"name": "Commands",
+				"description": "Enable commands"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_COMMAND_TAUPELIST",
+		"translations": {
+			"fr_FR": {
+				"name": "/taupelist",
+				"description": "Activer ou non la possibilité pour les spectateurs de voir la liste des taupes."
+			},
+			"en_US": {
+				"name": "/taupelist",
+				"description": "Toggle mole list display for spectators."
 			}
 		}
 	}

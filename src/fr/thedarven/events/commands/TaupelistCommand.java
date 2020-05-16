@@ -11,7 +11,6 @@ import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
-import net.md_5.bungee.api.ChatColor;
 
 public class TaupelistCommand implements CommandExecutor{
 	
@@ -19,19 +18,20 @@ public class TaupelistCommand implements CommandExecutor{
 		if(sender instanceof Player){
 			Player p = (Player) sender;
 			if(cmd.getName().equalsIgnoreCase("taupelist")) {
-				if(UtilsClass.molesEnabled()){
-					if(!PlayerTaupe.getPlayerManager(p.getUniqueId()).isAlive()) {
-						MessagesClass.TaupeListMessage(p);
-						
-						if(InventoryRegister.supertaupes.getValue() && InventoryRegister.annoncetaupes.getValue()*60+1200 == TaupeGun.timer)
-							MessagesClass.SuperTaupeListMessage(p);
-					}
-				}else{
-					p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" "+LanguageBuilder.getContent("COMMAND", "molesNotAnnounced", InventoryRegister.language.getSelectedLanguage(), true));
-				}
+				if(InventoryRegister.taupelistCommand.getValue()) {
+					if(UtilsClass.molesEnabled()){
+						if(!PlayerTaupe.getPlayerManager(p.getUniqueId()).isAlive()) {
+							MessagesClass.TaupeListMessage(p);
+							
+							if(InventoryRegister.supertaupes.getValue() && InventoryRegister.annoncetaupes.getValue()*60+1200 == TaupeGun.timer)
+								MessagesClass.SuperTaupeListMessage(p);
+						}
+					}else
+						p.sendMessage("§a[TaupeGun]§c "+LanguageBuilder.getContent("COMMAND", "molesNotAnnounced", InventoryRegister.language.getSelectedLanguage(), true));
+				}else
+					p.sendMessage("§a[TaupeGun]§c "+LanguageBuilder.getContent("COMMAND", "disabledCommand", InventoryRegister.language.getSelectedLanguage(), true));
 			}
 		}
 		return true;
 	}
-
 }

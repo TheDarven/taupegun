@@ -168,7 +168,11 @@ public class OptionBoolean extends InventoryGUI{
 	 * @param pItem Le material
 	 */
 	private void initItem(Material pItem) {
-		ItemStack item = new ItemStack(pItem,1);
+		ItemStack item = new ItemStack(pItem,1, getData());
+		ItemMeta itemM = item.getItemMeta();
+		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		item.setItemMeta(itemM);
 		inventory.setItem(4, item);
 		
 		ItemStack moins = new ItemStack(Material.BANNER, 1);

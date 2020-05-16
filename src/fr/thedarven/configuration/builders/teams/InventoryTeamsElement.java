@@ -155,9 +155,8 @@ public class InventoryTeamsElement extends InventoryGUI{
 		for(int i=0; i<inventory.size(); i++) {
 			if(inventory.get(i).getName().equals(pNom)) {
 				for(InventoryGUI inv : inventory.get(i).getChilds()) {
-					if(inv instanceof InventoryPlayers) {
+					if(inv instanceof InventoryPlayers)
 						InventoryPlayers.inventory.remove(inv);
-					}
 					InventoryPlayers.reloadInventory();
 				}
 				inventory.get(i).getParent().getChilds().remove(inventory.get(i));

@@ -40,11 +40,15 @@ public class InventoryLanguageElement extends InventoryGUI{
 	 */
 	protected ArrayList<String> getFormattedDescription() {
 		ArrayList<String> returnArray = super.getFormattedDescription();
-		returnArray.add("");
-		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "selected", InventoryRegister.language.getSelectedLanguage(), true));
-		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
+		if(getParent() instanceof InventoryLanguage) {
+			InventoryLanguage parent = (InventoryLanguage) getParent();
+			if(parent.getSelectedLanguage().equals(languageShortName)) {
+				returnArray.add("");
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", InventoryRegister.language.getSelectedLanguage(), true));
+				returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
+			}
+		}
 		
 		return returnArray;
 	}
@@ -76,14 +80,15 @@ public class InventoryLanguageElement extends InventoryGUI{
 		ItemStack head = Skull.getCustomSkull(link, getItem());
 		ItemMeta headM = head.getItemMeta();
 		headM.setDisplayName(getFormattedItemName());
-		if(getParent() instanceof InventoryLanguage) {
+		/* if(getParent() instanceof InventoryLanguage) {
 			InventoryLanguage parent = (InventoryLanguage) getParent();
 			if(parent.getSelectedLanguage().equals(languageShortName)) {
 				headM.setLore(getFormattedDescription());
 			}else{
 				headM.setLore(new ArrayList<String>());
 			}
-		}
+		} */
+		headM.setLore(getFormattedDescription());
 		head.setItemMeta(headM);
 		
 		updateItem(exItem, head);

@@ -17,13 +17,13 @@ public class PotionII extends OptionBoolean{
 
 	private static String TRANSFORM_POTION = "Poufff ! Votre potion est passé au niveau 1.";
 	
-	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
+	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue, pData);
 		updateLanguage(InventoryRegister.language.getSelectedLanguage());
 	}
 	
-	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
+	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, pItem, pParent, pValue, pData);
 		updateLanguage(InventoryRegister.language.getSelectedLanguage());
 	}
 	

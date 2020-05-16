@@ -159,6 +159,16 @@ public class Game{
 		}
 	}
 	
+	/* private static void damagesEnabling() {
+		if(TaupeGun.timer == 60) {
+			for(Player player : Bukkit.getOnlinePlayers())
+				player.playSound(player.getLocation(), Sound.WOLF_GROWL, 1, 1);
+
+			String pvpMessage = "§e"+LanguageBuilder.getContent("GAME", "pvpIsStarting", InventoryRegister.language.getSelectedLanguage(), true);
+			Bukkit.broadcastMessage(pvpMessage);
+		}
+	} */
+	
 	private static void episodeAnnouncing() {
 		if(InventoryRegister.episode.getValue() > 0 && TaupeGun.timer != 0 && TaupeGun.timer%(InventoryRegister.episode.getValue()*60) == 0) {
 			for(Player player : Bukkit.getOnlinePlayers())
@@ -216,7 +226,7 @@ public class Game{
 	}
 	
 	private static void annoncesMur() {
-		// LE MUR EST A 00H03 //
+		// LE MUR EST A 3min //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 181){
 			String wallShrinking3Minutes = "§a[TaupeGun]§f "+LanguageBuilder.getContent("GAME", "wallShrinking3Minutes", InventoryRegister.language.getSelectedLanguage(), true);
 			Bukkit.broadcastMessage(wallShrinking3Minutes);
@@ -234,7 +244,10 @@ public class Game{
 		
 		// LE MUR EST A 00H00 //
 		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer == 1){
-			// player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT , 1, 1);
+			for(Player p: Bukkit.getOnlinePlayers()) {
+				// mob.guardian.curse
+				p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL , 1, 1);
+			}
 			
 			World world = UtilsClass.getWorld();
 			World worldNether = UtilsClass.getWorldNether();

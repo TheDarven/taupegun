@@ -27,7 +27,7 @@ public class TeamGraph {
 	
 	public boolean creationEquipes() {
 		int pNbrTaupes = InventoryRegister.tailletaupes.getValue();
-		if(pNbrTaupes > joueursTaupe.size() || joueursTaupe.size() == 0) {
+		if(/*pNbrTaupes > joueursTaupe.size() ||*/ joueursTaupe.size() == 0) {
 			return false;
 		}else {
 			// TAUPES

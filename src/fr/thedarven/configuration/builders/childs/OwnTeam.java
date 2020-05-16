@@ -22,13 +22,13 @@ public class OwnTeam extends OptionBoolean{
 
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
-	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue, pData);
+	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue, pData);
 		actionBanner(TEAM_CHOICE);
 	}
 	
-	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
+	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
+		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
 		actionBanner(TEAM_CHOICE);
 	}
 	
