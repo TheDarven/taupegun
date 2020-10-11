@@ -1,6 +1,6 @@
 package fr.thedarven.main.metier;
 
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
 public abstract class Manager {
 

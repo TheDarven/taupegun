@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.thedarven.configuration.builders.languages.InventoryLanguage;
 import fr.thedarven.configuration.builders.teams.InventoryTeams;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;

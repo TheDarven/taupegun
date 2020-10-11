@@ -3,6 +3,7 @@ package fr.thedarven.events.commands.operators;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -20,7 +21,6 @@ import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
-import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
@@ -28,6 +28,12 @@ import fr.thedarven.utils.texts.TextInterpreter;
 import net.md_5.bungee.api.ChatColor;
 
 public class ReviveCommand implements CommandExecutor{
+
+	private TaupeGun main;
+
+	public ReviveCommand(TaupeGun main){
+		this.main = main;
+	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
@@ -48,7 +54,7 @@ public class ReviveCommand implements CommandExecutor{
 												Bukkit.getPlayer(pc.getUuid()).setGameMode(GameMode.SURVIVAL);
 												Bukkit.getPlayer(pc.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 2 ));
 												pc.setAlive(true);
-												SqlRequest.updateTaupeMort(pc.getUuid().toString(), 0);
+												main.getDatabaseManager().updateMoleDeath(pc.getUuid().toString(), 0);
 												
 												for(RestPlayerDeath playerDeath: RestGame.getCurrentGame().getStats().getPlayerDeath()) {
 													if(playerDeath.getVictim().toString().equalsIgnoreCase(pc.getUuid().toString()))

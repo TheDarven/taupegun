@@ -2,10 +2,9 @@ package fr.thedarven.main.metier;
 
 import java.util.UUID;
 
+import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import fr.thedarven.utils.SqlRequest;
 
 public abstract class PlayerCustom {
 	protected UUID uuid;
@@ -33,7 +32,7 @@ public abstract class PlayerCustom {
 	public PlayerCustom(UUID uuid) {
 		this.uuid = uuid;
 		
-		lastConnection = SqlRequest.getLongTimestamp();
+		lastConnection = UtilsClass.getLongTimestamp();
 		timePlayed = 0;
 		
 		minedDiamond = 0;
@@ -94,12 +93,12 @@ public abstract class PlayerCustom {
 	public int getUpdatedTimePlayed() {
 		int returnValue = this.timePlayed;
 		if(isOnline())
-			returnValue += (int)(SqlRequest.getLongTimestamp()-this.lastConnection);
+			returnValue += (int)(UtilsClass.getLongTimestamp() - this.lastConnection);
 		return returnValue;
 	}
 	
 	public void setLastConnection() {
-		this.lastConnection = SqlRequest.getLongTimestamp();
+		this.lastConnection = UtilsClass.getLongTimestamp();
 	}
 	
 	public void addTimePlayed(int amount) {

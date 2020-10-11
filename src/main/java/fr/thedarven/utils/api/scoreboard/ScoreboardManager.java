@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
 @SuppressWarnings({ "rawtypes", "unused" })
 public class ScoreboardManager {

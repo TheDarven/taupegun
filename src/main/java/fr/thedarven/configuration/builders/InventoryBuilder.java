@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.messages.MessagesClass;

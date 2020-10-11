@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
 public class ReadFile{
 

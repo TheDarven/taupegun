@@ -5,7 +5,6 @@ import java.util.Random;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 
@@ -56,7 +55,6 @@ public class TeamGraph {
 				equipesTaupe.add(teamTaupe);
 				verifJoueursTaupes();
 			}
-			TaupeGun.nbrEquipesTaupes = numTeam;
 			
 			// SUPERTAUPES
 			if(InventoryRegister.supertaupes.getValue()) {

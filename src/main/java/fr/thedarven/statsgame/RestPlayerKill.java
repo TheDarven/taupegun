@@ -2,7 +2,7 @@ package fr.thedarven.statsgame;
 
 import java.util.UUID;
 
-import fr.thedarven.utils.SqlRequest;
+import fr.thedarven.utils.UtilsClass;
 
 public class RestPlayerKill {
 	private UUID victim;
@@ -14,7 +14,7 @@ public class RestPlayerKill {
 		this.victim = victim;
 		this.killer = killer;
 		this.killer_health = killer_health;
-		this.created_at = SqlRequest.getLongTimestamp();
+		this.created_at = UtilsClass.getLongTimestamp();
 	}
 
 	public UUID getVictim() {

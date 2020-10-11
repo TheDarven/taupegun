@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
 public class LanguageRegister {
 	

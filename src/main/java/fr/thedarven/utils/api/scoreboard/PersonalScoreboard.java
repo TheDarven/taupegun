@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.UtilsClass;
@@ -34,6 +34,8 @@ public class PersonalScoreboard {
 	public void reloadData(){}
 
 	public void setLines(String ip){
+		int timer = TaupeGun.getInstance().getGameManager().getTimer();
+
 		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		int i = 0;
 		Location loc = p.getLocation();
@@ -42,12 +44,12 @@ public class PersonalScoreboard {
 		for(TeamCustom team : TeamCustom.getAllStartAliveTeams())
 			playerTeam += team.getTeam().getEntries().size();
 		
-		objectiveSign.removeAllLine(InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 0 ? 9 : 8);
+		objectiveSign.removeAllLine(InventoryRegister.murtime.getValue()*60 - timer > 0 ? 9 : 8);
 		
 		objectiveSign.setDisplayName("§6TaupeGun");		
 		objectiveSign.setLine(i++, "§1");
 		if(InventoryRegister.episode.getValue() > 0) {
-			int episodeNumber = TaupeGun.timer/(InventoryRegister.episode.getValue()*60)+1;
+			int episodeNumber = timer/(InventoryRegister.episode.getValue()*60)+1;
 			
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("episodeNumber", episodeNumber+"");
@@ -57,36 +59,36 @@ public class PersonalScoreboard {
 		}
 		
 		// WALL
-		String timer;
+		String timerS;
 		Map<String, String> params = new HashMap<String, String>();
-		if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer > 0) {
-			if(InventoryRegister.murtime.getValue()*60-TaupeGun.timer >= 6000){
-				timer = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mmm:ss");
+		if(InventoryRegister.murtime.getValue()*60 - timer > 0) {
+			if(InventoryRegister.murtime.getValue()*60 - timer >= 6000){
+				timerS = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60 - timer)*1000, "mmm:ss");
 				// objectiveSign.setLine(i++, "Mur:§e "+DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mmm:ss"));
 			}else{
-				timer = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mm:ss");
+				timerS = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60 - timer)*1000, "mm:ss");
 				// objectiveSign.setLine(i++, "Mur:§e "+DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mm:ss"));
 			}
 			params.clear();
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");
-			params.put("timer", timer);
+			params.put("timer", timerS);
 			String wallMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "wall", InventoryRegister.language.getSelectedLanguage(), true), params);
 			objectiveSign.setLine(i++, wallMessage);
 		}
 		
 		// TIMER
-		if(TaupeGun.timer >= 6000){
+		if(timer >= 6000){
 			// objectiveSign.setLine(i++, "Chrono:§e "+DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mmm:ss"));
-			timer = DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mmm:ss");
+			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mmm:ss");
 		}else{
 			// objectiveSign.setLine(i++, "Chrono:§e "+DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mm:ss"));
-			timer = DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mm:ss");
+			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mm:ss");
 		}
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
-		params.put("timer", timer);
+		params.put("timer", timerS);
 		String timerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "timer", InventoryRegister.language.getSelectedLanguage(), true), params);
 		objectiveSign.setLine(i++, timerMessage);	
 		objectiveSign.setLine(i++, "§2");

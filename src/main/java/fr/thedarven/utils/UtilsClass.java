@@ -1,5 +1,6 @@
 package fr.thedarven.utils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,7 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 
@@ -35,11 +36,11 @@ public class UtilsClass {
 	}
 	
 	public static boolean molesEnabled() {
-		return InventoryRegister.annoncetaupes.getValue()*60 <= TaupeGun.timer;
+		return InventoryRegister.annoncetaupes.getValue()*60 <= TaupeGun.getInstance().getGameManager().getTimer();
 	}
 	
 	public static boolean superMolesEnabled() {
-		return InventoryRegister.supertaupes.getValue() && InventoryRegister.annoncetaupes.getValue()*60+1200 <= TaupeGun.timer;
+		return InventoryRegister.supertaupes.getValue() && InventoryRegister.annoncetaupes.getValue()*60+1200 <= TaupeGun.getInstance().getGameManager().getTimer();
 	}
 	
 	public static UUID playerInGame(String name){
@@ -66,5 +67,15 @@ public class UtilsClass {
 			p.openInventory(InventoryRegister.menu.getInventory());	
 		else if(InventoryRegister.scenariosvisibles.getValue())
 			p.openInventory(InventoryRegister.configuration.getInventory());
+	}
+
+	public static int getTimestamp() {
+		long date = new Date().getTime();
+		return (int) ((date-(date%100))/1000);
+	}
+
+	public static long getLongTimestamp() {
+		long date = new Date().getTime();
+		return (date-(date%100))/1000;
 	}
 }

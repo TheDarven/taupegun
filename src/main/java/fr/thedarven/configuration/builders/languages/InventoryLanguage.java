@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.events.ScenariosItemInteract;
+import fr.thedarven.events.listeners.ScenariosItemInteract;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.api.Title;

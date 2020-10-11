@@ -1,35 +1,56 @@
 package fr.thedarven.events;
 
+import fr.thedarven.events.listeners.*;
+import fr.thedarven.main.metier.Manager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
 import fr.thedarven.events.stats.RegeneratesHealth;
 import fr.thedarven.events.stats.ThrowedArrow;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
-public class EventsManager {
-	
-	public static void registerEvents(TaupeGun pl) {
+public class EventsManager extends Manager {
+
+	private Login login;
+
+	private Death death;
+
+	public EventsManager(TaupeGun main) {
+		super(main);
+		registerEvents();
+	}
+
+	public void registerEvents() {
 		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new Login(pl), pl);
-		pm.registerEvents(new Walk(), pl);
-		pm.registerEvents(new Damage(), pl);
-		pm.registerEvents(new Death(), pl);
-		pm.registerEvents(new Break(), pl);
-		pm.registerEvents(new Eat(), pl);
-		pm.registerEvents(new GoNether(), pl);
-		pm.registerEvents(new MobsFixe(), pl);
-		pm.registerEvents(new WeatherChangement(), pl);
+		this.login = new Login(main);
+		pm.registerEvents(this.login, main);
+		pm.registerEvents(new Walk(), main);
+		pm.registerEvents(new Damage(this.main), main);
+		this.death = new Death(main);
+		pm.registerEvents(this.death, main);
+		pm.registerEvents(new Break(), main);
+		pm.registerEvents(new Eat(), main);
+		pm.registerEvents(new GoNether(this.main), main);
+		pm.registerEvents(new MobsFixe(), main);
+		pm.registerEvents(new WeatherChangement(), main);
 		
-		pm.registerEvents(new Drop(), pl);
-		pm.registerEvents(new InventoryTeamInteract(pl), pl);
-		pm.registerEvents(new ScenariosItemInteract(), pl);
+		pm.registerEvents(new Drop(), main);
+		pm.registerEvents(new InventoryTeamInteract(main), main);
+		pm.registerEvents(new ScenariosItemInteract(), main);
 		
-		pm.registerEvents(new InvSee(pl), pl);
-		pm.registerEvents(new Tchat(), pl);
+		pm.registerEvents(new InvSee(main), main);
+		pm.registerEvents(new Tchat(), main);
 		
 		// Stats
-		pm.registerEvents(new RegeneratesHealth(), pl);
-		pm.registerEvents(new ThrowedArrow(), pl);
+		pm.registerEvents(new RegeneratesHealth(), main);
+		pm.registerEvents(new ThrowedArrow(), main);
+	}
+
+	public Login getLogin(){
+		return this.login;
+	}
+
+	public Death getDeath(){
+		return this.death;
 	}
 }

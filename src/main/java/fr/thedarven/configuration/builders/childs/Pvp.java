@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.NumericHelper;
 
 public class Pvp extends OptionNumeric {
@@ -28,7 +28,7 @@ public class Pvp extends OptionNumeric {
 	 */
 	@EventHandler
     public void onOtherDamage(EntityDamageByEntityEvent e){
-		if(this.value*60 - TaupeGun.timer >= 0){
+		if(this.value*60 - TaupeGun.getInstance().getGameManager().getTimer() >= 0){
 			if(e.getEntity() instanceof Player){
 	        	if(e.getDamager() instanceof Player || e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
 	        		e.setCancelled(true);

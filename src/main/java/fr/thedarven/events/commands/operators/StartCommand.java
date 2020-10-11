@@ -16,8 +16,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.Game;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
@@ -27,6 +26,12 @@ import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.teams.TeamGraph;
 
 public class StartCommand implements CommandExecutor{
+
+	private TaupeGun main;
+
+	public StartCommand(TaupeGun main){
+		this.main = main;
+	}
 
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
@@ -115,52 +120,45 @@ public class StartCommand implements CommandExecutor{
 						Bukkit.getScheduler().runTaskTimer(TaupeGun.getInstance(), new Runnable(){
 							@Override
 							public void run(){
-								if(TaupeGun.timerStart == 10){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.DARK_RED +"10", "", 10);
-									}
+								String title = "";
+								Sound sound = Sound.ORB_PICKUP;
+
+								switch(main.getGameManager().getCooldownTimer()){
+									case 10:
+										title = ChatColor.DARK_RED + "10";
+										break;
+									case 5:
+										title = ChatColor.RED + "5";
+										break;
+									case 4:
+										title = ChatColor.YELLOW + "4";
+										break;
+									case 3:
+										title = ChatColor.GOLD + "3";
+										break;
+									case 2:
+										title = ChatColor.GREEN + "2";
+										break;
+									case 1:
+										title = ChatColor.DARK_GREEN + "1";
+										break;
+									case 0:
+										Bukkit.getScheduler().cancelAllTasks();
+
+										main.getGameManager().startCooldown();
+
+										sound = Sound.ENDERDRAGON_GROWL;
+
+										title = ChatColor.DARK_GREEN + LanguageBuilder.getContent("START_COMMAND", "gameIsStarting", InventoryRegister.language.getSelectedLanguage(), true);
+										break;
 								}
-															
-								if(TaupeGun.timerStart == 5){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.RED +"5", "", 10);
-									}
+
+								for (Player player : Bukkit.getOnlinePlayers()) {
+									player.playSound(player.getLocation(), sound, 1, 1);
+									Title.title(player, title, "", 10);
 								}
-								if(TaupeGun.timerStart == 4){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.YELLOW +"4", "", 10);
-									}
-								}
-								if(TaupeGun.timerStart == 3){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.GOLD +"3", "", 10);
-									}
-								}
-								if(TaupeGun.timerStart == 2){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.GREEN +"2", "", 10);
-									}
-								}
-								if(TaupeGun.timerStart == 1){
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-										Title.title(player, ChatColor.DARK_GREEN +"1", "", 10);
-									}
-								}						
-								if(TaupeGun.timerStart == 0){
-									Bukkit.getScheduler().cancelAllTasks();
-									Game.start();
-									for (Player player : Bukkit.getOnlinePlayers()) {
-										player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL , 1, 1);
-										Title.title(player, ChatColor.DARK_GREEN +LanguageBuilder.getContent("START_COMMAND", "gameIsStarting", InventoryRegister.language.getSelectedLanguage(), true), "", 10);
-									}
-								}
-								TaupeGun.timerStart--;
+
+								main.getGameManager().decreaseCooldownTimer();
 							}
 						},20,20);
 					}else {

@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
 
 import com.google.gson.Gson;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.statsgame.utils.RestRequest;
-import fr.thedarven.utils.SqlRequest;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
@@ -46,7 +46,7 @@ public class RestGame {
 		if(currentGame != null)
 			currentGame.endGame();
 		
-		this.started_at = SqlRequest.getLongTimestamp();
+		this.started_at = UtilsClass.getLongTimestamp();
 		this.duration = 0;
 		this.language = InventoryRegister.language.getSelectedLanguage();
 		
@@ -136,7 +136,7 @@ public class RestGame {
 	public void endGame() {
 		if(currentGame == this) {
 			if(Bukkit.getServer().getOnlineMode()) {
-				this.duration = TaupeGun.timer;
+				this.duration = TaupeGun.getInstance().getGameManager().getTimer();
 				
 				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {	
 					TeamCustom team = pt.getStartTeam();

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.events.ScenariosItemInteract;
+import fr.thedarven.events.listeners.ScenariosItemInteract;
 import fr.thedarven.main.metier.EnumGameState;
 
 public class ItemCommand implements CommandExecutor {

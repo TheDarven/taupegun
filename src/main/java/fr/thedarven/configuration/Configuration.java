@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.event.Listener;
 
 import org.bukkit.plugin.PluginManager;
-import fr.thedarven.main.TaupeGun;
+import fr.thedarven.TaupeGun;
 
 
 public abstract class Configuration<T> implements Listener{
