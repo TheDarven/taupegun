@@ -22,7 +22,7 @@ public class GoNether implements Listener {
 	}
 
 	@EventHandler
-	public void join(PlayerTeleportEvent e) {
+	public void onTeleport(PlayerTeleportEvent e) {
 		if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			if(e.getCause().equals(TeleportCause.NETHER_PORTAL)){
 				Player p = e.getPlayer();

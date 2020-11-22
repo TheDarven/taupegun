@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
+import fr.thedarven.utils.UtilsClass;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,6 +38,13 @@ public class StartCommand implements CommandExecutor{
 			if(cmd.getName().equalsIgnoreCase("start")) {
 				if(p.isOp() || p.hasPermission("taupegun.start")){
 					if(EnumGameState.isCurrentState(EnumGameState.LOBBY)){
+
+						if(UtilsClass.getWorld() == null) {
+							String worldNotExistMessage = "§e"+LanguageBuilder.getContent("START_COMMAND", "worldNotExist", InventoryRegister.language.getSelectedLanguage(), true);
+							Bukkit.broadcastMessage(worldNotExistMessage);
+							return true;
+						}
+
 						Scoreboard board = TeamCustom.board;
 						Set<Team> teams = board.getTeams();
 						

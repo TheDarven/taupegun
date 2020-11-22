@@ -1,27 +1,19 @@
 package fr.thedarven.statsgame;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
 
-import com.google.gson.Gson;
-
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
-import fr.thedarven.statsgame.utils.RestRequest;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
 
 public class RestGame {
 	
@@ -172,14 +164,13 @@ public class RestGame {
 				String[] caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWSYZ0123456789".split("");
 				String accessToken = "";
 				Random random = new Random();
-				for(int i=0; i<ACCESS_KEY_LENGTH; i++) {
+				for(int i=0; i<ACCESS_KEY_LENGTH; i++)
 					accessToken += caracters[random.nextInt(caracters.length)];
-				}
 				
 				final String finalAccessToken = accessToken;
 				final RestGame finalRestGame = this;
 
-				Bukkit.getScheduler().runTaskAsynchronously(TaupeGun.getInstance(), new Runnable() {
+				/* Bukkit.getScheduler().runTaskAsynchronously(TaupeGun.getInstance(), new Runnable() {
 		            @Override
 		            public void run() {
 		            	try {         		
@@ -194,7 +185,7 @@ public class RestGame {
 							System.out.println("[TaupeGun-ERROR] Failed to send game's stats");
 						}
 		            }
-		        });
+		        }); */
 			}
 			currentGame = null;
 		}

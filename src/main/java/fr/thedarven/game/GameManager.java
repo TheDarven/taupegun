@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.Manager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -31,19 +32,16 @@ import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.teams.TeamUtils;
 import fr.thedarven.utils.texts.TextInterpreter;
 
-public class GameManager{
+public class GameManager extends Manager {
 
-	// TODO Enlever static
-	public static ArrayList<ArrayList<Player>> teleportationInWorld = new ArrayList<>();
-
-	private TaupeGun main;
+	private ArrayList<ArrayList<Player>> teleportationInWorld = new ArrayList<>();
 
 	private int timer = 0;
 
 	private int cooldownTimer = 0;
 
 	public GameManager(TaupeGun main){
-		this.main = main;
+		super(main);
 	}
 
 	public int getTimer(){
@@ -120,17 +118,21 @@ public class GameManager{
 	}
 	
 	private void startGame() {
+		World world = UtilsClass.getWorld();
+		if(world == null) {
+			String worldNotExistMessage = "§e"+LanguageBuilder.getContent("START_COMMAND", "worldNotExist", InventoryRegister.language.getSelectedLanguage(), true);
+			Bukkit.broadcastMessage(worldNotExistMessage);
+			return;
+		}
+
 		this.main.getDatabaseManager().createGame();
 
-		World world = UtilsClass.getWorld();
-		if(world != null) {
-			world.setGameRuleValue("doMobSpawning", "true");
-			if(InventoryRegister.daylightCycle.getValue())
-				world.setGameRuleValue("doDaylightCycle", "true");
-			world.getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
-			world.setTime(0);
-		}
-		
+		world.setGameRuleValue("doMobSpawning", "true");
+		if(InventoryRegister.daylightCycle.getValue())
+			world.setGameRuleValue("doDaylightCycle", "true");
+		world.getWorldBorder().setDamageAmount((double) (InventoryRegister.murdegats.getValue()/100));
+		world.setTime(0);
+
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if(!InventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.disableF3(player);
@@ -175,16 +177,7 @@ public class GameManager{
 		}
 		new TeamCustom(TeamUtils.getSpectatorTeamName(), 15, 0, 0, true, false);
 
-		if(world == null)
-			return;
-
-		for(int x = -15; x <= 15; x++){
-			for (int y = 200; y <= 203; y++){
-				for (int z = -15; z <= 15; z++){
-					world.getBlockAt(x, y, z).setType(Material.AIR);
-				}
-			}
-		}
+		this.main.getWorldManager().destroyLobby();
 	}
 	
 	private void pvpEnabling() {

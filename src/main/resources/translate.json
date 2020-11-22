@@ -119,7 +119,8 @@
 				"incorrectMoleNumber": "Nombre de taupes par équipe de taupe incorrect.",
 				"gameCanStart": "La partie peut commencer !",
 				"gameIsStarting": "Go !",
-				"gameStartingCancelled": "Lancement annulé"
+				"gameStartingCancelled": "Lancement annulé",
+				"worldNotExist":  "Aucun monde n'a été trouvé pour téléporter les équipes."
 			},
 			"en_US": {
 				"gameAlreadyStarted": "The game has already started !",
@@ -131,7 +132,8 @@
 				"incorrectMoleNumber": "Incorrect number of mole per team.",
 				"gameCanStart": "The game can start !",
 				"gameIsStarting": "Go !",
-				"gameStartingCancelled": "Launch canceled"
+				"gameStartingCancelled": "Launch canceled",
+				"worldNotExist":  "Aucun monde n'a été trouvé pour téléporter les équipes."
 			}
 		}
 	},

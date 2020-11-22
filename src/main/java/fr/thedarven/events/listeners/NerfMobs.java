@@ -7,9 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class MobsFixe implements Listener {
-
-	public MobsFixe() {}
+public class NerfMobs implements Listener {
 	
 	@EventHandler()
 	public void onCreeperOneShot(EntityDamageByEntityEvent e) {

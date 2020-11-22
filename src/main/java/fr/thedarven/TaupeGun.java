@@ -11,8 +11,10 @@ import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.utils.CraftManager;
 import fr.thedarven.utils.teams.TeamDeletionManager;
+import fr.thedarven.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -47,6 +49,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	private CommandManager commandManager;
 
+	private WorldManager worldManager;
+
 	private DatabaseManager databaseManager;
 
 	private CraftManager craftManager;
@@ -70,6 +74,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.saveDefaultConfig();
 		
 		LoadThings.loadAll(this);
+
+		worldManager = new WorldManager(this);
+		worldManager.buildLobby();
 
 		databaseManager = new DatabaseManager(this);
 
@@ -136,6 +143,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public EventsManager getEventsManager(){
 		return this.eventsManager;
 	}
+
+	public WorldManager getWorldManager(){ return this.worldManager; }
 
 	public DatabaseManager getDatabaseManager(){
 		return this.databaseManager;

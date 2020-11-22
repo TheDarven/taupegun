@@ -22,6 +22,7 @@ public class EventsManager extends Manager {
 
 	public void registerEvents() {
 		PluginManager pm = Bukkit.getPluginManager();
+
 		this.login = new Login(main);
 		pm.registerEvents(this.login, main);
 		pm.registerEvents(new Walk(), main);
@@ -31,7 +32,7 @@ public class EventsManager extends Manager {
 		pm.registerEvents(new Break(), main);
 		pm.registerEvents(new Eat(), main);
 		pm.registerEvents(new GoNether(this.main), main);
-		pm.registerEvents(new MobsFixe(), main);
+		pm.registerEvents(new NerfMobs(), main);
 		pm.registerEvents(new WeatherChangement(), main);
 		
 		pm.registerEvents(new Drop(), main);
