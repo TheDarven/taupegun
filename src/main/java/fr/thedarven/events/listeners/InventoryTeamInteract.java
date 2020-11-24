@@ -85,7 +85,7 @@ public class InventoryTeamInteract implements Listener {
 		for(Team team : teams){
 			ItemStack item = new ItemStack(Material.BANNER, 1, (byte) CodeColor.codeColorPB(team.getPrefix().replace("§", "")));
 			ItemMeta itemM = item.getItemMeta();
-			itemM.setDisplayName(team.getPrefix()+team.getName()+" ["+team.getEntries().size()+"/"+TeamCustom.maxPlayer+"]");
+			itemM.setDisplayName(team.getPrefix() + team.getName() + " [" + team.getEntries().size() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 			
 			if(curentCustomTeam != null && curentCustomTeam.getTeam().equals(team)) {
 				itemM.addEnchant(Enchantment.LURE, 1, false);
