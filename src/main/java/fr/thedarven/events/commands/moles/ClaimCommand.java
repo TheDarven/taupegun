@@ -21,7 +21,7 @@ public class ClaimCommand implements CommandExecutor{
 			if(UtilsClass.molesEnabled() && pc.isTaupe() && pc.isAlive()){
 				if(cmd.getName().equalsIgnoreCase("claim")) {
 					if(!pc.getClaimTaupe().equals("aucun")){
-						for(InventoryGUI inv : InventoryRegister.kits.getChilds()) {
+						for(InventoryGUI inv : InventoryRegister.kits.getChildsValue()) {
 							if(inv.getName().equals(pc.getClaimTaupe())) {
 								Inventory inventaire = inv.getInventory();
 								for(int i=0; i<9; i++) {

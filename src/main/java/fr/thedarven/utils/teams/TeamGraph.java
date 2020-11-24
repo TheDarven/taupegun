@@ -31,7 +31,7 @@ public class TeamGraph {
 		}else {
 			// TAUPES
 			ArrayList<String> kits = new ArrayList<String>();
-			for(InventoryGUI kit : InventoryRegister.kits.getChilds()) {
+			for(InventoryGUI kit : InventoryRegister.kits.getChildsValue()) {
 				if(kit != InventoryRegister.addkits)
 					kits.add(kit.getName());
 			}

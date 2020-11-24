@@ -15,7 +15,7 @@ public class InventoryKitsPotion extends InventoryKitsElement {
 	 * Recharge les objets de l'inventaire
 	 */
 	@SuppressWarnings("deprecation")
-	private void reloadInventory() {
+	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		
 		Potion poison = new Potion(PotionType.POISON, 1, true);

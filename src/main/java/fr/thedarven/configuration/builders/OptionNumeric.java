@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -26,7 +27,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class OptionNumeric extends InventoryGUI{
+public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -154,13 +155,13 @@ public class OptionNumeric extends InventoryGUI{
 	protected String getFormattedItemName() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("name", this.name);
-		if(value == 0 && showDisabled) {
+		if (value == 0 && showDisabled) {
 			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", InventoryRegister.language.getSelectedLanguage(), true));
 			params.put("afterName", "");
-		}else {
-			if(diviseur == 1) {
+		} else {
+			if (diviseur == 1) {
 				params.put("value", Integer.toString(this.value));
-			}else {
+			} else {
 				params.put("value", Double.toString(((double)this.value/ (double) this.diviseur)));
 			}
 			params.put("afterName", afterName);
@@ -191,13 +192,69 @@ public class OptionNumeric extends InventoryGUI{
 		
 		return returnArray;
 	}
-	
-	
+
+
+	/**
+	 * Crée une bannière qui permet d'incrémenter la valeur
+	 *
+	 * @param bannerColor La couleur du +
+	 * @param nameColor La couleur du nom de la bannière
+	 * @param factor Le facteur qui détermine le nombre à incrémenter à la valeur lors du clique
+	 *
+	 * @return La bannière
+	 */
+	private ItemStack createPlusItem(DyeColor bannerColor, ChatColor nameColor, int factor) {
+		ItemStack increment = new ItemStack(Material.BANNER, 1);
+		BannerMeta incrementM = (BannerMeta) increment.getItemMeta();
+		incrementM.setBaseColor(bannerColor);
+		List<Pattern> pattern = new ArrayList<Pattern>();
+		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
+		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
+		pattern.add(new Pattern(bannerColor, PatternType.BORDER));
+		pattern.add(new Pattern(bannerColor, PatternType.STRIPE_TOP));
+		pattern.add(new Pattern(bannerColor, PatternType.STRIPE_BOTTOM));
+		incrementM.setPatterns(pattern);
+		incrementM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		if (this.diviseur == 1) {
+			incrementM.setDisplayName(nameColor + "+" + this.pas * factor + this.afterName);
+		} else {
+			incrementM.setDisplayName(nameColor + "+" + ((double) this.pas * factor/(double) this.diviseur) + this.afterName);
+		}
+		increment.setItemMeta(incrementM);
+		return increment;
+	}
+
+	/**
+	 * Crée une bannière qui permet de décrémenter la valeur
+	 *
+	 * @param bannerColor La couleur du -
+	 * @param nameColor La couleur du nom de la bannière
+	 * @param factor Le facteur qui détermine le nombre à décrémenter à la valeur lors du clique
+	 *
+	 * @return La bannière
+	 */
+	private ItemStack createMinusItem(DyeColor bannerColor, ChatColor nameColor, int factor) {
+		ItemStack decrement = new ItemStack(Material.BANNER, 1);
+		BannerMeta decrementM = (BannerMeta) decrement.getItemMeta();
+		decrementM.setBaseColor(bannerColor);
+		List<Pattern> pattern = new ArrayList<Pattern>();
+		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
+		pattern.add(new Pattern(bannerColor, PatternType.BORDER));
+		decrementM.setPatterns(pattern);
+		decrementM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		if (this.diviseur == 1) {
+			decrementM.setDisplayName(nameColor + "-" + this.pas * factor + this.afterName);
+		} else {
+			decrementM.setDisplayName(nameColor + "-" + ((double) this.pas * 10.0/(double) this.diviseur) + this.afterName);
+		}
+		decrement.setItemMeta(decrementM);
+		return decrement;
+	}
+
 	/**
 	 * Pour initier les items
 	 * 
 	 * @param pItem Le material
-	 * @param pData Le subid
 	 */
 	private void initItem(Material pItem) {
 		ItemStack item = new ItemStack(pItem,1, getData());
@@ -206,118 +263,19 @@ public class OptionNumeric extends InventoryGUI{
 		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 		item.setItemMeta(itemM);
 		inventory.setItem(4, item);
-		
-		if(morePas > 1) {
-			ItemStack moins2 = new ItemStack(Material.BANNER, 1);
-			BannerMeta moinsM2 = (BannerMeta)moins2.getItemMeta();
-			moinsM2.setBaseColor(DyeColor.ORANGE);
-			List<Pattern> patternsMoins2 = new ArrayList<Pattern>();
-			patternsMoins2.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-			patternsMoins2.add(new Pattern(DyeColor.ORANGE, PatternType.BORDER));
-			moinsM2.setPatterns(patternsMoins2);
-			moinsM2.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-			if(this.diviseur == 1) {
-				moinsM2.setDisplayName(ChatColor.GOLD+"-"+this.pas*10+this.afterName);
-			}else {
-				moinsM2.setDisplayName(ChatColor.GOLD+"-"+((double) this.pas*10.0/(double) this.diviseur)+this.afterName);
-			}
-			moins2.setItemMeta(moinsM2);
-			inventory.setItem(2, moins2);
-			
-			
-			
-			
-			ItemStack plus2 = new ItemStack(Material.BANNER, 1);
-			BannerMeta plusM2 = (BannerMeta)plus2.getItemMeta();
-			plusM2.setBaseColor(DyeColor.LIME);
-			List<Pattern> patternsPlus2 = new ArrayList<Pattern>();
-			patternsPlus2.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-			patternsPlus2.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
-			patternsPlus2.add(new Pattern(DyeColor.LIME, PatternType.BORDER));
-			patternsPlus2.add(new Pattern(DyeColor.LIME, PatternType.STRIPE_TOP));
-			patternsPlus2.add(new Pattern(DyeColor.LIME, PatternType.STRIPE_BOTTOM));
-			plusM2.setPatterns(patternsPlus2);
-			plusM2.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-			if(this.diviseur == 1) {
-				plusM2.setDisplayName(ChatColor.GREEN+"+"+this.pas*10+this.afterName);
-			}else {
-				plusM2.setDisplayName(ChatColor.GREEN+"+"+((double) this.pas*10.0/(double) this.diviseur)+this.afterName);
-			}
-			plus2.setItemMeta(plusM2);
-			inventory.setItem(6, plus2);
+
+		inventory.setItem(3, createMinusItem(DyeColor.YELLOW, ChatColor.YELLOW, 1));
+		inventory.setItem(5, createPlusItem(DyeColor.BLUE, ChatColor.AQUA, 1));
+
+		if (morePas > 1) {
+			inventory.setItem(2, createMinusItem(DyeColor.ORANGE, ChatColor.GOLD, 10));
+			inventory.setItem(6, createPlusItem(DyeColor.LIME, ChatColor.GREEN, 10));
 		}
 		
-		if(morePas > 2) {
-			ItemStack moins = new ItemStack(Material.BANNER, 1);
-			BannerMeta moinsM = (BannerMeta)moins.getItemMeta();
-			moinsM.setBaseColor(DyeColor.RED);
-			List<Pattern> patternsMoins = new ArrayList<Pattern>();
-			patternsMoins.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-			patternsMoins.add(new Pattern(DyeColor.RED, PatternType.BORDER));
-			moinsM.setPatterns(patternsMoins);
-			moinsM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-			if(this.diviseur == 1) {
-				moinsM.setDisplayName(ChatColor.RED+"-"+this.pas*100+this.afterName);
-			}else {
-				moinsM.setDisplayName(ChatColor.RED+"-"+((double) this.pas*100.0/(double) this.diviseur)+this.afterName);
-			}
-			moins.setItemMeta(moinsM);
-			this.inventory.setItem(1, moins);
-			
-			ItemStack plus3 = new ItemStack(Material.BANNER, 1);
-			BannerMeta plusM3 = (BannerMeta)plus3.getItemMeta();
-			plusM3.setBaseColor(DyeColor.GREEN);
-			List<Pattern> patternsPlus3 = new ArrayList<Pattern>();
-			patternsPlus3.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-			patternsPlus3.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
-			patternsPlus3.add(new Pattern(DyeColor.GREEN, PatternType.BORDER));
-			patternsPlus3.add(new Pattern(DyeColor.GREEN, PatternType.STRIPE_TOP));
-			patternsPlus3.add(new Pattern(DyeColor.GREEN, PatternType.STRIPE_BOTTOM));
-			plusM3.setPatterns(patternsPlus3);
-			plusM3.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-			if(this.diviseur == 1) {
-				plusM3.setDisplayName(ChatColor.DARK_GREEN+"+"+this.pas*100+this.afterName);
-			}else {
-				plusM3.setDisplayName(ChatColor.DARK_GREEN+"+"+((double) this.pas*100.0/(double) this.diviseur)+this.afterName);
-			}
-			plus3.setItemMeta(plusM3);
-			this.inventory.setItem(7, plus3);
+		if (morePas > 2) {
+			inventory.setItem(1, createMinusItem(DyeColor.RED, ChatColor.RED, 100));
+			inventory.setItem(7, createPlusItem(DyeColor.GREEN, ChatColor.DARK_GREEN, 100));
 		}
-		
-		ItemStack moins3 = new ItemStack(Material.BANNER, 1);
-		BannerMeta moinsM3 = (BannerMeta)moins3.getItemMeta();
-		moinsM3.setBaseColor(DyeColor.YELLOW);
-		List<Pattern> patternsMoins3 = new ArrayList<Pattern>();
-		patternsMoins3.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-		patternsMoins3.add(new Pattern(DyeColor.YELLOW, PatternType.BORDER));
-		moinsM3.setPatterns(patternsMoins3);
-		moinsM3.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-		if(this.diviseur == 1) {
-			moinsM3.setDisplayName(ChatColor.YELLOW+"-"+this.pas+this.afterName);
-		}else {
-			moinsM3.setDisplayName(ChatColor.YELLOW+"-"+((double) this.pas/(double) this.diviseur)+this.afterName);
-		}
-		moins3.setItemMeta(moinsM3);
-		this.inventory.setItem(3, moins3);
-		
-		ItemStack plus = new ItemStack(Material.BANNER, 1);
-		BannerMeta plusM = (BannerMeta)plus.getItemMeta();
-		plusM.setBaseColor(DyeColor.BLUE);
-		List<Pattern> patternsPlus = new ArrayList<Pattern>();
-		patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
-		patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
-		patternsPlus.add(new Pattern(DyeColor.CYAN, PatternType.BORDER));
-		patternsPlus.add(new Pattern(DyeColor.CYAN, PatternType.STRIPE_TOP));
-		patternsPlus.add(new Pattern(DyeColor.CYAN, PatternType.STRIPE_BOTTOM));
-		plusM.setPatterns(patternsPlus);
-		plusM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-		if(this.diviseur == 1) {
-			plusM.setDisplayName(ChatColor.AQUA+"+"+this.pas+this.afterName);
-		}else {
-			plusM.setDisplayName(ChatColor.AQUA+"+"+((double) this.pas/(double) this.diviseur)+this.afterName);
-		}
-		plus.setItemMeta(plusM);
-		this.inventory.setItem(5, plus);
 	}
 	
 	/**
@@ -333,9 +291,9 @@ public class OptionNumeric extends InventoryGUI{
 	 */
 	protected void reloadItem() {
 		// Dans l'inventaire
-		if(inventory != null) {	
+		if (inventory != null) {
 			ItemStack item2 = this.inventory.getItem(4);
-			if(item2 != null) {
+			if (item2 != null) {
 				ItemMeta itemM2 = item2.getItemMeta();
 				itemM2.setDisplayName(getFormattedItemName());
 				item2.setItemMeta(itemM2);
@@ -354,48 +312,48 @@ public class OptionNumeric extends InventoryGUI{
 	public void clickInventory(InventoryClickEvent e){
 		int operation = 0;
 		int number = 0;
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
 				
-				if(e.getSlot() == 1 && this.morePas > 2) {
+				if (e.getSlot() == 1 && this.morePas > 2) {
 					operation = 1;
 					number = this.pas*100;
-				}else if(e.getSlot() == 2 && this.morePas > 1) {
+				} else if (e.getSlot() == 2 && this.morePas > 1) {
 					operation = 1;
 					number = this.pas*10;
-				}else if(e.getSlot() == 3) {
+				} else if (e.getSlot() == 3) {
 					operation = 1;
 					number = this.pas;
-				}else if(e.getSlot() == 5) {
+				} else if (e.getSlot() == 5) {
 					operation = 2;
 					number = this.pas;
-				}else if(e.getSlot() == 6 && this.morePas > 1) {
+				} else if (e.getSlot() == 6 && this.morePas > 1) {
 					operation = 2;
 					number = this.pas*10;
-				}else if(e.getSlot() == 7 && this.morePas > 2) {
+				} else if (e.getSlot() == 7 && this.morePas > 2) {
 					operation = 2;
 					number = this.pas*100;
 				}
 				
-				if(operation == 1) {
-					if(this.min < this.value-number) {
+				if (operation == 1) {
+					if (this.min < this.value-number) {
 						this.value = this.value-number;
-					}else {
+					} else {
 						this.value = this.min;
 					}
 					reloadItem();
-				}else if(operation == 2) {
-					if(this.max > this.value+number) {
+				} else if (operation == 2) {
+					if (this.max > this.value+number) {
 						this.value = this.value+number;
-					}else {
+					} else {
 						this.value = this.max;
 					}
 					reloadItem();

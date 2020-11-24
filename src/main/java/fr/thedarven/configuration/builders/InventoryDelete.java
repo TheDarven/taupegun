@@ -13,6 +13,8 @@ import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class InventoryDelete extends InventoryGUI {
 
 	private static String CONFIRM_ACTION = "✔ Confirmer";
@@ -62,18 +64,18 @@ public abstract class InventoryDelete extends InventoryGUI {
 	 * Recharge les objets de l'inventaire
 	 */
 	public void reloadInventory() {
-		for(InventoryGUI inv : getChilds()) {
-			inv.getParent().removeItem(inv);
-		}
-		int i = 0;
-		for(InventoryGUI inv : getChilds()) {
-			if(inv instanceof InventoryKitsElement) {
-				modifiyPosition(inv,i);
-				i++;
-			}else if(getChilds().size() < 10){
-				modifiyPosition(inv,getChilds().size()-1);
+		clearChildsItems();
+
+		AtomicInteger counter = new AtomicInteger(0);
+		final int childsSize = getChilds().size();
+
+		getChildsValue().forEach(child -> {
+			if (child instanceof InventoryKitsElement) {
+				modifiyPosition(child, counter.getAndIncrement());
+			} else if (childsSize < 10){
+				modifiyPosition(child,childsSize - 1);
 			}
-		}
+		});
 	}
 	
 	/**
@@ -106,9 +108,9 @@ public abstract class InventoryDelete extends InventoryGUI {
 	 * Pour recharger les items dans l'inventaire
 	 */
 	private void reloadItem() {
-		if(inventory != null) {
+		if (inventory != null) {
 			ItemStack confirmer = this.getInventory().getItem(2);
-			if(confirmer != null) {
+			if (confirmer != null) {
 				ItemMeta confirmerM = confirmer.getItemMeta();
 				confirmerM.setDisplayName(ChatColor.GREEN+CONFIRM_ACTION);
 				confirmer.setItemMeta(confirmerM);
@@ -116,7 +118,7 @@ public abstract class InventoryDelete extends InventoryGUI {
 			
 			
 			ItemStack annuler = this.getInventory().getItem(6);
-			if(annuler != null) {
+			if (annuler != null) {
 				ItemMeta annulerM = annuler.getItemMeta();
 				annulerM.setDisplayName(ChatColor.RED+CANCEL_ACTION);
 				annuler.setItemMeta(annulerM);
@@ -138,16 +140,16 @@ public abstract class InventoryDelete extends InventoryGUI {
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.STAINED_CLAY)){
-					if(e.getCurrentItem().getDurability() == 13) {
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.STAINED_CLAY)){
+					if (e.getCurrentItem().getDurability() == 13) {
 						deleteElement(p);
-					}else if(e.getCurrentItem().getDurability() == 14) {
+					} else if (e.getCurrentItem().getDurability() == 14) {
 						p.openInventory(getParent().getInventory());
 					}
 				}

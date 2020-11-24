@@ -3,6 +3,7 @@ package fr.thedarven.configuration.builders.languages;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.texts.TextInterpreter;
 
-public class InventoryLanguage extends InventoryGUI{
+public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 
 	private static String SELECTING_LANGUAGE = "Vous avez sélectionné la langue {languageName}";
 
@@ -93,8 +94,9 @@ public class InventoryLanguage extends InventoryGUI{
 		ItemMeta headM = head.getItemMeta();
 		headM.setDisplayName(getFormattedItemName());
 		head.setItemMeta(headM);
-		
-		updateItem(exItem, head);
+
+		if (this.getParent() != null)
+			this.getParent().updateChildItem(exItem, head, this);
 	}
 	
 	
@@ -106,7 +108,7 @@ public class InventoryLanguage extends InventoryGUI{
 	 * @param p Le joueur qui a cliqué
 	 */
 	private void changeSelectedLanguage(InventoryLanguageElement pSelectedLanguage, Player p) {
-		if(pSelectedLanguage == this.selectedLanguage)
+		if (pSelectedLanguage == this.selectedLanguage)
 			return;
 		
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
@@ -115,13 +117,12 @@ public class InventoryLanguage extends InventoryGUI{
 		setSelectedLanguage(pSelectedLanguage);
 		ScenariosItemInteract.actionBeacon(exName);
 		
-		if(exSelectedLanguage != null)
+		if (exSelectedLanguage != null)
 			exSelectedLanguage.reloadItem();
 		pSelectedLanguage.reloadItem();
 		
 		InventoryGUI.setLanguage();
-		for(Player onlineP: Bukkit.getOnlinePlayers())
-			MessagesClass.TabMessage(onlineP);
+		Bukkit.getOnlinePlayers().forEach(MessagesClass::TabMessage);
 		
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("languageName", "§6"+this.selectedLanguage.getName()+"§e");
@@ -137,28 +138,27 @@ public class InventoryLanguage extends InventoryGUI{
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
-				for(InventoryGUI inventoryGUI : childs) {
-					if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
-						if(inventoryGUI instanceof InventoryLanguageElement) {
-							InventoryLanguageElement clickedInventory = (InventoryLanguageElement) inventoryGUI;
-							if(click(p, EnumConfiguration.OPTION)) {
-								changeSelectedLanguage(clickedInventory, p);
-							}
-						}else {
-							p.openInventory(inventoryGUI.getInventory());
+				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+				if (inventoryGUI != null) {
+					if (inventoryGUI instanceof InventoryLanguageElement) {
+						InventoryLanguageElement clickedInventory = (InventoryLanguageElement) inventoryGUI;
+						if (click(p, EnumConfiguration.OPTION)) {
+							changeSelectedLanguage(clickedInventory, p);
 						}
-						return;
+					} else {
+						p.openInventory(inventoryGUI.getInventory());
 					}
+					return;
 				}
 				delayClick(pl);
 			}

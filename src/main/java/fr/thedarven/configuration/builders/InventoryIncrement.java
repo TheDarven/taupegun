@@ -23,6 +23,6 @@ public abstract class InventoryIncrement extends InventoryGUI{
 	 * @return Le dernier enfant
 	 */
 	public InventoryGUI getLastChild() {
-		return getChilds().get(getChilds().size()-1);
+		return getChildsValue().get(this.childs.size()-1);
 	}
 }

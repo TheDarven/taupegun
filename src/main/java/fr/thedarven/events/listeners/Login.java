@@ -40,7 +40,7 @@ public class Login implements Listener {
 		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			InventoryPlayers.reloadInventory();
+			InventoryPlayers.reloadInventories();
 			if(this.main.development) {
 				Title.title(p, 
 					ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", InventoryRegister.language.getSelectedLanguage(), true),
@@ -71,7 +71,7 @@ public class Login implements Listener {
 			new BukkitRunnable(){
 				@Override
 				public void run() {
-					InventoryPlayers.reloadInventory();
+					InventoryPlayers.reloadInventories();
 					this.cancel();
 				}
 			}.runTaskTimer(this.main,0, 20);

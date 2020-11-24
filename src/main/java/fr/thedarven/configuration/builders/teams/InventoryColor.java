@@ -18,17 +18,17 @@ public class InventoryColor extends InventoryGUI {
 	 * Pour initier les items
 	 */
 	private void initItem(){
-		for(int color=0; color<14; color++){
+		for (int color=0; color<14; color++){
     		ItemStack banner = new ItemStack(Material.BANNER, 1);
     		BannerMeta bannerM = (BannerMeta)banner.getItemMeta();
     		bannerM.setBaseColor(CodeColor.codeColorBD(color));
     		banner.setItemMeta(bannerM);
     				   
     		int colorRank = color;
-    		if(color < 7){
+    		if (color < 7){
     			colorRank = (color + 1);
     		}
-    		if(color > 6){
+    		if (color > 6){
     			colorRank = (color + 3);
     		}
     		getInventory().setItem(colorRank, banner);

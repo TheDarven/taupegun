@@ -17,7 +17,7 @@ public class InventoryKitsAerien extends InventoryKitsElement {
 	/**
 	 * Recharge les objets de l'inventaire
 	 */
-	private void reloadInventory() {
+	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		
 		ItemStack arc = new ItemStack(Material.BOW, 1);

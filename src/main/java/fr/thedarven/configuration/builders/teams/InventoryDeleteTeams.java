@@ -69,9 +69,9 @@ public class InventoryDeleteTeams extends InventoryDelete {
 		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+TEAM_DELETE_FORMAT, params));
 		
 		TeamCustom teamDelete = TeamCustom.getTeamCustom(team.getName());
-		if(teamDelete != null)
+		if (teamDelete != null)
 			teamDelete.deleteTeam();
 		p.openInventory(InventoryRegister.teams.getInventory());
-		InventoryPlayers.reloadInventory();
+		InventoryPlayers.reloadInventories();
 	}
 }

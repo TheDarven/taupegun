@@ -27,11 +27,11 @@ import fr.thedarven.utils.texts.TextInterpreter;
 public class InventoryPlayers extends InventoryGUI{
 
 	private static String TEAM_FULL_FORMAT = "L'équipe {teamName} est déjà complète.";
-	protected static ArrayList<InventoryPlayers> inventory = new ArrayList<>();
+	protected static ArrayList<InventoryPlayers> inventories = new ArrayList<>();
 	
 	public InventoryPlayers(InventoryGUI pInventoryGUI) {
 		super("Ajouter un joueur", null, "MENU_TEAM_ITEM_ADD_PLAYER", 6, Material.ARMOR_STAND, pInventoryGUI, 0);
-		inventory.add(this);
+		inventories.add(this);
 		reloadInventory();
 		
 		updateLanguage(InventoryRegister.language.getSelectedLanguage());
@@ -64,37 +64,33 @@ public class InventoryPlayers extends InventoryGUI{
 		
 		return languageElement;
 	}
-	
-	
-	
+
 	/**
 	 * Recharge les objets de l'inventaire
 	 */
-	public static void reloadInventory() {
-		for(InventoryPlayers inv : inventory) {
-			int i = 0;
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				boolean inTeam = false;
-				Set<Team> teams = TeamCustom.board.getTeams();
-				for(Team teamSelect : teams){
-					for(String p : teamSelect.getEntries()){
-						if(player.getName().equals(p)){
-							inTeam = true;
-						}
-					}
-				}
-				if(!inTeam) {
-					ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-					SkullMeta teteM = (SkullMeta) tete.getItemMeta();
-					teteM.setOwner(player.getName());
-					teteM.setDisplayName(player.getName());
-					tete.setItemMeta(teteM);
-					inv.getInventory().setItem(i, tete);
-					i++;
-				}
+	public void reloadInventory() {
+		int i = 0;
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+			if (pl.getTeam() == null) {
+				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+				SkullMeta headM = (SkullMeta) head.getItemMeta();
+				headM.setOwner(player.getName());
+				headM.setDisplayName(player.getName());
+				head.setItemMeta(headM);
+				getInventory().setItem(i, head);
+				i++;
 			}
-			inv.getInventory().setItem(i, new ItemStack(Material.AIR, 1));
 		}
+		getInventory().setItem(i, new ItemStack(Material.AIR, 1));
+	}
+	
+	
+	/**
+	 * Recharge les objets des inventaires
+	 */
+	public static void reloadInventories() {
+		inventories.forEach(InventoryPlayers::reloadInventory);
 	}
 	
 	/**
@@ -105,36 +101,35 @@ public class InventoryPlayers extends InventoryGUI{
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(getParent().getInventory());
 					return;
 				}
 
-				if(e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
-					Set<Team> teams = TeamCustom.board.getTeams();
-					for(Team team : teams){
-						if(team.getName().equals(getParent().getInventory().getName())) {
-							if(team.getEntries().size() < 9) {
-								TeamCustom teamJoin = TeamCustom.getTeamCustom(getParent().getInventory().getName());
-								if(teamJoin == null)
-									return;
-								teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
-								// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
-								MessagesEventClass.TeamAddPlayerMessage(e);
-								reloadInventory();
-								((InventoryTeamsElement) getParent()).reloadInventory();
-								p.openInventory(getParent().getInventory());
-							}else {
-								Map<String, String> params = new HashMap<String, String>();
-								params.put("teamName", "§e§l"+team.getName()+"§r§c");
-								Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
-							}
+				if (e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
+					TeamCustom teamCustom = TeamCustom.getTeamCustom(getParent().getInventory().getName());
+					if (teamCustom != null) {
+						Team team = teamCustom.getTeam();
+						if (team.getEntries().size() < 9) {
+							TeamCustom teamJoin = TeamCustom.getTeamCustom(getParent().getInventory().getName());
+							if (teamJoin == null)
+								return;
+							teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
+							// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
+							MessagesEventClass.TeamAddPlayerMessage(e);
+							reloadInventories();
+							((InventoryTeamsElement) getParent()).reloadInventory();
+							p.openInventory(getParent().getInventory());
+						} else {
+							Map<String, String> params = new HashMap<String, String>();
+							params.put("teamName", "§e§l"+team.getName()+"§r§c");
+							Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
 						}
 					}
 				}

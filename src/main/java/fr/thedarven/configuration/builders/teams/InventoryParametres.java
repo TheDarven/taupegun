@@ -78,19 +78,20 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 	 * Pour recharger les items dans l'inventaire
 	 */
 	protected void reloadItem() {
-		if(inventory != null && getInventory() != null) {
-			ItemStack nom = new ItemStack(Material.PAPER, 1);
-			ItemMeta nomM = nom.getItemMeta();
-			nomM.setDisplayName("§e"+CHANGE_NAME);
-			nom.setItemMeta(nomM);
-			getInventory().setItem(0, nom);
-			
-			ItemStack couleur = new ItemStack(Material.BANNER, 1, (byte) 15);
-			ItemMeta couleurM = couleur.getItemMeta();
-			couleurM.setDisplayName("§e"+CHANGE_COLOR);
-			couleur.setItemMeta(couleurM);
-			getInventory().setItem(1, couleur);
-		}
+		if (inventory == null || getInventory() == null)
+			return;
+
+		ItemStack nom = new ItemStack(Material.PAPER, 1);
+		ItemMeta nomM = nom.getItemMeta();
+		nomM.setDisplayName("§e"+CHANGE_NAME);
+		nom.setItemMeta(nomM);
+		getInventory().setItem(0, nom);
+
+		ItemStack couleur = new ItemStack(Material.BANNER, 1, (byte) 15);
+		ItemMeta couleurM = couleur.getItemMeta();
+		couleurM.setDisplayName("§e"+CHANGE_COLOR);
+		couleur.setItemMeta(couleurM);
+		getInventory().setItem(1, couleur);
 	}
 	
 	/**
@@ -100,18 +101,20 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
-			final Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
-			e.setCancelled(true);
-			if(click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()){
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(getParent().getInventory());
-					return;
-				}
-				delayClick(pl);
-			}
+		if (!(e.getWhoClicked() instanceof Player) || e.getClickedInventory() == null || !e.getClickedInventory().equals(getInventory()))
+			return;
+
+		final Player p = (Player) e.getWhoClicked();
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		e.setCancelled(true);
+		if (!click(p, EnumConfiguration.OPTION) || e.getCurrentItem().getType().equals(Material.AIR) || !pl.getCanClick())
+			return;
+
+		if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			p.openInventory(getParent().getInventory());
+			return;
 		}
+		delayClick(pl);
 	}
 	
 }

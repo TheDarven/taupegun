@@ -1,6 +1,7 @@
 package fr.thedarven.configuration.builders.kits;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,11 +17,11 @@ import fr.thedarven.main.metier.PlayerTaupe;
 
 public class InventoryKitsElement extends InventoryGUI {
 	
-	protected static ArrayList<InventoryKitsElement> inventory = new ArrayList<>();
+	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
 	public InventoryKitsElement(String pName) {
 		super(pName, "", "MENU_KIT_ITEM", 2, Material.CHEST, InventoryRegister.kits, 0);
-		inventory.add(this);
+		kits.put(pName, this);
 		initItem();
 		reloadItem();
 		InventoryRegister.kits.reloadInventory();
@@ -75,18 +76,16 @@ public class InventoryKitsElement extends InventoryGUI {
 	/**
 	 * Pour supprimer un kit
 	 * 
-	 * @param pNom Le nom du kit à supprimer
+	 * @param name Le nom du kit à supprimer
 	 */
-	static public void removeKit(String pNom) {
-		for(int i=0; i<inventory.size(); i++) {
-			if(inventory.get(i).getName().equals(pNom)) {
-				inventory.get(i).getParent().getChilds().remove(inventory.get(i));
-				inventory.get(i).getParent().removeItem(inventory.get(i));
-				InventoryRegister.kits.reloadInventory();
-				inventory.remove(i);
-				return;
-			}
-		}
+	static public void removeKit(String name) {
+		InventoryGUI kit = kits.get(name);
+		if (kit == null)
+			return;
+
+		kit.getParent().removeChild(kit);
+		kits.remove(name);
+		InventoryRegister.kits.reloadInventory();
 	}
 	
 	/**
@@ -98,7 +97,9 @@ public class InventoryKitsElement extends InventoryGUI {
 		ItemMeta itemM = item.getItemMeta();
 		itemM.setDisplayName(getName());
 		item.setItemMeta(itemM);
-		updateItem(hashCode, item);			
+
+		if(this.getParent() != null)
+			this.getParent().updateChildItem(hashCode, item, this);
 	}
 	
 	/**
@@ -121,7 +122,7 @@ public class InventoryKitsElement extends InventoryGUI {
 					e.setCancelled(true);
 					return;
 				}else {
-					for(InventoryGUI inventoryGUI : childs) {
+					for(InventoryGUI inventoryGUI : getChildsValue()) {
 						if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
 							e.setCancelled(true);
 							p.openInventory(inventoryGUI.getInventory());

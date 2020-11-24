@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders;
 
+import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +12,7 @@ import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 
 
-public class InventoryStartItem extends InventoryGUI{
+public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
 
 	public InventoryStartItem() {
 		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, InventoryRegister.menu, 8);
@@ -23,16 +24,16 @@ public class InventoryStartItem extends InventoryGUI{
 	 */
 	private void initItem() {
 		int i = 0;
-		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
-		ItemMeta verreM = verre.getItemMeta();
-		verreM.setDisplayName("§f");
-		verre.setItemMeta(verreM);
+		ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+		ItemMeta glassM = glass.getItemMeta();
+		glassM.setDisplayName("§f");
+		glass.setItemMeta(glassM);
 		
-		for(i=4; i<9; i++) {
-			getInventory().setItem(i, verre);
+		for (i=4; i<9; i++) {
+			getInventory().setItem(i, glass);
 		}
-		for(i=45; i<53; i++) {
-			getInventory().setItem(i, verre);
+		for (i=45; i<53; i++) {
+			getInventory().setItem(i, glass);
 		}
 	}
 	
@@ -43,18 +44,18 @@ public class InventoryStartItem extends InventoryGUI{
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;
 				}
 	
-				if(e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
+				if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
 					e.setCancelled(true);
 				}
 			}

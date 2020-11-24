@@ -1,12 +1,13 @@
 package fr.thedarven.configuration.builders;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.bukkit.Material;
 
 public abstract class InventoryElement extends InventoryGUI {
 	
-	private static ArrayList<InventoryElement> inventory = new ArrayList<>();
+	private static Map<String, InventoryElement> elements = new LinkedHashMap<>();
 	
 	public InventoryElement(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition) {
 		super(pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition);
@@ -24,18 +25,19 @@ public abstract class InventoryElement extends InventoryGUI {
 	/**
 	 * Pour supprimer un inventaire
 	 * 
-	 * @param pNom Le nom de l'inventaire
+	 * @param name Le nom de l'inventaire
 	 */
-	protected void removeElement(String pNom) {
-		for(int i=0; i<inventory.size(); i++) {
-			if(inventory.get(i).getFormattedItemName().equals(pNom)) {
-				inventory.get(i).getParent().getChilds().remove(inventory.get(i));
-				inventory.get(i).getParent().removeItem(inventory.get(i));
-				((InventoryIncrement)getParent()).reloadInventory();
-				inventory.remove(i);
-				return;
-			}
+	protected void removeElement(String name) {
+		InventoryGUI element = elements.get(name);
+		if (element == null)
+			return;
+
+		InventoryGUI parent = getParent();
+		if (parent != null) {
+			parent.removeChild(element);
+			parent.reloadInventory();
 		}
+		elements.remove(name);
 	}
 	
 }

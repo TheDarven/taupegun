@@ -76,15 +76,15 @@ public class InventoryKits extends InventoryIncrement {
 	 * Recharge les objets de l'inventaire
 	 */
 	public void reloadInventory() {
-		for(InventoryGUI inv : getChilds())
+		for (InventoryGUI inv : getChildsValue())
 			inv.getParent().removeItem(inv);
-		
+
 		int i = 0;
-		for(InventoryGUI inv : getChilds()) {
-			if(inv instanceof InventoryKitsElement) {
+		for (InventoryGUI inv : getChildsValue()) {
+			if (inv instanceof InventoryKitsElement) {
 				modifiyPosition(inv,i);
 				i++;
-			}else if(getChilds().size() < 10){
+			} else if (getChilds().size() < 10){
 				modifiyPosition(inv,getChilds().size()-1);
 			}
 		}
@@ -97,11 +97,11 @@ public class InventoryKits extends InventoryIncrement {
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
 			final Player p = (Player) e.getWhoClicked();
 			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if(click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(InventoryRegister.addkits.getItem())) {
+			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(InventoryRegister.addkits.getItem())) {
 				e.setCancelled(true);
 				new AnvilGUI(TaupeGun.getInstance(),p, new AnvilGUI.AnvilClickHandler() {
 					
@@ -112,15 +112,15 @@ public class InventoryKits extends InventoryIncrement {
 	
 				    		@Override
 				    		public void run() {
-					    		if(pl.getCreateKitName().length() > 16){
+					    		if (pl.getCreateKitName().length() > 16){
 					    			p.closeInventory();
 					    			Title.sendActionBar(p, "§c"+TOO_LONG_NAME_FORMAT);			
 					    			pl.setCreateKitName(null);
 					    			return;
 					    		}
 					    		
-					    		for(InventoryGUI inv : getChilds()) {
-					    			if(inv instanceof InventoryKitsElement && inv.getName().equals(pl.getCreateKitName())) {
+					    		for (InventoryGUI inv : getChildsValue()) {
+					    			if (inv instanceof InventoryKitsElement && inv.getName().equals(pl.getCreateKitName())) {
 					    				p.openInventory(InventoryRegister.kits.getInventory());
 						    			Title.sendActionBar(p, "§c"+NAME_ALREADY_USED_FORMAT);
 						    			pl.setCreateKitName(null);
@@ -141,17 +141,17 @@ public class InventoryKits extends InventoryIncrement {
 				    	return true;
 				    }
 				}).setInputName(CREATE_KIT_NAME_FORMAT).open();
-			}else if(e.getClickedInventory().equals(getInventory())) {
+			} else if (e.getClickedInventory().equals(getInventory())) {
 				
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;
-				}else {
-					for(InventoryGUI inventoryGUI : childs) {
-						if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
+				} else {
+					for (InventoryGUI inventoryGUI : getChildsValue()) {
+						if (inventoryGUI.getItem().equals(e.getCurrentItem())) {
 							e.setCancelled(true);
-							if(inventoryGUI != InventoryRegister.addkits || click(p, EnumConfiguration.OPTION)) {
+							if (inventoryGUI != InventoryRegister.addkits || click(p, EnumConfiguration.OPTION)) {
 								p.openInventory(inventoryGUI.getInventory());
 								delayClick(pl);
 							}

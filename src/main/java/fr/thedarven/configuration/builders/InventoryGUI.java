@@ -1,7 +1,9 @@
 package fr.thedarven.configuration.builders;
 
-import java.util.ArrayList;
+import java.util.*;
 
+import fr.thedarven.configuration.builders.helper.ClickCooldown;
+import fr.thedarven.configuration.builders.languages.InventoryLanguageElement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,33 +29,33 @@ public class InventoryGUI extends InventoryBuilder{
 	private static String ANSI_RESET = "\u001B[0m";
 	private static String ANSI_RED = "\u001B[0;31m";
 	
-	private static ArrayList<InventoryGUI> elements = new ArrayList<>();
-	
+	private static Map<Inventory, InventoryGUI> elements = new LinkedHashMap<>();
+
 	protected Inventory inventory;
-	protected ArrayList<InventoryGUI> childs = new ArrayList<>();
+	protected Map<Integer, InventoryGUI> childs = new LinkedHashMap<>();
 	
 	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, int pPosition, byte pData) {	
 		super(pName, pDescription, pTranslationName, pLines, pItem, pParent, pPosition, pData);
 		initInventory();
-		elements.add(this);
+		elements.put(this.inventory, this);
 	}
 	
 	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, byte pData) {
 		super(pName, pDescription, pTranslationName, pLines, pItem, pParent, pData);
 		initInventory();
-		elements.add(this);
+		elements.put(this.inventory, this);
 	}
 	
 	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, int pPosition) {
 		super(pName, pDescription, pTranslationName, pLines, pItem, pParent, pPosition, (byte) 0);
 		initInventory();
-		elements.add(this);
+		elements.put(this.inventory, this);
 	}
 	
 	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent) {
 		super(pName, pDescription, pTranslationName, pLines, pItem, pParent, (byte) 0);
 		initInventory();
-		elements.add(this);
+		elements.put(this.inventory, this);
 	}
 	
 	/**
@@ -63,7 +65,7 @@ public class InventoryGUI extends InventoryBuilder{
 	 */
 	public void updateLanguage(String language) {
 		BACK_STRING = LanguageBuilder.getContent("CONTENT", "back", language, true);
-		if(getTranslationName() != null) {
+		if (getTranslationName() != null) {
 			this.setName(LanguageBuilder.getContent(getTranslationName(), "name", language, true));
 			this.setDescription(LanguageBuilder.getContent(this.getTranslationName(), "description", language, false));
 		}
@@ -78,7 +80,7 @@ public class InventoryGUI extends InventoryBuilder{
 	 */
 	public void updateLanguage(String language, boolean reloadName) {
 		BACK_STRING = LanguageBuilder.getContent("CONTENT", "back", language, true);
-		if(getTranslationName() != null && reloadName) {
+		if (getTranslationName() != null && reloadName) {
 			this.setName(LanguageBuilder.getContent(getTranslationName(), "name", language, true));
 			this.setDescription(LanguageBuilder.getContent(this.getTranslationName(), "description", language, false));
 		}
@@ -100,8 +102,22 @@ public class InventoryGUI extends InventoryBuilder{
 	 * 
 	 * @return Les enfants
 	 */
-	final public ArrayList<InventoryGUI> getChilds(){
+	final public Map<Integer, InventoryGUI> getChilds(){
 		return this.childs;
+	}
+
+	/**
+	 * Pour supprimer un enfant
+	 *
+	 * @param inventoryGUI L'inventaire à supprimer
+	 */
+	final public void removeChild(InventoryGUI inventoryGUI) {
+		this.childs.remove(inventoryGUI.getItem().hashCode());
+		this.removeItem(inventoryGUI);
+	}
+
+	final public List<InventoryGUI> getChildsValue() {
+		return new ArrayList<>(this.childs.values());
 	}
 	
 	/**
@@ -112,17 +128,13 @@ public class InventoryGUI extends InventoryBuilder{
 	public String getBackName() {
 		return "§c"+BACK_STRING;
 	}
-	
+
 	/**
-	 * Pour savoir la liste des enfants
-	 * 
-	 * @return La list des enfants
+	 * Pour supprimer l'item des enfants de l'inventaire
 	 */
-	final public static ArrayList<InventoryGUI> getElements(){
-		return elements;
+	protected void clearChildsItems() {
+		this.getChildsValue().forEach(this::removeItem);
 	}
-	
-	
 	
 	
 	
@@ -133,7 +145,7 @@ public class InventoryGUI extends InventoryBuilder{
 	private void initInventory() {
 		Inventory inv = Bukkit.createInventory(null, this.getLines()*9, this.getFormattedInventoryName());
 		
-		if(this.getParent() != null) {
+		if (this.getParent() != null) {
 			ItemStack redstone = new ItemStack(Material.REDSTONE, 1);
 			ItemMeta redstoneM = redstone.getItemMeta();
 			redstoneM.setDisplayName(getBackName());
@@ -145,7 +157,11 @@ public class InventoryGUI extends InventoryBuilder{
 	
 		this.inventory = inv;
 	}
-	
+
+	/**
+	 * Recharge les objets de l'inventaire
+	 */
+	public void reloadInventory() { }
 	
 	/**
 	 * Pour ajouter un item
@@ -153,28 +169,26 @@ public class InventoryGUI extends InventoryBuilder{
 	 * @param pInventoryGUI L'inventaire ajouté
 	 */
 	final public void addItem(InventoryGUI pInventoryGUI) {
-		boolean setItem = true;
-		if(this.inventory.getSize() <= pInventoryGUI.getPosition() || this.inventory.getItem(pInventoryGUI.getPosition()) != null) {
+		boolean setItem = false;
+		if (this.inventory.getSize() <= pInventoryGUI.getPosition() || this.inventory.getItem(pInventoryGUI.getPosition()) != null) {
 			int i = 0;
 			boolean boucle = true;
-			while(boucle && i < this.inventory.getSize()) {
-				if(this.inventory.getItem(i) == null){
+			while (boucle && i < this.inventory.getSize()) {
+				if (this.inventory.getItem(i) == null){
 					boucle = false;
 					pInventoryGUI.setPosition(i);
-					childs.add(pInventoryGUI);
 					setItem = true;
 				}
 				i++;
 			}
-			if(boucle) {
+			if (boucle) {
 				System.out.println(ANSI_RED+"mErreur de positionnement de l'item "+pInventoryGUI.getFormattedInventoryName()+ANSI_RESET);
 			}
-		}else {
+		} else
 			setItem = true;
-			childs.add(pInventoryGUI);
-		}
-		
-		if(setItem) {
+
+		if (setItem){
+			this.childs.put(pInventoryGUI.getItem().hashCode(), pInventoryGUI);
 			this.inventory.setItem(pInventoryGUI.getPosition(), pInventoryGUI.getItem());
 		}
 	}
@@ -195,7 +209,7 @@ public class InventoryGUI extends InventoryBuilder{
 	 * @param pPosition La nouvelle position
 	 */
 	final public void modifiyPosition(InventoryGUI pInventoryGUI, int pPosition) {
-		if(inventory.getItem(pPosition) != null) {
+		if (inventory.getItem(pPosition) != null) {
 			System.out.println(ANSI_RED+"Position déjà utilisée par un autre item : "+pInventoryGUI.getFormattedInventoryName()+ANSI_RESET);
 			return;
 		}
@@ -207,9 +221,9 @@ public class InventoryGUI extends InventoryBuilder{
 	 * Pour mettre à jour des items dans l'inventaire
 	 */
 	protected void reloadItems() {
-		if(this.getParent() != null && this.inventory != null) {
+		if (this.getParent() != null && this.inventory != null) {
 			ItemStack redstone = this.inventory.getItem(this.getLines()*9-1);
-			if(redstone != null && redstone.getType() != Material.AIR) {
+			if (redstone != null && redstone.getType() != Material.AIR) {
 				ItemMeta redstoneM = redstone.getItemMeta();
 				redstoneM.setDisplayName(ChatColor.RED+BACK_STRING);
 				redstone.setItemMeta(redstoneM);
@@ -220,15 +234,45 @@ public class InventoryGUI extends InventoryBuilder{
 	/**
 	 * Pour recréer l'inventaire
 	 */
-	final protected void updateInventory() {	
-		if(inventory != null) {
+	final protected void updateInventory() {
+		if (this.inventory != null) {
+			elements.remove(this.inventory);
+
 			Inventory tempInv = Bukkit.createInventory(null, getLines()*9, getFormattedInventoryName());
-			tempInv.setContents(inventory.getContents());
-			for(Player p: Bukkit.getOnlinePlayers()) {
-				if(p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().equals(inventory))
+			tempInv.setContents(this.inventory.getContents());
+			for (Player p: Bukkit.getOnlinePlayers()) {
+				if (p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().equals(this.inventory))
 					p.openInventory(tempInv);
 			}
-			inventory = tempInv;
+			this.inventory = tempInv;
+			elements.put(this.inventory, this);
+		}
+	}
+
+	/**
+	 * Pour mettre à jour l'item d'un inventaire child
+	 *
+	 * @param pHashCode L'ancien hashCode
+	 * @param pNewItem Le nouvel item
+	 */
+	final public void updateChildItem(int pHashCode, ItemStack pNewItem, InventoryBuilder child) {
+		/* InventoryGUI inventoryGUI = (InventoryGUI) child;
+
+		ItemStack item = this.inventory.getItem(inventoryGUI.getPosition());
+		if (item == null )
+			return;
+
+		this.childs.remove(pHashCode);
+		this.childs.put(pNewItem.hashCode(), inventoryGUI);
+		this.inventory.setItem(inventoryGUI.getPosition(), pNewItem); */
+
+		for (int i=0; i < this.inventory.getSize(); i++) {
+			if (this.inventory.getItem(i) != null && this.inventory.getItem(i).hashCode() == pHashCode) {
+				this.childs.remove(pHashCode);
+				this.childs.put(pNewItem.hashCode(), (InventoryGUI) child);
+				this.inventory.setItem(i, pNewItem);
+				return;
+			}
 		}
 	}
 	
@@ -236,10 +280,9 @@ public class InventoryGUI extends InventoryBuilder{
 	/**
 	 * Pour changer la langue de tous les inventaires
 	 */
-	final public static void setLanguage() {
-		for(InventoryGUI inv : elements) {
-			inv.updateLanguage(InventoryRegister.language.getSelectedLanguage());
-		}	
+	public static void setLanguage() {
+		List<InventoryGUI> elementsValues = new ArrayList<>(elements.values());
+		elementsValues.forEach(inv -> inv.updateLanguage(InventoryRegister.language.getSelectedLanguage()));
 	}
 	
 	
@@ -268,13 +311,8 @@ public class InventoryGUI extends InventoryBuilder{
 	 */
 	@EventHandler
 	public void dragInventory(InventoryDragEvent e) {
-		if(e.getInventory() != null) {
-			for(InventoryGUI inventoryGUI : elements) {
-				if(e.getInventory().equals(inventoryGUI.getInventory())) {
-					e.setCancelled(true);
-					return;
-				}
-			}	
+		if (e.getInventory() != null && elements.containsKey(e.getInventory())) {
+			e.setCancelled(true);
 		}
 	}
 	
@@ -286,25 +324,34 @@ public class InventoryGUI extends InventoryBuilder{
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		
-		if((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && e.getClickedInventory() != null) {
-			for(InventoryGUI inventoryGUI : elements) {
-				if(e.getInventory() == inventoryGUI.getInventory()) {
-					e.setCancelled(true);
-					return;
-				}
-			}	
+		if ((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && e.getClickedInventory() != null && elements.containsKey(e.getInventory())) {
+			e.setCancelled(true);
+			return;
 		}
 		
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			e.setCancelled(true);
 			
-			if(click(p, EnumConfiguration.INVENTAIRE) && !e.getCurrentItem().getType().equals(Material.AIR)) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p, EnumConfiguration.INVENTAIRE) && !e.getCurrentItem().getType().equals(Material.AIR)) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
-				for(InventoryGUI inventoryGUI : childs) {
+
+				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+				if (inventoryGUI != null && inventoryGUI != InventoryRegister.addteam && inventoryGUI != InventoryRegister.teamsrandom) {
+					if (inventoryGUI instanceof ClickCooldown) {
+						if (click(p, EnumConfiguration.OPTION)) {
+							p.openInventory(inventoryGUI.getInventory());
+						}
+					} else {
+						p.openInventory(inventoryGUI.getInventory());
+					}
+					return;
+				}
+
+				/* for(InventoryGUI inventoryGUI : childs) {
 					if(inventoryGUI.getItem().equals(e.getCurrentItem()) && inventoryGUI != InventoryRegister.addteam && inventoryGUI != InventoryRegister.teamsrandom) {
 						if(inventoryGUI instanceof OptionBoolean || inventoryGUI instanceof OptionNumeric || inventoryGUI instanceof InventoryTeams || inventoryGUI instanceof InventoryStartItem || inventoryGUI instanceof InventoryLanguage) {
 							if(click(p, EnumConfiguration.OPTION)) {
@@ -315,7 +362,7 @@ public class InventoryGUI extends InventoryBuilder{
 						}
 						return;
 					}
-				}
+				} */
 			}
 		}
 	}

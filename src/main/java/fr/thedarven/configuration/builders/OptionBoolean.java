@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -23,7 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class OptionBoolean extends InventoryGUI{
+public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -214,7 +215,7 @@ public class OptionBoolean extends InventoryGUI{
 	 */
 	protected void reloadItem() {
 		// Dans l'inventaire
-		if(inventory != null) {
+		if (inventory != null) {
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", InventoryRegister.language.getSelectedLanguage(), true));
 			String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
@@ -249,21 +250,21 @@ public class OptionBoolean extends InventoryGUI{
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
 
-				if(e.getSlot() == 3 && this.value) {
+				if (e.getSlot() == 3 && this.value) {
 					this.value = false;
 					reloadItem();
-				}else if(e.getSlot() == 5 && !this.value) {
+				} else if (e.getSlot() == 5 && !this.value) {
 					this.value = true;
 					reloadItem();
 				}

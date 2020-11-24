@@ -18,7 +18,7 @@ public class InventoryKitsBlaze extends InventoryKitsElement {
 	 * Recharge les objets de l'inventaire
 	 */
 	@SuppressWarnings("deprecation")
-	private void reloadInventory() {
+	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		inv.addItem(new ItemStack(Material.MONSTER_EGG, 3, EntityType.BLAZE.getTypeId()));
 		ItemStack fire = new ItemStack(Material.ENCHANTED_BOOK, 1);

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.configuration.builders.languages.InventoryLanguageElement;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,11 +20,12 @@ import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
-public abstract class InventoryBuilder implements Listener{
+public abstract class InventoryBuilder implements Listener {
 	
-	private static String ITEM_NAME_FORMAT = "§e{name}";
-	private static String INVENTORY_NAME_FORMAT = "{name}";
-	private static String DESCRIPTION_COLOR = "§7";
+	private static final String ITEM_NAME_FORMAT = "§e{name}";
+	private static final String INVENTORY_NAME_FORMAT = "{name}";
+	private static final String DESCRIPTION_COLOR = "§7";
+
 	protected static String BACK_STRING = "Retour";
 	
 	protected String name;
@@ -186,10 +189,10 @@ public abstract class InventoryBuilder implements Listener{
 	 * @param name Le nom sans deformatage
 	 */
 	protected void setName(String name) {
-		if(name == null)
+		if (name == null)
 			return;
 		
-		if(name.length() <= 32)
+		if (name.length() <= 32)
 			this.name = name;
 		updateName(true);
 	}
@@ -208,7 +211,7 @@ public abstract class InventoryBuilder implements Listener{
 	 * Pour mettre à jour le nom de l'item et de l'inventaire
 	 */
 	protected void updateName(boolean reload) {
-		if(this.item == null)
+		if (this.item == null)
 			return;
 		
 		int hashCode = item.hashCode();
@@ -218,13 +221,15 @@ public abstract class InventoryBuilder implements Listener{
 		ItemMeta itemM = item.getItemMeta();
 		itemM.setDisplayName(itemName);
 		item.setItemMeta(itemM);
-		
-		if(reload) {
+
+		if (reload) {
 			reloadItems();
-			updateItem(hashCode, item);
+			if(this.parent != null)
+				this.parent.updateChildItem(hashCode, item, this);
 			updateInventory();
-		}else {
-			updateItem(hashCode, item);
+		} else {
+			if(this.parent != null)
+				this.parent.updateChildItem(hashCode, item, this);
 		}
 	}
 	
@@ -232,7 +237,7 @@ public abstract class InventoryBuilder implements Listener{
 	 * Pour mettre à jour la description
 	 */
 	protected void updateDescription() {		
-		if(this.item == null)
+		if (this.item == null)
 			return;
 		
 		int hashCode = item.hashCode();
@@ -241,7 +246,8 @@ public abstract class InventoryBuilder implements Listener{
 		itemM.setLore(getFormattedDescription());
 		
 		item.setItemMeta(itemM);
-		updateItem(hashCode, item);
+		if(this.parent != null)
+			this.parent.updateChildItem(hashCode, item, this);
 	}
 	
 	/**
@@ -278,21 +284,12 @@ public abstract class InventoryBuilder implements Listener{
 	}
 	
 	/**
-	 * Pour mettre à jour l'item
+	 * Pour mettre à jour l'item d'un inventaire child
 	 * 
 	 * @param pHashCode L'ancien hashCode
 	 * @param pNewItem Le nouvel item
 	 */
-	final protected void updateItem(int pHashCode, ItemStack pNewItem) {
-		if(parent != null) {
-			for(int i=0; i<parent.inventory.getSize(); i++) {
-				if(parent.inventory.getItem(i) != null && parent.inventory.getItem(i).hashCode() == pHashCode) {
-					parent.inventory.setItem(i, pNewItem);
-					return;
-				}
-			}	
-		}
-	}
+	abstract public void updateChildItem(int pHashCode, ItemStack pNewItem, InventoryBuilder child);
 	
 	/**
 	 * Pour mettre à jour des items dans l'inventaire
@@ -317,9 +314,9 @@ public abstract class InventoryBuilder implements Listener{
 		// all --> lobby non
 		//     --> pas lobby INVENTAIRE
 		
-		if((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTAIRE))) {
+		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTAIRE))) {
 			return true;
-		}else if(!p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTAIRE) && InventoryRegister.scenariosvisibles.getValue()) {
+		} else if (!p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTAIRE) && InventoryRegister.scenariosvisibles.getValue()) {
 			return true;
 		}
 		return false;

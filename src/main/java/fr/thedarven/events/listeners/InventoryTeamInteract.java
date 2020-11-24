@@ -165,9 +165,9 @@ public class InventoryTeamInteract implements Listener {
 						p.sendMessage(isLeavingMessage);
 					}
 					InventoryRegister.teams.reloadInventory();
-					for(InventoryTeamsElement inv : InventoryTeamsElement.inventory)
+					for(InventoryTeamsElement inv : InventoryTeamsElement.getInventoryTeamsElement())
 						inv.reloadInventory();
-					InventoryPlayers.reloadInventory();
+					InventoryPlayers.reloadInventories();
 				}else if(clickItem.getType().equals(Material.BANNER)) {
 					String teamName = clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[')-1);
 					if(playerTeam == null || !playerTeam.getTeam().getName().equals(teamName)) {
@@ -181,9 +181,9 @@ public class InventoryTeamInteract implements Listener {
 							p.sendMessage(isJoiningMessage);
 						}
 						InventoryRegister.teams.reloadInventory();
-						for(InventoryTeamsElement inv : InventoryTeamsElement.inventory)
+						for(InventoryTeamsElement inv : InventoryTeamsElement.getInventoryTeamsElement())
 							inv.reloadInventory();
-						InventoryPlayers.reloadInventory();
+						InventoryPlayers.reloadInventories();
 					}
 				}
 			}
