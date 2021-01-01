@@ -8,6 +8,12 @@ import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+/**
+ * Permet de désactiver l'affichage des coordonnées dans le F3
+ *
+ * @author RolynDev
+ * @author https://www.spigotmc.org/resources/nopos.11692/
+ */
 public class DisableF3 {
 	public static void disableF3(Player player) {
 		try {
