@@ -26,7 +26,7 @@ public class TeamDeletionManager {
 	public void start() {
 		if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			for(TeamCustom team : TeamCustom.getAllAliveTeams()) {
-				if(this.main.getGameManager().getTimer() > InventoryRegister.annoncetaupes.getValue()*60) {
+				if(this.main.getGameManager().getTimer() > this.main.getInventoryRegister().annoncetaupes.getValue()) {
 					if(team.isTaupeTeam()) {
 						boolean deleteTeamTaupe1 = true;
 						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
@@ -63,7 +63,7 @@ public class TeamDeletionManager {
 				
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("teamName", "§6"+team.getTeam().getName()+"§a");
-				String teamWinMessage = TextInterpreter.textInterpretation("§a"+LanguageBuilder.getContent("GAME", "teamWin", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String teamWinMessage = TextInterpreter.textInterpretation("§a"+LanguageBuilder.getContent("GAME", "teamWin", true), params);
 				
 				Bukkit.broadcastMessage(" ");
 				Bukkit.broadcastMessage(teamWinMessage);
@@ -71,7 +71,7 @@ public class TeamDeletionManager {
 					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
 				EnumGameState.setState(EnumGameState.END_FIREWORK);
 			}else if(TeamCustom.getAllAliveTeams().size() == 0){
-				String nobodyWinMessage = "§a"+LanguageBuilder.getContent("GAME", "nobodyWin", InventoryRegister.language.getSelectedLanguage(), true);
+				String nobodyWinMessage = "§a"+LanguageBuilder.getContent("GAME", "nobodyWin", true);
 				
 				Bukkit.broadcastMessage(" ");
 				Bukkit.broadcastMessage(nobodyWinMessage);

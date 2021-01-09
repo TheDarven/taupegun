@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
@@ -18,11 +17,14 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class PersonalScoreboard {
+
+	private TaupeGun main;
 	private Player p;
 	private final UUID uuid;
 	private final ObjectiveSign objectiveSign;
 
-	PersonalScoreboard(Player player){
+	PersonalScoreboard(Player player, TaupeGun main){
+		this.main = main;
 		this.p = player;
 		uuid = player.getUniqueId();
 		objectiveSign = new ObjectiveSign("sidebar", "TaupeGun");
@@ -39,57 +41,52 @@ public class PersonalScoreboard {
 		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		int i = 0;
 		Location loc = p.getLocation();
-		int distance = 0;
+		int distance;
 		int playerTeam = 0;
 		for(TeamCustom team : TeamCustom.getAllStartAliveTeams())
 			playerTeam += team.getTeam().getEntries().size();
 		
-		objectiveSign.removeAllLine(InventoryRegister.murtime.getValue()*60 - timer > 0 ? 9 : 8);
+		objectiveSign.removeAllLine(this.main.getInventoryRegister().murtime.getValue() - timer > 0 ? 9 : 8);
 		
-		objectiveSign.setDisplayName("§6TaupeGun");		
+		objectiveSign.setDisplayName("§6TaupeGun");
 		objectiveSign.setLine(i++, "§1");
-		if(InventoryRegister.episode.getValue() > 0) {
-			int episodeNumber = timer/(InventoryRegister.episode.getValue()*60)+1;
+		if (this.main.getInventoryRegister().episode.getValue() > 0) {
+			int episodeNumber = timer / this.main.getInventoryRegister().episode.getIntValue() + 1;
 			
-			Map<String, String> params = new HashMap<String, String>();
+			Map<String, String> params = new HashMap<>();
 			params.put("episodeNumber", episodeNumber+"");
-			String episodeMessage = "§7⋙ §e"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "episode", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String episodeMessage = "§7⋙ §e"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "episode", true), params);
 
 			objectiveSign.setLine(i++, episodeMessage);
 		}
 		
 		// WALL
 		String timerS;
-		Map<String, String> params = new HashMap<String, String>();
-		if(InventoryRegister.murtime.getValue()*60 - timer > 0) {
-			if(InventoryRegister.murtime.getValue()*60 - timer >= 6000){
-				timerS = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60 - timer)*1000, "mmm:ss");
-				// objectiveSign.setLine(i++, "Mur:§e "+DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mmm:ss"));
-			}else{
-				timerS = DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60 - timer)*1000, "mm:ss");
-				// objectiveSign.setLine(i++, "Mur:§e "+DurationFormatUtils.formatDuration((InventoryRegister.murtime.getValue()*60-TaupeGun.timer)*1000, "mm:ss"));
+		Map<String, String> params = new HashMap<>();
+		if (this.main.getInventoryRegister().murtime.getValue() - timer > 0) {
+			if (this.main.getInventoryRegister().murtime.getValue() - timer >= 6000){
+				timerS = DurationFormatUtils.formatDuration((this.main.getInventoryRegister().murtime.getIntValue() - timer) * 1000, "mmm:ss");
+			} else {
+				timerS = DurationFormatUtils.formatDuration((this.main.getInventoryRegister().murtime.getIntValue() - timer) * 1000, "mm:ss");
 			}
-			params.clear();
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");
 			params.put("timer", timerS);
-			String wallMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "wall", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String wallMessage = "§l§7⋙ §f" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "wall", true), params);
 			objectiveSign.setLine(i++, wallMessage);
 		}
 		
 		// TIMER
-		if(timer >= 6000){
-			// objectiveSign.setLine(i++, "Chrono:§e "+DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mmm:ss"));
+		if (timer >= 6000){
 			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mmm:ss");
-		}else{
-			// objectiveSign.setLine(i++, "Chrono:§e "+DurationFormatUtils.formatDuration(TaupeGun.timer*1000, "mm:ss"));
+		} else {
 			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mm:ss");
 		}
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
 		params.put("timer", timerS);
-		String timerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "timer", InventoryRegister.language.getSelectedLanguage(), true), params);
+		String timerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "timer", true), params);
 		objectiveSign.setLine(i++, timerMessage);	
 		objectiveSign.setLine(i++, "§2");
 		
@@ -99,7 +96,7 @@ public class PersonalScoreboard {
 		params.put("endValueColor", "§f");
 		params.put("playerCounter", playerTeam+"");
 		params.put("teamCounter", TeamCustom.getAllStartAliveTeams().size()+"");
-		String connectedPlayerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "connectedPlayer", InventoryRegister.language.getSelectedLanguage(), true), params);
+		String connectedPlayerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "connectedPlayer",true), params);
 		objectiveSign.setLine(i++, connectedPlayerMessage);
 		// objectiveSign.setLine(i++, "Joueurs:§e "+playerTeam+" ("+TeamCustom.getAllStartAliveTeams().size()+")");
 
@@ -110,7 +107,7 @@ public class PersonalScoreboard {
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
 		params.put("kill", pc.getKill()+"");
-		String killMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "kill", InventoryRegister.language.getSelectedLanguage(), true), params);
+		String killMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "kill", true), params);
 		objectiveSign.setLine(i++, killMessage);
 		objectiveSign.setLine(i++, "§3");
 		
@@ -123,7 +120,7 @@ public class PersonalScoreboard {
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");
 			params.put("distance", distance+"");
-			String portalMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "portal", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String portalMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "portal", true), params);
 			objectiveSign.setLine(i++, portalMessage);
 		}else {
 			distance = (int) Math.sqrt(loc.getX() * loc.getX() + loc.getZ()* loc.getZ());
@@ -131,7 +128,7 @@ public class PersonalScoreboard {
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");
 			params.put("distance", distance+"");
-			String centerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "center", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String centerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "center", true), params);
 			objectiveSign.setLine(i++, centerMessage);
 		}
 		// BORDER
@@ -140,7 +137,7 @@ public class PersonalScoreboard {
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
 		params.put("border", border+"");
-		String borderMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "border", InventoryRegister.language.getSelectedLanguage(), true), params);
+		String borderMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "border",true), params);
 		objectiveSign.setLine(i++, borderMessage);
 		objectiveSign.updateLines();
 	}

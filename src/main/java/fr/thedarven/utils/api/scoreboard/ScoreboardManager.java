@@ -3,41 +3,52 @@ package fr.thedarven.utils.api.scoreboard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import fr.thedarven.main.metier.Manager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
 
 @SuppressWarnings({ "rawtypes", "unused" })
-public class ScoreboardManager {
+public class ScoreboardManager extends Manager {
+
     private final Map<UUID, PersonalScoreboard> scoreboards;
-    
-	
-	private final ScheduledFuture glowingTask;
-    private final ScheduledFuture reloadingTask;
+
+    private ScheduledExecutorService executorMonoThread;
+
+    private ScheduledExecutorService scheduledExecutorService;
+
+	private ScheduledFuture glowingTask;
+    private ScheduledFuture reloadingTask;
+
     private int ipCharIndex;
     private int cooldown;
 
-    public ScoreboardManager() {
+    public ScoreboardManager(TaupeGun main) {
+        super(main);
+
         scoreboards = new HashMap<>();
         ipCharIndex = 0;
         cooldown = 0;
 
-        glowingTask = TaupeGun.scheduledExecutorService.scheduleAtFixedRate(() ->
-        {
-            String ip = colorIpAt();
-            for (PersonalScoreboard scoreboard : scoreboards.values())
-            	TaupeGun.executorMonoThread.execute(() -> scoreboard.setLines(ip));
-        }, 80, 80, TimeUnit.MILLISECONDS);
+        this.executorMonoThread = Executors.newScheduledThreadPool(1);
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
-        reloadingTask = TaupeGun.scheduledExecutorService.scheduleAtFixedRate(() ->
-        {
-            for (PersonalScoreboard scoreboard : scoreboards.values())
-            	TaupeGun.executorMonoThread.execute(scoreboard::reloadData);
-        }, 1, 1, TimeUnit.SECONDS);
+        glowingTask = this.scheduledExecutorService.scheduleAtFixedRate(() -> {
+                String ip = colorIpAt();
+                for (PersonalScoreboard scoreboard : scoreboards.values())
+                    this.executorMonoThread.execute(() -> scoreboard.setLines(ip));
+            }, 80, 80, TimeUnit.MILLISECONDS);
+
+        reloadingTask = this.scheduledExecutorService.scheduleAtFixedRate(() -> {
+                for (PersonalScoreboard scoreboard : scoreboards.values())
+                    this.executorMonoThread.execute(scoreboard::reloadData);
+            }, 1, 1, TimeUnit.SECONDS);
     }
 
     public void onDisable() {
@@ -48,7 +59,7 @@ public class ScoreboardManager {
         if (scoreboards.containsKey(player.getUniqueId())) {
             return;
         }
-        scoreboards.put(player.getUniqueId(), new PersonalScoreboard(player));
+        scoreboards.put(player.getUniqueId(), new PersonalScoreboard(player, this.main));
     }
 
     public void onLogout(Player player) {

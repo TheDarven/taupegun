@@ -2,6 +2,7 @@ package fr.thedarven.utils.teams;
 
 import java.util.List;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -19,9 +20,9 @@ public class TeamUtils {
 	 */
 	public static String getSpectatorTeamName() {
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
-			return LanguageBuilder.getContent("TEAM", "spectatorTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			return LanguageBuilder.getContent("TEAM", "spectatorTeamName", true);
 		if(SPECTATOR_TEAM_NAME == null)
-			SPECTATOR_TEAM_NAME = LanguageBuilder.getContent("TEAM", "spectatorTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			SPECTATOR_TEAM_NAME = LanguageBuilder.getContent("TEAM", "spectatorTeamName", true);
 		return SPECTATOR_TEAM_NAME;
 	}
 	
@@ -41,9 +42,9 @@ public class TeamUtils {
 	 */
 	public static String getMoleTeamName() {
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
-			return LanguageBuilder.getContent("TEAM", "moleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			return LanguageBuilder.getContent("TEAM", "moleTeamName", true);
 		if(MOLE_TEAM_NAME == null)
-			MOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "moleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			MOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "moleTeamName", true);
 		return MOLE_TEAM_NAME;
 	}
 	
@@ -63,9 +64,9 @@ public class TeamUtils {
 	 */
 	public static String getSuperMoleTeamName() {
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT))
-			return LanguageBuilder.getContent("TEAM", "superMoleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			return LanguageBuilder.getContent("TEAM", "superMoleTeamName", true);
 		if(SUPERMOLE_TEAM_NAME == null)
-			SUPERMOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "superMoleTeamName", InventoryRegister.language.getSelectedLanguage(), true);
+			SUPERMOLE_TEAM_NAME = LanguageBuilder.getContent("TEAM", "superMoleTeamName", true);
 		return SUPERMOLE_TEAM_NAME;
 	}
 	

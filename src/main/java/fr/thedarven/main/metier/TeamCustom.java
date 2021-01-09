@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -79,9 +80,7 @@ public class TeamCustom {
 		teams.put(name, this);
 	}
 	
-	public Team getTeam() {
-		return team;
-	}
+	public Team getTeam() { return this.team; }
 	
 	public boolean isTaupeTeam() {
 		return taupeTeam != 0;
@@ -114,7 +113,23 @@ public class TeamCustom {
 	public void setAlive(boolean pAlive) {
 		alive = pAlive;
 	}
-	
+
+	public boolean isFull() { return this.players.size() >= MAX_PLAYER_PER_TEAM; }
+
+	public List<Player> getConnectedPlayers() {
+		return this.players.stream()
+				.map(Bukkit::getPlayer)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+	}
+
+	public List<Player> getPlayersInWorldEnvironment(World.Environment environment) {
+		return this.getConnectedPlayers().stream()
+				.filter(p -> p.getWorld().getEnvironment() == environment)
+				.collect(Collectors.toList());
+	}
+
+
 	public void deleteTeam() {
 		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if (pl.getTeam() == this)
@@ -130,29 +145,33 @@ public class TeamCustom {
 		teams.remove(this.team.getName());
 		team.unregister();
 	}
-	
-	@SuppressWarnings("deprecation")
-	public void joinTeam(UUID uuid) {
+
+	public void joinTeam(PlayerTaupe pl) {
 		if ((!alive || team.getEntries().size() >= MAX_PLAYER_PER_TEAM) && !this.spectator)
 			return;
 
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
+		if (Objects.isNull(pl))
+			return;
+
 		if (pl.getTeam() != null)
 			pl.getTeam().leaveTeam(pl.getUuid());
 
-		Player p = Bukkit.getPlayer(uuid);
-		joinScoreboardTeam(pl.getName(), uuid, p);
+		Player player = Bukkit.getPlayer(pl.getUuid());
+		if (!Objects.isNull(player)) {
+			joinScoreboardTeam(pl.getName(), pl.getUuid(), player);
+		}
 
 		pl.setTeam(this);
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			pl.setStartTeam(this);
 	}
 
-	@SuppressWarnings("deprecation")
-	public void joinTeam(String pseudo) {
-		if ((!alive || team.getEntries().size() >= MAX_PLAYER_PER_TEAM) && !this.spectator)
-			return;
+	public void joinTeam(UUID uuid) {
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
+		joinTeam(pl);
+	}
 
+	public void joinTeam(String pseudo) {
 		Player p = Bukkit.getPlayer(pseudo);
 		joinScoreboardTeam(pseudo, p.getUniqueId(), p);
 	}
@@ -170,9 +189,7 @@ public class TeamCustom {
 			p.setScoreboard(board);
 		}
 	}
-	
-	
-	
+
 	@SuppressWarnings("deprecation")
 	public void leaveTeam(UUID uuid){
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
@@ -186,6 +203,9 @@ public class TeamCustom {
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			pl.setStartTeam(null);
 	}
+
+
+
 	
 	public static List<TeamCustom> getAllTeams() {
 		return new ArrayList<>(teams.values());
@@ -212,8 +232,12 @@ public class TeamCustom {
 				.collect(Collectors.toList());
 	}
 	
-	public static TeamCustom getTeamCustom(String name) {
+	public static TeamCustom getTeamCustomByName(String name) {
 		return teams.get(name);
+	}
+
+	public static int getNumberOfTeam() {
+		return teams.size();
 	}
 
 	public static TeamCustom getSpectatorTeam() {

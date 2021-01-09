@@ -3,29 +3,27 @@ package fr.thedarven;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.utils.CraftManager;
+import fr.thedarven.utils.languages.LanguageRegister;
 import fr.thedarven.utils.teams.TeamDeletionManager;
 import fr.thedarven.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
 import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.LoadThings;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
-import fr.thedarven.events.EventsManager;
+import fr.thedarven.events.listeners.EventsManager;
 import fr.thedarven.statsgame.RestGame;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
@@ -33,17 +31,12 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public static TaupeGun instance;
 
 	public boolean development = false;
-
-	/* public static int timerStart = 10;
-	public static int timer = 0; */
 	
 	public SqlConnection sql;
 	
-	public static InventoryRegister configuration;
-	
-	public static ScheduledExecutorService executorMonoThread = Executors.newScheduledThreadPool(1);
-	public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(16);
-	public static ScoreboardManager scoreboardManager = new ScoreboardManager();
+	public InventoryRegister configuration;
+
+	private ScoreboardManager scoreboardManager;
 
 	private EventsManager eventsManager;
 
@@ -58,6 +51,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private GameManager gameManager;
 
 	private TeamDeletionManager teamDeletionManager;
+
+	private InventoryRegister inventoryRegister;
 	
 	public static TaupeGun getInstance(){
 		return instance;
@@ -67,13 +62,18 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 
+		LanguageRegister.loadAllTranslations(this);
+		InventoryGUI.setLanguage();
+
+		scoreboardManager = new ScoreboardManager(this);
+
+		inventoryRegister = new InventoryRegister(this);
+
 		eventsManager = new EventsManager(this);
 
 		commandManager = new CommandManager(this);
 
 		this.saveDefaultConfig();
-		
-		LoadThings.loadAll(this);
 
 		worldManager = new WorldManager(this);
 		worldManager.buildLobby();
@@ -95,7 +95,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			p.setExp(0L+0F);
 			p.setLevel(0);
 		}
-		new RestGame();
+		new RestGame(this);
 
 		gameManager = new GameManager(this);
 
@@ -105,14 +105,14 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
-			if(!InventoryRegister.coordonneesvisibles.getValue())
+			if(!inventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.enableF3(p);
 
 			this.eventsManager.getLogin().leaveAction(p);
 			
 			UtilsClass.clearPlayer(p);
 		}
-		if(this.databaseManager.getGameId() != 0)
+		if (this.databaseManager.getGameId() != 0)
 			databaseManager.updateGameDuration();
 	}
 	
@@ -156,6 +156,12 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public TeamDeletionManager getTeamDeletionManager(){
 		return this.teamDeletionManager;
+	}
+
+	public InventoryRegister getInventoryRegister() { return this.inventoryRegister; }
+
+	public ScoreboardManager getScoreboardManager() {
+		 return this.scoreboardManager;
 	}
 
 }

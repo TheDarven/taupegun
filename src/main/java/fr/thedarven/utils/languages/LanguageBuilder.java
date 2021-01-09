@@ -1,5 +1,7 @@
 package fr.thedarven.utils.languages;
 
+import fr.thedarven.TaupeGun;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,22 @@ public class LanguageBuilder {
 			return null;
 		
 		return element.getInsideContent(language, valueTitle, defaultValue);
+	}
+
+	/**
+	 * Pour avoir la valeur associée à un nom de traduction et une clé
+	 *
+	 * @param name Le nom de la traduction
+	 * @param valueTitle La clé de la valeur
+	 * @param defaultValue Si a true, on retour la valeur par défault dans le cas où la valeur n'existe pas
+	 * @return La valeur associée
+	 */
+	public static String getContent(String name, String valueTitle, boolean defaultValue){
+		LanguageBuilder element = allElements.get(name);
+		if(element == null)
+			return null;
+
+		return element.getInsideContent(TaupeGun.getInstance().getInventoryRegister().language.getSelectedLanguage(), valueTitle, defaultValue);
 	}
 	
 	/**

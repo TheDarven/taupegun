@@ -22,6 +22,9 @@ public class RestGame {
 	final public static String REQUEST_ADDRESS = "http://darven.fr:8081/api/v1/taupegun";
 	
 	private static RestGame currentGame = null;
+
+	private TaupeGun main;
+
 	private int duration;
 	private long started_at;
 	private String language;	
@@ -32,15 +35,16 @@ public class RestGame {
 	private List<RestTeam> teams;
 	
 	private RestStats stats;
-	
-	
-	public RestGame() {
+
+	public RestGame(TaupeGun main) {
 		if(currentGame != null)
 			currentGame.endGame();
+
+		this.main = main;
 		
 		this.started_at = UtilsClass.getLongTimestamp();
 		this.duration = 0;
-		this.language = InventoryRegister.language.getSelectedLanguage();
+		this.language = this.main.getInventoryRegister().language.getSelectedLanguage();
 		
 		try {
 			this.ip = InetAddress.getLocalHost().getHostAddress();

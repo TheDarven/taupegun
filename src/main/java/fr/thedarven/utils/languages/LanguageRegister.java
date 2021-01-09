@@ -113,6 +113,7 @@ public class LanguageRegister {
 		teamElement.addTranslation("fr_FR", "leave", "Quitter l'équipe");
 		teamElement.addTranslation("fr_FR", "isLeaving", "Vous avez quitté la team {teamName}");
 		teamElement.addTranslation("fr_FR", "isJoining", "Vous avez rejoins la team {teamName}");
+		teamElement.addTranslation("fr_FR", "nameTooLong", "Le nom de l'équipe ne doit pas dépasser 16 caractères.");
 		teamElement.addTranslation("fr_FR", "isDeleting", "Le joueur {playerName} a été supprimé de l'équipe.");
 		teamElement.addTranslation("fr_FR", "isAdding", "Le joueur {playerName} a été ajouté à l'équipe.");
 		teamElement.addTranslation("fr_FR", "nameAlreadyUsed", "Ce nom d'équipe est déjà prit !");
