@@ -240,9 +240,9 @@ public class GameRunnable extends BukkitRunnable {
             int teamId = this.main.getDatabaseManager().createTeam(team.getTeam().getName(), team.getTeam().getPrefix());
             Z++;
             X = Z * radius;
-            for (UUID uuid: team.getPlayers()) {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player == null)
+            for (PlayerTaupe pl: team.getPlayers()) {
+                Player player = pl.getPlayer();
+                if (Objects.isNull(player))
                     continue;
 
                 this.main.getDatabaseManager().createMole(player, teamId);
