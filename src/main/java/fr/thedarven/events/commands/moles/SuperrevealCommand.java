@@ -1,42 +1,33 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
 
-public class SuperrevealCommand extends GenericRevealCommand{
+public class SuperrevealCommand extends GenericRevealCommand {
 
 	public SuperrevealCommand(TaupeGun main){
 		super(main, "cannotSuperReveal", ChatColor.DARK_RED);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(!(sender instanceof Player))
-			return true;
+	@Override
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		this.reveal(sender, pl.getSuperTaupeTeam());
+	}
 
-		Player p = (Player) sender;
-		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
-		if(!UtilsClass.superMolesEnabled() || !pc.isSuperTaupe() || !pc.isAlive() || !cmd.getName().equalsIgnoreCase("superreveal"))
-			return true;
-
-		if(!pc.isReveal()){
-			p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", true));
-			return true;
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.validateCommand(sender, pl, cmd, alias, args) && UtilsClass.superMolesEnabled() && pl.isSuperTaupe()) {
+			if (!pl.isReveal()) {
+				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", true));
+				return false;
+			}
+			return !pl.isSuperReveal();
 		}
-
-		if(!pc.revealSuperTaupe())
-			return true;
-
-		this.reveal(p, pc.getSuperTaupeTeam());
-
-		return true;
+		return false;
 	}
 
 }

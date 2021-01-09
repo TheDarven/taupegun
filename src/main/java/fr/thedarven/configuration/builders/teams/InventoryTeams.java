@@ -166,7 +166,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		List<PlayerTaupe> playerList = new ArrayList<>();
 
 		TeamCustom.getAllTeams().stream()
-				.filter(teamCustom -> teamCustom.getPlayers().size() < TeamCustom.MAX_PLAYER_PER_TEAM)
+				.filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
 				.forEach(teamList::add);
 
 		for (Player player: Bukkit.getOnlinePlayers()) {
@@ -180,7 +180,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 
 		for (int i = 0; i < teamList.size(); i++) {
 			for (int j = i; j<teamList.size(); j++) {
-				if (teamList.get(i).getPlayers().size() > teamList.get(j).getPlayers().size()) {
+				if (teamList.get(i).getSize() > teamList.get(j).getSize()) {
 					TeamCustom temp = teamList.get(j);
 					teamList.set(j, teamList.get(i));
 					teamList.set(i, temp);

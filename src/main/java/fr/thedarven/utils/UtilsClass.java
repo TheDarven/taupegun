@@ -1,17 +1,13 @@
 package fr.thedarven.utils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
+import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.EnumGameState;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import java.util.Date;
+import java.util.List;
 
 public class UtilsClass {
 	
@@ -41,17 +37,6 @@ public class UtilsClass {
 	
 	public static boolean superMolesEnabled() {
 		return TaupeGun.getInstance().getInventoryRegister().supertaupes.getValue() && TaupeGun.getInstance().getInventoryRegister().annoncetaupes.getValue()+1200 <= TaupeGun.getInstance().getGameManager().getTimer();
-	}
-	
-	public static UUID playerInGame(String name){
-		if(name != null){
-			for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {
-				if(Bukkit.getOfflinePlayer(player.getUuid()).getName().equals(name)) {
-					return player.getUuid();
-				}
-			}
-		}
-		return null;
 	}
 	
 	public static void clearPlayer(Player p) {

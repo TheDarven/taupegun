@@ -1,22 +1,20 @@
 package fr.thedarven.events.commands;
 
+import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.UtilsClass;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.utils.UtilsClass;
+public class ScenariosCommand extends PlayerCommand {
 
-public class ScenariosCommand implements CommandExecutor{
+	public ScenariosCommand(TaupeGun main) {
+		super(main);
+	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			if(cmd.getName().equalsIgnoreCase("rules") || cmd.getName().equalsIgnoreCase("scenarios"))
-				UtilsClass.openConfigInventory(p);
-		}
-		return true;
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		UtilsClass.openConfigInventory(sender);
 	}
 
 }

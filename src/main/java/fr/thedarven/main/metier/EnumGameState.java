@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum EnumGameState {
 	
-	LOBBY,WAIT,GAME,END_FIREWORK,END;
+	LOBBY, WAIT, GAME, END_FIREWORK, END;
 	
 	private static EnumGameState currentState = EnumGameState.LOBBY;
 	

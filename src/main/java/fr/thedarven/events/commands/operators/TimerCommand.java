@@ -1,40 +1,25 @@
 package fr.thedarven.events.commands.operators;
 
+import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.TaupeGun;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
-import net.md_5.bungee.api.ChatColor;
-
-public class TimerCommand implements CommandExecutor{
-
-	private TaupeGun main;
+public class TimerCommand extends OperatorCommand {
 
 	public TimerCommand(TaupeGun main){
-		this.main = main;
+		super(main, new String[]{ "taupegun.timer" });
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			if(cmd.getName().equalsIgnoreCase("timer") && args.length > 0) {
-				if(p.isOp() || p.hasPermission("taupegun.timer")){
-					try {
-						this.main.getGameManager().setTimer(Integer.parseInt(args[0]));
-					}catch(NumberFormatException e) {
-						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "invalidNumber", true));
-					}
-				}else{
-					MessagesClass.CannotCommandOperatorMessage(p);
-				}
-			}
+
+	@Override
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		try {
+			this.main.getGameManager().setTimer(Integer.parseInt(args[0]));
+		} catch(NumberFormatException e) {
+			sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "invalidNumber", true));
 		}
-		return true;
 	}
 
 }

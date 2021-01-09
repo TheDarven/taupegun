@@ -1,27 +1,27 @@
 package fr.thedarven.events.commands.moles;
 
+import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
-import fr.thedarven.utils.messages.MessagesClass;
+public class TCommand extends MoleCommand {
 
-public class TCommand implements CommandExecutor{
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
-			if(UtilsClass.molesEnabled() && pc.isTaupe() && pc.isAlive()){
-				if(cmd.getName().equalsIgnoreCase("t") && args.length > 0){
-					MessagesClass.CommandTaupeMessageMessage(p, args, pc.getTaupeTeam());
-				}
-			}
+	public TCommand(TaupeGun main) {
+		super(main);
+	}
+
+	@Override
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		MessagesClass.CommandTaupeMessageMessage(sender, args, pl.getTaupeTeam());
+	}
+
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.validateCommand(sender, pl, cmd, alias, args)) {
+			return args.length > 0;
 		}
-		return true;
+		return false;
 	}
 
 }

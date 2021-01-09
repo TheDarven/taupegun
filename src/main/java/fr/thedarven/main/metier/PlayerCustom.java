@@ -1,9 +1,11 @@
 package fr.thedarven.main.metier;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public abstract class PlayerCustom {
@@ -58,23 +60,19 @@ public abstract class PlayerCustom {
 	 * UTILS
 	 */
 	public UUID getUuid() {
-		return uuid;
+		return this.uuid;
 	}
 	
 	public Player getPlayer(){
-		if(isOnline()){
-			return Bukkit.getPlayer(uuid);
-		}
-		return null;
+		return Bukkit.getPlayer(this.uuid);
+	}
+
+	public OfflinePlayer getOfflinePlayer() {
+		return Bukkit.getOfflinePlayer(this.uuid);
 	}
 	
 	public boolean isOnline(){
-		for(Player p : Bukkit.getOnlinePlayers()){
-			if(p.getUniqueId().equals(this.uuid)){
-				return true;
-			}
-		}
-		return false;
+		return !Objects.isNull(getPlayer());
 	}
 	
 	

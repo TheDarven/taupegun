@@ -1,45 +1,41 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.main.metier.PlayerTaupe;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
-import fr.thedarven.utils.messages.MessagesClass;
+import java.util.Objects;
 
-public class PlayerkillCommand implements CommandExecutor{
-
-	private TaupeGun main;
+public class PlayerkillCommand extends OperatorCommand {
 
 	public PlayerkillCommand(TaupeGun main){
-		this.main = main;
+		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{ "taupegun.playerkill" });
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			if(cmd.getName().equalsIgnoreCase("playerkill") && args.length >= 1 && EnumGameState.isCurrentState(EnumGameState.GAME) && UtilsClass.playerInGame(args[0]) != null){
-				if(p.isOp() || p.hasPermission("taupegun.playerkill")) {
-					PlayerTaupe pl = PlayerTaupe.getPlayerManager(UtilsClass.playerInGame(args[0]));
-					if(!pl.isAlive())
-						return false;
+	@Override
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		PlayerTaupe targetedPl = PlayerTaupe.getPlayerTaupeByName(args[0]);
+		if (Objects.isNull(targetedPl) || !targetedPl.isAlive())
+			return;
 
-					if(pl.isOnline())
-						pl.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
-					else
-						this.main.getEventsManager().getDeath().killPlayer(pl, true);
-				}else {
-					MessagesClass.CannotCommandOperatorMessage(p);
-				}
-			}
+		Player targetedPlayer = pl.getPlayer();
+		if (!Objects.isNull(targetedPlayer)) {
+			targetedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
+		} else {
+			this.main.getEventsManager().getDeath().killPlayer(targetedPl, true);
+		}
+	}
+
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (args.length > 0) {
+			return super.validateCommand(sender, pl, cmd, alias, args);
 		}
 		return false;
 	}
-	
+
+
 }

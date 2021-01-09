@@ -2,8 +2,10 @@ package fr.thedarven.configuration.builders.kits;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -112,7 +114,19 @@ public class InventoryKitsElement extends InventoryGUI {
 		if (this.getParent() != null)
 			this.getParent().updateChildItem(hashCode, item, this);
 	}
-	
+
+	public void giveItems(Player player) {
+		Location playerLocation = player.getLocation();
+		ItemStack item;
+
+		for(int i = 0; i < 9; i++) {
+			item = this.inventory.getItem(i);
+			if (!Objects.isNull(item) && !item.getType().equals(Material.AIR)) {
+				player.getWorld().dropItem(playerLocation, item);
+			}
+		}
+	}
+
 	/**
 	 * L'évènement de clique dans l'inventaire
 	 * 

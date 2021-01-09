@@ -17,11 +17,11 @@ public class CommandManager extends Manager {
         main.getCommand("revive").setExecutor(new ReviveCommand(this.main));
         main.getCommand("heal").setExecutor(new HealCommand(this.main));
         main.getCommand("g").setExecutor(new GCommand(this.main));
-        main.getCommand("say").setExecutor(new SayCommand());
+        main.getCommand("say").setExecutor(new SayCommand(this.main));
         main.getCommand("playerkill").setExecutor(new PlayerkillCommand(this.main));
         main.getCommand("timer").setExecutor(new TimerCommand(this.main));
-        main.getCommand("rules").setExecutor(new ScenariosCommand());
-        main.getCommand("scenarios").setExecutor(new ScenariosCommand());
+        main.getCommand("rules").setExecutor(new ScenariosCommand(this.main));
+        main.getCommand("scenarios").setExecutor(new ScenariosCommand(this.main));
         main.getCommand("start").setExecutor(new StartCommand(this.main));
 
         // User's commands
@@ -32,12 +32,12 @@ public class CommandManager extends Manager {
         // Mole's commands
         main.getCommand("claim").setExecutor(new ClaimCommand(this.main));
         main.getCommand("reveal").setExecutor(new RevealCommand(this.main));
-        main.getCommand("t").setExecutor(new TCommand());
+        main.getCommand("t").setExecutor(new TCommand(this.main));
 
         // Supermole's commands
         main.getCommand("superreveal").setExecutor(new SuperrevealCommand(this.main));
-        main.getCommand("supert").setExecutor(new SupertCommand());
+        main.getCommand("supert").setExecutor(new SupertCommand(this.main));
 
-        main.getCommand("debug").setExecutor(new DebugCommand());
+        main.getCommand("debug").setExecutor(new DebugCommand(this.main));
     }
 }

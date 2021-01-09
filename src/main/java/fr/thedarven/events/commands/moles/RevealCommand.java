@@ -1,13 +1,10 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.PlayerTaupe;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
 
 public class RevealCommand extends GenericRevealCommand{
 
@@ -15,21 +12,16 @@ public class RevealCommand extends GenericRevealCommand{
 		super(main, "reveal", ChatColor.RED);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(!(sender instanceof Player))
-			return true;
+	@Override
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		this.reveal(sender, pl.getTaupeTeam());
+	}
 
-		Player p = (Player) sender;
-		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
-		if(!UtilsClass.molesEnabled() || !pc.isTaupe() || !pc.isAlive() || !cmd.getName().equalsIgnoreCase("reveal"))
-			return true;
-
-		if(!pc.revealTaupe())
-			return true;
-
-		this.reveal(p, pc.getTaupeTeam());
-
-		return true;
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.validateCommand(sender, pl, cmd, alias, args)) {
+			return !pl.isReveal();
+		}
+		return false;
 	}
 
 }

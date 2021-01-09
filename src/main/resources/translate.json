@@ -79,6 +79,7 @@
 				"playerList": "Liste des joueurs : ",
 				"revive": "{playerName} a été réssuscité.",
 				"cannotRevive": "Il est impossible de réanimer quelqu'un à ce stade de la partie.",
+				"cannotReviveWorldNotFound": "Aucun monde n'a été trouvé pour réanimer ce joueur.",
 				"molesNotAnnounced": "Les taupes ne sont pas encore annoncées.",
 				"invalidNumber": "Nombre incorrect.",
 
@@ -94,6 +95,7 @@
 				"playerList": "List of players",
 				"revive": "{playerName} has been revived.",
 				"cannotRevive": "You cannot revive anyone at this stage in the game.",
+				"cannotReviveWorldNotFound": "No world has been found to respawn this player.",
 				"molesNotAnnounced": "The moles haven't been announced yet.",
 				"invalidNumber": "Invalid number.",
 

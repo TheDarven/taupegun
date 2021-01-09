@@ -1,50 +1,33 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-
-import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.configuration.builders.kits.InventoryKitsElement;
 import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
+import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
 
-public class ClaimCommand implements CommandExecutor{
+import java.util.Objects;
 
-	private TaupeGun main;
+public class ClaimCommand extends MoleCommand {
 
 	public ClaimCommand(TaupeGun main) {
-		this.main = main;
+		super(main);
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
-			if(UtilsClass.molesEnabled() && pc.isTaupe() && pc.isAlive()){
-				if(cmd.getName().equalsIgnoreCase("claim")) {
-					if(!pc.getClaimTaupe().equals("aucun")){
-						for(InventoryGUI inv : this.main.getInventoryRegister().kits.getChildsValue()) {
-							if(inv.getName().equals(pc.getClaimTaupe())) {
-								Inventory inventaire = inv.getInventory();
-								for(int i=0; i<9; i++) {
-									if(inventaire.getItem(i) != null && !inventaire.getItem(i).getType().equals(Material.AIR)) {
-										p.getWorld().dropItem(p.getLocation(),inventaire.getItem(i));
-									}
-								}	
-							}
-						}
-						pc.setClaimTaupe("aucun");
-					}
-				}
-			}
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		InventoryKitsElement inventoryKitsElement = InventoryKitsElement.getKit(pl.getClaimTaupe());
+		if (!Objects.isNull(inventoryKitsElement)) {
+			inventoryKitsElement.giveItems(sender);
+			pl.setClaimTaupe("aucun");
 		}
-		return true;
+	}
+
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.validateCommand(sender, pl, cmd, alias, args)) {
+			return !pl.getClaimTaupe().equals("aucun");
+		}
+		return false;
 	}
 
 }

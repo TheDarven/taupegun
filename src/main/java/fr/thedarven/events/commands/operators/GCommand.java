@@ -1,43 +1,32 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
-
-public class GCommand implements CommandExecutor{
-
-	private TaupeGun main;
+public class GCommand extends OperatorCommand {
 
 	public GCommand(TaupeGun main){
-		this.main = main;
+		super(main, new String[]{ "taupegun.g" });
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player) sender;
-			if(cmd.getName().equalsIgnoreCase("g")) {
-				if(p.isOp() || p.hasPermission("taupegun.g")){
-					if(args.length > 0) {
-						String message = " ";
-						for(int i=0; i<args.length; i++){
-							message = message+args[i]+" ";
-						}
-						String infoMessage = LanguageBuilder.getContent("CONTENT", "info", true);
-						Bukkit.broadcastMessage("§e"+infoMessage+"§a"+message);	
-					}
-				}else{
-					MessagesClass.CannotCommandOperatorMessage(p);
-				}	
-			}
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		StringBuilder message = new StringBuilder(" ");
+		for (String word: args) {
+			message.append(word).append(" ");
 		}
-		return true;
+		String infoMessage = LanguageBuilder.getContent("CONTENT", "info", true);
+		Bukkit.broadcastMessage("§e" + infoMessage + "§a" + message.toString());
+	}
+
+	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (args.length > 0) {
+			return super.validateCommand(sender, pl, cmd, alias, args);
+		}
+		return false;
 	}
 }

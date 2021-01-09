@@ -1,11 +1,7 @@
 package fr.thedarven.main.metier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -174,19 +170,7 @@ public class PlayerTaupe extends PlayerCustom{
 	public boolean isSuperReveal() {
 		return (isSuperTaupe() && isAlive() && team == teamSuperTaupe);
 	}
-	
-	public boolean revealTaupe() {
-		if(!isReveal())
-			return true;
-		return false;
-	}
-	
-	public boolean revealSuperTaupe() {
-		if(!isSuperReveal())
-			return true;
-		return false;
-	}
-	
+
 	public String getClaimTaupe() {
 		return claim;
 	}
@@ -233,7 +217,16 @@ public class PlayerTaupe extends PlayerCustom{
 		createKitName = pName;
 	}
 	
-	
+	public static PlayerTaupe getPlayerTaupeByName(String name) {
+		if (Objects.isNull(name))
+			return null;
+
+		Optional<PlayerTaupe> playerTaupeOptional = playerManagerHashMap.values()
+				.stream()
+				.filter(pl -> pl.getName().equals(name))
+				.findFirst();
+		return playerTaupeOptional.orElse(null);
+	}
 	
 	public static PlayerTaupe getPlayerManager(UUID playerUuid) {
 		if(playerManagerHashMap.containsKey(playerUuid)) {
@@ -243,7 +236,7 @@ public class PlayerTaupe extends PlayerCustom{
 	}
 	
 	public static List<PlayerTaupe> getAlivePlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<PlayerTaupe>();
+		List<PlayerTaupe> list = new ArrayList<>();
 		for(PlayerTaupe pc : playerManagerHashMap.values()){
 			if(pc.isAlive()){
 				list.add(pc);
@@ -253,7 +246,7 @@ public class PlayerTaupe extends PlayerCustom{
 	}
 	
 	public static List<PlayerTaupe> getDeathPlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<PlayerTaupe>();
+		List<PlayerTaupe> list = new ArrayList<>();
 		for(PlayerTaupe pc : playerManagerHashMap.values()){
 			if(!pc.isAlive()){
 				list.add(pc);
@@ -263,7 +256,7 @@ public class PlayerTaupe extends PlayerCustom{
 	}
 	
 	public static List<PlayerTaupe> getAllPlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<PlayerTaupe>(playerManagerHashMap.values());
+		List<PlayerTaupe> list = new ArrayList<>(playerManagerHashMap.values());
 		return list;
 	}
 	

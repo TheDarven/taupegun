@@ -36,7 +36,7 @@ public class TeamCustom {
 	private int taupeTeam;
 	private int superTaupeTeam;
 	private boolean spectator;
-	private List<UUID> players;
+	private List<PlayerTaupe> players;
 	private boolean alive;
 	
 	public TeamCustom(String name, int pColor, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
@@ -102,7 +102,7 @@ public class TeamCustom {
 		return spectator;
 	}
 	
-	public List<UUID> getPlayers(){
+	public List<PlayerTaupe> getPlayers(){
 		return players;
 	}
 	
@@ -116,9 +116,13 @@ public class TeamCustom {
 
 	public boolean isFull() { return this.players.size() >= MAX_PLAYER_PER_TEAM; }
 
+	public int getSize() {
+		return this.players.size();
+	}
+
 	public List<Player> getConnectedPlayers() {
 		return this.players.stream()
-				.map(Bukkit::getPlayer)
+				.map(PlayerCustom::getPlayer)
 				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 	}
@@ -158,7 +162,7 @@ public class TeamCustom {
 
 		Player player = Bukkit.getPlayer(pl.getUuid());
 		if (!Objects.isNull(player)) {
-			joinScoreboardTeam(pl.getName(), pl.getUuid(), player);
+			joinScoreboardTeam(pl.getName(), pl, player);
 		}
 
 		pl.setTeam(this);
@@ -166,6 +170,7 @@ public class TeamCustom {
 			pl.setStartTeam(this);
 	}
 
+	// TODO Regarder usecase
 	public void joinTeam(UUID uuid) {
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 		joinTeam(pl);
@@ -173,15 +178,16 @@ public class TeamCustom {
 
 	public void joinTeam(String pseudo) {
 		Player p = Bukkit.getPlayer(pseudo);
-		joinScoreboardTeam(pseudo, p.getUniqueId(), p);
+		joinScoreboardTeam(pseudo, PlayerTaupe.getPlayerManager(p.getUniqueId()), p);
 	}
 
-	private void joinScoreboardTeam(String name, UUID uuid, Player p) {
+	private void joinScoreboardTeam(String name, PlayerTaupe pl, Player p) {
 		team.addEntry(name);
 		objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
-		if (uuid != null)
-			players.add(uuid);
+		if (!Objects.isNull(pl)) {
+			players.add(pl);
+		}
 
 		if (p != null) {
 			Score score = objective.getScore(p);

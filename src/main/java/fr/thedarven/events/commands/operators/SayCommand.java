@@ -1,5 +1,6 @@
 package fr.thedarven.events.commands.operators;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,26 +11,30 @@ import fr.thedarven.utils.messages.MessagesClass;
 
 import java.util.Arrays;
 
-public class SayCommand implements CommandExecutor{
+public class SayCommand implements CommandExecutor {
+
+	private TaupeGun main;
+
+	public SayCommand(TaupeGun main) {
+		this.main = main;
+	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-
-		if(!cmd.getName().equalsIgnoreCase("say") || args.length == 0)
+		if(args.length == 0)
 			return true;
 
 		String senderName = "CONSOLE";
 
-		if(sender instanceof Player){
-			Player p = (Player) sender;
+		if (sender instanceof Player){
+			Player player = (Player) sender;
 
-			if(!p.isOp() && !p.hasPermission("taupegun.say")){
-				MessagesClass.CannotCommandOperatorMessage(p);
+			if (!player.isOp() && !player.hasPermission("taupegun.say")){
+				MessagesClass.CannotCommandOperatorMessage(player);
 				return true;
 			}
 
-			senderName = p.getName();
+			senderName = player.getName();
 		}
-
 
 		StringBuilder content = new StringBuilder(" ");
 		StringBuilder builder = new StringBuilder();

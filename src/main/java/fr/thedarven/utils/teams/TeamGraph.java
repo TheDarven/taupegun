@@ -1,6 +1,7 @@
 package fr.thedarven.utils.teams;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import fr.thedarven.TaupeGun;
@@ -12,19 +13,19 @@ import fr.thedarven.main.metier.TeamCustom;
 public class TeamGraph {
 
 	private TaupeGun main;
-	private ArrayList<ArrayList<PlayerTaupe>> molesOfTeam;
-	private ArrayList<ArrayList<PlayerTaupe>> moleTeam;
-	private ArrayList<ArrayList<PlayerTaupe>> superMoleTeam;
+	private List<List<PlayerTaupe>> molesOfTeam;
+	private List<List<PlayerTaupe>> moleTeam;
+	private List<List<PlayerTaupe>> superMoleTeam;
 	private static Random r = new Random();
 	
 	public TeamGraph(TaupeGun main) {
 		this.main = main;
-		molesOfTeam = new ArrayList<ArrayList<PlayerTaupe>>();
-		moleTeam = new ArrayList<ArrayList<PlayerTaupe>>();
-		superMoleTeam = new ArrayList<ArrayList<PlayerTaupe>>();
+		molesOfTeam = new ArrayList<List<PlayerTaupe>>();
+		moleTeam = new ArrayList<List<PlayerTaupe>>();
+		superMoleTeam = new ArrayList<List<PlayerTaupe>>();
 	}
 	
-	public void addEquipes(ArrayList<PlayerTaupe> pAddEquipes) {
+	public void addEquipes(List<PlayerTaupe> pAddEquipes) {
 		molesOfTeam.add(pAddEquipes);
 	}
 	
@@ -103,7 +104,7 @@ public class TeamGraph {
 		for(int i=0; i<molesOfTeam.size(); i++) {
 			for(int j=i; j<molesOfTeam.size(); j++) {
 				if(molesOfTeam.get(i).size() < molesOfTeam.get(j).size()) {
-					ArrayList<PlayerTaupe> temp = molesOfTeam.get(j);
+					List<PlayerTaupe> temp = molesOfTeam.get(j);
 					molesOfTeam.set(j, molesOfTeam.get(i));
 					molesOfTeam.set(i, temp);
 				}
@@ -113,7 +114,7 @@ public class TeamGraph {
 			if(molesOfTeam.get(i).size() == molesOfTeam.get(i+1).size()) {
 				int random = r.nextInt(3);
 		        if(random >= 1) {
-		        	ArrayList<PlayerTaupe> temp = molesOfTeam.get(i+1);
+					List<PlayerTaupe> temp = molesOfTeam.get(i+1);
 					molesOfTeam.set(i+1, molesOfTeam.get(i));
 					molesOfTeam.set(i, temp);
 		        }
