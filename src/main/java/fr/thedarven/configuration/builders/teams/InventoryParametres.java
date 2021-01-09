@@ -2,6 +2,7 @@ package fr.thedarven.configuration.builders.teams;
 
 import java.util.ArrayList;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,7 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 		super("Paramètres", null, "MENU_TEAM_ITEM_PARAMETER", 1, Material.REDSTONE_COMPARATOR, pInventoryGUI, 22);
 		inventory.add(this);
 		
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	

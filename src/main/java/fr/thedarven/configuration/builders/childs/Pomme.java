@@ -19,7 +19,9 @@ import fr.thedarven.main.metier.NumericHelper;
 
 @SuppressWarnings("deprecation")
 public class Pomme extends OptionNumeric {
-	
+
+	private final static int POURCENTAGE_DROP_SAPPLING = 5;
+
 	static ArrayList<Integer> leaves = new ArrayList<Integer>(Arrays.asList(0,1,4,5,8,9,12,13));
 
 	public Pomme(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
@@ -40,7 +42,7 @@ public class Pomme extends OptionNumeric {
 		if(e.isCancelled())
 			return;
 
-		if(!e.getPlayer().getGameMode().equals(GameMode.CREATIVE) && this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData()) && !e.getPlayer().getItemInHand().getType().equals(Material.SHEARS)){
+		if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE) && this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData()) && !e.getPlayer().getItemInHand().getType().equals(Material.SHEARS)){
 			e.setCancelled(true);
 			dropApple(e.getBlock().getLocation());	
 		}
@@ -53,7 +55,7 @@ public class Pomme extends OptionNumeric {
 	 */
 	@EventHandler
 	public void explodeBlock(BlockExplodeEvent e){
-		if(this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
+		if (this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
 			e.setCancelled(true);
 			dropApple(e.getBlock().getLocation());
 		}
@@ -66,7 +68,7 @@ public class Pomme extends OptionNumeric {
 	 */
 	@EventHandler
 	public void leavesBlock(LeavesDecayEvent e){
-		if(this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
+		if (this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
 			e.setCancelled(true);
 			dropApple(e.getBlock().getLocation());
 		}
@@ -79,7 +81,7 @@ public class Pomme extends OptionNumeric {
 	 */
 	@EventHandler
 	public void burnBlock(BlockBurnEvent e){
-		if(this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
+		if (this.value > this.min && e.getBlock().getType().equals(Material.LEAVES) && leaves.contains((int) e.getBlock().getData())){
 			e.setCancelled(true);
 			dropApple(e.getBlock().getLocation());
 		}
@@ -93,16 +95,16 @@ public class Pomme extends OptionNumeric {
 	public void dropApple(Location loc){
 		loc.getBlock().getWorld().getBlockAt(loc).setType(Material.AIR);
 		Random r = new Random();
-		int valeur = r.nextInt(100);
+		int valeur = r.nextInt(200);
 
-		loc.setX(loc.getX()+0.5);
-		loc.setY(loc.getY()+0.5);
-		loc.setZ(loc.getZ()+0.5);
+		loc.setX(loc.getX() + 0.5);
+		loc.setY(loc.getY() + 0.5);
+		loc.setZ(loc.getZ() + 0.5);
 		
-		if(valeur<= ((double) this.value/2)){
+		if (valeur <= this.getValue()){
 			ItemStack item = new ItemStack(Material.APPLE, 1);
 			loc.getWorld().dropItemNaturally(loc, item);
-		}else if(valeur<= ((double) this.value/2)+5.0){
+		} else if (valeur <= this.getValue() + POURCENTAGE_DROP_SAPPLING * 2){
 			ItemStack item = new ItemStack(Material.SAPLING, 1);
 			loc.getWorld().dropItemNaturally(loc, item);
 		}		

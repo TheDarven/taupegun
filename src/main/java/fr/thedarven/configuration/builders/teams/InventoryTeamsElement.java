@@ -3,6 +3,7 @@ package fr.thedarven.configuration.builders.teams;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
@@ -27,11 +27,11 @@ public class InventoryTeamsElement extends InventoryGUI{
 	private int color;
 	
 	public InventoryTeamsElement(String pName, int pColor) {
-		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, InventoryRegister.teams, 0);
+		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, TaupeGun.getInstance().getInventoryRegister().teams, 0);
 		color = pColor;
 		teams.put(pName, this);
 		reloadItem();
-		InventoryRegister.teams.reloadInventory();
+		TaupeGun.getInstance().getInventoryRegister().teams.reloadInventory();
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	 * Recharge les objets de l'inventaire
 	 */
 	public void reloadInventory() {
-		TeamCustom teamCustom = TeamCustom.getTeamCustom(getName());
+		TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
 		if (teamCustom == null)
 			return;
 
@@ -131,7 +131,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 
 		List<String> itemLore = new ArrayList<String>();
 
-		TeamCustom teamCustom = TeamCustom.getTeamCustom(getName());
+		TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
 		if (teamCustom != null) {
 			Team team = teamCustom.getTeam();
 			if (team.getEntries().size() > 0)
@@ -153,7 +153,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 	 */
 	static public void removeTeam(String name) {
 		InventoryGUI inv = teams.get(name);
-		if (name == null)
+		if (inv == null)
 			return;
 
 		inv.getChildsValue()
@@ -205,7 +205,7 @@ public class InventoryTeamsElement extends InventoryGUI{
 				}
 
 				if (e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
-					TeamCustom teamLeave = TeamCustom.getTeamCustom(getName());
+					TeamCustom teamLeave = TeamCustom.getTeamCustomByName(getName());
 					if (teamLeave == null)
 						return;
 					teamLeave.leaveTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
@@ -213,12 +213,11 @@ public class InventoryTeamsElement extends InventoryGUI{
 					reloadInventory();
 					InventoryPlayers.reloadInventories();
 				} else {
-					for (InventoryGUI inventoryGUI : getChildsValue()) {
-						if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
-							p.openInventory(inventoryGUI.getInventory());
-							delayClick(pl);
-							return;
-						}
+					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+					if (inventoryGUI != null) {
+						p.openInventory(inventoryGUI.getInventory());
+						delayClick(pl);
+						return;
 					}
 				}
 				delayClick(pl);	

@@ -182,7 +182,7 @@ public class InventoryGUI extends InventoryBuilder{
 				i++;
 			}
 			if (boucle) {
-				System.out.println(ANSI_RED+"mErreur de positionnement de l'item "+pInventoryGUI.getFormattedInventoryName()+ANSI_RESET);
+				System.out.println(ANSI_RED + "mErreur de positionnement de l'item " + pInventoryGUI.getFormattedInventoryName() + ANSI_RESET);
 			}
 		} else
 			setItem = true;
@@ -275,6 +275,18 @@ public class InventoryGUI extends InventoryBuilder{
 			}
 		}
 	}
+
+	/**
+	 * Pour obtenir la langue actuellement selectionnées
+	 */
+	public static String getLanguage() {
+		if(TaupeGun.getInstance() != null && TaupeGun.getInstance().getInventoryRegister() != null) {
+			InventoryLanguage language = TaupeGun.getInstance().getInventoryRegister().language;
+			if (language != null)
+				return language.getSelectedLanguage();
+		}
+		return "fr_FR";
+	}
 	
 	
 	/**
@@ -282,7 +294,7 @@ public class InventoryGUI extends InventoryBuilder{
 	 */
 	public static void setLanguage() {
 		List<InventoryGUI> elementsValues = new ArrayList<>(elements.values());
-		elementsValues.forEach(inv -> inv.updateLanguage(InventoryRegister.language.getSelectedLanguage()));
+		elementsValues.forEach(inv -> inv.updateLanguage(getLanguage()));
 	}
 	
 	
@@ -324,7 +336,7 @@ public class InventoryGUI extends InventoryBuilder{
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		
-		if ((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && e.getClickedInventory() != null && elements.containsKey(e.getInventory())) {
+		if ((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && !Objects.isNull(e.getClickedInventory()) && elements.containsKey(e.getInventory())) {
 			e.setCancelled(true);
 			return;
 		}
@@ -340,7 +352,7 @@ public class InventoryGUI extends InventoryBuilder{
 				}
 
 				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-				if (inventoryGUI != null && inventoryGUI != InventoryRegister.addteam && inventoryGUI != InventoryRegister.teamsrandom) {
+				if (inventoryGUI != null && inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addteam && inventoryGUI != TaupeGun.getInstance().getInventoryRegister().teamsrandom) {
 					if (inventoryGUI instanceof ClickCooldown) {
 						if (click(p, EnumConfiguration.OPTION)) {
 							p.openInventory(inventoryGUI.getInventory());

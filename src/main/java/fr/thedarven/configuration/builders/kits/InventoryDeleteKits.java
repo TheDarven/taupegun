@@ -3,11 +3,11 @@ package fr.thedarven.configuration.builders.kits;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.configuration.builders.InventoryDelete;
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
@@ -58,6 +58,6 @@ public class InventoryDeleteKits extends InventoryDelete {
 		Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+DELETE_KIT_FORMAT, params));
 		
 		InventoryKitsElement.removeKit(getParent().getName());
-		p.openInventory(InventoryRegister.kits.getInventory());
+		p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getInventory());
 	}
 }

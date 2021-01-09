@@ -31,10 +31,10 @@ public class GoldenHead extends OptionNumeric {
 	public void onEat(PlayerItemConsumeEvent e){
 		Player player = e.getPlayer();
 		if(e.getItem().getItemMeta().hasDisplayName()){
-			if(e.getItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD+"Golden Head") && this.getValue() > 0){
+			if(e.getItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD+"Golden Head") && this.value > 0){
 				player.removePotionEffect(PotionEffectType.REGENERATION);
 				player.removePotionEffect(PotionEffectType.ABSORPTION);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20*this.getValue(), 1));
+				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * this.value, 1));
 				player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
 			}
 		}	

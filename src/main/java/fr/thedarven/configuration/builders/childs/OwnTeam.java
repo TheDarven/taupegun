@@ -72,7 +72,7 @@ public class OwnTeam extends OptionBoolean{
 	 */
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && value)
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && value)
 			giveBanner(e.getPlayer());
 	}
 	
@@ -92,10 +92,10 @@ public class OwnTeam extends OptionBoolean{
 	 * @param exName L'ancien nom de l'item bannière
 	 */
 	private void actionBanner(String exName) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			for(Player p : Bukkit.getOnlinePlayers()) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
 				removeBanner(p, exName);
-				if(value)
+				if (value)
 					giveBanner(p);
 			}
 		}
@@ -107,9 +107,9 @@ public class OwnTeam extends OptionBoolean{
 	 * @param p Le joueur
 	 */
 	public void actionBanner(Player p) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			removeBanner(p);
-			if(value)
+			if (value)
 				giveBanner(p);
 		}
 	}
@@ -131,8 +131,8 @@ public class OwnTeam extends OptionBoolean{
 	 */
 	private void removeBanner(Player p, String exName) {
 		Inventory playerInv = p.getInventory();
-		for(int i=0; i<playerInv.getSize(); i++) {
-			if(playerInv.getItem(i) != null && playerInv.getItem(i).getType() == Material.BANNER && playerInv.getItem(i).getItemMeta().getDisplayName().equals("§e"+exName)) {
+		for (int i=0; i<playerInv.getSize(); i++) {
+			if (playerInv.getItem(i) != null && playerInv.getItem(i).getType() == Material.BANNER && playerInv.getItem(i).getItemMeta().getDisplayName().equals("§e"+exName)) {
 				playerInv.setItem(i, new ItemStack(Material.AIR));
 			}
 		}
@@ -159,27 +159,27 @@ public class OwnTeam extends OptionBoolean{
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
 
-				if(e.getSlot() == 3 && this.value) {
+				if (e.getSlot() == 3 && this.value) {
 					this.value = false;
 					super.reloadItem();
 					for(Player player : Bukkit.getOnlinePlayers()) {
 						removeBanner(player);
 					}
-				}else if(e.getSlot() == 5 && !this.value) {
+				} else if (e.getSlot() == 5 && !this.value) {
 					this.value = true;
 					super.reloadItem();
-					for(Player player : Bukkit.getOnlinePlayers())
+					for (Player player : Bukkit.getOnlinePlayers())
 						giveBanner(player);
 				}
 				delayClick(pl);

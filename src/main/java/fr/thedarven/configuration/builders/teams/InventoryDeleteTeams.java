@@ -3,12 +3,12 @@ package fr.thedarven.configuration.builders.teams;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryDelete;
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -68,10 +68,10 @@ public class InventoryDeleteTeams extends InventoryDelete {
 		params.put("teamName", "§e§l"+team.getName()+"§r§a");
 		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+TEAM_DELETE_FORMAT, params));
 		
-		TeamCustom teamDelete = TeamCustom.getTeamCustom(team.getName());
+		TeamCustom teamDelete = TeamCustom.getTeamCustomByName(team.getName());
 		if (teamDelete != null)
 			teamDelete.deleteTeam();
-		p.openInventory(InventoryRegister.teams.getInventory());
+		p.openInventory(TaupeGun.getInstance().getInventoryRegister().teams.getInventory());
 		InventoryPlayers.reloadInventories();
 	}
 }

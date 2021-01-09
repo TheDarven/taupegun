@@ -3,6 +3,7 @@ package fr.thedarven.configuration.builders.childs;
 import java.util.HashMap;
 import java.util.UUID;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -26,12 +27,12 @@ public class DiamondLimit extends OptionNumeric {
 
 	public DiamondLimit(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, infos);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	public DiamondLimit(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, infos);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	
@@ -72,17 +73,17 @@ public class DiamondLimit extends OptionNumeric {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent e){
-		if(e.isCancelled())
+		if (e.isCancelled())
 			return;
 
 		Player p = e.getPlayer();
-		if(e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && p.getGameMode().equals(GameMode.SURVIVAL)) {
-			if(buffer.containsKey(p.getUniqueId())) {
-				if(buffer.get(p.getUniqueId()) < this.value) {
-					buffer.replace(p.getUniqueId(), buffer.get(p.getUniqueId())+1);
-					Title.sendActionBar(p, ChatColor.BLUE+"DiamondLimit : "+ChatColor.WHITE+buffer.get(p.getUniqueId())+"/"+getValue());
-				}else {
-					p.sendMessage("§c"+EXCEEDED_LIMIT);
+		if (e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && p.getGameMode().equals(GameMode.SURVIVAL)) {
+			if (buffer.containsKey(p.getUniqueId())) {
+				if (buffer.get(p.getUniqueId()) < this.value) {
+					buffer.replace(p.getUniqueId(), buffer.get(p.getUniqueId()) + 1);
+					Title.sendActionBar(p, ChatColor.BLUE+"DiamondLimit : " + ChatColor.WHITE + buffer.get(p.getUniqueId()) + "/" + this.value);
+				} else {
+					p.sendMessage("§c" + EXCEEDED_LIMIT);
 					e.setCancelled(true);
 					e.getBlock().setType(Material.AIR);
 				}

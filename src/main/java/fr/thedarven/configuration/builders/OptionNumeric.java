@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -40,6 +41,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	protected int diviseur;
 	protected int morePas;
 	protected boolean showDisabled;
+	protected double getterFactor;
 	
 	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
 		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition, pData);
@@ -51,6 +53,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		this.afterName = infos.afterName;
 		this.diviseur = infos.diviseur;
 		this.showDisabled = infos.showDisabled;
+		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
@@ -68,6 +71,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		this.afterName = infos.afterName;
 		this.diviseur = infos.diviseur;
 		this.showDisabled = infos.showDisabled;
+		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
@@ -85,6 +89,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		this.afterName = infos.afterName;
 		this.diviseur = infos.diviseur;
 		this.showDisabled = infos.showDisabled;
+		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
@@ -102,6 +107,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		this.afterName = infos.afterName;
 		this.diviseur = infos.diviseur;
 		this.showDisabled = infos.showDisabled;
+		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
@@ -114,12 +120,31 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	 * 
 	 * @return La valeur
 	 */
-	public int getValue() {
-		return this.value;
+	public double getValue() {
+		return this.value * this.getterFactor;
 	}
-	
-	
-	
+
+	public int getIntValue() {
+		return (int) (this.getValue());
+	}
+
+	public boolean isValueEquals(int value) {
+		return this.value * this.getterFactor == value;
+	}
+
+	public boolean isValueGreater(int value) {
+		return this.value * this.getterFactor > value;
+	}
+	public boolean isValueGreaterOrEquals(int value) {
+		return this.value * this.getterFactor >= value;
+	}
+
+	public boolean isValueLower(int value) {
+		return this.value * this.getterFactor < value;
+	}
+	public boolean isValueLowerOrEquals(int value) {
+		return this.value * this.getterFactor <= value;
+	}
 	
 	
 	/**
@@ -156,7 +181,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("name", this.name);
 		if (value == 0 && showDisabled) {
-			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", InventoryRegister.language.getSelectedLanguage(), true));
+			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", getLanguage(), true));
 			params.put("afterName", "");
 		} else {
 			if (diviseur == 1) {
@@ -187,7 +212,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		returnArray.add("");
 		
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", InventoryRegister.language.getSelectedLanguage(), true));
+		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;
@@ -207,7 +232,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		ItemStack increment = new ItemStack(Material.BANNER, 1);
 		BannerMeta incrementM = (BannerMeta) increment.getItemMeta();
 		incrementM.setBaseColor(bannerColor);
-		List<Pattern> pattern = new ArrayList<Pattern>();
+		List<Pattern> pattern = new ArrayList<>();
 		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
 		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
 		pattern.add(new Pattern(bannerColor, PatternType.BORDER));
@@ -237,7 +262,7 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		ItemStack decrement = new ItemStack(Material.BANNER, 1);
 		BannerMeta decrementM = (BannerMeta) decrement.getItemMeta();
 		decrementM.setBaseColor(bannerColor);
-		List<Pattern> pattern = new ArrayList<Pattern>();
+		List<Pattern> pattern = new ArrayList<>();
 		pattern.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
 		pattern.add(new Pattern(bannerColor, PatternType.BORDER));
 		decrementM.setPatterns(pattern);

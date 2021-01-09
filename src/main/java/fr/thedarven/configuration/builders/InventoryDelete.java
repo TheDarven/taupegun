@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ public abstract class InventoryDelete extends InventoryGUI {
 		super(pName, "", pTranslationName, 1, Material.STAINED_CLAY, pInventoryGUI, pPosition, (byte) 14);
 		
 		initItem();
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 		reloadItem();
 	}
 	

@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.childs;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,12 +19,12 @@ public class LavaLimiter extends OptionBoolean {
 	
 	public LavaLimiter(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	public LavaLimiter(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	

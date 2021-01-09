@@ -28,12 +28,13 @@ public class Pvp extends OptionNumeric {
 	 */
 	@EventHandler
     public void onOtherDamage(EntityDamageByEntityEvent e){
-		if(this.value*60 - TaupeGun.getInstance().getGameManager().getTimer() >= 0){
-			if(e.getEntity() instanceof Player){
-	        	if(e.getDamager() instanceof Player || e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
-	        		e.setCancelled(true);
-	        	}
-	        }	
+		if (this.value * 60 < TaupeGun.getInstance().getGameManager().getTimer())
+			return;
+
+		if (e.getEntity() instanceof Player){
+			if (e.getDamager() instanceof Player || e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
+				e.setCancelled(true);
+			}
 		}
     }
 

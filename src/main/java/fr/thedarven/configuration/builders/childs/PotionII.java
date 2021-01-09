@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.childs;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -23,12 +24,12 @@ public class PotionII extends OptionBoolean{
 	
 	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue, pData);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pValue, pData);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	
@@ -89,7 +90,7 @@ public class PotionII extends OptionBoolean{
 			return;
 
 		e.setCancelled(true);
-		e.getPlayer().sendMessage("§a"+TRANSFORM_POTION);
+		e.getPlayer().sendMessage("§a" + TRANSFORM_POTION);
 		e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.DIG_STONE, 10,1);
 
 		Potion potion = oPotion.get();

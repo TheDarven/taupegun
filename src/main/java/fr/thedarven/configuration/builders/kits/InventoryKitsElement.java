@@ -3,6 +3,7 @@ package fr.thedarven.configuration.builders.kits;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,12 +20,12 @@ public class InventoryKitsElement extends InventoryGUI {
 	
 	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
-	public InventoryKitsElement(String pName) {
-		super(pName, "", "MENU_KIT_ITEM", 2, Material.CHEST, InventoryRegister.kits, 0);
+	public InventoryKitsElement(String pName, InventoryKits parent) {
+		super(pName, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
 		kits.put(pName, this);
 		initItem();
 		reloadItem();
-		InventoryRegister.kits.reloadInventory();
+		parent.reloadInventory();
 	}
 	
 	
@@ -68,9 +69,19 @@ public class InventoryKitsElement extends InventoryGUI {
 		verreM.setDisplayName("§f");
 		verre.setItemMeta(verreM);
 		
-		for(i=10; i<17; i++) {
+		for (i=10; i<17; i++) {
 			getInventory().setItem(i, verre);
 		}
+	}
+
+	/**
+	 * Pour récupérer un kit à partir de son nom
+	 *
+	 * @param name Le nom du kit
+	 * @return Le kit si il existe, null sinon
+	 */
+	public static InventoryKitsElement getKit(String name) {
+		return kits.get(name);
 	}
 	
 	/**
@@ -85,7 +96,7 @@ public class InventoryKitsElement extends InventoryGUI {
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
-		InventoryRegister.kits.reloadInventory();
+		TaupeGun.getInstance().getInventoryRegister().kits.reloadInventory();
 	}
 	
 	/**
@@ -98,7 +109,7 @@ public class InventoryKitsElement extends InventoryGUI {
 		itemM.setDisplayName(getName());
 		item.setItemMeta(itemM);
 
-		if(this.getParent() != null)
+		if (this.getParent() != null)
 			this.getParent().updateChildItem(hashCode, item, this);
 	}
 	
@@ -109,37 +120,36 @@ public class InventoryKitsElement extends InventoryGUI {
 	 */
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if(e.getClickedInventory().equals(getInventory())) {
-				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (e.getClickedInventory().equals(getInventory())) {
+				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;
-				}else if(!click(p, EnumConfiguration.OPTION)) {
+				} else if (!click(p, EnumConfiguration.OPTION)) {
 					e.setCancelled(true);
 					return;
-				}else {
-					for(InventoryGUI inventoryGUI : getChildsValue()) {
-						if(inventoryGUI.getItem().equals(e.getCurrentItem())) {
-							e.setCancelled(true);
-							p.openInventory(inventoryGUI.getInventory());
-							delayClick(pl);
-							return;
-						}
+				} else {
+					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+					if(inventoryGUI != null) {
+						e.setCancelled(true);
+						p.openInventory(inventoryGUI.getInventory());
+						delayClick(pl);
+						return;
 					}
-					if(!e.getCurrentItem().getType().equals(Material.AIR)) {
-						if(e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
+					if (!e.getCurrentItem().getType().equals(Material.AIR)) {
+						if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
 							e.setCancelled(true);
 						}
 					}	
 				}
 			}
 			
-			if(p.getOpenInventory() != null && p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
-				if(!click(p, EnumConfiguration.OPTION))
+			if (p.getOpenInventory() != null && p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
+				if (!click(p, EnumConfiguration.OPTION))
 					e.setCancelled(true);
 			}
 		}

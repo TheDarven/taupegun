@@ -2,6 +2,7 @@ package fr.thedarven.configuration.builders.childs;
 
 import java.util.ArrayList;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -19,12 +20,12 @@ public class Timber extends OptionBoolean{
 	
 	public Timber(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	public Timber(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
 		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	/**
@@ -38,7 +39,7 @@ public class Timber extends OptionBoolean{
 			return; */
 
 		Player p = e.getPlayer();
-		if(p == null || !isLog(e.getBlock())) 
+		if (p == null || !isLog(e.getBlock()))
 			return;
 			
 		World world = p.getWorld();
@@ -46,21 +47,21 @@ public class Timber extends OptionBoolean{
 		ArrayList<Location> woods = new ArrayList<>();
 		woods.add(e.getBlock().getLocation());
 		
-		while(woods.size() > 0) {
+		while (woods.size() > 0) {
 			Location loc = woods.get(0);
 			Block block = world.getBlockAt(loc);
 			
-			if(isLog(block) || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2) {
-				for(int x=-1; x<=1; x++) {
-					for(int y=-1; y<=1; y++) {
-						for(int z=-1; z<=1; z++) {
-							if(x == 0 && y == 0 && z == 0) 
+			if (isLog(block) || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2) {
+				for (int x=-1; x<=1; x++) {
+					for (int y=-1; y<=1; y++) {
+						for (int z=-1; z<=1; z++) {
+							if (x == 0 && y == 0 && z == 0)
 								continue;
 							
 							Location newLocation = new Location(world, loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
 							Block newBlock = world.getBlockAt(newLocation);
 							
-							if(newBlock.getType() == block.getType() || isLog(block))
+							if (newBlock.getType() == block.getType() || isLog(block))
 								woods.add(newLocation);
 						}
 					}

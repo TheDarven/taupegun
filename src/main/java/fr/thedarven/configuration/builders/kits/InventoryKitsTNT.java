@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.kits;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
@@ -7,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryKitsTNT extends InventoryKitsElement {
 
-	public InventoryKitsTNT(String pName) {
-		super(pName);
+	public InventoryKitsTNT(String pName, InventoryKits parent) {
+		super(pName, parent);
 		reloadInventory();
 	}
 	

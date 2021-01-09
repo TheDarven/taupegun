@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -153,7 +154,7 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		returnArray.add("");
 		
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", InventoryRegister.language.getSelectedLanguage(), true));
+		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;
@@ -217,7 +218,7 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		// Dans l'inventaire
 		if (inventory != null) {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", InventoryRegister.language.getSelectedLanguage(), true));
+			params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", getLanguage(), true));
 			String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
 			
 			ItemStack moins = inventory.getItem(3);
@@ -226,7 +227,7 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 			moins.setItemMeta(moinsM);
 			
 			params.clear();
-			params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", InventoryRegister.language.getSelectedLanguage(), true));
+			params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", getLanguage(), true));
 			enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
 			
 			ItemStack plus = inventory.getItem(5);

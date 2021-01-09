@@ -24,7 +24,7 @@ public class NoNether extends OptionBoolean {
 	 */
 	@EventHandler
 	public void onPortalTeleport(PlayerPortalEvent e){
-		if(this.value) {
+		if (this.value) {
 			e.setCancelled(true);
 		}
 	}

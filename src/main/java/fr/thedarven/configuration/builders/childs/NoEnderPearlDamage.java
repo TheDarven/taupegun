@@ -24,7 +24,7 @@ public class NoEnderPearlDamage extends OptionBoolean {
 	 */
 	@EventHandler
 	public void onEnderPearl(PlayerTeleportEvent e){
-		if(e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL && this.value){
+		if (e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL && this.value){
 			e.setCancelled(true);
 			e.getPlayer().teleport(e.getTo());
 		}

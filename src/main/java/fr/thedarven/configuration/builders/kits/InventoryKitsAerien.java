@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.kits;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -9,8 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryKitsAerien extends InventoryKitsElement {
 
-	public InventoryKitsAerien(String pName) {
-		super(pName);
+	public InventoryKitsAerien(String pName, InventoryKits parent) {
+		super(pName, parent);
 		reloadInventory();
 	}
 	

@@ -3,8 +3,8 @@ package fr.thedarven.configuration.builders.teams;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.main.metier.TeamCustom;
@@ -34,7 +33,7 @@ public class InventoryPlayers extends InventoryGUI{
 		inventories.add(this);
 		reloadInventory();
 		
-		updateLanguage(InventoryRegister.language.getSelectedLanguage());
+		updateLanguage(getLanguage());
 	}
 	
 	
@@ -113,13 +112,10 @@ public class InventoryPlayers extends InventoryGUI{
 				}
 
 				if (e.getCurrentItem().getType().equals(Material.SKULL_ITEM)){
-					TeamCustom teamCustom = TeamCustom.getTeamCustom(getParent().getInventory().getName());
-					if (teamCustom != null) {
-						Team team = teamCustom.getTeam();
+					TeamCustom teamJoin = TeamCustom.getTeamCustomByName(getParent().getInventory().getName());
+					if (teamJoin != null) {
+						Team team = teamJoin.getTeam();
 						if (team.getEntries().size() < 9) {
-							TeamCustom teamJoin = TeamCustom.getTeamCustom(getParent().getInventory().getName());
-							if (teamJoin == null)
-								return;
 							teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
 							// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
 							MessagesEventClass.TeamAddPlayerMessage(e);

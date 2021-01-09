@@ -32,48 +32,48 @@ public class WallSize extends OptionNumeric {
 	public void clickInventory(InventoryClickEvent e){
 		int operation = 0;
 		int number = 0;
-		if(e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
+		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
 			Player p = (Player) e.getWhoClicked();
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			e.setCancelled(true);
 			
-			if(click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if(e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}
 				
-				if(e.getSlot() == 1 && this.morePas > 2) {
+				if (e.getSlot() == 1 && this.morePas > 2) {
 					operation = 1;
 					number = this.pas*100;
-				}else if(e.getSlot() == 2 && this.morePas > 1) {
+				} else if (e.getSlot() == 2 && this.morePas > 1) {
 					operation = 1;
 					number = this.pas*10;
-				}else if(e.getSlot() == 3) {
+				} else if (e.getSlot() == 3) {
 					operation = 1;
 					number = this.pas;
-				}else if(e.getSlot() == 5) {
+				} else if (e.getSlot() == 5) {
 					operation = 2;
 					number = this.pas;
-				}else if(e.getSlot() == 6 && this.morePas > 1) {
+				} else if (e.getSlot() == 6 && this.morePas > 1) {
 					operation = 2;
 					number = this.pas*10;
-				}else if(e.getSlot() == 7 && this.morePas > 2) {
+				} else if (e.getSlot() == 7 && this.morePas > 2) {
 					operation = 2;
 					number = this.pas*100;
 				}
 				
-				if(operation == 1) {
-					if(this.min < this.value-number) {
+				if (operation == 1) {
+					if (this.min < this.value-number) {
 						this.value = this.value-number;
-					}else {
+					} else {
 						this.value = this.min;
 					}
 					reloadItem();
-				}else if(operation == 2) {
-					if(this.max > this.value+number) {
+				} else if (operation == 2) {
+					if (this.max > this.value+number) {
 						this.value = this.value+number;
-					}else {
+					} else {
 						this.value = this.max;
 					}
 					reloadItem();

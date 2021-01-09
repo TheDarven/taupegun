@@ -1,13 +1,10 @@
 package fr.thedarven.configuration.builders.teams;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
+import fr.thedarven.configuration.builders.runnable.CreateTeamRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,7 +17,6 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumConfiguration;
 import fr.thedarven.main.metier.PlayerTaupe;
@@ -36,7 +32,6 @@ import fr.thedarven.utils.texts.TextInterpreter;
 public class InventoryTeams extends InventoryIncrement implements ClickCooldown {
 	
 	private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
-	private static String TOO_LONG_NAME_FORMAT = "Le nom de l'équipe ne doit pas dépasser 16 caractères.";
 	private static String CREATE_TEAM = "Choix du nom";
 	private static String TOO_MUCH_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
 	private static String SUCCESS_TEAM_CREATE_FORMAT = "L'équipe {teamName} a été créée avec succès.";
@@ -54,7 +49,6 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 	 */
 	public void updateLanguage(String language) {
 		PLAYER_REPARTITION = LanguageBuilder.getContent("TEAM", "playersDistributed", language, true);
-		TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("TEAM", "nameTooLong", language, true);
 		CREATE_TEAM = LanguageBuilder.getContent("TEAM", "nameChoice", language, true);
 		TOO_MUCH_TEAM = LanguageBuilder.getContent("TEAM", "tooManyTeams", language, true);
 		SUCCESS_TEAM_CREATE_FORMAT = LanguageBuilder.getContent("TEAM", "create", language, true);
@@ -72,7 +66,6 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		
 		LanguageBuilder languageTeam = LanguageBuilder.getLanguageBuilder("TEAM");
 		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "playersDistributed", PLAYER_REPARTITION);
-		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameTooLong", TOO_LONG_NAME_FORMAT);
 		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameChoice", CREATE_TEAM);
 		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "tooManyTeams", TOO_MUCH_TEAM);
 		languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "create", SUCCESS_TEAM_CREATE_FORMAT);
@@ -115,13 +108,13 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 
 		if (click(p, EnumConfiguration.OPTION)){
-			if (e.getCurrentItem().equals(InventoryRegister.teamsrandom.getItem())) {
+			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().teamsrandom.getItem())) {
 				e.setCancelled(true);
 				randomTeamAction(p);
 				return;
 			}
 
-			if (e.getCurrentItem().equals(InventoryRegister.addteam.getItem())) {
+			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addteam.getItem())) {
 				e.setCancelled(true);
 
 				if (TeamCustom.board.getTeams().size() < 36) {
@@ -133,7 +126,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 				return;
 			}
 
-			if (e.getInventory().equals(InventoryRegister.choisirCouleurEquipe.getInventory())){
+			if (e.getInventory().equals(TaupeGun.getInstance().getInventoryRegister().choisirCouleurEquipe.getInventory())){
 
 				e.setCancelled(true);
 				if(e.getCurrentItem().getType() == Material.BANNER)
@@ -169,101 +162,67 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 
 
 	private void randomTeamAction(Player p) {
-		ArrayList<Team> teamList = new ArrayList<Team>();
-		ArrayList<Player> playerList = new ArrayList<Player>();
+		List<TeamCustom> teamList = new ArrayList<>();
+		List<PlayerTaupe> playerList = new ArrayList<>();
+
+		TeamCustom.getAllTeams().stream()
+				.filter(teamCustom -> teamCustom.getPlayers().size() < TeamCustom.MAX_PLAYER_PER_TEAM)
+				.forEach(teamList::add);
 
 		for (Player player: Bukkit.getOnlinePlayers()) {
-			if (PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam() == null)
-				playerList.add(player);
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+			if (Objects.isNull(pl.getTeam())) {
+				playerList.add(pl);
+			}
 		}
 
 		Collections.shuffle(playerList);
 
-		for (int i=0; i < teamList.size(); i++) {
-			for (int j=i; j<teamList.size(); j++) {
-				if (teamList.get(i).getEntries().size() > teamList.get(j).getEntries().size()) {
-					Team temp = teamList.get(j);
+		for (int i = 0; i < teamList.size(); i++) {
+			for (int j = i; j<teamList.size(); j++) {
+				if (teamList.get(i).getPlayers().size() > teamList.get(j).getPlayers().size()) {
+					TeamCustom temp = teamList.get(j);
 					teamList.set(j, teamList.get(i));
 					teamList.set(i, temp);
 				}
 			}
 		}
 
-		int idTeam = 0;
+		int teamIndex = 0;
 		while (playerList.size() != 0 && teamList.size() != 0) {
-			TeamCustom teamJoin = TeamCustom.getTeamCustom(teamList.get(idTeam).getName());
-			if (teamJoin != null)
-				teamJoin.joinTeam(playerList.get(0).getUniqueId());
+			TeamCustom currentTeam = teamList.get(teamIndex);
+			if (!currentTeam.isFull()) {
+				currentTeam.joinTeam(playerList.get(0));
+				playerList.remove(0);
+			}
 
-			playerList.remove(0);
-			if (teamList.get(idTeam).getEntries().size() == 9)
-				teamList.remove(idTeam);
+			if (currentTeam.isFull()) {
+				teamList.remove(teamIndex);
+			}
 
-			idTeam++;
-
-			if (idTeam > teamList.size()-1)
-				idTeam = 0;
+			teamIndex++;
+			if (teamIndex > teamList.size() - 1) {
+				teamIndex = 0;
+			}
 			InventoryPlayers.reloadInventories();
 		}
 
-		for (InventoryGUI inv : getChildsValue()) {
-			if (inv instanceof InventoryTeamsElement) {
-				((InventoryTeamsElement) inv).reloadInventory();
-			}
-		}
-		Title.sendActionBar(p, ChatColor.GREEN+PLAYER_REPARTITION);
+		getChildsValue().stream()
+				.filter(inv -> inv instanceof InventoryTeamsElement)
+				.forEach(InventoryGUI::reloadInventory);
+		Title.sendActionBar(p, "§a" + PLAYER_REPARTITION);
 	}
 
 	private void addTeamAction(Player p, PlayerTaupe pl) {
-		new AnvilGUI(TaupeGun.getInstance(), p, new AnvilGUI.AnvilClickHandler() {
-
-			@Override
-			public boolean onClick(AnvilGUI menu, String text) {
-				pl.setCreateTeamName(text);
-				Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new Runnable() {
-
-					@Override
-					public void run() {
-
-						p.openInventory(InventoryRegister.choisirCouleurEquipe.getInventory());
-						if (pl.getCreateTeamName() == null) {
-							p.closeInventory();
-							return;
-						}
-						if (pl.getCreateTeamName().length() > 16){
-							p.closeInventory();
-							Title.sendActionBar(p, ChatColor.RED+TOO_LONG_NAME_FORMAT);
-							pl.setCreateTeamName(null);
-							return;
-						}
-
-						if (TeamUtils.getAllSpectatorTeamName().contains(pl.getCreateTeamName()) || UtilsClass.startsWith(pl.getCreateTeamName(), TeamUtils.getAllMoleTeamName())
-								|| UtilsClass.startsWith(pl.getCreateTeamName(), TeamUtils.getAllSuperMoleTeamName())
-								|| pl.getCreateTeamName().equals(LanguageBuilder.getContent("TEAM", "nameChoice", InventoryRegister.language.getSelectedLanguage(), true))){
-							p.closeInventory();
-							MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
-							pl.setCreateTeamName(null);
-							return;
-						}
-
-						TeamCustom.board.getTeams()
-							.stream()
-							.filter(team -> pl.getCreateTeamName().equals(team.getName()))
-							.findFirst()
-							.ifPresent(team-> {
-								p.closeInventory();
-								MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
-								pl.setCreateTeamName(null);
-							});
-					}
-				});
-				return true;
-			}
+		new AnvilGUI(TaupeGun.getInstance(), p, (menu, text) -> {
+			pl.setCreateTeamName(text);
+			Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateTeamRunnable(TaupeGun.getInstance(), pl, p));
+			return true;
 		}).setInputName(CREATE_TEAM).open();
 	}
 
 	private void choiceTeamColor(Player p, PlayerTaupe pl, ItemStack itemStack) {
-		TeamCustom teamCustom = TeamCustom.getTeamCustom(pl.getCreateTeamName());
+		TeamCustom teamCustom = TeamCustom.getTeamCustomByName(pl.getCreateTeamName());
 		if(teamCustom != null) {
 			p.closeInventory();
 			MessagesClass.CannotTeamCreateNameAlreadyMessage(p);
@@ -282,6 +241,6 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		Title.sendActionBar(p, successTeamCreateMessage);
 
 		pl.setCreateTeamName(null);
-		p.openInventory(InventoryRegister.teams.getLastChild().getInventory());
+		p.openInventory(TaupeGun.getInstance().getInventoryRegister().teams.getLastChild().getInventory());
 	}
 }

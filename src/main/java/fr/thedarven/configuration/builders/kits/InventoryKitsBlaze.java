@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.kits;
 
+import fr.thedarven.configuration.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -9,8 +10,8 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 public class InventoryKitsBlaze extends InventoryKitsElement {
 
-	public InventoryKitsBlaze(String pName) {
-		super(pName);
+	public InventoryKitsBlaze(String pName, InventoryKits parent) {
+		super(pName, parent);
 		reloadInventory();
 	}
 	

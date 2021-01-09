@@ -316,7 +316,7 @@ public abstract class InventoryBuilder implements Listener {
 		
 		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTAIRE))) {
 			return true;
-		} else if (!p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTAIRE) && InventoryRegister.scenariosvisibles.getValue()) {
+		} else if (!p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTAIRE) && TaupeGun.getInstance().getInventoryRegister().scenariosvisibles.getValue()) {
 			return true;
 		}
 		return false;

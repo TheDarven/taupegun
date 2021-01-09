@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,8 +15,8 @@ import fr.thedarven.main.metier.PlayerTaupe;
 
 public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
 
-	public InventoryStartItem() {
-		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, InventoryRegister.menu, 8);
+	public InventoryStartItem(InventoryGUI parent) {
+		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
 		initItem();
 	}
 	
@@ -36,6 +37,23 @@ public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
 			getInventory().setItem(i, glass);
 		}
 	}
+
+	/**
+	 * Pour donner les items de l'ivnentaire à un joueur
+	 *
+	 * @param player Le joueur
+	 */
+	public void giveItems(Player player) {
+		for (int i = 0; i < 45; i++) {
+			if (i < 4) {
+				player.getInventory().setItem(39-i, this.getInventory().getItem(i));
+			} else if (i < 36) {
+				player.getInventory().setItem(i, this.getInventory().getItem(i));
+			}else {
+				player.getInventory().setItem(i-36, this.getInventory().getItem(i));
+			}
+		}
+	}
 	
 	/**
 	 * L'évènement de clique dans l'inventaire
@@ -49,13 +67,13 @@ public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
 			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+				if (e.getCurrentItem().getType() == Material.REDSTONE && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					e.setCancelled(true);
 					p.openInventory(getParent().getInventory());
 					return;
 				}
 	
-				if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
+				if (e.getCurrentItem().getType() == Material.STAINED_GLASS_PANE && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
 					e.setCancelled(true);
 				}
 			}

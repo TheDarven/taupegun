@@ -27,8 +27,8 @@ public class InventoryKits extends InventoryIncrement {
 	private static String KIT_CREATE = "Le kit {kitName} a été crée avec succès.";
 	private static String CREATE_KIT_NAME_FORMAT = "Nom du kit";
 	
-	public InventoryKits(InventoryGUI pInventoryGUI) {
-		super("Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, InventoryRegister.menu, 4);
+	public InventoryKits(InventoryGUI parent) {
+		super("Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, parent, 4);
 	}
 
 	
@@ -101,7 +101,7 @@ public class InventoryKits extends InventoryIncrement {
 			final Player p = (Player) e.getWhoClicked();
 			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(InventoryRegister.addkits.getItem())) {
+			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addkits.getItem())) {
 				e.setCancelled(true);
 				new AnvilGUI(TaupeGun.getInstance(),p, new AnvilGUI.AnvilClickHandler() {
 					
@@ -118,24 +118,23 @@ public class InventoryKits extends InventoryIncrement {
 					    			pl.setCreateKitName(null);
 					    			return;
 					    		}
+
+								InventoryKitsElement matchedKit = InventoryKitsElement.getKit(pl.getCreateKitName());
+					    		if(matchedKit != null) {
+									p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getInventory());
+									Title.sendActionBar(p, "§c" + NAME_ALREADY_USED_FORMAT);
+									pl.setCreateKitName(null);
+									return;
+								}
 					    		
-					    		for (InventoryGUI inv : getChildsValue()) {
-					    			if (inv instanceof InventoryKitsElement && inv.getName().equals(pl.getCreateKitName())) {
-					    				p.openInventory(InventoryRegister.kits.getInventory());
-						    			Title.sendActionBar(p, "§c"+NAME_ALREADY_USED_FORMAT);
-						    			pl.setCreateKitName(null);
-						    			return;
-					    			}
-					    		}
-					    		
-					    		InventoryKitsElement kit = new InventoryKitsElement(pl.getCreateKitName());
+					    		InventoryKitsElement kit = new InventoryKitsElement(pl.getCreateKitName(), (InventoryKits) getParent());
 					    		new InventoryDeleteKits(kit);
 					    		
 					    		Map<String, String> params = new HashMap<String, String>();
 					    		params.put("kitName", "§e§l"+pl.getCreateKitName()+"§r§a");
 					    		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+KIT_CREATE, params));
 					    		pl.setCreateKitName(null);
-								p.openInventory(InventoryRegister.kits.getLastChild().getInventory());
+								p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getLastChild().getInventory());
 					    	}
 				    	});
 				    	return true;
@@ -148,15 +147,14 @@ public class InventoryKits extends InventoryIncrement {
 					p.openInventory(getParent().getInventory());
 					return;
 				} else {
-					for (InventoryGUI inventoryGUI : getChildsValue()) {
-						if (inventoryGUI.getItem().equals(e.getCurrentItem())) {
-							e.setCancelled(true);
-							if (inventoryGUI != InventoryRegister.addkits || click(p, EnumConfiguration.OPTION)) {
-								p.openInventory(inventoryGUI.getInventory());
-								delayClick(pl);
-							}
-							return;
+					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+					if (inventoryGUI != null) {
+						e.setCancelled(true);
+						if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addkits || click(p, EnumConfiguration.OPTION)) {
+							p.openInventory(inventoryGUI.getInventory());
+							delayClick(pl);
 						}
+						return;
 					}
 				}
 			}

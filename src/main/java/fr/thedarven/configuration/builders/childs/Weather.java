@@ -25,7 +25,7 @@ public class Weather extends OptionBoolean {
 	 */
 	@EventHandler
 	public void onWeatherChange(WeatherChangeEvent e) {
-		if(EnumGameState.isCurrentState(EnumGameState.GAME) && !this.value) {
+		if (EnumGameState.isCurrentState(EnumGameState.GAME) && !this.value) {
 			e.setCancelled(e.toWeatherState());
 			/* World currentWorld = e.getWorld();
 			if(currentWorld.isThundering())

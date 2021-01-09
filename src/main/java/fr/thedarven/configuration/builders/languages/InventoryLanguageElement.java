@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
@@ -44,8 +43,8 @@ public class InventoryLanguageElement extends InventoryGUI{
 			InventoryLanguage parent = (InventoryLanguage) getParent();
 			if (parent.getSelectedLanguage().equals(languageShortName)) {
 				returnArray.add("");
-				Map<String, String> params = new HashMap<String, String>();
-				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", InventoryRegister.language.getSelectedLanguage(), true));
+				Map<String, String> params = new HashMap<>();
+				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", ((InventoryLanguage) getParent()).getSelectedLanguage(), true));
 				returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 			}
 		}
