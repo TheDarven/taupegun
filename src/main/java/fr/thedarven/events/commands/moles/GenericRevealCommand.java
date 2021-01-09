@@ -41,7 +41,7 @@ public abstract class GenericRevealCommand implements CommandExecutor {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("playerName", player.getName());
-        String revealMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", this.translateName, InventoryRegister.language.getSelectedLanguage(), true), params);
+        String revealMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", this.translateName, true), params);
 
         Bukkit.broadcastMessage(this.messageColor + revealMessage);
 

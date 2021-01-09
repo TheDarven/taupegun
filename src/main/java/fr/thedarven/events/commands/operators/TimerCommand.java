@@ -27,7 +27,7 @@ public class TimerCommand implements CommandExecutor{
 					try {
 						this.main.getGameManager().setTimer(Integer.parseInt(args[0]));
 					}catch(NumberFormatException e) {
-						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "invalidNumber", InventoryRegister.language.getSelectedLanguage(), true));
+						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "invalidNumber", true));
 					}
 				}else{
 					MessagesClass.CannotCommandOperatorMessage(p);

@@ -40,7 +40,7 @@ public class StartCommand implements CommandExecutor{
 					if(EnumGameState.isCurrentState(EnumGameState.LOBBY)){
 
 						if(UtilsClass.getWorld() == null) {
-							String worldNotExistMessage = "§e"+LanguageBuilder.getContent("START_COMMAND", "worldNotExist", InventoryRegister.language.getSelectedLanguage(), true);
+							String worldNotExistMessage = "§e"+LanguageBuilder.getContent("START_COMMAND", "worldNotExist", true);
 							Bukkit.broadcastMessage(worldNotExistMessage);
 							return true;
 						}
@@ -48,24 +48,24 @@ public class StartCommand implements CommandExecutor{
 						Scoreboard board = TeamCustom.board;
 						Set<Team> teams = board.getTeams();
 						
-						if(teams.size() < 2 && !InventoryRegister.supertaupes.getValue()){
-							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", InventoryRegister.language.getSelectedLanguage(), true));
+						if(teams.size() < 2 && !this.main.getInventoryRegister().supertaupes.getValue()){
+							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 							return true;
 						}
 						
-						if(teams.size() < 3 && InventoryRegister.supertaupes.getValue()){
-							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", InventoryRegister.language.getSelectedLanguage(), true));
+						if(teams.size() < 3 && this.main.getInventoryRegister().supertaupes.getValue()){
+							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", true));
 							return true;
 						}
 						
-						if(InventoryRegister.kits.getChilds().size() <= 1) {
-							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", InventoryRegister.language.getSelectedLanguage(), true));
+						if(this.main.getInventoryRegister().kits.getChilds().size() <= 1) {
+							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", true));
 							return true;
 						}
 						
 						for(Team team : teams){
-							if((InventoryRegister.nombretaupes.getValue() == 1 && team.getEntries().size() == 2) || InventoryRegister.nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
-								p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", InventoryRegister.language.getSelectedLanguage(), true));
+							if((this.main.getInventoryRegister().nombretaupes.getValue() == 1 && team.getEntries().size() == 2) || this.main.getInventoryRegister().nombretaupes.getValue() == 2 && team.getEntries().size() < 4){
+								p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", true));
 								return true;
 							}
 							boolean online = false;
@@ -76,18 +76,18 @@ public class StartCommand implements CommandExecutor{
 										online = true;
 								}
 								if(!online){
-									p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", InventoryRegister.language.getSelectedLanguage(), true));
+									p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", true));
 									return true;
 								}
 							}
 						}
 						
-						TeamGraph graph = new TeamGraph();
+						TeamGraph graph = new TeamGraph(this.main);
 						
 						Random r = new Random();
 						for(Team team : teams){
 							ArrayList<PlayerTaupe> listTaupes = new ArrayList<PlayerTaupe>();
-							if(team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && InventoryRegister.nombretaupes.getValue() == 1)) {
+							if(team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getInventoryRegister().nombretaupes.getValue() == 1)) {
 								ArrayList<PlayerTaupe> playerList = new ArrayList<>();
 								for(OfflinePlayer player : team.getPlayers()){
 									playerList.add(PlayerTaupe.getPlayerManager(player.getUniqueId()));
@@ -95,7 +95,7 @@ public class StartCommand implements CommandExecutor{
 								listTaupes.add(playerList.get(r.nextInt(team.getSize())));
 								graph.addEquipes(listTaupes);
 								
-							}else if(team.getSize() > 3 && InventoryRegister.nombretaupes.getValue() == 2) {
+							}else if(team.getSize() > 3 && this.main.getInventoryRegister().nombretaupes.getValue() == 2) {
 								ArrayList<PlayerTaupe> playerList = new ArrayList<>();
 								for(OfflinePlayer player : team.getPlayers()){
 									playerList.add(PlayerTaupe.getPlayerManager(player.getUniqueId()));
@@ -111,7 +111,7 @@ public class StartCommand implements CommandExecutor{
 						}
 						boolean resultat = graph.creationEquipes();
 						if(!resultat) {
-							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", InventoryRegister.language.getSelectedLanguage(), true));
+							p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", true));
 							TeamCustom.deleteTeamTaupe();
 							for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 								pl.setTaupeTeam(null);
@@ -120,9 +120,10 @@ public class StartCommand implements CommandExecutor{
 							return true;
 						}
 						
-						p.sendMessage(ChatColor.BLUE+LanguageBuilder.getContent("START_COMMAND", "gameCanStart", InventoryRegister.language.getSelectedLanguage(), true));
+						p.sendMessage(ChatColor.BLUE+LanguageBuilder.getContent("START_COMMAND", "gameCanStart", true));
 						EnumGameState.setState(EnumGameState.WAIT);
 						Bukkit.getScheduler().runTaskTimer(TaupeGun.getInstance(), new Runnable(){
+
 							@Override
 							public void run(){
 								String title = "";
@@ -150,11 +151,11 @@ public class StartCommand implements CommandExecutor{
 									case 0:
 										Bukkit.getScheduler().cancelAllTasks();
 
-										main.getGameManager().startCooldown();
+										main.getGameManager().startGame();
 
 										sound = Sound.ENDERDRAGON_GROWL;
 
-										title = ChatColor.DARK_GREEN + LanguageBuilder.getContent("START_COMMAND", "gameIsStarting", InventoryRegister.language.getSelectedLanguage(), true);
+										title = ChatColor.DARK_GREEN + LanguageBuilder.getContent("START_COMMAND", "gameIsStarting", true);
 										break;
 								}
 
@@ -167,7 +168,7 @@ public class StartCommand implements CommandExecutor{
 							}
 						},20,20);
 					}else {
-						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameAlreadyStarted", InventoryRegister.language.getSelectedLanguage(), true));
+						p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameAlreadyStarted", true));
 					}
 				}else {
 					MessagesClass.CannotCommandOperatorMessage(p);

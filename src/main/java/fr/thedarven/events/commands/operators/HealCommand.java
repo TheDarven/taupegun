@@ -1,5 +1,6 @@
 package fr.thedarven.events.commands.operators;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +15,12 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 
 public class HealCommand implements CommandExecutor{
+
+	private TaupeGun main;
+
+	public HealCommand(TaupeGun main) {
+		this.main = main;
+	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
@@ -23,7 +30,7 @@ public class HealCommand implements CommandExecutor{
 					for(Player player : Bukkit.getOnlinePlayers()) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 20, 100, true, false));
 					}
-					Bukkit.broadcastMessage("§6[TaupeGun] §a"+LanguageBuilder.getContent("COMMAND", "heal", InventoryRegister.language.getSelectedLanguage(), true));
+					Bukkit.broadcastMessage("§6[TaupeGun] §a"+LanguageBuilder.getContent("COMMAND", "heal",true));
 				}else {
 					MessagesClass.CannotCommandOperatorMessage(p);
 				}

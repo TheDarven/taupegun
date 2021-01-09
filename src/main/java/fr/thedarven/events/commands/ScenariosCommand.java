@@ -8,7 +8,8 @@ import org.bukkit.entity.Player;
 import fr.thedarven.utils.UtilsClass;
 
 public class ScenariosCommand implements CommandExecutor{
-	
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
 			Player p = (Player) sender;

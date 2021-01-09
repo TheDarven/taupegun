@@ -1,5 +1,6 @@
 package fr.thedarven.events.commands.operators;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +12,14 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 
 public class GCommand implements CommandExecutor{
-	
+
+	private TaupeGun main;
+
+	public GCommand(TaupeGun main){
+		this.main = main;
+	}
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
 			Player p = (Player) sender;
@@ -22,7 +30,7 @@ public class GCommand implements CommandExecutor{
 						for(int i=0; i<args.length; i++){
 							message = message+args[i]+" ";
 						}
-						String infoMessage = LanguageBuilder.getContent("CONTENT", "info", InventoryRegister.language.getSelectedLanguage(), true);
+						String infoMessage = LanguageBuilder.getContent("CONTENT", "info", true);
 						Bukkit.broadcastMessage("§e"+infoMessage+"§a"+message);	
 					}
 				}else{

@@ -66,7 +66,7 @@ public class ReviveCommand implements CommandExecutor{
 												
 												Map<String, String> params = new HashMap<String, String>();
 												params.put("playerName", pc.getName());
-												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "revive", InventoryRegister.language.getSelectedLanguage(), true), params);
+												String reviveMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "revive", true), params);
 																					
 												Bukkit.broadcastMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.WHITE+" "+reviveMessage);
 												return true;
@@ -80,7 +80,7 @@ public class ReviveCommand implements CommandExecutor{
 							}
 						}
 					}else{
-						p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" "+LanguageBuilder.getContent("COMMAND", "cannotRevive", InventoryRegister.language.getSelectedLanguage(), true));
+						p.sendMessage(ChatColor.GREEN+"[TaupeGun]"+ChatColor.RED+" "+LanguageBuilder.getContent("COMMAND", "cannotRevive", true));
 					}
 				}else {
 					MessagesClass.CannotCommandOperatorMessage(p);

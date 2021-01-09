@@ -15,8 +15,8 @@ public class CommandManager extends Manager {
     public void loadCommands(){
         // Operator's commands
         main.getCommand("revive").setExecutor(new ReviveCommand(this.main));
-        main.getCommand("heal").setExecutor(new HealCommand());
-        main.getCommand("g").setExecutor(new GCommand());
+        main.getCommand("heal").setExecutor(new HealCommand(this.main));
+        main.getCommand("g").setExecutor(new GCommand(this.main));
         main.getCommand("say").setExecutor(new SayCommand());
         main.getCommand("playerkill").setExecutor(new PlayerkillCommand(this.main));
         main.getCommand("timer").setExecutor(new TimerCommand(this.main));
@@ -25,12 +25,12 @@ public class CommandManager extends Manager {
         main.getCommand("start").setExecutor(new StartCommand(this.main));
 
         // User's commands
-        main.getCommand("players").setExecutor(new PlayersCommand());
-        main.getCommand("taupelist").setExecutor(new TaupelistCommand());
-        main.getCommand("item").setExecutor(new ItemCommand());
+        main.getCommand("players").setExecutor(new PlayersCommand(this.main));
+        main.getCommand("taupelist").setExecutor(new TaupelistCommand(this.main));
+        main.getCommand("item").setExecutor(new ItemCommand(this.main));
 
         // Mole's commands
-        main.getCommand("claim").setExecutor(new ClaimCommand());
+        main.getCommand("claim").setExecutor(new ClaimCommand(this.main));
         main.getCommand("reveal").setExecutor(new RevealCommand(this.main));
         main.getCommand("t").setExecutor(new TCommand());
 

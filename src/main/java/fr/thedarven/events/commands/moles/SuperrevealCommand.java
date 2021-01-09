@@ -27,7 +27,7 @@ public class SuperrevealCommand extends GenericRevealCommand{
 			return true;
 
 		if(!pc.isReveal()){
-			p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", InventoryRegister.language.getSelectedLanguage(), true));
+			p.sendMessage(ChatColor.RED+LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", true));
 			return true;
 		}
 

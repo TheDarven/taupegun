@@ -1,5 +1,6 @@
 package fr.thedarven.events.commands.moles;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +14,14 @@ import fr.thedarven.main.metier.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
 
 public class ClaimCommand implements CommandExecutor{
-	
+
+	private TaupeGun main;
+
+	public ClaimCommand(TaupeGun main) {
+		this.main = main;
+	}
+
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
 		if(sender instanceof Player){
 			Player p = (Player) sender;
@@ -21,7 +29,7 @@ public class ClaimCommand implements CommandExecutor{
 			if(UtilsClass.molesEnabled() && pc.isTaupe() && pc.isAlive()){
 				if(cmd.getName().equalsIgnoreCase("claim")) {
 					if(!pc.getClaimTaupe().equals("aucun")){
-						for(InventoryGUI inv : InventoryRegister.kits.getChildsValue()) {
+						for(InventoryGUI inv : this.main.getInventoryRegister().kits.getChildsValue()) {
 							if(inv.getName().equals(pc.getClaimTaupe())) {
 								Inventory inventaire = inv.getInventory();
 								for(int i=0; i<9; i++) {
