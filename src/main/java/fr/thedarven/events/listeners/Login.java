@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.main.metier.EnumGameState;
@@ -39,19 +38,20 @@ public class Login implements Listener {
 		
 		e.setJoinMessage(ChatColor.DARK_GRAY+"("+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			InventoryPlayers.reloadInventories();
-			if(this.main.development) {
+			if (this.main.development) {
 				Title.title(p, 
-					ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", InventoryRegister.language.getSelectedLanguage(), true),
-					LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", InventoryRegister.language.getSelectedLanguage(), true), 
+					ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
+					LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
 					40
 				);
 			}
-		}else if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
-			if(!InventoryRegister.coordonneesvisibles.getValue())
+		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
+			if (!this.main.getInventoryRegister().coordonneesvisibles.getValue())
 				DisableF3.disableF3(p);
-			if(!pl.isAlive() || pl.getTeam() == null) {
+
+			if (!pl.isAlive() || pl.getTeam() == null) {
 				p.setGameMode(GameMode.SPECTATOR);
 				p.teleport(new Location(UtilsClass.getWorld(),0,200,0));
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
@@ -67,7 +67,7 @@ public class Login implements Listener {
 		Player player = e.getPlayer();
 		e.setQuitMessage(ChatColor.DARK_GRAY+"("+ChatColor.RED+"-"+ChatColor.DARK_GRAY+") "+ChatColor.GRAY+e.getPlayer().getName());
 		
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			new BukkitRunnable(){
 				@Override
 				public void run() {
@@ -75,17 +75,17 @@ public class Login implements Listener {
 					this.cancel();
 				}
 			}.runTaskTimer(this.main,0, 20);
-		}else if(EnumGameState.isCurrentState(EnumGameState.WAIT)){
+		} else if (EnumGameState.isCurrentState(EnumGameState.WAIT)){
 			Bukkit.getScheduler().cancelAllTasks();
 			this.main.getGameManager().setCooldownTimer(10);
 			EnumGameState.setState(EnumGameState.LOBBY);
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.playSound(p.getLocation(), Sound.WITHER_HURT , 1, 1);
-				Title.title(p, ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", InventoryRegister.language.getSelectedLanguage(), true), "", 10);
+				Title.title(p, ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", true), "", 10);
             }
 			
-			for(PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+			for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 				pl.setTaupeTeam(null);
 				pl.setSuperTaupeTeam(null);
 			}
@@ -100,10 +100,10 @@ public class Login implements Listener {
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		
 		MessagesClass.TabMessage(p);
-		TaupeGun.scoreboardManager.onLogin(p);
+		this.main.getScoreboardManager().onLogin(p);
 		this.main.getDatabaseManager().updatePlayerLast(p);
 		
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY))
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			ScenariosItemInteract.actionBeacon(p);
 		
 		pl.setCustomName(p.getName());
@@ -111,7 +111,7 @@ public class Login implements Listener {
 	}
 	
 	public void leaveAction(Player p) {
-		TaupeGun.scoreboardManager.onLogout(p);
+		this.main.getScoreboardManager().onLogout(p);
 		this.main.getDatabaseManager().updatePlayerTimePlayed(p);
 		this.main.getDatabaseManager().updatePlayerLast(p);
 		

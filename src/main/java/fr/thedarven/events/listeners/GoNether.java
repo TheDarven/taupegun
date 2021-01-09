@@ -35,7 +35,7 @@ public class GoNether implements Listener {
 	
 	@EventHandler
 	public void onPortalTeleport(PlayerPortalEvent e){
-		if(this.main.getGameManager().getTimer() > InventoryRegister.murtime.getValue() * 60 || e.getCause().equals(TeleportCause.END_PORTAL))
+		if(this.main.getGameManager().getTimer() > this.main.getInventoryRegister().murtime.getValue() || e.getCause().equals(TeleportCause.END_PORTAL))
 			e.setCancelled(true);
 	}
 }

@@ -47,7 +47,7 @@ public class Damage implements Listener {
 				for(PotionEffect potion : ((Player) entityEvent.getDamager()).getActivePotionEffects()) {		
 					if(potion.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
 						double originalDamages = e.getDamage()/(1+(1+potion.getAmplifier())*1.3);
-						e.setDamage(originalDamages+originalDamages*((1+potion.getAmplifier())*(InventoryRegister.strengthPourcentage.getValue()/100)));
+						e.setDamage(originalDamages + originalDamages * (1 + potion.getAmplifier() * this.main.getInventoryRegister().strengthPourcentage.getValue()));
 					}
 				}
 			}
@@ -58,7 +58,7 @@ public class Damage implements Listener {
 					saveDamageStats((Player) entityEvent.getDamager(), victim, e.getDamage(), false);
 				}else if(entityEvent.getDamager() instanceof Arrow && ((Arrow) entityEvent.getDamager()).getShooter() instanceof Player) {
 					saveDamageStats((Player) ((Arrow) entityEvent.getDamager()).getShooter(), victim, e.getDamage(), true);
-				}else if(entityEvent.getDamager() instanceof Creeper && e.getDamage() >= victim.getHealth() && !InventoryRegister.creeperDeath.getValue()) {
+				}else if(entityEvent.getDamager() instanceof Creeper && e.getDamage() >= victim.getHealth() && !this.main.getInventoryRegister().creeperDeath.getValue()) {
 					e.setCancelled(true);
 				}
 			}

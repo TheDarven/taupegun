@@ -42,7 +42,7 @@ public class Death implements Listener {
 		
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("playerName", "§6"+victim.getName()+"§r");
-		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", InventoryRegister.language.getSelectedLanguage(), true), params);
+		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
 		
 		e.setDeathMessage(deathAllMessage);
 		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
@@ -68,7 +68,7 @@ public class Death implements Listener {
 		if(showMessage) {
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("playerName", "§6"+pl.getName()+"§r");
-			String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
 			
 			Bukkit.broadcastMessage(deathAllMessage);
 		}
@@ -84,7 +84,7 @@ public class Death implements Listener {
 			if(UtilsClass.molesEnabled() && pl.isOnline()){
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("playerName", pl.getName());
-				String headName = "§6"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String headName = "§6"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
 				
 				ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
 				SkullMeta teteM = (SkullMeta) tete.getItemMeta();
@@ -99,8 +99,8 @@ public class Death implements Listener {
 			if(p != null){
 				p.getPlayer().setGameMode(GameMode.SPECTATOR);
 				p.getPlayer().teleport(new Location(UtilsClass.getWorld(),0,200,0));
-				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", InventoryRegister.language.getSelectedLanguage(), true));
-				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", InventoryRegister.language.getSelectedLanguage(), true));
+				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+				p.getPlayer().sendMessage("§c"+LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
 			}
 			
 			this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);

@@ -34,10 +34,10 @@ import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InvSee implements Listener {
 
-	private TaupeGun plugin;
+	private TaupeGun main;
 	
 	public InvSee(TaupeGun pl) {
-		this.plugin = pl;
+		this.main = pl;
 	}
 	
 	@EventHandler
@@ -62,7 +62,7 @@ public class InvSee implements Listener {
 						this.cancel();
 					}	
 				}
-			}.runTaskTimer(plugin,20,1);
+			}.runTaskTimer(main,20,1);
 		}
 	}
 	
@@ -75,14 +75,14 @@ public class InvSee implements Listener {
 	private void openPlayerInventory(final UUID viewedUuid, final UUID spectatorUuid) {
 		Player viewedPlayer = Bukkit.getPlayer(viewedUuid);
 		Player spectatorPlayer = Bukkit.getPlayer(spectatorUuid);
-		
+
 		if(viewedPlayer != null && spectatorPlayer != null) {
 			PlayerTaupe viewedPlayerTaupe = PlayerTaupe.getPlayerManager(viewedUuid);
 			PlayerTaupe spectatorPlayerTaupe = PlayerTaupe.getPlayerManager(spectatorUuid);
 			
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("playerName", viewedPlayer.getName());
-			String inventoryTitle = TextInterpreter.textInterpretation("§3"+LanguageBuilder.getContent("INVSEE", "inventoryTitle", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String inventoryTitle = TextInterpreter.textInterpretation("§3"+LanguageBuilder.getContent("INVSEE", "inventoryTitle", true), params);
 			
 			Inventory inv = Bukkit.createInventory(null, 45, inventoryTitle);
 			ItemStack item = viewedPlayer.getInventory().getHelmet();
@@ -105,7 +105,7 @@ public class InvSee implements Listener {
 			// LEVEL
 			params.clear();
 			params.put("level", "§a"+viewedPlayer.getLevel()+"§6");
-			String levelMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "level", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String levelMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "level", true), params);
 			
 			ItemStack exp = new ItemStack(Material.EXP_BOTTLE, viewedPlayer.getLevel());
 			ItemMeta expM = exp.getItemMeta();
@@ -115,7 +115,7 @@ public class InvSee implements Listener {
 			
 			
 			// EFEFCT
-			String effectMessage = "§6"+LanguageBuilder.getContent("INVSEE", "level", InventoryRegister.language.getSelectedLanguage(), true);
+			String effectMessage = "§6"+LanguageBuilder.getContent("INVSEE", "level", true);
 			
 			List<String> lores = new ArrayList<String>();
 			for(PotionEffect effect : viewedPlayer.getActivePotionEffects()) {
@@ -137,7 +137,7 @@ public class InvSee implements Listener {
 			params.put("heartMax", viewedPlayer.getMaxHealth()+"");
 			params.put("valueColor", "§c");
 			params.put("endValueColor", "§6");
-			String heartMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "heart", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String heartMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "heart", true), params);
 			
 			ItemStack vie = new ItemStack(Material.GOLDEN_APPLE, (int)viewedPlayer.getHealth());
 			ItemMeta vieM = vie.getItemMeta();
@@ -151,18 +151,18 @@ public class InvSee implements Listener {
 				params.clear();
 				params.put("valueColor", "§r§k");
 				params.put("endValueColor", "§r§e");
-				String unknownMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String unknownMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownMole", true), params);
 				lores.add(unknownMoleMessage);
 			}else if(viewedPlayerTaupe.isTaupe()) {
 				params.clear();
 				params.put("teamName", "§r"+viewedPlayerTaupe.getTaupeTeam().getTeam().getName()+"§e");
-				String moleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "mole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String moleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "mole", true), params);
 				lores.add(moleMessage);
 			}else {
 				params.clear();
 				params.put("valueColor", "§r");
 				params.put("endValueColor", "§e");
-				String notMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "notMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String notMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "notMole", true), params);
 				lores.add(notMoleMessage);
 			}
 			
@@ -171,23 +171,23 @@ public class InvSee implements Listener {
 				params.clear();
 				params.put("valueColor", "§r§k");
 				params.put("endValueColor", "§r§e");
-				String unknownSuperMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownSuperMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String unknownSuperMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "unknownSuperMole", true), params);
 				lores.add(unknownSuperMoleMessage);
 			}else if(viewedPlayerTaupe.isSuperTaupe()) {
 				params.clear();
 				params.put("teamName", "§r"+viewedPlayerTaupe.getSuperTaupeTeam().getTeam().getName()+"§e");
-				String superMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "superMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String superMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "superMole", true), params);
 				lores.add(superMoleMessage);
 			}else {
 				params.clear();
 				params.put("valueColor", "§r");
 				params.put("endValueColor", "§e");
-				String notSuperMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "notSuperMole", InventoryRegister.language.getSelectedLanguage(), true), params);
+				String notSuperMoleMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("INVSEE", "notSuperMole", true), params);
 				lores.add(notSuperMoleMessage);
 			}
 			
 			// INFORMATION
-			String informationMessage = "§6"+LanguageBuilder.getContent("INVSEE", "information", InventoryRegister.language.getSelectedLanguage(), true);
+			String informationMessage = "§6"+LanguageBuilder.getContent("INVSEE", "information", true);
 			
 			ItemStack paper = new ItemStack(Material.PAPER, 1);
 			ItemMeta paperM = paper.getItemMeta();
@@ -199,7 +199,7 @@ public class InvSee implements Listener {
 			// KILL
 			params.clear();
 			params.put("kill", "§e"+viewedPlayerTaupe.getKill()+"§6");
-			String killMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "kill", InventoryRegister.language.getSelectedLanguage(), true), params);
+			String killMessage = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("INVSEE", "kill", true), params);
 			
 			Title.sendActionBar(spectatorPlayer, killMessage);
 			spectatorPlayer.openInventory(inv);

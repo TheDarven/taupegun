@@ -1,5 +1,6 @@
 package fr.thedarven.events.listeners;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,8 +18,8 @@ import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class ScenariosItemInteract implements Listener{
-
-	public ScenariosItemInteract() {}
+	
+	public ScenariosItemInteract() { }
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
@@ -101,6 +102,6 @@ public class ScenariosItemInteract implements Listener{
 	}
 	
 	public static String getFormattedScenariosItemName() {
-		return "§e"+LanguageBuilder.getContent("ITEM", "configuration", InventoryRegister.language.getSelectedLanguage(), true);
+		return "§e"+LanguageBuilder.getContent("ITEM", "configuration", true);
 	}
 }

@@ -23,7 +23,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.teams.InventoryPlayers;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
 import fr.thedarven.TaupeGun;
@@ -37,10 +36,10 @@ import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryTeamInteract implements Listener {
 
-	private TaupeGun plugin;
+	private TaupeGun main;
 	
 	public InventoryTeamInteract(TaupeGun pl) {
-		this.plugin = pl;
+		this.main = pl;
 	}
 
 	@EventHandler
@@ -50,25 +49,25 @@ public class InventoryTeamInteract implements Listener {
 			PlayerTaupe tPlayer = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			ItemStack playerItem = p.getItemInHand();
 			
-			String teamChoiceItem = "§e"+LanguageBuilder.getContent("MENU_CONFIGURATION_OTHER_TEAM", "teamChoice", InventoryRegister.language.getSelectedLanguage(), true);
+			String teamChoiceItem = "§e"+LanguageBuilder.getContent("MENU_CONFIGURATION_OTHER_TEAM", "teamChoice", true);
 			
-			if(playerItem != null && playerItem.getType().equals(Material.BANNER) && playerItem.getItemMeta().getDisplayName().equals(teamChoiceItem)) {
-				if(EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+			if (playerItem != null && playerItem.getType().equals(Material.BANNER) && playerItem.getItemMeta().getDisplayName().equals(teamChoiceItem)) {
+				if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 					openTeamsInventory(p, tPlayer);
 					new BukkitRunnable(){
 						@Override
 						public void run() {
 							/* p.getOpenInventory().getTitle().equals("§7Menu des équipes") */
-							if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && InventoryRegister.ownteam.getValue()){
+							if (p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getInventoryRegister().ownteam.getValue()){
 								openTeamsInventory(p, tPlayer);
-							}else {
-								if(p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM)/* p.getOpenInventory() != null && p.getOpenInventory().getTitle().equals("§7Menu des équipes") */)
+							} else {
+								if (p.isOnline() && tPlayer.getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM))
 									p.closeInventory();
 								tPlayer.getOpennedInventory().setInventory(null, EnumInventory.NOONE);
 								this.cancel();
 							}
 						}
-					}.runTaskTimer(plugin,0,20);	
+					}.runTaskTimer(this.main,0,20);
 				}
 				e.setCancelled(true);
 			}
@@ -76,7 +75,7 @@ public class InventoryTeamInteract implements Listener {
 	}
 	
 	public static void openTeamsInventory(Player p, PlayerTaupe tPlayer) {
-		String teamChoiceTitle = "§7"+LanguageBuilder.getContent("TEAM", "teamChoiceTitle", InventoryRegister.language.getSelectedLanguage(), true);
+		String teamChoiceTitle = "§7"+LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);
 		
 		Inventory menuEquipe = Bukkit.createInventory(null, 45, teamChoiceTitle);
 		TeamCustom curentCustomTeam = PlayerTaupe.getPlayerManager(p.getUniqueId()).getTeam();
@@ -94,7 +93,7 @@ public class InventoryTeamInteract implements Listener {
 			
 			List<String> itemLore = new ArrayList<String>();
 			if(team.getEntries().size() == 0) {
-				String emptyMessage = "§e"+LanguageBuilder.getContent("TEAM", "empty", InventoryRegister.language.getSelectedLanguage(), true);
+				String emptyMessage = "§e"+LanguageBuilder.getContent("TEAM", "empty", true);
 				itemLore.add(emptyMessage);
 			}
 			else {
@@ -109,7 +108,7 @@ public class InventoryTeamInteract implements Listener {
 		}
 		
 		if(curentCustomTeam != null) {
-			String emptyMessage = "§4"+LanguageBuilder.getContent("TEAM", "leave", InventoryRegister.language.getSelectedLanguage(), true);
+			String emptyMessage = "§4"+LanguageBuilder.getContent("TEAM", "leave", true);
 			
 			ItemStack item = new ItemStack(Material.BARRIER, 1);
 			ItemMeta itemM = item.getItemMeta();
@@ -126,11 +125,6 @@ public class InventoryTeamInteract implements Listener {
 	public void inventoryDrag(InventoryDragEvent e) {
 		if(EnumGameState.isCurrentState(EnumGameState.LOBBY) && e.getWhoClicked() instanceof Player) {
 			Player p = (Player) e.getWhoClicked();
-			/* if(p.getOpenInventory().getTopInventory() != null) {
-				Inventory clickInv = e.getInventory();
-				if(clickInv.getTitle().equals("§7Menu des équipes"))
-					e.setCancelled(true);
-			} */
 			if(PlayerTaupe.getPlayerManager(p.getUniqueId()).getOpennedInventory().checkInventory(p.getOpenInventory().getTopInventory(), EnumInventory.TEAM))
 				e.setCancelled(true);
 		}
@@ -161,26 +155,26 @@ public class InventoryTeamInteract implements Listener {
 						
 						Map<String, String> params = new HashMap<String, String>();
 						params.put("teamName", playerTeam.getTeam().getPrefix()+playerTeam.getTeam().getName()+"§3");
-						String isLeavingMessage = TextInterpreter.textInterpretation("§l§3"+LanguageBuilder.getContent("TEAM", "isLeaving", InventoryRegister.language.getSelectedLanguage(), true), params);
+						String isLeavingMessage = TextInterpreter.textInterpretation("§l§3"+LanguageBuilder.getContent("TEAM", "isLeaving", true), params);
 						p.sendMessage(isLeavingMessage);
 					}
-					InventoryRegister.teams.reloadInventory();
+					this.main.getInventoryRegister().teams.reloadInventory();
 					for(InventoryTeamsElement inv : InventoryTeamsElement.getInventoryTeamsElement())
 						inv.reloadInventory();
 					InventoryPlayers.reloadInventories();
 				}else if(clickItem.getType().equals(Material.BANNER)) {
 					String teamName = clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[')-1);
 					if(playerTeam == null || !playerTeam.getTeam().getName().equals(teamName)) {
-						TeamCustom teamCustom = TeamCustom.getTeamCustom(teamName);
+						TeamCustom teamCustom = TeamCustom.getTeamCustomByName(teamName);
 						teamCustom.joinTeam(p.getUniqueId());
 						openTeamsInventory(p, tPlayer);
 						if(teamCustom != null) {
 							Map<String, String> params = new HashMap<String, String>();
 							params.put("teamName", teamCustom.getTeam().getPrefix()+teamName+"§3");
-							String isJoiningMessage = TextInterpreter.textInterpretation("§l§3"+LanguageBuilder.getContent("TEAM", "isJoining", InventoryRegister.language.getSelectedLanguage(), true), params);
+							String isJoiningMessage = TextInterpreter.textInterpretation("§l§3"+LanguageBuilder.getContent("TEAM", "isJoining", true), params);
 							p.sendMessage(isJoiningMessage);
 						}
-						InventoryRegister.teams.reloadInventory();
+						this.main.getInventoryRegister().teams.reloadInventory();
 						for(InventoryTeamsElement inv : InventoryTeamsElement.getInventoryTeamsElement())
 							inv.reloadInventory();
 						InventoryPlayers.reloadInventories();

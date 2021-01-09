@@ -1,5 +1,6 @@
 package fr.thedarven.events.listeners;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +17,11 @@ import fr.thedarven.utils.messages.MessagesClass;
 @SuppressWarnings("deprecation")
 public class Tchat implements Listener {
 
-	public Tchat() {}
+	private TaupeGun main;
+
+	public Tchat(TaupeGun main) {
+		this.main = main;
+	}
 	
 	@EventHandler
 	public void writeTchat(PlayerChatEvent e){
@@ -27,8 +32,9 @@ public class Tchat implements Listener {
 			Bukkit.broadcastMessage("§7"+getTeamColor(pl)+p.getName()+": §r"+e.getMessage());	
 		}else if(EnumGameState.isCurrentState(EnumGameState.GAME)){
 			e.setCancelled(true);
+
 			if(pl.isAlive()) {
-				if(InventoryRegister.tchatequipe.getValue()) {
+				if(this.main.getInventoryRegister().tchatequipe.getValue()) {
 					if(e.getMessage().startsWith("!") || e.getMessage().startsWith("*")) 
 						Bukkit.broadcastMessage(getTeamColor(pl)+p.getName()+": §7"+e.getMessage().substring(1));
 					else {
@@ -37,7 +43,7 @@ public class Tchat implements Listener {
 						else if(pl.isSuperTaupe() && pl.getTaupeTeam() == pl.getSuperTaupeTeam())
 							MessagesClass.CommandSupertaupeMessageMessage(p, e.getMessage().split(" "), pl.getTeam());
 						else {
-							String teamMessage = "§e"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", InventoryRegister.language.getSelectedLanguage(), true)+"§7"+p.getName()+": "+e.getMessage();
+							String teamMessage = "§e"+LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true)+"§7"+p.getName()+": "+e.getMessage();
 							for(PlayerTaupe pl1 : PlayerTaupe.getAllPlayerManager()) {
 								if(pl1.getTeam() == pl.getTeam() && pl1.isOnline()) {
 									pl1.getPlayer().sendMessage(teamMessage);
@@ -48,7 +54,7 @@ public class Tchat implements Listener {
 				}else 
 					Bukkit.broadcastMessage(getTeamColor(pl)+p.getName()+": §7"+e.getMessage());
 			}else {
-				String spectatorMessage = "§7"+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", InventoryRegister.language.getSelectedLanguage(), true)+p.getName()+": "+e.getMessage();
+				String spectatorMessage = "§7"+LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", true)+p.getName()+": "+e.getMessage();
 				for(PlayerTaupe pl1 : PlayerTaupe.getAllPlayerManager()) {
 					if(!pl1.isAlive() && pl1.isOnline())
 						pl1.getPlayer().sendMessage(spectatorMessage);
@@ -66,7 +72,7 @@ public class Tchat implements Listener {
 				e.setCancelled(true);
 			}else if((e.getMessage().startsWith("/tell") || e.getMessage().startsWith("/msg")) && !pl.isAlive()) {
 				e.setCancelled(true);
-				String cannotPrivateMessage = "§a[TaupeGun]§c "+LanguageBuilder.getContent("EVENT_TCHAT", "cannotPrivateMessage", InventoryRegister.language.getSelectedLanguage(), true);
+				String cannotPrivateMessage = "§a[TaupeGun]§c "+LanguageBuilder.getContent("EVENT_TCHAT", "cannotPrivateMessage", true);
 				p.sendMessage(cannotPrivateMessage);
 			}
 		}
