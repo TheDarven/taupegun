@@ -1,8 +1,8 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -42,12 +42,12 @@ public class EndGameRunnable extends BukkitRunnable {
                 f.detonate();
             }
         }
-        if(timer == 0){
+        if (timer == 0) {
             endGameMessage();
-            Bukkit.getScheduler().cancelAllTasks();
+            this.cancel();
             EnumGameState.setState(EnumGameState.END);
             timer = 11;
-        }else{
+        } else {
             timer --;
         }
     }

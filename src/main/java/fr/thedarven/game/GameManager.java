@@ -3,17 +3,20 @@ package fr.thedarven.game;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 import org.bukkit.Bukkit;
 
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.statsgame.RestGame;
+
+import java.util.Objects;
 
 public class GameManager extends Manager {
 
 	private int timer = 0;
 	private int cooldownTimer = 0;
+	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
 		super(main);
@@ -41,11 +44,14 @@ public class GameManager extends Manager {
 
 	public void startGame() {
 		EnumGameState.setState(EnumGameState.GAME);
-		Bukkit.getScheduler().runTaskTimer(this.main, new GameRunnable(this.main, this),20,20);
+		this.gameRunnable = new GameRunnable(this.main, this);
+		gameRunnable.runTaskTimer(this.main,20,20);
 	}
 
 	public void endGame() {
-		Bukkit.getScheduler().cancelAllTasks();
+		if (!Objects.isNull(this.gameRunnable)) {
+			this.gameRunnable.cancel();
+		}
 		main.getDatabaseManager().updateGameDuration();
 
 		RestGame.endGames();
