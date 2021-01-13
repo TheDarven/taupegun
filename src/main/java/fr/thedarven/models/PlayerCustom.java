@@ -18,7 +18,7 @@ public abstract class PlayerCustom {
 	private int minedIron;
 	private int minedGold;
 	
-	private int throwedArrow;
+	private int threwArrow;
 	private int usedSword;
 	private double bowForceCounter;
 	private double inflictedArrowDamage;
@@ -41,7 +41,7 @@ public abstract class PlayerCustom {
 		minedIron = 0;
 		minedGold = 0;
 		
-		throwedArrow = 0;
+		threwArrow = 0;
 		usedSword = 0;
 		bowForceCounter = 0;
 		inflictedArrowDamage = 0;
@@ -119,8 +119,8 @@ public abstract class PlayerCustom {
 	}
 
 
-	public int getThrowedArrow() {
-		return throwedArrow;
+	public int getThrewArrow() {
+		return threwArrow;
 	}
 
 
@@ -192,7 +192,7 @@ public abstract class PlayerCustom {
 
 
 	public void addThrowedArrow(int throwedArrow) {
-		this.throwedArrow += throwedArrow;
+		this.threwArrow += throwedArrow;
 	}
 
 

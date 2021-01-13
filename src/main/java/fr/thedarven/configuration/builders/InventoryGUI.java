@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.thedarven.configuration.builders.languages.InventoryLanguage;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
@@ -343,8 +343,8 @@ public class InventoryGUI extends InventoryBuilder{
 			Player p = (Player) e.getWhoClicked();
 			e.setCancelled(true);
 			
-			if (click(p, EnumConfiguration.INVENTAIRE) && !e.getCurrentItem().getType().equals(Material.AIR)) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(p, EnumConfiguration.INVENTORY) && !e.getCurrentItem().getType().equals(Material.AIR)) {
+				if (e.getCurrentItem().getType() == Material.REDSTONE && e.getRawSlot() == this.getLines() * 9 - 1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
 					p.openInventory(this.getParent().getInventory());
 					return;
 				}

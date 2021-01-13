@@ -13,8 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumConfiguration;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
@@ -312,11 +312,8 @@ public abstract class InventoryBuilder implements Listener {
 		// all --> lobby non
 		//     --> pas lobby INVENTAIRE
 		
-		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTAIRE))) {
+		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTORY))) {
 			return true;
-		} else if (!p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTAIRE) && TaupeGun.getInstance().getInventoryRegister().scenariosvisibles.getValue()) {
-			return true;
-		}
-		return false;
+		} else return !p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTORY) && TaupeGun.getInstance().getInventoryRegister().scenariosvisibles.getValue();
 	}
 }

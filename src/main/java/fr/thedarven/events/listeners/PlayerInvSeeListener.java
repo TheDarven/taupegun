@@ -2,7 +2,7 @@ package fr.thedarven.events.listeners;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.InvSeeRunnable;
-import fr.thedarven.models.EnumInventory;
+import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class PlayerInvSeeListener implements Listener {
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent e) {
 		if (e.getPlayer() instanceof Player) {
-			PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpennedInventory().setInventory(null, EnumInventory.NOONE);
+			PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpennedInventory().setInventory(null, EnumInventory.NONE);
 		}
 	}
 }

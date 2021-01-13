@@ -1,7 +1,7 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.Bukkit;
@@ -24,10 +24,10 @@ public class EndGameRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(PlayerTaupe.getPlayerManager(player.getUniqueId()).isAlive()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isAlive()) {
                 Firework f = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
-                FireworkMeta fM = ((Firework) f).getFireworkMeta();
+                FireworkMeta fM = f.getFireworkMeta();
                 FireworkEffect effect = FireworkEffect.builder()
                         .flicker(true)
                         .withColor(Color.GREEN)
@@ -54,7 +54,7 @@ public class EndGameRunnable extends BukkitRunnable {
 
     private void endGameMessage() {
         MessagesClass.FinalTaupeAnnonceMessage();
-        if(this.main.getInventoryRegister().supertaupes.getValue()) {
+        if (this.main.getInventoryRegister().supertaupes.getValue()) {
             MessagesClass.FinalSuperTaupeAnnonceMessage();
         }
         MessagesClass.FinalKillAnnonceMessage();

@@ -145,7 +145,7 @@ public class RestGame {
 					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.MINED_IRON, pt.getMinedIron()));
 					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.MINED_GOLD, pt.getMinedGold()));
 					
-					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.THROWED_ARROW, pt.getThrowedArrow()));
+					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.THROWED_ARROW, pt.getThrewArrow()));
 					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.USED_SWORD, pt.getUsedSword()));
 					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.BOW_FORCE_COUNTER, pt.getBowForceCounter()));
 					addPlayerStat(new RestPlayerStat(pt.getUuid(), EnumRestStatType.INFLICTED_ARROW_DAMAGE, pt.getInflictedArrowDamage()));

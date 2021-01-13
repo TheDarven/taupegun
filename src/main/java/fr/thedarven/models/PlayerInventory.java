@@ -1,16 +1,17 @@
 package fr.thedarven.models;
 
+import fr.thedarven.models.enums.EnumInventory;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Objects;
 
-public class InventoryManager {
+public class PlayerInventory {
 	
 	private EnumInventory type;
 	private Inventory inventory;
 	
-	public InventoryManager() {
-		this.type = EnumInventory.NOONE;
+	public PlayerInventory() {
+		this.type = EnumInventory.NONE;
 		this.inventory = null;
 	}
 	

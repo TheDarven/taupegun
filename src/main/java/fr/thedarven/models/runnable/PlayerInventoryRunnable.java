@@ -1,6 +1,6 @@
 package fr.thedarven.models.runnable;
 
-import fr.thedarven.models.EnumInventory;
+import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -24,7 +24,7 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
         if (!Objects.isNull(player) && checkOpenedInventory(player)) {
             player.closeInventory();
         }
-        this.pl.getOpennedInventory().setInventory(null, EnumInventory.NOONE);
+        this.pl.getOpennedInventory().setInventory(null, EnumInventory.NONE);
     }
 
     public void openInventory() {
