@@ -8,6 +8,7 @@ import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.game.GameManager;
+import fr.thedarven.items.ItemManager;
 import fr.thedarven.utils.CraftManager;
 import fr.thedarven.utils.languages.LanguageRegister;
 import fr.thedarven.utils.teams.TeamDeletionManager;
@@ -23,7 +24,7 @@ import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.SqlConnection;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
-import fr.thedarven.events.listeners.EventsManager;
+import fr.thedarven.events.listeners.ListenerManager;
 import fr.thedarven.statsgame.RestGame;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
@@ -37,22 +38,15 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public InventoryRegister configuration;
 
 	private ScoreboardManager scoreboardManager;
-
-	private EventsManager eventsManager;
-
+	private ListenerManager listenerManager;
 	private CommandManager commandManager;
-
 	private WorldManager worldManager;
-
 	private DatabaseManager databaseManager;
-
 	private CraftManager craftManager;
-
 	private GameManager gameManager;
-
 	private TeamDeletionManager teamDeletionManager;
-
 	private InventoryRegister inventoryRegister;
+	private ItemManager itemManager;
 	
 	public static TaupeGun getInstance(){
 		return instance;
@@ -66,11 +60,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		InventoryGUI.setLanguage();
 
 		scoreboardManager = new ScoreboardManager(this);
-
 		inventoryRegister = new InventoryRegister(this);
-
-		eventsManager = new EventsManager(this);
-
+		listenerManager = new ListenerManager(this);
 		commandManager = new CommandManager(this);
 
 		this.saveDefaultConfig();
@@ -79,11 +70,11 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		worldManager.buildLobby();
 
 		databaseManager = new DatabaseManager(this);
-
 		craftManager = new CraftManager(this);
+		itemManager = new ItemManager(this);
 		
 		for(Player p: Bukkit.getOnlinePlayers()){
-			this.eventsManager.getLogin().loginAction(p);
+			this.listenerManager.getPlayerJoinQuitListener().loginAction(p);
 
 			for(PotionEffect potion : p.getActivePotionEffects())
 				p.removePotionEffect(potion.getType());
@@ -108,7 +99,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 			if(!inventoryRegister.coordonneesvisibles.getValue())
 				DisableF3.enableF3(p);
 
-			this.eventsManager.getLogin().leaveAction(p);
+			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
 			
 			UtilsClass.clearPlayer(p);
 		}
@@ -140,8 +131,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		return list;
 	}
 
-	public EventsManager getEventsManager(){
-		return this.eventsManager;
+	public ListenerManager getListenerManager(){
+		return this.listenerManager;
 	}
 
 	public WorldManager getWorldManager(){ return this.worldManager; }
@@ -164,4 +155,11 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		 return this.scoreboardManager;
 	}
 
+	public CommandManager getCommandManager() {
+		return commandManager;
+	}
+
+	public ItemManager getItemManager() {
+		return itemManager;
+	}
 }
