@@ -3,7 +3,6 @@ package fr.thedarven.configuration.builders;
 import java.util.*;
 
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
-import fr.thedarven.configuration.builders.languages.InventoryLanguageElement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,10 +17,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.thedarven.configuration.builders.languages.InventoryLanguage;
-import fr.thedarven.configuration.builders.teams.InventoryTeams;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class InventoryGUI extends InventoryBuilder{

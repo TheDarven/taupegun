@@ -9,7 +9,7 @@ import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryDelete;
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;

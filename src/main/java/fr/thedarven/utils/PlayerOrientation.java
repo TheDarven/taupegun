@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.teams.TeamUtils;
 
 public class PlayerOrientation {

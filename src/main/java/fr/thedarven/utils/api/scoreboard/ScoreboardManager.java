@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

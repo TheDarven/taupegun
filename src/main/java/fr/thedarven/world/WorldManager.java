@@ -1,8 +1,7 @@
 package fr.thedarven.world;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;

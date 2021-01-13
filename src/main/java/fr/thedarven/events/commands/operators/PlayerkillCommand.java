@@ -1,8 +1,8 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -26,7 +26,7 @@ public class PlayerkillCommand extends OperatorCommand {
 		if (!Objects.isNull(targetedPlayer)) {
 			targetedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
 		} else {
-			this.main.getEventsManager().getDeath().killPlayer(targetedPl, true);
+			this.main.getListenerManager().getDeathListener().killPlayer(targetedPl, true);
 		}
 	}
 

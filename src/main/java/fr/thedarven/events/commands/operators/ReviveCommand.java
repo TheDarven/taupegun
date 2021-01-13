@@ -1,8 +1,8 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.utils.UtilsClass;

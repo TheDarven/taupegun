@@ -13,20 +13,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
-import fr.thedarven.utils.UtilsClass;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.teams.TeamUtils;
 import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryTeams extends InventoryIncrement implements ClickCooldown {
@@ -204,12 +201,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 			if (teamIndex > teamList.size() - 1) {
 				teamIndex = 0;
 			}
-			InventoryPlayers.reloadInventories();
 		}
-
-		getChildsValue().stream()
-				.filter(inv -> inv instanceof InventoryTeamsElement)
-				.forEach(InventoryGUI::reloadInventory);
 		Title.sendActionBar(p, "§a" + PLAYER_REPARTITION);
 	}
 

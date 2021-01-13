@@ -1,7 +1,7 @@
 package fr.thedarven.database;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 import fr.thedarven.utils.api.SqlConnection;
 import org.bukkit.entity.Player;
 

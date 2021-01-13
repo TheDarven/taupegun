@@ -8,9 +8,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.NumericHelper;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.NumericHelper;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
 
 public class WallSize extends OptionNumeric {

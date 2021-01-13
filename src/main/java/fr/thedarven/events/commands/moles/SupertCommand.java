@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.command.Command;

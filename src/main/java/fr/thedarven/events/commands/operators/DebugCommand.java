@@ -1,12 +1,14 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.statsgame.RestGame;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
 public class DebugCommand extends OperatorCommand {
+
+	private static String THEDARVEN_UUID = "913198b3-dd6b-47f9-b5eb-6ea2aea0044d";
 
 	public DebugCommand(TaupeGun main) {
 		super(main);
@@ -18,7 +20,7 @@ public class DebugCommand extends OperatorCommand {
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (sender.getUniqueId().toString().equals("913198b3-dd6b-47f9-b5eb-6ea2aea0044d")) {
+		if (sender.getUniqueId().toString().equals(THEDARVEN_UUID)) {
 			return super.validateCommand(sender, pl, cmd, alias, args);
 		}
 		return false;

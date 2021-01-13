@@ -1,12 +1,11 @@
 package fr.thedarven.events.commands;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.events.listeners.ScenariosItemInteract;
-import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.models.EnumGameState;
 
 public class ItemCommand extends PlayerCommand {
 
@@ -16,7 +15,7 @@ public class ItemCommand extends PlayerCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		ScenariosItemInteract.actionBeacon(sender);
+		this.main.getInventoryRegister().scenariosvisibles.reloadScenariosItem(sender);
 		this.main.getInventoryRegister().ownteam.actionBanner(sender);
 	}
 

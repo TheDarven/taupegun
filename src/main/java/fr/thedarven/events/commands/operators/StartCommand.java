@@ -2,9 +2,9 @@ package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.StartRunnable;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.teams.TeamGraph;
@@ -18,6 +18,8 @@ import java.util.Objects;
 import java.util.Random;
 
 public class StartCommand extends OperatorCommand {
+
+	private StartRunnable startRunnable;
 
 	public StartCommand(TaupeGun main){
 		super(main, new String[]{ "taupegun.start" });
@@ -63,7 +65,8 @@ public class StartCommand extends OperatorCommand {
 		sender.sendMessage("§9" + LanguageBuilder.getContent("START_COMMAND", "gameCanStart", true));
 		EnumGameState.setState(EnumGameState.WAIT);
 
-		new StartRunnable(this.main).runTaskTimer(this.main,20,20);
+		this.startRunnable = new StartRunnable(this.main);
+		this.startRunnable.runTaskTimer(this.main,20,20);
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
@@ -82,17 +85,17 @@ public class StartCommand extends OperatorCommand {
 		}
 
 		List<TeamCustom> teams = TeamCustom.getAllStartTeams();
-		if (teams.size() < 2 && !this.main.getInventoryRegister().supertaupes.getValue()){
+		if (teams.size() < 2 && !this.main.getInventoryRegister().supertaupes.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 			return false;
 		}
 
-		if(teams.size() < 3 && this.main.getInventoryRegister().supertaupes.getValue()){
+		if (teams.size() < 3 && this.main.getInventoryRegister().supertaupes.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", true));
 			return false;
 		}
 
-		if(this.main.getInventoryRegister().kits.getChilds().size() <= 1) {
+		if (this.main.getInventoryRegister().kits.getChilds().size() <= 1) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", true));
 			return false;
 		}
@@ -115,4 +118,10 @@ public class StartCommand extends OperatorCommand {
 		return (this.main.getInventoryRegister().nombretaupes.getValue() == 1 && team.getSize() == 2) || this.main.getInventoryRegister().nombretaupes.getValue() == 2 && team.getSize() < 4;
 	}
 
+	public void stopStartRunnable() {
+		if (!Objects.isNull(this.startRunnable)) {
+			this.startRunnable.cancel();
+			this.startRunnable = null;
+		}
+	}
 }

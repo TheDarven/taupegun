@@ -7,11 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 

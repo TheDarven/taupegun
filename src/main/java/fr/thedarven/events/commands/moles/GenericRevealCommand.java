@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.Bukkit;

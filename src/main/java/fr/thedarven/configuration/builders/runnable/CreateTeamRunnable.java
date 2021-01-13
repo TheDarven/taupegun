@@ -1,8 +1,8 @@
 package fr.thedarven.configuration.builders.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;

@@ -1,7 +1,7 @@
 package fr.thedarven.utils;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.models.EnumGameState;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -48,7 +48,7 @@ public class UtilsClass {
 	}
 	
 	public static void openConfigInventory(Player p) {
-		if((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
+		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
 			p.openInventory(TaupeGun.getInstance().getInventoryRegister().menu.getInventory());
 		else if(TaupeGun.getInstance().getInventoryRegister().scenariosvisibles.getValue())
 			p.openInventory(TaupeGun.getInstance().getInventoryRegister().configuration.getInventory());

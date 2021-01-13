@@ -1,20 +1,16 @@
 package fr.thedarven.configuration.builders.childs;
 
-import fr.thedarven.TaupeGun;
+import fr.thedarven.configuration.builders.InventoryGUI;
+import fr.thedarven.configuration.builders.OptionBoolean;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.BrewEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.Potion;
-
-import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.utils.languages.LanguageBuilder;
 
 import java.util.Optional;
 

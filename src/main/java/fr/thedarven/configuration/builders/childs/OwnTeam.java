@@ -13,9 +13,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class OwnTeam extends OptionBoolean{

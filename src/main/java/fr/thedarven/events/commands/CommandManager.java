@@ -3,9 +3,11 @@ package fr.thedarven.events.commands;
 import fr.thedarven.events.commands.moles.*;
 import fr.thedarven.events.commands.operators.*;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 
 public class CommandManager extends Manager {
+
+    private StartCommand startCommand;
 
     public CommandManager(TaupeGun main) {
         super(main);
@@ -22,7 +24,8 @@ public class CommandManager extends Manager {
         main.getCommand("timer").setExecutor(new TimerCommand(this.main));
         main.getCommand("rules").setExecutor(new ScenariosCommand(this.main));
         main.getCommand("scenarios").setExecutor(new ScenariosCommand(this.main));
-        main.getCommand("start").setExecutor(new StartCommand(this.main));
+        this.startCommand = new StartCommand(this.main);
+        main.getCommand("start").setExecutor(this.startCommand);
 
         // User's commands
         main.getCommand("players").setExecutor(new PlayersCommand(this.main));
@@ -40,4 +43,9 @@ public class CommandManager extends Manager {
 
         main.getCommand("debug").setExecutor(new DebugCommand(this.main));
     }
+
+    public StartCommand getStartCommand() {
+        return startCommand;
+    }
+
 }

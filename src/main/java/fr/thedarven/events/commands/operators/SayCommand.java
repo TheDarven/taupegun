@@ -20,7 +20,7 @@ public class SayCommand implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
-		if(args.length == 0)
+		if (args.length == 0)
 			return true;
 
 		String senderName = "CONSOLE";

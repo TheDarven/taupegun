@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 

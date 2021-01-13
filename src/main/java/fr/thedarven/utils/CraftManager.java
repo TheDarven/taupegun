@@ -1,7 +1,7 @@
 package fr.thedarven.utils;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.Manager;
+import fr.thedarven.models.Manager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

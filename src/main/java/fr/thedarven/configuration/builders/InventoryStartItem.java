@@ -1,6 +1,5 @@
 package fr.thedarven.configuration.builders;
 
-import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,8 +8,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
 
 
 public class InventoryStartItem extends InventoryGUI implements ClickCooldown {

@@ -3,7 +3,6 @@ package fr.thedarven.configuration.builders.childs;
 import java.util.HashMap;
 import java.util.UUID;
 
-import fr.thedarven.TaupeGun;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -13,9 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.main.metier.NumericHelper;
+import fr.thedarven.models.NumericHelper;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 

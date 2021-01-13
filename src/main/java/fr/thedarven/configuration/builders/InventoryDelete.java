@@ -1,6 +1,5 @@
 package fr.thedarven.configuration.builders;
 
-import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.kits.InventoryKitsElement;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 

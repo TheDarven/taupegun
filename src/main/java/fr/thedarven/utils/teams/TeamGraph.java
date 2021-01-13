@@ -6,9 +6,8 @@ import java.util.Random;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 
 public class TeamGraph {
 

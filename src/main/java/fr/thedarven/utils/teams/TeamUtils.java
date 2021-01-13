@@ -2,9 +2,7 @@ package fr.thedarven.utils.teams;
 
 import java.util.List;
 
-import fr.thedarven.TaupeGun;
-import fr.thedarven.configuration.builders.InventoryRegister;
-import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.models.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class TeamUtils {

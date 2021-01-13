@@ -1,8 +1,8 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.EnumGameState;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

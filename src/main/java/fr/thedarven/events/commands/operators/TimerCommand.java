@@ -1,9 +1,8 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
