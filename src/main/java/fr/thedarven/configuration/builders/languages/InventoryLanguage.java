@@ -3,7 +3,10 @@ package fr.thedarven.configuration.builders.languages;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.thedarven.TaupeGun;
+import fr.thedarven.configuration.builders.childs.ScenariosVisible;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
+import fr.thedarven.items.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,9 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.events.listeners.ScenariosItemInteract;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -110,12 +112,14 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 	private void changeSelectedLanguage(InventoryLanguageElement pSelectedLanguage, Player p) {
 		if (pSelectedLanguage == this.selectedLanguage)
 			return;
-		
+
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
-		String exName = ScenariosItemInteract.getFormattedScenariosItemName();
+
+		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getInventoryRegister().scenariosvisibles;
+		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
 		setSelectedLanguage(pSelectedLanguage);
-		ScenariosItemInteract.actionBeacon(exName);
+		Bukkit.getOnlinePlayers().forEach(player -> scenariosVisible.reloadScenariosItem(player, exName));
 		
 		if (exSelectedLanguage != null)
 			exSelectedLanguage.reloadItem();
