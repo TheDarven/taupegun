@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.AnvilGUI;

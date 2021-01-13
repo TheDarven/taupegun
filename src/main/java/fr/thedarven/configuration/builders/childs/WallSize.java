@@ -9,10 +9,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.models.EnumConfiguration;
-import fr.thedarven.models.NumericHelper;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.configuration.builders.helper.NumericHelper;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
 
 import java.util.Objects;
 

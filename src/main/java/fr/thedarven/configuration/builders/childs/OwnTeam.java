@@ -13,8 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.models.EnumConfiguration;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 

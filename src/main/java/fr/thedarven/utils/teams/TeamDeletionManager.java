@@ -8,7 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;

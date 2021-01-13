@@ -6,7 +6,7 @@ import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.models.Manager;
 import org.bukkit.Bukkit;
 
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.statsgame.RestGame;
 

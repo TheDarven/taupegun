@@ -1,4 +1,4 @@
-package fr.thedarven.models;
+package fr.thedarven.configuration.builders.helper;
 
 public class NumericHelper {
 

@@ -2,7 +2,7 @@ package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.commands.PlayerCommand;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.command.Command;

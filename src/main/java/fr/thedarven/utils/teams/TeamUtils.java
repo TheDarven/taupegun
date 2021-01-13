@@ -2,7 +2,7 @@ package fr.thedarven.utils.teams;
 
 import java.util.List;
 
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 public class TeamUtils {

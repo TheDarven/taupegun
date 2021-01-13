@@ -3,7 +3,7 @@ package fr.thedarven.configuration.builders.childs;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.models.NumericHelper;
+import fr.thedarven.configuration.builders.helper.NumericHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

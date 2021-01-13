@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionNumeric;
-import fr.thedarven.models.NumericHelper;
+import fr.thedarven.configuration.builders.helper.NumericHelper;
 
 @SuppressWarnings("deprecation")
 public class Pomme extends OptionNumeric {

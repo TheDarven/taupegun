@@ -1,9 +1,7 @@
 package fr.thedarven.utils;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumGameState;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import fr.thedarven.models.enums.EnumGameState;
 import org.bukkit.entity.Player;
 
 import java.util.Date;

@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.InventoryIncrement;
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;

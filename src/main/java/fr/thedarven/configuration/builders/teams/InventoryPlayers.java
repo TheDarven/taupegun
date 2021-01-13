@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.Title;

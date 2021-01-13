@@ -1,4 +1,4 @@
-package fr.thedarven.models;
+package fr.thedarven.models.enums;
 
 import java.util.Arrays;
 

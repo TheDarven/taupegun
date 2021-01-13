@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.EnumConfiguration;
-import fr.thedarven.models.NumericHelper;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.configuration.builders.helper.NumericHelper;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;

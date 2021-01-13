@@ -3,7 +3,7 @@ package fr.thedarven.game.runnable;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.OptionNumeric;
 import fr.thedarven.game.GameManager;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.DisableF3;

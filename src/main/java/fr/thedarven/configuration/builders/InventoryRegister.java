@@ -15,7 +15,7 @@ import fr.thedarven.configuration.builders.languages.InventoryLanguageElement;
 import fr.thedarven.configuration.builders.teams.InventoryColor;
 import fr.thedarven.configuration.builders.teams.InventoryTeams;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsRandom;
-import fr.thedarven.models.NumericHelper;
+import fr.thedarven.configuration.builders.helper.NumericHelper;
 
 public class InventoryRegister {
 

@@ -6,7 +6,6 @@ import java.util.Map;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.configuration.builders.childs.ScenariosVisible;
 import fr.thedarven.configuration.builders.helper.ClickCooldown;
-import fr.thedarven.items.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;

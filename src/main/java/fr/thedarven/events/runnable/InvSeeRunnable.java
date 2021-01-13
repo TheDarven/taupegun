@@ -1,6 +1,6 @@
 package fr.thedarven.events.runnable;
 
-import fr.thedarven.models.EnumInventory;
+import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.UtilsClass;

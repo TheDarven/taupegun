@@ -3,6 +3,7 @@ package fr.thedarven.models;
 import java.util.*;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.runnable.PlayerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -10,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.utils.UtilsClass;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
@@ -23,7 +23,7 @@ public class PlayerTaupe extends PlayerCustom {
 	private boolean alive;
 	private int kill;
 	private Location netherPortal;
-	private InventoryManager opennedInventory;
+	private PlayerInventory opennedInventory;
 	private List<PlayerRunnable> runnables;
 	
 	private TeamCustom team;
@@ -71,7 +71,7 @@ public class PlayerTaupe extends PlayerCustom {
 			netherPortal = new Location(worldNether,0.0,0.0,0.0);
 		}
 
-		opennedInventory = new InventoryManager();
+		opennedInventory = new PlayerInventory();
 		
 		teamTaupe = null;
 		teamSuperTaupe = null;
@@ -111,7 +111,7 @@ public class PlayerTaupe extends PlayerCustom {
 		return netherPortal;
 	}
 	
-	public InventoryManager getOpennedInventory() {
+	public PlayerInventory getOpennedInventory() {
 		return this.opennedInventory;
 	}
 

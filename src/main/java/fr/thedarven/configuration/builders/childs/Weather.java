@@ -6,7 +6,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 
 public class Weather extends OptionBoolean {
 

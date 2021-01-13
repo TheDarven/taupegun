@@ -2,7 +2,7 @@ package fr.thedarven.configuration.builders.childs;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
 import fr.thedarven.configuration.builders.OptionBoolean;
-import fr.thedarven.models.EnumGameState;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
