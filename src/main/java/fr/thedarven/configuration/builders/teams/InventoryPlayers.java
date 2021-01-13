@@ -3,8 +3,8 @@ package fr.thedarven.configuration.builders.teams;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,9 +15,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesEventClass;
@@ -101,13 +101,13 @@ public class InventoryPlayers extends InventoryGUI{
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			e.setCancelled(true);
 			
-			if (click(p, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
+			if (click(player, EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
 				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(getParent().getInventory());
+					player.openInventory(getParent().getInventory());
 					return;
 				}
 
@@ -116,16 +116,16 @@ public class InventoryPlayers extends InventoryGUI{
 					if (teamJoin != null) {
 						Team team = teamJoin.getTeam();
 						if (team.getEntries().size() < 9) {
-							teamJoin.joinTeam(Bukkit.getOfflinePlayer(e.getCurrentItem().getItemMeta().getDisplayName()).getUniqueId());
-							// Teams.joinTeam(getParent().getInventory().getName(), e.getCurrentItem().getItemMeta().getDisplayName());
-							MessagesEventClass.TeamAddPlayerMessage(e);
-							reloadInventories();
-							((InventoryTeamsElement) getParent()).reloadInventory();
-							p.openInventory(getParent().getInventory());
+							PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(e.getCurrentItem().getItemMeta().getDisplayName());
+							if (!Objects.isNull(playerTaupe)) {
+								teamJoin.joinTeam(playerTaupe);
+								MessagesEventClass.TeamAddPlayerMessage(player, playerTaupe);
+								player.openInventory(getParent().getInventory());
+							}
 						} else {
-							Map<String, String> params = new HashMap<String, String>();
-							params.put("teamName", "§e§l"+team.getName()+"§r§c");
-							Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
+							Map<String, String> params = new HashMap<>();
+							params.put("teamName", "§e§l" + team.getName() + "§r§c");
+							Title.sendActionBar(player, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
 						}
 					}
 				}

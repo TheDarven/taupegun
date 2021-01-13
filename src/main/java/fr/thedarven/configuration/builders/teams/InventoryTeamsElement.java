@@ -15,9 +15,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.configuration.builders.InventoryGUI;
-import fr.thedarven.main.metier.EnumConfiguration;
-import fr.thedarven.main.metier.PlayerTaupe;
-import fr.thedarven.main.metier.TeamCustom;
+import fr.thedarven.models.EnumConfiguration;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.messages.MessagesEventClass;
 import net.md_5.bungee.api.ChatColor;
 
@@ -227,6 +227,10 @@ public class InventoryTeamsElement extends InventoryGUI{
 
 	public static List<InventoryTeamsElement> getInventoryTeamsElement() {
 		return new ArrayList<>(teams.values());
+	}
+
+	public static InventoryTeamsElement getInventoryTeamsElementOfTeam(TeamCustom team) {
+		return teams.get(team.getName());
 	}
 }
 
