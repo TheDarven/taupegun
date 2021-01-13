@@ -24,9 +24,9 @@ public class GameRunnable extends BukkitRunnable {
 
     final private static int SECONDS_BEFORE_SUPERMOLE_ANNONCING = 1200;
 
-    private TaupeGun main;
+    private final TaupeGun main;
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public GameRunnable(TaupeGun main, GameManager gameManager) {
         this.main = main;
@@ -63,9 +63,9 @@ public class GameRunnable extends BukkitRunnable {
      * Téléporte les joueurs et initie le monde
      */
     private void initGame() {
-        World world = UtilsClass.getWorld();
-        if (world == null) {
-            String worldNotExistMessage = "§e"+ LanguageBuilder.getContent("START_COMMAND", "worldNotExist", true);
+        World world = this.main.getWorldManager().getWorld();
+        if (Objects.isNull(world)) {
+            String worldNotExistMessage = "§e" + LanguageBuilder.getContent("START_COMMAND", "worldNotExist", true);
             Bukkit.broadcastMessage(worldNotExistMessage);
             return;
         }
@@ -94,10 +94,11 @@ public class GameRunnable extends BukkitRunnable {
         if (!this.main.getInventoryRegister().pvp.isValueEquals(this.gameManager.getTimer()))
             return;
 
-        for(Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.WOLF_GROWL, 1, 1);
+        }
 
-        String pvpMessage = "§e"+LanguageBuilder.getContent("GAME", "pvpIsStarting",true);
+        String pvpMessage = "§e" + LanguageBuilder.getContent("GAME", "pvpIsStarting",true);
         Bukkit.broadcastMessage(pvpMessage);
     }
 
@@ -107,13 +108,14 @@ public class GameRunnable extends BukkitRunnable {
     private void episodeAnnouncing() {
         int timer = gameManager.getTimer();
         if (this.main.getInventoryRegister().episode.isValueGreater(0) && timer != 0 && timer % this.main.getInventoryRegister().episode.getValue() == 0) {
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
+            }
             int episodeNumber = (int) (timer / (this.main.getInventoryRegister().episode.getValue())) + 1;
 
             Map<String, String> params = new HashMap<>();
             params.put("episodeNumber", Integer.toString(episodeNumber));
-            String episodeMessage = TextInterpreter.textInterpretation("§e"+LanguageBuilder.getContent("GAME", "episodeIsStarting",true), params);
+            String episodeMessage = TextInterpreter.textInterpretation("§e" + LanguageBuilder.getContent("GAME", "episodeIsStarting",true), params);
             Bukkit.broadcastMessage(episodeMessage);
         }
     }
@@ -131,16 +133,18 @@ public class GameRunnable extends BukkitRunnable {
                 String moleAnnouncement = "§a" + LanguageBuilder.getContent("GAME", "moleAnnouncement",true);
                 Bukkit.broadcastMessage(moleAnnouncement);
             }
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
+            }
         }
 
         // ANNONCE DES TAUPES
         if (molesAnnouncing.isValueEquals(timer + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isTaupe())
+                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isTaupe()) {
                     MessagesClass.TaupeAnnonceMessage(player);
+                }
             }
         }
 
@@ -155,16 +159,18 @@ public class GameRunnable extends BukkitRunnable {
                 String superMoleAnnouncement = "§a" + LanguageBuilder.getContent("GAME", "superMoleAnnouncement",true);
                 Bukkit.broadcastMessage(superMoleAnnouncement);
             }
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
+            }
         }
 
         // ANNONCE DES SUPER TAUPES
         if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNONCING + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe())
+                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()) {
                     MessagesClass.SuperTaupeAnnonceMessage(player);
+                }
             }
         }
     }
@@ -212,8 +218,9 @@ public class GameRunnable extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
-            if (!this.main.getInventoryRegister().coordonneesvisibles.getValue())
+            if (!this.main.getInventoryRegister().coordonneesvisibles.getValue()) {
                 DisableF3.disableF3(player);
+            }
             UtilsClass.clearPlayer(player);
 
             if (playerTaupe.getTeam() == null) {
@@ -272,12 +279,19 @@ public class GameRunnable extends BukkitRunnable {
      * Téléporte tous les joueurs qui sont dans le nether dans le monde normal
      */
     private void teleportNetherPlayers() {
-        World world = UtilsClass.getWorld();
+        World world = this.main.getWorldManager().getWorld();
+        if (Objects.isNull(world)) {
+            String worldNotExistMessage = "§e" + LanguageBuilder.getContent("GAME", "cannotTeleportWorldNotFound", true);
+            Bukkit.broadcastMessage(worldNotExistMessage);
+            return;
+        }
+
+        double wallSize = this.main.getInventoryRegister().murtailleaprès.getValue() * 2.0;
+        long speed = (long) ((long) (this.main.getInventoryRegister().murtailleavant.getValue() - this.main.getInventoryRegister().murtailleaprès.getValue() ) / this.main.getInventoryRegister().murvitesse.getValue());
 
         WorldBorder border = world.getWorldBorder();
         border.setCenter(0.0, 0.0);
-        double wallSize = this.main.getInventoryRegister().murtailleaprès.getValue() * 2.0;
-        border.setSize(wallSize, (long) ((long) (this.main.getInventoryRegister().murtailleavant.getValue() - this.main.getInventoryRegister().murtailleaprès.getValue() ) / this.main.getInventoryRegister().murvitesse.getValue()));
+        border.setSize(wallSize, speed);
 
 
         int nbTeam = TeamCustom.getNumberOfTeam();

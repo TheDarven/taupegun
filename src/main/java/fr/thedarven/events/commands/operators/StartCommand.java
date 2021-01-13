@@ -78,7 +78,7 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		if (Objects.isNull(UtilsClass.getWorld())) {
+		if (Objects.isNull(this.main.getWorldManager().getWorld())) {
 			String worldNotExistMessage = "§e" + LanguageBuilder.getContent("START_COMMAND", "worldNotExist", true);
 			Bukkit.broadcastMessage(worldNotExistMessage);
 			return false;

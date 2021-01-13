@@ -2,11 +2,13 @@ package fr.thedarven.utils.api.scoreboard;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
@@ -112,7 +114,7 @@ public class PersonalScoreboard {
 		objectiveSign.setLine(i++, "§3");
 		
 		// DISTANCE
-		if(p.getWorld() == UtilsClass.getWorldNether()){
+		if (p.getWorld() == this.main.getWorldManager().getWorldNether()){
 			Location portailLocation = PlayerTaupe.getPlayerManager(p.getUniqueId()).getNetherPortal();
 			// distance = (int) Math.sqrt((portailLocation.getX() - loc.getBlockX())*(portailLocation.getX() - loc.getBlockX()) + (portailLocation.getZ() - loc.getBlockZ())*(portailLocation.getZ() - loc.getBlockZ()) + (portailLocation.getY() - loc.getBlockY())*(portailLocation.getY() - loc.getBlockY()));
 			distance = (int) portailLocation.distance(loc);
@@ -132,11 +134,15 @@ public class PersonalScoreboard {
 			objectiveSign.setLine(i++, centerMessage);
 		}
 		// BORDER
-		int border = (int) (UtilsClass.getWorld().getWorldBorder().getSize()/2);
+		String border = "?";
+		World world = this.main.getWorldManager().getWorld();
+		if (!Objects.isNull(world)) {
+			border = (int) (world.getWorldBorder().getSize()/2) + "";
+		}
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
-		params.put("border", border+"");
+		params.put("border", border);
 		String borderMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "border",true), params);
 		objectiveSign.setLine(i++, borderMessage);
 		objectiveSign.updateLines();

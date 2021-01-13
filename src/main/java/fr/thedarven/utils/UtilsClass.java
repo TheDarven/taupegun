@@ -19,18 +19,6 @@ public class UtilsClass {
 		return false;
 	}
 	
-	public static World getWorld() {
-		return Bukkit.getWorlds().get(0);
-	}
-	
-	public static World getWorldNether() {
-		return Bukkit.getWorlds().get(1);
-	}
-	
-	public static World getWorldEnd() {
-		return Bukkit.getWorlds().get(2);
-	}
-	
 	public static boolean molesEnabled() {
 		return TaupeGun.getInstance().getInventoryRegister().annoncetaupes.getValue() <= TaupeGun.getInstance().getGameManager().getTimer();
 	}

@@ -5,11 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -100,7 +96,10 @@ public class PlayerDeathListener implements Listener {
 			Player p = pl.getPlayer();
 			if (!Objects.isNull(p)){
 				p.getPlayer().setGameMode(GameMode.SPECTATOR);
-				p.getPlayer().teleport(new Location(UtilsClass.getWorld(),0,200,0));
+				World world = this.main.getWorldManager().getWorld();
+				if (!Objects.isNull(world)) {
+					p.getPlayer().teleport(new Location(world,0,200,0));
+				}
 				p.getPlayer().sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
 				p.getPlayer().sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
 			}

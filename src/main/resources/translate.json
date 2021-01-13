@@ -214,7 +214,8 @@
 				"teamWin": "L'équipe {teamName} a gagné !",
 				"nobodyWin": "Personne n'a gagné !",
 				"episodeIsStarting": "===== Début de l'épisode {episodeNumber} =====",
-				"pvpIsStarting": "[PvP] Le PvP est désormais activé !"
+				"pvpIsStarting": "[PvP] Le PvP est désormais activé !",
+				"cannotTeleportWorldNotFound": "Aucun monde n'a été trouvé pour téléporter les joueurs qui sont dans le nether."
 			},
 			"en_US": {
 				"moleAnnouncement": "Mole will be announced in 5 seconds",
@@ -224,7 +225,8 @@
 				"teamWin": "The {teamName} have won !",
 				"nobodyWin": "Nobody has won !",
 				"episodeIsStarting": "===== Start of episode {episodeNumber} =====",
-				"pvpIsStarting": "[PvP] PvP is now enabled"
+				"pvpIsStarting": "[PvP] PvP is now enabled",
+				"cannotTeleportWorldNotFound": "No world has been found to teleport players from the nether."
 			}
 		}
 	},

@@ -3,10 +3,7 @@ package fr.thedarven.world;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
 import fr.thedarven.utils.UtilsClass;
-import org.bukkit.Difficulty;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 
 import java.util.Random;
@@ -18,10 +15,22 @@ public class WorldManager extends Manager {
         initWorldsRules();
     }
 
+    public World getWorld() {
+        return Bukkit.getWorlds().get(0);
+    }
+
+    public World getWorldNether() {
+        return Bukkit.getWorlds().get(1);
+    }
+
+    public World getWorldEnd() {
+        return Bukkit.getWorlds().get(2);
+    }
+
     public void initWorldsRules(){
-        World world = UtilsClass.getWorld();
-        World worldNether = UtilsClass.getWorldNether();
-        World worldEnd = UtilsClass.getWorldEnd();
+        World world = getWorld();
+        World worldNether = getWorldNether();
+        World worldEnd = getWorldEnd();
 
         if(world != null) {
             world.setTime(6000);
@@ -58,7 +67,7 @@ public class WorldManager extends Manager {
     }
 
     public void buildLobby(){
-        World world = UtilsClass.getWorld();
+        World world = getWorld();
         if(world == null)
             return;
 
@@ -84,7 +93,7 @@ public class WorldManager extends Manager {
     }
 
     public void destroyLobby(){
-        World world = UtilsClass.getWorld();
+        World world = getWorld();
         if(world == null)
             return;
 

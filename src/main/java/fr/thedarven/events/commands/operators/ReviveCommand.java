@@ -61,7 +61,7 @@ public class ReviveCommand extends OperatorCommand {
 		}
 
 		if (Objects.isNull(respawnLocation)) {
-			World world = UtilsClass.getWorld();
+			World world = this.main.getWorldManager().getWorld();
 			if (Objects.isNull(world)) {
 				sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotReviveWorldNotFound", true));
 				return;

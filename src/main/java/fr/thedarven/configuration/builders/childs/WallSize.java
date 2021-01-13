@@ -1,5 +1,6 @@
 package fr.thedarven.configuration.builders.childs;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -12,6 +13,8 @@ import fr.thedarven.models.EnumConfiguration;
 import fr.thedarven.models.NumericHelper;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.UtilsClass;
+
+import java.util.Objects;
 
 public class WallSize extends OptionNumeric {
 
@@ -79,10 +82,12 @@ public class WallSize extends OptionNumeric {
 					reloadItem();
 				}
 				
-				World world = UtilsClass.getWorld();
-				world.getWorldBorder().setCenter(0, 0);
-				world.getWorldBorder().setSize(value*2);
-				
+				World world = TaupeGun.getInstance().getWorldManager().getWorld();
+				if (!Objects.isNull(world)) {
+					world.getWorldBorder().setCenter(0, 0);
+					world.getWorldBorder().setSize(value*2);
+				}
+
 				delayClick(pl);
 			}
 		}

@@ -1,10 +1,7 @@
 package fr.thedarven.events.listeners;
 
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,7 +53,10 @@ public class PlayerJoinQuitListener implements Listener {
 
 			if (!pl.isAlive() || !Objects.isNull(pl.getTeam())) {
 				player.setGameMode(GameMode.SPECTATOR);
-				player.teleport(new Location(UtilsClass.getWorld(),0,200,0));
+				World world = this.main.getWorldManager().getWorld();
+				if (!Objects.isNull(world)) {
+					player.teleport(new Location(world,0,200,0));
+				}
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
 				
 				UtilsClass.clearPlayer(player);

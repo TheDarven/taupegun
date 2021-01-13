@@ -2,10 +2,12 @@ package fr.thedarven.models;
 
 import java.util.*;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.models.runnable.PlayerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.utils.UtilsClass;
@@ -52,14 +54,23 @@ public class PlayerTaupe extends PlayerCustom {
 			player.setHealth(20);
 			player.setLevel(0);
 			player.setGameMode(GameMode.SURVIVAL);
-			player.teleport(new Location(UtilsClass.getWorld(), 0.5, 201, 0.5));
+
+			World world = TaupeGun.getInstance().getWorldManager().getWorld();
+			if (!Objects.isNull(world)) {
+				player.teleport(new Location(world, 0.5, 201, 0.5));
+			}
 		}
 		this.runnables = new ArrayList<>();
 
 		startTeam = null;
 		
 		kill = 0;
-		netherPortal = new Location(UtilsClass.getWorldNether(),0.0,0.0,0.0);
+
+		World worldNether = TaupeGun.getInstance().getWorldManager().getWorldNether();
+		if (!Objects.isNull(worldNether)) {
+			netherPortal = new Location(worldNether,0.0,0.0,0.0);
+		}
+
 		opennedInventory = new InventoryManager();
 		
 		teamTaupe = null;

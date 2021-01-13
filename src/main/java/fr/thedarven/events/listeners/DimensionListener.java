@@ -25,7 +25,7 @@ public class DimensionListener implements Listener {
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			if (e.getCause().equals(TeleportCause.NETHER_PORTAL)) {
 				Player p = e.getPlayer();
-				if (p.getWorld() == UtilsClass.getWorld()) {
+				if (p.getWorld() == this.main.getWorldManager().getWorld()) {
 					PlayerTaupe.getPlayerManager(p.getUniqueId()).setNetherPortal(e.getTo());
 				}
 			}	
