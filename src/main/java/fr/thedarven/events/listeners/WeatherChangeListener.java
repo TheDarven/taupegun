@@ -4,13 +4,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import fr.thedarven.main.metier.EnumGameState;
+import fr.thedarven.models.EnumGameState;
 
-public class WeatherChangement implements Listener {
+public class WeatherChangeListener implements Listener {
 
 	@EventHandler
 	public void onWeatherChanges(WeatherChangeEvent e) {
-		if(EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
 			e.setCancelled(e.toWeatherState());
 			/* World currentWorld = e.getWorld();
 			if(currentWorld.isThundering())
