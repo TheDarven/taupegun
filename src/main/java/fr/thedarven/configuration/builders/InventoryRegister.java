@@ -1,23 +1,9 @@
 package fr.thedarven.configuration.builders;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.configuration.builders.childs.*;
 import org.bukkit.Material;
 
-import fr.thedarven.configuration.builders.childs.BloodDiamond;
-import fr.thedarven.configuration.builders.childs.CutClean;
-import fr.thedarven.configuration.builders.childs.DiamondLimit;
-import fr.thedarven.configuration.builders.childs.GoldenHead;
-import fr.thedarven.configuration.builders.childs.LavaLimiter;
-import fr.thedarven.configuration.builders.childs.NoEnderPearlDamage;
-import fr.thedarven.configuration.builders.childs.NoNether;
-import fr.thedarven.configuration.builders.childs.OwnTeam;
-import fr.thedarven.configuration.builders.childs.Pomme;
-import fr.thedarven.configuration.builders.childs.PotionII;
-import fr.thedarven.configuration.builders.childs.Pvp;
-import fr.thedarven.configuration.builders.childs.Silex;
-import fr.thedarven.configuration.builders.childs.Timber;
-import fr.thedarven.configuration.builders.childs.WallSize;
-import fr.thedarven.configuration.builders.childs.Weather;
 import fr.thedarven.configuration.builders.kits.InventoryDeleteKits;
 import fr.thedarven.configuration.builders.kits.InventoryKits;
 import fr.thedarven.configuration.builders.kits.InventoryKitsAerien;
@@ -29,7 +15,7 @@ import fr.thedarven.configuration.builders.languages.InventoryLanguageElement;
 import fr.thedarven.configuration.builders.teams.InventoryColor;
 import fr.thedarven.configuration.builders.teams.InventoryTeams;
 import fr.thedarven.configuration.builders.teams.InventoryTeamsRandom;
-import fr.thedarven.main.metier.NumericHelper;
+import fr.thedarven.models.NumericHelper;
 
 public class InventoryRegister {
 
@@ -92,7 +78,7 @@ public class InventoryRegister {
 	public Silex silex = new Silex("Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT, drop, new NumericHelper(1, 200, 20, 1, 3, "%", 2, false, 2));
 	
 	public InventoryGUI autre = new InventoryGUI("Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 2, Material.COMMAND, configuration, 8);
-	public OptionBoolean scenariosvisibles = new OptionBoolean("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.", "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE,autre, true);
+	public ScenariosVisible scenariosvisibles = new ScenariosVisible("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.", "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE,autre, true);
 	public OptionBoolean coordonneesvisibles = new OptionBoolean("Coordonnées visibles", "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, autre, true);
 	public GoldenHead goldenhead = new GoldenHead("Golden Head", "Nombre de coeurs régénérés par les Golden Head.", "MENU_CONFIGURATION_OTHER_GOLDENHEAD", Material.SKULL_ITEM, autre, new NumericHelper(0, 8, 0, 1, 1, "❤", 2, true, 1));
 	public OptionBoolean creeperDeath = new OptionBoolean("Mort par creeper", "Activer ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, autre, true, (byte) 4);
@@ -101,7 +87,7 @@ public class InventoryRegister {
 	public Weather weather = new Weather("Météo", "Activer ou non les changements métérologiques.", "MENU_CONFIGURATION_OTHER_WEATHER", Material.DAYLIGHT_DETECTOR, autre, 9, true);
 	public OptionBoolean daylightCycle = new OptionBoolean("Cycle jour/nuit", "Activer ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, autre, 10, true);
 	public PotionII potionLevel2 = new PotionII("Potion II", "Activer ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, autre, 12, true, (byte) 8254);
-	public OptionNumeric strengthPourcentage = new OptionNumeric("Potion de force", "Détermine le pourcentage de dégats supplémentaire par palier des potions de force (par défaut 130%).", "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL", Material.POTION, autre, 13, new NumericHelper(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
+	public StrengthNerf strengthPourcentage = new StrengthNerf("Potion de force", "Détermine le pourcentage de dégats supplémentaire par palier des potions de force (par défaut 130%).", "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL", Material.POTION, autre, 13, new NumericHelper(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
 	
 	public InventoryGUI taupes = new InventoryGUI("Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configuration, 10);
 	public OptionBoolean supertaupes = new OptionBoolean("Supertaupes", "Activer ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, taupes, false);
