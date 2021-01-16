@@ -71,7 +71,7 @@ public class InventoryRegister {
 	public LavaLimiter lava = new LavaLimiter("Lava Limiter", "Désactive le placement de lave proches des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, scenarios, false);
 	public NoEnderPearlDamage pearldamage = new NoEnderPearlDamage("No Enderpearl Damage", "Désactive les dégâts causés par les ender pearl.", "MENU_CONFIGURATION_SCENARIO_PEARLDAMAGE", Material.ENDER_PEARL, scenarios, false);
 	public NoNether nonether = new NoNether("No Nether", "Désactive l'accès au nether.", "MENU_CONFIGURATION_SCENARIO_NONETHER", Material.OBSIDIAN, scenarios, false);
-	public Timber timber = new Timber("Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER", Material.LOG, scenarios, false);
+	// public Timber timber = new Timber("Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER", Material.LOG, scenarios, false);
 	
 	public InventoryGUI drop = new InventoryGUI("Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configuration, 6);
 	public Pomme pomme = new Pomme("Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, drop, new NumericHelper(1, 200, 1, 1, 3, "%", 2, false, 2));

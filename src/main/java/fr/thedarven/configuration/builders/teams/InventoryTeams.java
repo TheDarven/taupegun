@@ -221,8 +221,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 			pl.setCreateTeamName(null);
 			return;
 		}
-
-		@SuppressWarnings("deprecation")
+		
 		byte tempColor = ((BannerMeta) itemStack.getItemMeta()).getBaseColor().getData();
 		new TeamCustom(pl.getCreateTeamName(), tempColor, 0, 0, false, true);
 
