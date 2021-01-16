@@ -15,10 +15,10 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.configuration.builders.teams.InventoryDeleteTeams;
-import fr.thedarven.configuration.builders.teams.InventoryParametres;
-import fr.thedarven.configuration.builders.teams.InventoryPlayers;
-import fr.thedarven.configuration.builders.teams.InventoryTeamsElement;
+import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
+import fr.thedarven.scenarios.teams.InventoryParametres;
+import fr.thedarven.scenarios.teams.InventoryPlayers;
+import fr.thedarven.scenarios.teams.InventoryTeamsElement;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.teams.TeamUtils;
 

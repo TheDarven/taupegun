@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.configuration.builders.kits.InventoryKitsElement;
+import fr.thedarven.scenarios.kits.InventoryKitsElement;
 import fr.thedarven.models.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;

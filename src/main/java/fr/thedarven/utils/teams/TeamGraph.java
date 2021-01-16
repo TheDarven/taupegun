@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.configuration.builders.InventoryGUI;
+import fr.thedarven.scenarios.InventoryGUI;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 

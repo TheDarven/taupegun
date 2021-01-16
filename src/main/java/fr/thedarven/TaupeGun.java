@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import fr.thedarven.configuration.builders.InventoryGUI;
+import fr.thedarven.scenarios.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.game.GameManager;
@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
-import fr.thedarven.configuration.builders.InventoryRegister;
+import fr.thedarven.scenarios.InventoryRegister;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.SqlConnection;
