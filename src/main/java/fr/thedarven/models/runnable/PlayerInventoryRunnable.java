@@ -24,7 +24,7 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
         if (!Objects.isNull(player) && checkOpenedInventory(player)) {
             player.closeInventory();
         }
-        this.pl.getOpennedInventory().setInventory(null, EnumInventory.NONE);
+        this.pl.getOpenedInventory().setInventory(null, EnumInventory.NONE);
     }
 
     public void openInventory() {
@@ -38,13 +38,13 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
             return;
         }
         player.openInventory(createdInventory);
-        this.pl.getOpennedInventory().setInventory(player.getOpenInventory().getTopInventory(), enumInventory);
+        this.pl.getOpenedInventory().setInventory(player.getOpenInventory().getTopInventory(), enumInventory);
     }
 
     protected abstract Inventory createInventory();
 
     protected boolean checkOpenedInventory(Player player) {
-        return this.pl.getOpennedInventory().checkInventory(player.getOpenInventory().getTopInventory(), this.enumInventory);
+        return this.pl.getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), this.enumInventory);
     }
 
 }

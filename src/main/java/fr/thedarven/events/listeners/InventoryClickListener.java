@@ -41,7 +41,7 @@ public class InventoryClickListener implements Listener {
 		Inventory clickInv = e.getClickedInventory();
 		ItemStack clickItem = e.getCurrentItem();
 
-		if (pl.getOpennedInventory().checkInventory(clickInv, EnumInventory.TEAM)) {
+		if (pl.getOpenedInventory().checkInventory(clickInv, EnumInventory.TEAM)) {
 			TeamsInventoryClickEvent teamsInventoryClickListener = new TeamsInventoryClickEvent(pl, player, clickItem);
 			Bukkit.getPluginManager().callEvent(teamsInventoryClickListener);
 			e.setCancelled(true);
@@ -94,7 +94,7 @@ public class InventoryClickListener implements Listener {
 			return;
 
 		Player player = (Player) e.getWhoClicked();
-		if (PlayerTaupe.getPlayerManager(player.getUniqueId()).getOpennedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumInventory.TEAM)) {
+		if (PlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumInventory.TEAM)) {
 			e.setCancelled(true);
 		}
 	}

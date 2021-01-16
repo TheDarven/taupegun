@@ -46,7 +46,7 @@ public class PlayerInvSeeListener implements Listener {
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent e) {
 		if (e.getPlayer() instanceof Player) {
-			PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpennedInventory().setInventory(null, EnumInventory.NONE);
+			PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpenedInventory().setInventory(null, EnumInventory.NONE);
 		}
 	}
 }

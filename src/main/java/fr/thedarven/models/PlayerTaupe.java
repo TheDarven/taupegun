@@ -17,21 +17,23 @@ import javax.annotation.Nullable;
 
 public class PlayerTaupe extends PlayerCustom {
 	
-	private static Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
+	private static final Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
 	
 	private String name;
 	private boolean alive;
 	private int kill;
+	private String claim;
+
 	private Location netherPortal;
-	private PlayerInventory opennedInventory;
-	private List<PlayerRunnable> runnables;
+
+	private final PlayerInventory openedInventory;
+	private final List<PlayerRunnable> runnables;
 	
 	private TeamCustom team;
 	private TeamCustom startTeam;
 	private TeamCustom teamTaupe;
 	private TeamCustom teamSuperTaupe;
-	private String claim;
-	
+
 	private boolean canClick;
 	private String createTeamName;
 	private String createKitName;
@@ -41,16 +43,16 @@ public class PlayerTaupe extends PlayerCustom {
 		this.name = Bukkit.getPlayer(playerUuid).getName();
 		
 		Player player = Bukkit.getPlayer(playerUuid);
-		if(!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
-			alive = false;
-			team = TeamCustom.getSpectatorTeam();
-			team.joinTeam(name);
+		if (!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
+			this.alive = false;
+			this.team = TeamCustom.getSpectatorTeam();
+			this.team.joinTeam(name);
 			
 			player.setGameMode(GameMode.SPECTATOR);
-		}else {
-			alive = true;
-			team = null;
-			
+		} else {
+			this.alive = true;
+			this.team = null;
+
 			player.setHealth(20);
 			player.setLevel(0);
 			player.setGameMode(GameMode.SURVIVAL);
@@ -62,23 +64,23 @@ public class PlayerTaupe extends PlayerCustom {
 		}
 		this.runnables = new ArrayList<>();
 
-		startTeam = null;
-		
-		kill = 0;
+		this.startTeam = null;
+
+		this.kill = 0;
 
 		World worldNether = TaupeGun.getInstance().getWorldManager().getWorldNether();
 		if (!Objects.isNull(worldNether)) {
 			netherPortal = new Location(worldNether,0.0,0.0,0.0);
 		}
 
-		opennedInventory = new PlayerInventory();
-		
-		teamTaupe = null;
-		teamSuperTaupe = null;
-		claim = "aucun";
-		canClick = true;
-		createTeamName = null;
-		createKitName = null;
+		this.openedInventory = new PlayerInventory();
+
+		this.teamTaupe = null;
+		this.teamSuperTaupe = null;
+		this.claim = "aucun";
+		this.canClick = true;
+		this.createTeamName = null;
+		this.createKitName = null;
 
 		playerManagerHashMap.put(this.uuid, this);
 	}
@@ -111,8 +113,8 @@ public class PlayerTaupe extends PlayerCustom {
 		return netherPortal;
 	}
 	
-	public PlayerInventory getOpennedInventory() {
-		return this.opennedInventory;
+	public PlayerInventory getOpenedInventory() {
+		return this.openedInventory;
 	}
 
 	@Nullable
@@ -163,8 +165,8 @@ public class PlayerTaupe extends PlayerCustom {
 		netherPortal = loc;
 	}
 	
-	public void setClaimTaupe(String claimParametre) {
-		this.claim = claimParametre;
+	public void setClaimTaupe(String claim) {
+		this.claim = claim;
 	}
 
 	
