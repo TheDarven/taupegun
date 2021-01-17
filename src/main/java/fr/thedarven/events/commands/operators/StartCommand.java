@@ -35,10 +35,10 @@ public class StartCommand extends OperatorCommand {
 			List<PlayerTaupe> moles = new ArrayList<>();
 			List<PlayerTaupe> playerList = new ArrayList<>(team.getPlayers());
 
-			if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getInventoryRegister().nombretaupes.getValue() == 1)) {
+			if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getInventoryRegister().numberOfMole.getValue() == 1)) {
 				moles.add(playerList.get(r.nextInt(team.getSize())));
 				graph.addEquipes(moles);
-			} else if (team.getSize() > 3 && this.main.getInventoryRegister().nombretaupes.getValue() == 2) {
+			} else if (team.getSize() > 3 && this.main.getInventoryRegister().numberOfMole.getValue() == 2) {
 				int taupeInt1 = r.nextInt(team.getSize());
 				int taupeInt2 = r.nextInt(team.getSize());
 				while (taupeInt1 == taupeInt2) {
@@ -84,17 +84,17 @@ public class StartCommand extends OperatorCommand {
 		}
 
 		List<TeamCustom> teams = TeamCustom.getAllStartTeams();
-		if (teams.size() < 2 && !this.main.getInventoryRegister().supertaupes.getValue()) {
+		if (teams.size() < 2 && !this.main.getInventoryRegister().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 			return false;
 		}
 
-		if (teams.size() < 3 && this.main.getInventoryRegister().supertaupes.getValue()) {
+		if (teams.size() < 3 && this.main.getInventoryRegister().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", true));
 			return false;
 		}
 
-		if (this.main.getInventoryRegister().kits.getChilds().size() <= 1) {
+		if (this.main.getInventoryRegister().kitsMenu.getChilds().size() <= 1) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", true));
 			return false;
 		}
@@ -114,11 +114,11 @@ public class StartCommand extends OperatorCommand {
 	}
 
 	private boolean notEnoughPlayersPerTeam(TeamCustom team) {
-		return (this.main.getInventoryRegister().nombretaupes.getValue() == 1 && team.getSize() == 2) || this.main.getInventoryRegister().nombretaupes.getValue() == 2 && team.getSize() < 4;
+		return (this.main.getInventoryRegister().numberOfMole.getValue() == 1 && team.getSize() == 2) || this.main.getInventoryRegister().numberOfMole.getValue() == 2 && team.getSize() < 4;
 	}
 
 	public void stopStartRunnable() {
-		if (!Objects.isNull(this.startRunnable)) {
+		if (Objects.nonNull(this.startRunnable)) {
 			this.startRunnable.cancel();
 			this.startRunnable = null;
 		}

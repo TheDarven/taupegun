@@ -79,7 +79,7 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 
-			if (clickItem.getType() == Material.BEACON && clickItem.getItemMeta().getDisplayName().equals(this.main.getInventoryRegister().scenariosvisibles.getFormattedScenariosItemName())) {
+			if (clickItem.getType() == Material.BEACON && clickItem.getItemMeta().getDisplayName().equals(this.main.getInventoryRegister().scenariosVisible.getFormattedScenariosItemName())) {
 				if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
 					UtilsClass.openConfigInventory(player);
 				e.setCancelled(true);

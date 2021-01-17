@@ -1,9 +1,6 @@
-package fr.thedarven.scenarios;
+package fr.thedarven.scenarios.builders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import fr.thedarven.scenarios.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
@@ -40,35 +37,35 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	
 	protected boolean value;
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition, pData);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
 		this.value = pValue;
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pData);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
 		this.value = pValue;
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
 		this.value = pValue;
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent);
+	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent);
 		this.value = pValue;
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
@@ -77,18 +74,14 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	 * 
 	 * @return La valeur
 	 */
-	public boolean getValue() {
+	final public boolean getValue() {
 		return this.value;
 	}
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		ENABLE = LanguageBuilder.getContent("CONTENT", "enable", language, true);
 		DISABLE = LanguageBuilder.getContent("CONTENT", "disable", language, true);
@@ -97,12 +90,8 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -114,46 +103,34 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		
 		return languageElement;
 	}
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+
+
+
+	@Override
 	protected String getFormattedItemName() {
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<>();
 		params.put("name", this.name);
-		if(value)
+		if (value) {
 			params.put("enable", ENABLED);
-		else
+		} else {
 			params.put("enable", DISABLED);
+		}
 		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedInventoryName() {
-		return name;
+		return this.name;
 	}
-	
-	/**
-	 * Pour la description formatée
-	 */
-	protected ArrayList<String> getFormattedDescription() {
-		ArrayList<String> returnArray = super.getFormattedDescription();
+
+	@Override
+	protected List<String> getFormattedDescription() {
+		List<String> returnArray = super.getFormattedDescription();
 		returnArray.add("");
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", getLanguage(), true));
+		Map<String, String> params = new HashMap<>();
+		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;
@@ -166,10 +143,10 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	/**
 	 * Pour initier les items
 	 * 
-	 * @param pItem Le material
+	 * @param material Le material
 	 */
-	private void initItem(Material pItem) {
-		ItemStack item = new ItemStack(pItem,1, getData());
+	private void initItem(Material material) {
+		ItemStack item = new ItemStack(material,1, getData());
 		ItemMeta itemM = item.getItemMeta();
 		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
@@ -177,9 +154,9 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		inventory.setItem(4, item);
 		
 		ItemStack moins = new ItemStack(Material.BANNER, 1);
-	    BannerMeta moinsM = (BannerMeta)moins.getItemMeta();
+	    BannerMeta moinsM = (BannerMeta) moins.getItemMeta();
 	    moinsM.setBaseColor(DyeColor.RED);
-	    List<Pattern> patternsMoins = new ArrayList<Pattern>();
+	    List<Pattern> patternsMoins = new ArrayList<>();
 	    patternsMoins.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
 	    patternsMoins.add(new Pattern(DyeColor.RED, PatternType.BORDER));
 	    moinsM.setPatterns(patternsMoins);
@@ -190,7 +167,7 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 		ItemStack plus = new ItemStack(Material.BANNER, 1);
 	    BannerMeta plusM = (BannerMeta)plus.getItemMeta();
 	    plusM.setBaseColor(DyeColor.GREEN);
-	    List<Pattern> patternsPlus = new ArrayList<Pattern>();
+	    List<Pattern> patternsPlus = new ArrayList<>();
 	    patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
 	    patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
 	    patternsPlus.add(new Pattern(DyeColor.GREEN, PatternType.BORDER));
@@ -201,10 +178,8 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	    plus.setItemMeta(plusM);
 	    inventory.setItem(5, plus);
 	}
-	
-	/**
-	 * Pour mettre à jour des items dans l'inventaire
-	 */
+
+	@Override
 	protected void reloadItems() {
 		super.reloadItems();
 		reloadItem();
@@ -215,49 +190,46 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	 */
 	protected void reloadItem() {
 		// Dans l'inventaire
-		if (inventory != null) {
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", getLanguage(), true));
-			String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
-			
-			ItemStack moins = inventory.getItem(3);
-			ItemMeta moinsM = moins.getItemMeta();
-			moinsM.setDisplayName(enableMessage);
-			moins.setItemMeta(moinsM);
-			
-			params.clear();
-			params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", getLanguage(), true));
-			enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
-			
-			ItemStack plus = inventory.getItem(5);
-			ItemMeta plusM = plus.getItemMeta();
-			plusM.setDisplayName(enableMessage);
-			plus.setItemMeta(plusM);
+		if (Objects.isNull(inventory))
+			return;
 
-			ItemStack item2 = inventory.getItem(4);
-			ItemMeta itemM2 = item2.getItemMeta();
-			itemM2.setDisplayName(getFormattedItemName());
-			item2.setItemMeta(itemM2);
-			inventory.setItem(4, item2);
-			updateName(false);
-		}
+		Map<String, String> params = new HashMap<>();
+		params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", getLanguage(), true));
+		String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
+
+		ItemStack moins = inventory.getItem(3);
+		ItemMeta moinsM = moins.getItemMeta();
+		moinsM.setDisplayName(enableMessage);
+		moins.setItemMeta(moinsM);
+
+		params.clear();
+		params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", getLanguage(), true));
+		enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
+
+		ItemStack plus = inventory.getItem(5);
+		ItemMeta plusM = plus.getItemMeta();
+		plusM.setDisplayName(enableMessage);
+		plus.setItemMeta(plusM);
+
+		ItemStack item2 = inventory.getItem(4);
+		ItemMeta itemM2 = item2.getItemMeta();
+		itemM2.setDisplayName(getFormattedItemName());
+		item2.setItemMeta(itemM2);
+		inventory.setItem(4, item2);
+		updateName(false);
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			e.setCancelled(true);
 			
-			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(this.getParent().getInventory());
+			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
+					player.openInventory(this.getParent().getInventory());
 					return;
 				}
 

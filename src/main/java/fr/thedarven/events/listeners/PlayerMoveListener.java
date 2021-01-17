@@ -32,7 +32,7 @@ public class PlayerMoveListener implements Listener {
     		
     		// COLORE SOUS LES PIEDS
 			TeamCustom team = pl.getTeam();
-			if (!Objects.isNull(team)) {
+			if (Objects.nonNull(team)) {
 				for (int y = -3; y < 0; y++) {
 					if (block.getRelative(0, y,0).getType() == Material.STAINED_GLASS) {
 						block.getRelative(0, y, 0).setData((byte) CodeColor.codeColorPS(team.getTeam().getPrefix().substring(1, 2)));

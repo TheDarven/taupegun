@@ -1,8 +1,6 @@
-package fr.thedarven.scenarios;
+package fr.thedarven.scenarios.builders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,24 +33,24 @@ public abstract class InventoryBuilder implements Listener {
 	private int position;
 	protected String translationName;
 	
-	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, int pPosition, byte pData) {
+	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
 		this.name = pName;
 		this.description = pDescription;
 		this.data = pData;
 		
 		this.translationName = pTranslationName;
-		this.lines = (pLines < 1 || pLines > 6) ? 1 : pLines;			
+		this.lines = (pLines < 1 || pLines > 6) ? 1 : pLines;
 		this.parent = pParent;
-		this.position = pPosition;	
+		this.position = pPosition;
 		
 		initDefaultTranslation();
-		initItem(pItem, pData);
+		initItem(pMaterial, pData);
 		
 		PluginManager pm = TaupeGun.getInstance().getServer().getPluginManager();
 		pm.registerEvents(this, TaupeGun.getInstance());
 	}
 	
-	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pItem, InventoryGUI pParent, byte pData) {
+	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, byte pData) {
 		this.name = pName;
 		this.description = pDescription;
 		this.data = pData;
@@ -63,30 +61,91 @@ public abstract class InventoryBuilder implements Listener {
 		this.position = 0;
 		
 		initDefaultTranslation();
-		initItem(pItem, pData);
+		initItem(pMaterial, pData);
 		
 		PluginManager pm = TaupeGun.getInstance().getServer().getPluginManager();
 		pm.registerEvents(this, TaupeGun.getInstance());
 	}
 	
 	/**
-	 * Pour avoir le nom sans deformatage
+	 * Pour avoir le nom sans formatage
 	 * 
-	 * @return Le nom sans deformatage
+	 * @return Le nom sans formatage
 	 */
 	final public String getName() {
 		return name;
 	}
-	
+
 	/**
-	 * Pour avoir la description sans deformatage
+	 * Pour mettre à jour le nom sans deformatage
+	 *
+	 * @param name Le nom sans deformatage
+	 */
+	final protected void setName(String name) {
+		if (Objects.isNull(name))
+			return;
+
+		if (name.length() <= 32) {
+			this.name = name;
+		}
+		updateName(true);
+	}
+
+
+	/**
+	 * Pour avoir le nom formaté de l'inventaire
+	 *
+	 * @return Le nom formaté de l'inventaire
+	 */
+	protected String getFormattedInventoryName() {
+		Map<String, String> params = new HashMap<>();
+		params.put("name", this.name);
+		return TextInterpreter.textInterpretation(INVENTORY_NAME_FORMAT, params);
+	}
+
+
+	/**
+	 * Pour avoir la description sans formatage
 	 * 
-	 * @return La description sans deformatage
+	 * @return La description sans formatage
 	 */
 	final public String getDescription() {
 		return description;
 	}
-	
+
+	/**
+	 * Pour mettre à jour la description sans deformatage
+	 *
+	 * @param description Description sans deformatage
+	 */
+	final protected void setDescription(String description) {
+		this.description = description;
+		updateDescription();
+	}
+
+
+	/**
+	 * Pour avoir la description formatée
+	 *
+	 * @return La description formatée
+	 */
+	protected List<String> getFormattedDescription() {
+		return TaupeGun.toLoreItem(description, DESCRIPTION_COLOR, getFormattedItemName().length() + 15);
+	}
+
+
+	/**
+	 * Pour avoir le nom formaté de l'item
+	 *
+	 * @return Le nom formaté de l'item
+	 */
+	protected String getFormattedItemName() {
+		Map<String, String> params = new HashMap<>();
+		params.put("name", this.name);
+		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
+	}
+
+
 	/**
 	 * Pour avoir la data de l'item
 	 * 
@@ -144,72 +203,20 @@ public abstract class InventoryBuilder implements Listener {
 	/**
 	 * Pour changer la position
 	 * 
-	 * @param pPosition La nouvelle position
+	 * @param position La nouvelle position
 	 */
-	final public void setPosition(int pPosition) {
-		this.position = pPosition;
+	final public void setPosition(int position) {
+		this.position = position;
 	}
 
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
-	protected String getFormattedItemName() {
-		Map<String, String> params = new HashMap<>();
-		params.put("name", this.name);
-		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
-	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
-	protected String getFormattedInventoryName() {
-		Map<String, String> params = new HashMap<>();
-		params.put("name", this.name);
-		return TextInterpreter.textInterpretation(INVENTORY_NAME_FORMAT, params);
-	}
-	
-	/**
-	 * Pour avoir la description formatée
-	 * 
-	 * @return La description formatée
-	 */
-	protected ArrayList<String> getFormattedDescription() {		
-		return TaupeGun.toLoreItem(description, DESCRIPTION_COLOR, getFormattedItemName().length()+15);
-	}
-	
-	/**
-	 * Pour mettre à jour le nom sans deformatage
-	 * 
-	 * @param name Le nom sans deformatage
-	 */
-	protected void setName(String name) {
-		if (name == null)
-			return;
-		
-		if (name.length() <= 32)
-			this.name = name;
-		updateName(true);
-	}
-	
-	/**
-	 * Pour mettre à jour la description sans deformatage
-	 * 
-	 * @param description Description sans deformatage
-	 */
-	protected void setDescription(String description) {
-		this.description = description;
-		updateDescription();
-	}
-	
+
+
+
 	/**
 	 * Pour mettre à jour le nom de l'item et de l'inventaire
 	 */
-	protected void updateName(boolean reload) {
-		if (this.item == null)
+	final protected void updateName(boolean reload) {
+		if (Objects.isNull(this.item))
 			return;
 		
 		int hashCode = item.hashCode();
@@ -222,20 +229,22 @@ public abstract class InventoryBuilder implements Listener {
 
 		if (reload) {
 			reloadItems();
-			if(this.parent != null)
+			if (Objects.nonNull(this.parent)) {
 				this.parent.updateChildItem(hashCode, item, this);
+			}
 			updateInventory();
 		} else {
-			if(this.parent != null)
+			if (Objects.nonNull(this.parent)) {
 				this.parent.updateChildItem(hashCode, item, this);
+			}
 		}
 	}
 	
 	/**
 	 * Pour mettre à jour la description
 	 */
-	protected void updateDescription() {		
-		if (this.item == null)
+	final protected void updateDescription() {
+		if (Objects.isNull(this.item))
 			return;
 		
 		int hashCode = item.hashCode();
@@ -244,16 +253,27 @@ public abstract class InventoryBuilder implements Listener {
 		itemM.setLore(getFormattedDescription());
 		
 		item.setItemMeta(itemM);
-		if(this.parent != null)
+		if (Objects.nonNull(this.parent)) {
 			this.parent.updateChildItem(hashCode, item, this);
+		}
 	}
-	
+
+	/**
+	 * Pour mettre à jour l'item d'un inventaire child
+	 *
+	 * @param hashCode L'ancien hashCode
+	 * @param newItem Le nouvel item
+	 */
+	abstract public void updateChildItem(int hashCode, ItemStack newItem, InventoryBuilder child);
+
+
+
 	/**
 	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
+	 *
+	 * @return L'instance LanguageBuilder associée à l'inventaire courant
 	 */
-	protected LanguageBuilder initDefaultTranslation() {	
+	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = LanguageBuilder.getLanguageBuilder(translationName);
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "name", name, false);
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "description", description, false);
@@ -267,11 +287,11 @@ public abstract class InventoryBuilder implements Listener {
 	/**
 	 * Pour initier l'item
 	 * 
-	 * @param pItem Le material
-	 * @param pData Le subid
+	 * @param material Le material
+	 * @param data La data de l'item
 	 */
-	private void initItem(Material pItem, byte pData) {
-		ItemStack item = new ItemStack(pItem,1, pData);
+	private void initItem(Material material, byte data) {
+		ItemStack item = new ItemStack(material,1, data);
 		ItemMeta itemM = item.getItemMeta();
 		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
@@ -280,14 +300,8 @@ public abstract class InventoryBuilder implements Listener {
 		updateDescription();
 		updateName(true);
 	}
-	
-	/**
-	 * Pour mettre à jour l'item d'un inventaire child
-	 * 
-	 * @param pHashCode L'ancien hashCode
-	 * @param pNewItem Le nouvel item
-	 */
-	abstract public void updateChildItem(int pHashCode, ItemStack pNewItem, InventoryBuilder child);
+
+
 	
 	/**
 	 * Pour mettre à jour des items dans l'inventaire
@@ -302,18 +316,18 @@ public abstract class InventoryBuilder implements Listener {
 	/**
 	 * Pour savoir si on peut cliquer sur l'item
 	 * 
-	 * @param p Le joueur qui a cliqué
-	 * @param configuration Le type d'inventaire
+	 * @param player Le joueur qui a cliqué
+	 * @param enumConfiguration Le type d'inventaire
 	 * @return true si il peut cliquer, false sinon
 	 */
-	protected boolean click(Player p, EnumConfiguration configuration) {
+	final protected boolean click(Player player, EnumConfiguration enumConfiguration) {
 		// op --> lobby tout
 		//    --> pas lobby INVENTAIRE
 		// all --> lobby non
 		//     --> pas lobby INVENTAIRE
 		
-		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || configuration.equals(EnumConfiguration.INVENTORY))) {
+		if ((player.isOp() || player.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || enumConfiguration.equals(EnumConfiguration.INVENTORY))) {
 			return true;
-		} else return !p.isOp() && !p.hasPermission("taupegun.scenarios") && configuration.equals(EnumConfiguration.INVENTORY) && TaupeGun.getInstance().getInventoryRegister().scenariosvisibles.getValue();
+		} else return !player.isOp() && !player.hasPermission("taupegun.scenarios") && enumConfiguration.equals(EnumConfiguration.INVENTORY) && TaupeGun.getInstance().getInventoryRegister().scenariosVisible.getValue();
 	}
 }

@@ -25,7 +25,7 @@ public class TeamDeletionManager {
 	public void start() {
 		if(EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			for(TeamCustom team : TeamCustom.getAllAliveTeams()) {
-				if(this.main.getGameManager().getTimer() > this.main.getInventoryRegister().annoncetaupes.getValue()) {
+				if(this.main.getGameManager().getTimer() > this.main.getInventoryRegister().molesActivation.getValue()) {
 					if(team.isTaupeTeam()) {
 						boolean deleteTeamTaupe1 = true;
 						for(PlayerTaupe player : PlayerTaupe.getAlivePlayerManager()) {

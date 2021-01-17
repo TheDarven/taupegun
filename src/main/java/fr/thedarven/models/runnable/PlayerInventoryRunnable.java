@@ -21,7 +21,7 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
         super.stopRunnable();
 
         Player player = this.pl.getPlayer();
-        if (!Objects.isNull(player) && checkOpenedInventory(player)) {
+        if (Objects.nonNull(player) && checkOpenedInventory(player)) {
             player.closeInventory();
         }
         this.pl.getOpenedInventory().setInventory(null, EnumInventory.NONE);

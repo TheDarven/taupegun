@@ -2,7 +2,7 @@ package fr.thedarven.scenarios.teams;
 
 import java.util.ArrayList;
 
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,23 +33,15 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 	
 	
 	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+	@Override
 	public void updateLanguage(String language) {
 		CHANGE_NAME = LanguageBuilder.getContent("TEAM", "changeName", language, true);
 		CHANGE_COLOR = LanguageBuilder.getContent("TEAM", "changeColor", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -59,15 +51,13 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 		
 		return languageElement;
 	}
-	
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jour des items dans l'inventaire
-	 */
+
+
+
+
+
+
+	@Override
 	protected void reloadItems() {
 		super.reloadItems();
 		reloadItem();
@@ -92,12 +82,8 @@ protected static ArrayList<InventoryParametres> inventory = new ArrayList<>();
 		couleur.setItemMeta(couleurM);
 		getInventory().setItem(1, couleur);
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (!(e.getWhoClicked() instanceof Player) || e.getClickedInventory() == null || !e.getClickedInventory().equals(getInventory()))

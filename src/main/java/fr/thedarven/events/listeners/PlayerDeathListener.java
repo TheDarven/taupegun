@@ -42,19 +42,19 @@ public class PlayerDeathListener implements Listener {
 		
 		e.setDeathMessage(deathAllMessage);
 		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
-		if (!Objects.isNull(killer)){
+		if (Objects.nonNull(killer)){
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
-			String lastEntityTypeName = !Objects.isNull(victim.getLastDamageCause()) && !Objects.isNull(victim.getLastDamageCause().getEntityType())
+			String lastEntityTypeName = Objects.nonNull(victim.getLastDamageCause()) && Objects.nonNull(victim.getLastDamageCause().getEntityType())
 					? victim.getLastDamageCause().getEntityType().toString() 
 					: null;
 			RestGame.getCurrentGame().addPlayerDeath(new RestPlayerDeath(victim.getUniqueId(),
 					victim.getLastDamageCause().getCause().toString(), lastEntityTypeName));
-			if (!Objects.isNull(killer) && killer.getGameMode() == GameMode.SURVIVAL){
+			if (Objects.nonNull(killer) && killer.getGameMode() == GameMode.SURVIVAL){
 				RestGame.getCurrentGame().addPlayerKill(new RestPlayerKill(victim.getUniqueId(), killer.getUniqueId(), killer.getHealth()));
 			}
 		}
@@ -88,16 +88,16 @@ public class PlayerDeathListener implements Listener {
 				teteM.setDisplayName(headName);
 				tete.setItemMeta(teteM);
 
-				if (!Objects.isNull(pl.getPlayer())) {
+				if (Objects.nonNull(pl.getPlayer())) {
 					pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
 				}
 			}
 			
 			Player p = pl.getPlayer();
-			if (!Objects.isNull(p)){
+			if (Objects.nonNull(p)){
 				p.getPlayer().setGameMode(GameMode.SPECTATOR);
 				World world = this.main.getWorldManager().getWorld();
-				if (!Objects.isNull(world)) {
+				if (Objects.nonNull(world)) {
 					p.getPlayer().teleport(new Location(world,0,200,0));
 				}
 				p.getPlayer().sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
@@ -105,7 +105,7 @@ public class PlayerDeathListener implements Listener {
 			}
 			
 			this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);
-			if (!Objects.isNull(team)) {
+			if (Objects.nonNull(team)) {
 				team.leaveTeam(pl.getUuid());
 			}
 			TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());

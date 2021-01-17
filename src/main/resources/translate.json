@@ -13,7 +13,7 @@
 				"disabled": "Désactivé",
 				"confirm": "✔ Confirmer",
 				"cancel": "✘ Annuler",
-				"click_configuration": "Cliquez pour configurer",
+				"clickToConfigure": "Cliquez pour configurer",
 				"back": "Retour",
 				"info": "[Info]",
 
@@ -35,7 +35,7 @@
 				"disabled": "Disabled",
 				"confirm": "✔ Confirm",
 				"cancel": "✘ Cancel",
-				"click_configuration": "Click here to configure",
+				"clickToConfigure": "Click here to configure",
 				"back": "Back",
 				"info": "[Info]",
 
@@ -379,7 +379,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Configuration",
-				"description": "Menu de configuration."
+				"description": "Menu de configuration"
 			},
 			"en_US": {
 				"name": "Configuration",

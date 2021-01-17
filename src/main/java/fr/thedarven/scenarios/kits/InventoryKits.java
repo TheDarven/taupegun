@@ -3,8 +3,8 @@ package fr.thedarven.scenarios.kits;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.InventoryIncrement;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryIncrement;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,17 +30,13 @@ public class InventoryKits extends InventoryIncrement {
 		super("Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, parent, 4);
 	}
 
-	
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("KIT", "nameTooLong", language, true);
 		NAME_ALREADY_USED_FORMAT = LanguageBuilder.getContent("KIT", "nameAlreadyUsed", language, true);
@@ -49,12 +45,8 @@ public class InventoryKits extends InventoryIncrement {
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -66,14 +58,12 @@ public class InventoryKits extends InventoryIncrement {
 		
 		return languageElement;
 	}
-	
-	
-	
-	
-	
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
+
+
+
+
+
+	@Override
 	public void reloadInventory() {
 		for (InventoryGUI inv : getChildsValue())
 			inv.getParent().removeItem(inv);
@@ -88,19 +78,15 @@ public class InventoryKits extends InventoryIncrement {
 			}
 		}
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
 			final Player p = (Player) e.getWhoClicked();
 			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 			
-			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addkits.getItem())) {
+			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addKit.getItem())) {
 				e.setCancelled(true);
 				new AnvilGUI(TaupeGun.getInstance(),p, new AnvilGUI.AnvilClickHandler() {
 					
@@ -120,7 +106,7 @@ public class InventoryKits extends InventoryIncrement {
 
 								InventoryKitsElement matchedKit = InventoryKitsElement.getKit(pl.getCreateKitName());
 					    		if(matchedKit != null) {
-									p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getInventory());
+									p.openInventory(TaupeGun.getInstance().getInventoryRegister().kitsMenu.getInventory());
 									Title.sendActionBar(p, "§c" + NAME_ALREADY_USED_FORMAT);
 									pl.setCreateKitName(null);
 									return;
@@ -133,7 +119,7 @@ public class InventoryKits extends InventoryIncrement {
 					    		params.put("kitName", "§e§l"+pl.getCreateKitName()+"§r§a");
 					    		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+KIT_CREATE, params));
 					    		pl.setCreateKitName(null);
-								p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getLastChild().getInventory());
+								p.openInventory(TaupeGun.getInstance().getInventoryRegister().kitsMenu.getLastChild().getInventory());
 					    	}
 				    	});
 				    	return true;
@@ -149,7 +135,7 @@ public class InventoryKits extends InventoryIncrement {
 					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
 					if (inventoryGUI != null) {
 						e.setCancelled(true);
-						if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addkits || click(p, EnumConfiguration.OPTION)) {
+						if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addKit || click(p, EnumConfiguration.OPTION)) {
 							p.openInventory(inventoryGUI.getInventory());
 							delayClick(pl);
 						}

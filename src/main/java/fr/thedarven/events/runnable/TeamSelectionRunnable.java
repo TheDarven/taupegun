@@ -31,7 +31,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     protected void operate() {
         Player player = pl.getPlayer();
 
-        if (!Objects.isNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getInventoryRegister().ownteam.getValue()){
+        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getInventoryRegister().ownTeam.getValue()){
             openInventory(player);
         } else {
             this.stopRunnable();
@@ -42,7 +42,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     protected Inventory createInventory() {
         Player player = pl.getPlayer();
 
-        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !TaupeGun.getInstance().getInventoryRegister().ownteam.getValue())
+        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !TaupeGun.getInstance().getInventoryRegister().ownTeam.getValue())
             return null;
 
         String teamChoiceTitle = "§7" + LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);
@@ -52,7 +52,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
 
         TeamCustom.getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
 
-        if (!Objects.isNull(playerTeam)) {
+        if (Objects.nonNull(playerTeam)) {
             String emptyMessage = "§4" + LanguageBuilder.getContent("TEAM", "leave", true);
 
             ItemStack item = new ItemStack(Material.BARRIER, 1);
@@ -70,7 +70,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
         ItemMeta itemM = item.getItemMeta();
         itemM.setDisplayName(team.getTeam().getPrefix() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 
-        if (!Objects.isNull(playerTeam) && playerTeam == team) {
+        if (Objects.nonNull(playerTeam) && playerTeam == team) {
             itemM.addEnchant(Enchantment.LURE, 1, false);
             itemM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }

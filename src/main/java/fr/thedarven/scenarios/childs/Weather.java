@@ -1,21 +1,17 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
+import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import fr.thedarven.models.enums.EnumGameState;
-
 public class Weather extends OptionBoolean {
 
-	public Weather(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
-	}
-	
-	public Weather(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
+	public Weather(InventoryGUI parent) {
+		super("Météo", "Activer ou non les changements métérologiques.", "MENU_CONFIGURATION_OTHER_WEATHER",
+				Material.DAYLIGHT_DETECTOR, parent, 9, true);
 	}
 	
 	/**
@@ -24,8 +20,11 @@ public class Weather extends OptionBoolean {
 	 * @param e L'évènement de changement de temps
 	 */
 	@EventHandler
-	public void onWeatherChange(WeatherChangeEvent e) {
-		if (EnumGameState.isCurrentState(EnumGameState.GAME) && !this.value) {
+	final public void onWeatherChange(WeatherChangeEvent e) {
+		if (this.value)
+			return;
+
+		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			e.setCancelled(e.toWeatherState());
 			/* World currentWorld = e.getWorld();
 			if(currentWorld.isThundering())

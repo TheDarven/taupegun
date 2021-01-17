@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,11 +27,11 @@ public class InventoryTeamsElement extends InventoryGUI {
 	private int color;
 	
 	public InventoryTeamsElement(String pName, int pColor) {
-		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, TaupeGun.getInstance().getInventoryRegister().teams, 0);
+		super(pName, null, "MENU_TEAM_ITEM", 3, Material.BANNER, TaupeGun.getInstance().getInventoryRegister().teamsMenu, 0);
 		color = pColor;
 		teams.put(pName, this);
 		reloadItem();
-		TaupeGun.getInstance().getInventoryRegister().teams.reloadInventory();
+		TaupeGun.getInstance().getInventoryRegister().teamsMenu.reloadInventory();
 	}
 	
 	/**
@@ -56,31 +56,19 @@ public class InventoryTeamsElement extends InventoryGUI {
 	
 	
 	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+	@Override
 	public void updateLanguage(String language) {
 		updateLanguage(language, false);
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedInventoryName() {
-		return name;
+		return this.name;
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedItemName() {
-		return name;
+		return this.name;
 	}
 
 	/* public void setName(String pName) {
@@ -88,10 +76,8 @@ public class InventoryTeamsElement extends InventoryGUI {
 		reloadItem();
 	} */
 
-	
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
+
+	@Override
 	public void reloadInventory() {
 		TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
 		if (teamCustom == null)
@@ -184,13 +170,8 @@ public class InventoryTeamsElement extends InventoryGUI {
 			}
 		} */
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
-	@SuppressWarnings("deprecation")
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {

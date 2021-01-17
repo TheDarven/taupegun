@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,26 +35,18 @@ public class InventoryPlayers extends InventoryGUI {
 		
 		updateLanguage(getLanguage());
 	}
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		TEAM_FULL_FORMAT = LanguageBuilder.getContent("TEAM", "full", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -64,9 +56,7 @@ public class InventoryPlayers extends InventoryGUI {
 		return languageElement;
 	}
 
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
+	@Override
 	public void reloadInventory() {
 		int i = 0;
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -91,13 +81,8 @@ public class InventoryPlayers extends InventoryGUI {
 	public static void reloadInventories() {
 		inventories.forEach(InventoryPlayers::reloadInventory);
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
-	@SuppressWarnings("deprecation")
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
@@ -117,7 +102,7 @@ public class InventoryPlayers extends InventoryGUI {
 						Team team = teamJoin.getTeam();
 						if (team.getEntries().size() < 9) {
 							PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(e.getCurrentItem().getItemMeta().getDisplayName());
-							if (!Objects.isNull(playerTaupe)) {
+							if (Objects.nonNull(playerTaupe)) {
 								teamJoin.joinTeam(playerTaupe);
 								MessagesEventClass.TeamAddPlayerMessage(player, playerTaupe);
 								player.openInventory(getParent().getInventory());

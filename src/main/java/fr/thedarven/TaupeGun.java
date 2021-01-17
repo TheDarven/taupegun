@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.game.GameManager;
@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
-import fr.thedarven.scenarios.InventoryRegister;
+import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.SqlConnection;
@@ -35,8 +35,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	
 	public SqlConnection sql;
 	
-	public InventoryRegister configuration;
-
+	private ScenariosManager scenariosManager;
 	private ScoreboardManager scoreboardManager;
 	private ListenerManager listenerManager;
 	private CommandManager commandManager;
@@ -45,7 +44,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private CraftManager craftManager;
 	private GameManager gameManager;
 	private TeamDeletionManager teamDeletionManager;
-	private InventoryRegister inventoryRegister;
+	private ScenariosManager inventoryRegister;
 	private ItemManager itemManager;
 	
 	public static TaupeGun getInstance(){
@@ -60,7 +59,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		InventoryGUI.setLanguage();
 
 		scoreboardManager = new ScoreboardManager(this);
-		inventoryRegister = new InventoryRegister(this);
+		inventoryRegister = new ScenariosManager(this);
 		listenerManager = new ListenerManager(this);
 		commandManager = new CommandManager(this);
 
@@ -96,7 +95,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
-			if(!inventoryRegister.coordonneesvisibles.getValue())
+			if(!inventoryRegister.coordonneesVisibles.getValue())
 				DisableF3.enableF3(p);
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
@@ -149,7 +148,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		return this.teamDeletionManager;
 	}
 
-	public InventoryRegister getInventoryRegister() { return this.inventoryRegister; }
+	public ScenariosManager getInventoryRegister() { return this.inventoryRegister; }
 
 	public ScoreboardManager getScoreboardManager() {
 		 return this.scoreboardManager;

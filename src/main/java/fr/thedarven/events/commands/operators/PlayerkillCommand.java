@@ -23,7 +23,7 @@ public class PlayerkillCommand extends OperatorCommand {
 			return;
 
 		Player targetedPlayer = pl.getPlayer();
-		if (!Objects.isNull(targetedPlayer)) {
+		if (Objects.nonNull(targetedPlayer)) {
 			targetedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
 		} else {
 			this.main.getListenerManager().getDeathListener().killPlayer(targetedPl, true);

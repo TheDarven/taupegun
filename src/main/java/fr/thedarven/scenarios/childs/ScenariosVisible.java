@@ -1,7 +1,7 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
@@ -14,8 +14,19 @@ import java.util.Objects;
 
 public class ScenariosVisible extends OptionBoolean {
 
-    public ScenariosVisible(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-        super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
+    private String SCENARIOS_ITEM_NAME = "Configuration";
+
+    public ScenariosVisible(InventoryGUI parent) {
+        super("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.",
+                "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE, parent, true);
+        updateLanguage(getLanguage());
+    }
+
+    @Override
+    public void updateLanguage(String language) {
+        SCENARIOS_ITEM_NAME = LanguageBuilder.getContent("ITEM", "configuration", language, true);
+
+        super.updateLanguage(language);
     }
 
     /**
@@ -23,7 +34,7 @@ public class ScenariosVisible extends OptionBoolean {
      *
      * @param player Le joueur qui doit reçevoir le beacon
      */
-    public void giveScenariosItem(Player player) {
+    final public void giveScenariosItem(Player player) {
         giveScenariosItem(player, getFormattedScenariosItemName());
     }
 
@@ -33,7 +44,7 @@ public class ScenariosVisible extends OptionBoolean {
      * @param player Le joueur qui doit reçevoir le beacon
      * @param name L'ancien nom de l'item
      */
-    public void giveScenariosItem(Player player, String name) {
+    final public void giveScenariosItem(Player player, String name) {
         ItemStack banner = new ItemStack(Material.BEACON, 1, (byte) 15);
         ItemMeta bannerM = banner.getItemMeta();
         bannerM.setDisplayName(name);
@@ -46,7 +57,7 @@ public class ScenariosVisible extends OptionBoolean {
      *
      * @param player Le joueur dont on doit supprimer le beacon
      */
-    public void removeScenariosItem(Player player) {
+    final public void removeScenariosItem(Player player) {
         removeScenariosItem(player, getFormattedScenariosItemName());
     }
 
@@ -56,12 +67,12 @@ public class ScenariosVisible extends OptionBoolean {
      * @param player Le joueur dont on doit supprimer le beacon
      * @param name Le nom de l'item
      */
-    public void removeScenariosItem(Player player, String name) {
+    final public void removeScenariosItem(Player player, String name) {
         Inventory playerInv = player.getInventory();
 
         for (int i = 0; i < playerInv.getSize(); i++) {
             ItemStack item = playerInv.getItem(i);
-            if (!Objects.isNull(item) && item.getType() == Material.BEACON) {
+            if (Objects.nonNull(item) && item.getType() == Material.BEACON) {
                 ItemMeta itemM = item.getItemMeta();
                 if (itemM.hasDisplayName() && itemM.getDisplayName().equals(name)) {
                     playerInv.setItem(i, new ItemStack(Material.AIR));
@@ -75,7 +86,7 @@ public class ScenariosVisible extends OptionBoolean {
      *
      * @param player Le joueur
      */
-    public void reloadScenariosItem(Player player) {
+    final public void reloadScenariosItem(Player player) {
         reloadScenariosItem(player, getFormattedScenariosItemName());
     }
 
@@ -85,15 +96,20 @@ public class ScenariosVisible extends OptionBoolean {
      * @param player Le joueur
      * @param exName L'ancien nom de l'item
      */
-    public void reloadScenariosItem(Player player, String exName) {
+    final public void reloadScenariosItem(Player player, String exName) {
         removeScenariosItem(player, exName);
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             giveScenariosItem(player);
         }
     }
 
-    public String getFormattedScenariosItemName() {
-        return "§e" + LanguageBuilder.getContent("ITEM", "configuration", true);
+    /**
+     * Permet d'avoi
+     *
+     * @return
+     */
+    final public String getFormattedScenariosItemName() {
+        return "§e" + SCENARIOS_ITEM_NAME;
     }
 
 }

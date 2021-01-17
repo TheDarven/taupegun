@@ -52,7 +52,7 @@ public abstract class PlayerCommand implements CommandExecutor {
                 if (validateCommand(player, pl, cmd, alias, args)) {
                     executeCommand(player, pl, cmd, alias, args);
                 }
-            } else if (!Objects.isNull(gameStateMessage)) {
+            } else if (Objects.nonNull(gameStateMessage)) {
                 player.sendMessage(gameStateMessage);
             }
         }

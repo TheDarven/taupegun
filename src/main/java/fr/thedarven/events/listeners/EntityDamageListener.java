@@ -86,7 +86,7 @@ public class EntityDamageListener implements Listener {
 			plVictim.addReceivedArrowDamage(damage);
 		} else {
 			ItemStack senderItem = sender.getItemInHand();
-			if (!Objects.isNull(senderItem)) {
+			if (Objects.nonNull(senderItem)) {
 				if (swords.contains(senderItem.getType())) {
 					plSender.addInflictedSwordDamage(damage);
 					plSender.addUsedSword(1);

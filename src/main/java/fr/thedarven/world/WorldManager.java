@@ -2,7 +2,6 @@ package fr.thedarven.world;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
-import fr.thedarven.utils.UtilsClass;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -48,7 +47,7 @@ public class WorldManager extends Manager {
             border.setDamageAmount(1.0);
             border.setCenter(0.0, 0.0);
             border.setWarningDistance(20);
-            border.setSize(this.main.getInventoryRegister().murtailleavant.getValue()*2);
+            border.setSize(this.main.getInventoryRegister().wallSizeBefore.getDiameter());
         }
 
         if(worldNether != null) {

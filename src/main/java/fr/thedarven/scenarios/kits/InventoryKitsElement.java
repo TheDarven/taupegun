@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 
-public class InventoryKitsElement extends InventoryGUI {
+public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem {
 	
 	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
@@ -28,32 +29,20 @@ public class InventoryKitsElement extends InventoryGUI {
 		reloadItem();
 		parent.reloadInventory();
 	}
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		updateLanguage(language, false);
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedInventoryName() {
 		return name;
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedItemName() {
 		return name;
 	}
@@ -97,7 +86,7 @@ public class InventoryKitsElement extends InventoryGUI {
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
-		TaupeGun.getInstance().getInventoryRegister().kits.reloadInventory();
+		TaupeGun.getInstance().getInventoryRegister().kitsMenu.reloadInventory();
 	}
 	
 	/**
@@ -114,23 +103,20 @@ public class InventoryKitsElement extends InventoryGUI {
 			this.getParent().updateChildItem(hashCode, item, this);
 	}
 
+	@Override
 	public void giveItems(Player player) {
 		Location playerLocation = player.getLocation();
 		ItemStack item;
 
 		for(int i = 0; i < 9; i++) {
 			item = this.inventory.getItem(i);
-			if (!Objects.isNull(item) && !item.getType().equals(Material.AIR)) {
+			if (Objects.nonNull(item) && !item.getType().equals(Material.AIR)) {
 				player.getWorld().dropItem(playerLocation, item);
 			}
 		}
 	}
 
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {

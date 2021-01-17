@@ -1,9 +1,10 @@
 package fr.thedarven.scenarios.childs;
 
-import java.util.HashMap;
-import java.util.UUID;
-
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionNumeric;
+import fr.thedarven.scenarios.helper.NumericHelper;
+import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -12,47 +13,33 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import fr.thedarven.scenarios.OptionNumeric;
-import fr.thedarven.scenarios.helper.NumericHelper;
-import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.languages.LanguageBuilder;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class DiamondLimit extends OptionNumeric {
 	
 	private static String EXCEEDED_LIMIT = "Vous avez dépassé la limite de diamant.";
 	
-	private HashMap<UUID,Integer> buffer = new HashMap<UUID,Integer>();
+	private final HashMap<UUID, Integer> playersLimit = new HashMap<>();
+	
+	public DiamondLimit(InventoryGUI parent) {
+		super("Diamond Limit", "Limite le nombre de diamant que chaque joueur peu miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
+				Material.DIAMOND, parent, new NumericHelper(0, 50, 0, 1, 2, "", 1, true, 1));
+		updateLanguage(getLanguage());
+	}
 
-	public DiamondLimit(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, infos);
-		updateLanguage(getLanguage());
-	}
-	
-	public DiamondLimit(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, infos);
-		updateLanguage(getLanguage());
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		EXCEEDED_LIMIT = LanguageBuilder.getContent(getTranslationName(), "exceededLimit", language, true);
 
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "exceededLimit", EXCEEDED_LIMIT);
@@ -70,24 +57,25 @@ public class DiamondLimit extends OptionNumeric {
 	 * @param e L'évènement de bloc cassé
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onBlockBreak(BlockBreakEvent e){
+	final public void onBlockBreak(BlockBreakEvent e){
 		if (e.isCancelled())
 			return;
 
-		Player p = e.getPlayer();
-		if (e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && p.getGameMode().equals(GameMode.SURVIVAL)) {
-			if (buffer.containsKey(p.getUniqueId())) {
-				if (buffer.get(p.getUniqueId()) < this.value) {
-					buffer.replace(p.getUniqueId(), buffer.get(p.getUniqueId()) + 1);
-					Title.sendActionBar(p, ChatColor.BLUE+"DiamondLimit : " + ChatColor.WHITE + buffer.get(p.getUniqueId()) + "/" + this.value);
-				} else {
-					p.sendMessage("§c" + EXCEEDED_LIMIT);
-					e.setCancelled(true);
-					e.getBlock().setType(Material.AIR);
-				}
-			}else {
-				buffer.put(p.getUniqueId(), 1);
+		Player player = e.getPlayer();
+		if (e.getBlock().getType() != Material.DIAMOND_ORE || this.value <= 0 || player.getGameMode() != GameMode.SURVIVAL)
+			return;
+
+		if (playersLimit.containsKey(player.getUniqueId())) {
+			if (playersLimit.get(player.getUniqueId()) < this.value) {
+				playersLimit.replace(player.getUniqueId(), playersLimit.get(player.getUniqueId()) + 1);
+				Title.sendActionBar(player, ChatColor.BLUE + "DiamondLimit : " + ChatColor.WHITE + playersLimit.get(player.getUniqueId()) + "/" + this.value);
+			} else {
+				player.sendMessage("§c" + EXCEEDED_LIMIT);
+				e.setCancelled(true);
+				e.getBlock().setType(Material.AIR);
 			}
+		} else {
+			playersLimit.put(player.getUniqueId(), 1);
 		}
 	}
 	

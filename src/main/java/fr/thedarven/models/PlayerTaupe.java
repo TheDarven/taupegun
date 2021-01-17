@@ -58,7 +58,7 @@ public class PlayerTaupe extends PlayerCustom {
 			player.setGameMode(GameMode.SURVIVAL);
 
 			World world = TaupeGun.getInstance().getWorldManager().getWorld();
-			if (!Objects.isNull(world)) {
+			if (Objects.nonNull(world)) {
 				player.teleport(new Location(world, 0.5, 201, 0.5));
 			}
 		}
@@ -69,7 +69,7 @@ public class PlayerTaupe extends PlayerCustom {
 		this.kill = 0;
 
 		World worldNether = TaupeGun.getInstance().getWorldManager().getWorldNether();
-		if (!Objects.isNull(worldNether)) {
+		if (Objects.nonNull(worldNether)) {
 			netherPortal = new Location(worldNether,0.0,0.0,0.0);
 		}
 

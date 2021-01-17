@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 
@@ -29,14 +29,14 @@ public class TeamGraph {
 	}
 	
 	public boolean creationEquipes() {
-		int pNbrTaupes = this.main.getInventoryRegister().tailletaupes.getIntValue();
+		int pNbrTaupes = this.main.getInventoryRegister().molesTeamSize.getIntValue();
 		if (/*pNbrTaupes > molesOfTeam.size() ||*/ molesOfTeam.size() == 0) {
 			return false;
 		} else {
 			// TAUPES
 			ArrayList<String> kits = new ArrayList<String>();
-			for (InventoryGUI kit : this.main.getInventoryRegister().kits.getChildsValue()) {
-				if (kit != this.main.getInventoryRegister().addkits)
+			for (InventoryGUI kit : this.main.getInventoryRegister().kitsMenu.getChildsValue()) {
+				if (kit != this.main.getInventoryRegister().addKit)
 					kits.add(kit.getName());
 			}
 			int numTeam = 0;
@@ -61,7 +61,7 @@ public class TeamGraph {
 			}
 			
 			// SUPERTAUPES
-			if (this.main.getInventoryRegister().supertaupes.getValue()) {
+			if (this.main.getInventoryRegister().superMoles.getValue()) {
 				
 				TeamCustom supertaupe = new TeamCustom(TeamUtils.getMoleTeamName(),"4", 0, 1, false, true);
 				

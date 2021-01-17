@@ -57,7 +57,7 @@ public class TeamsInventoryClickListener implements Listener {
 
     private void openTeamsInventory(PlayerTaupe pl) {
         TeamSelectionRunnable runnable = (TeamSelectionRunnable) pl.getRunnable(TeamSelectionRunnable.class);
-        if (!Objects.isNull(runnable)) {
+        if (Objects.nonNull(runnable)) {
             runnable.openInventory();
         }
     }

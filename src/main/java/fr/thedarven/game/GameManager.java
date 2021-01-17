@@ -49,7 +49,7 @@ public class GameManager extends Manager {
 	}
 
 	public void endGame() {
-		if (!Objects.isNull(this.gameRunnable)) {
+		if (Objects.nonNull(this.gameRunnable)) {
 			this.gameRunnable.cancel();
 		}
 		main.getDatabaseManager().updateGameDuration();

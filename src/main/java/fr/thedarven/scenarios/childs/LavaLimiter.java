@@ -1,7 +1,8 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -9,42 +10,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
-import fr.thedarven.utils.languages.LanguageBuilder;
+import java.util.Objects;
 
 public class LavaLimiter extends OptionBoolean {
 	
 	private static String CANNOT_PLACE_LAVA = "Vous ne pouvez pas placer de la lave proche d'un joueur.";
 	
-	public LavaLimiter(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
+	public LavaLimiter(InventoryGUI parent) {
+		super("Lava Limiter", "Désactive le placement de lave proches des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
 		updateLanguage(getLanguage());
 	}
-	
-	public LavaLimiter(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
-		updateLanguage(getLanguage());
-	}
-	
-	
-	
-	
 
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+	@Override
 	public void updateLanguage(String language) {
 		CANNOT_PLACE_LAVA = LanguageBuilder.getContent(getTranslationName(), "cannotPlace", language, true);
 
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "cannotPlace", CANNOT_PLACE_LAVA);
@@ -65,17 +50,23 @@ public class LavaLimiter extends OptionBoolean {
 	 * @param e L'évènement de placage d'un sceau
 	 */
 	@EventHandler
-	public void onPlaceLava(PlayerBucketEmptyEvent e) {
-		if(e.getBucket().equals(Material.LAVA_BUCKET)) {
-			if(this.value) {
-				for(Player p : Bukkit.getOnlinePlayers()) {
-					if(!p.equals(e.getPlayer()) && p.getGameMode().equals(GameMode.SURVIVAL)) {
-						if(e.getBlockClicked().getLocation().distance(p.getLocation())-1 < 6) {
-							e.setCancelled(true);
-							e.getPlayer().sendMessage("§c"+CANNOT_PLACE_LAVA);
-						}
-					}
-				}
+	final public void onPlaceLava(PlayerBucketEmptyEvent e) {
+		if (!this.value)
+			return;
+
+		if (e.getBucket() != Material.LAVA_BUCKET)
+			return;
+
+		Player player = e.getPlayer();
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (Objects.equals(p, player) || p.getGameMode() != GameMode.SURVIVAL)
+				continue;
+
+			if (e.getBlockClicked().getLocation().distance(p.getLocation()) - 1 < 6) {
+				e.setCancelled(true);
+				player.sendMessage("§c" + CANNOT_PLACE_LAVA);
+				return;
 			}
 		}
 	}

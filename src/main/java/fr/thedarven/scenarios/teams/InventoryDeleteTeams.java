@@ -2,10 +2,11 @@ package fr.thedarven.scenarios.teams;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.InventoryDelete;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryDelete;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -21,27 +22,19 @@ public class InventoryDeleteTeams extends InventoryDelete {
 	public InventoryDeleteTeams(InventoryGUI pInventoryGUI) {
 		super(pInventoryGUI, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
 	}
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		TEAM_DELETE_FORMAT = LanguageBuilder.getContent("TEAM", "delete", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -54,24 +47,19 @@ public class InventoryDeleteTeams extends InventoryDelete {
 	
 	
 	
-	
-	
-	/**
-	 * Pour supprimer une équipe
-	 * 
-	 * @param p Le joueur qui a supprimé
-	 */
-	protected void deleteElement(Player p) {
+	@Override
+	protected void deleteElement(Player player) {
 		Team team = TeamCustom.board.getTeam(getParent().getName());
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("teamName", "§e§l"+team.getName()+"§r§a");
-		Title.sendActionBar(p, TextInterpreter.textInterpretation("§a"+TEAM_DELETE_FORMAT, params));
+		Map<String, String> params = new HashMap<>();
+		params.put("teamName", "§e§l"+team.getName() + "§r§a");
+		Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params));
 		
 		TeamCustom teamDelete = TeamCustom.getTeamCustomByName(team.getName());
-		if (teamDelete != null)
+		if (Objects.nonNull(teamDelete)) {
 			teamDelete.deleteTeam();
-		p.openInventory(TaupeGun.getInstance().getInventoryRegister().teams.getInventory());
+		}
+		player.openInventory(TaupeGun.getInstance().getInventoryRegister().teamsMenu.getInventory());
 		InventoryPlayers.reloadInventories();
 	}
 }

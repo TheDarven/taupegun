@@ -1,5 +1,11 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,38 +17,21 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.languages.LanguageBuilder;
+import java.util.Objects;
 
 public class OwnTeam extends OptionBoolean{
 
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
-	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue, pData);
+	public OwnTeam(InventoryGUI parent) {
+		super("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
+				Material.BANNER, parent, 6, true, (byte) 10);
 		actionBanner(TEAM_CHOICE);
 	}
-	
-	public OwnTeam(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
-		actionBanner(TEAM_CHOICE);
-	}
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		String exName = TEAM_CHOICE;
 		
@@ -51,12 +40,8 @@ public class OwnTeam extends OptionBoolean{
 		super.updateLanguage(language);
 		actionBanner(exName);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "teamChoice", TEAM_CHOICE);
@@ -71,9 +56,10 @@ public class OwnTeam extends OptionBoolean{
 	 * @param e L'évènement de connexion
 	 */
 	@EventHandler
-	public void join(PlayerJoinEvent e) {
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && value)
+	final public void join(PlayerJoinEvent e) {
+		if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && this.value) {
 			giveBanner(e.getPlayer());
+		}
 	}
 	
 	/**
@@ -82,7 +68,7 @@ public class OwnTeam extends OptionBoolean{
 	 * @param e L'évènement de déconnexion
 	 */
 	@EventHandler
-	public void leave(PlayerQuitEvent e) {
+	final public void leave(PlayerQuitEvent e) {
 		removeBanner(e.getPlayer());
 	}
 	
@@ -92,11 +78,13 @@ public class OwnTeam extends OptionBoolean{
 	 * @param exName L'ancien nom de l'item bannière
 	 */
 	private void actionBanner(String exName) {
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				removeBanner(p, exName);
-				if (value)
-					giveBanner(p);
+		if (!EnumGameState.isCurrentState(EnumGameState.LOBBY))
+			return;
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			removeBanner(player, exName);
+			if (this.value) {
+				giveBanner(player);
 			}
 		}
 	}
@@ -104,35 +92,38 @@ public class OwnTeam extends OptionBoolean{
 	/**
 	 * Donne ou enlève la bannière à un utilisateur
 	 * 
-	 * @param p Le joueur
+	 * @param player Le joueur
 	 */
-	public void actionBanner(Player p) {
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			removeBanner(p);
-			if (value)
-				giveBanner(p);
+	public void actionBanner(Player player) {
+		if (!EnumGameState.isCurrentState(EnumGameState.LOBBY))
+			return;
+
+		removeBanner(player);
+		if (this.value) {
+			giveBanner(player);
 		}
 	}
 	
 	/**
 	 * Supprime la bannière de l'inventaire d'un joueur car la configuration a changé
 	 * 
-	 * @param p Le joueur dont on doit supprimer la bannière
+	 * @param player Le joueur dont on doit supprimer la bannière
 	 */
-	private void removeBanner(Player p) {
-		removeBanner(p, TEAM_CHOICE);
+	private void removeBanner(Player player) {
+		removeBanner(player, TEAM_CHOICE);
 	}
 	
 	/**
 	 * Pour supprimer la bannière d'un joueur car la langue selectionnée a changé
 	 * 
-	 * @param p Le joueur dont on doit supprimer la bannière
+	 * @param player Le joueur dont on doit supprimer la bannière
 	 * @param exName L'ancien nom de l'item bannière
 	 */
-	private void removeBanner(Player p, String exName) {
-		Inventory playerInv = p.getInventory();
-		for (int i=0; i<playerInv.getSize(); i++) {
-			if (playerInv.getItem(i) != null && playerInv.getItem(i).getType() == Material.BANNER && playerInv.getItem(i).getItemMeta().getDisplayName().equals("§e"+exName)) {
+	private void removeBanner(Player player, String exName) {
+		Inventory playerInv = player.getInventory();
+		for (int i = 0; i < playerInv.getSize(); i++) {
+			ItemStack item = playerInv.getItem(i);
+			if (Objects.nonNull(item) && item.getType() == Material.BANNER && Objects.equals(item.getItemMeta().getDisplayName(), "§e" + exName)) {
 				playerInv.setItem(i, new ItemStack(Material.AIR));
 			}
 		}
@@ -141,46 +132,43 @@ public class OwnTeam extends OptionBoolean{
 	/**
 	 * Donne la bannière a un joueur
 	 * 
-	 * @param p Le joueur qui doit reçevoir la bannière
+	 * @param player Le joueur qui doit reçevoir la bannière
 	 */
-	private void giveBanner(Player p) {
+	private void giveBanner(Player player) {
 		ItemStack banner = new ItemStack(Material.BANNER, 1, (byte) 15);
 		ItemMeta bannerM = banner.getItemMeta();
-		bannerM.setDisplayName("§e"+TEAM_CHOICE);
+		bannerM.setDisplayName("§e" + TEAM_CHOICE);
 		banner.setItemMeta(bannerM);
-		p.getInventory().setItem(8, banner);
+		player.getInventory().setItem(8, banner);
 	}
-	
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			e.setCancelled(true);
 			
-			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(this.getParent().getInventory());
+			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
+					player.openInventory(this.getParent().getInventory());
 					return;
 				}
 
-				if (e.getSlot() == 3 && this.value) {
+				if (this.value && e.getSlot() == 3) {
 					this.value = false;
 					super.reloadItem();
-					for(Player player : Bukkit.getOnlinePlayers()) {
-						removeBanner(player);
+					for(Player p : Bukkit.getOnlinePlayers()) {
+						removeBanner(p);
 					}
-				} else if (e.getSlot() == 5 && !this.value) {
+				} else if (!this.value && e.getSlot() == 5) {
 					this.value = true;
 					super.reloadItem();
-					for (Player player : Bukkit.getOnlinePlayers())
-						giveBanner(player);
+					for (Player p : Bukkit.getOnlinePlayers()) {
+						giveBanner(p);
+					}
 				}
 				delayClick(pl);
 			}

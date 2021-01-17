@@ -1,13 +1,14 @@
-package fr.thedarven.scenarios;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+package fr.thedarven.scenarios.builders;
 
 import org.bukkit.Material;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public abstract class InventoryElement extends InventoryGUI {
 	
-	private static Map<String, InventoryElement> elements = new LinkedHashMap<>();
+	private static final Map<String, InventoryElement> elements = new LinkedHashMap<>();
 	
 	public InventoryElement(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition) {
 		super(pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition);
@@ -23,17 +24,17 @@ public abstract class InventoryElement extends InventoryGUI {
 	protected abstract void reloadItem();
 	
 	/**
-	 * Pour supprimer un inventaire
+	 * Pour supprimer un enfant
 	 * 
-	 * @param name Le nom de l'inventaire
+	 * @param name Le nom de l'enfant
 	 */
-	protected void removeElement(String name) {
+	final protected void removeElement(String name) {
 		InventoryGUI element = elements.get(name);
-		if (element == null)
+		if (Objects.isNull(element))
 			return;
 
 		InventoryGUI parent = getParent();
-		if (parent != null) {
+		if (Objects.nonNull(parent)) {
 			parent.removeChild(element);
 			parent.reloadInventory();
 		}

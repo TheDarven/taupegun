@@ -33,7 +33,7 @@ public class DimensionListener implements Listener {
 	
 	@EventHandler
 	public void onPortalTeleport(PlayerPortalEvent e) {
-		if (this.main.getGameManager().getTimer() > this.main.getInventoryRegister().murtime.getValue() || e.getCause() == TeleportCause.END_PORTAL) {
+		if (this.main.getGameManager().getTimer() > this.main.getInventoryRegister().wallShrinkingTime.getValue() || e.getCause() == TeleportCause.END_PORTAL) {
 			e.setCancelled(true);
 		}
 	}

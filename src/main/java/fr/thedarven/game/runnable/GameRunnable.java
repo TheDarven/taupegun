@@ -1,7 +1,7 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.OptionNumeric;
+import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
@@ -75,7 +75,7 @@ public class GameRunnable extends BukkitRunnable {
         world.setGameRuleValue("doMobSpawning", "true");
         if (this.main.getInventoryRegister().daylightCycle.getValue())
             world.setGameRuleValue("doDaylightCycle", "true");
-        world.getWorldBorder().setDamageAmount(this.main.getInventoryRegister().murdegats.getValue());
+        world.getWorldBorder().setDamageAmount(this.main.getInventoryRegister().wallDamage.getValue());
         world.setTime(0);
 
         this.initGamePlayers();
@@ -125,7 +125,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     public void molesAnnouncing() {
         int timer = this.gameManager.getTimer();
-        OptionNumeric molesAnnouncing = this.main.getInventoryRegister().annoncetaupes;
+        OptionNumeric molesAnnouncing = this.main.getInventoryRegister().molesActivation;
 
         // 5s AVANT L'ANNONCE DES TAUPES
         if (molesAnnouncing.isValueLowerOrEquals(timer + 6) && molesAnnouncing.isValueGreaterOrEquals(timer + 1)) {
@@ -149,7 +149,7 @@ public class GameRunnable extends BukkitRunnable {
         }
 
 
-        if (!this.main.getInventoryRegister().supertaupes.getValue())
+        if (!this.main.getInventoryRegister().superMoles.getValue())
             return;
 
         // 5s AVANT L'ANNONCE DES SUPER TAUPES
@@ -180,7 +180,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     private void wallAnnouncing() {
         int timer = this.gameManager.getTimer();
-        OptionNumeric wallValue = this.main.getInventoryRegister().murtime;
+        OptionNumeric wallValue = this.main.getInventoryRegister().wallShrinkingTime;
 
         // LE MUR EST A 3min //
         if (wallValue.isValueEquals(timer + 181)) {
@@ -218,7 +218,7 @@ public class GameRunnable extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
-            if (!this.main.getInventoryRegister().coordonneesvisibles.getValue()) {
+            if (!this.main.getInventoryRegister().coordonneesVisibles.getValue()) {
                 DisableF3.disableF3(player);
             }
             UtilsClass.clearPlayer(player);
@@ -226,7 +226,7 @@ public class GameRunnable extends BukkitRunnable {
             if (playerTaupe.getTeam() == null) {
                 playerTaupe.setAlive(false);
             } else {
-                this.main.getInventoryRegister().startitem.giveItems(player);
+                this.main.getInventoryRegister().startItem.giveItems(player);
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2) );
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0) );
@@ -239,7 +239,7 @@ public class GameRunnable extends BukkitRunnable {
      * Téléporte les joueurs à leur point de spawn
      */
     private void teleportPlayers(World world) {
-        double rayon = this.main.getInventoryRegister().murtailleavant.getValue() - 100;
+        double rayon = this.main.getInventoryRegister().wallSizeBefore.getRadius() - 100;
         int Z = -1;
         double X, radius = (6.283184/TeamCustom.getAllTeams().size() - TeamCustom.getTaupeTeams().size() - TeamCustom.getSuperTaupeTeams().size());
 
@@ -286,8 +286,8 @@ public class GameRunnable extends BukkitRunnable {
             return;
         }
 
-        double wallSize = this.main.getInventoryRegister().murtailleaprès.getValue() * 2.0;
-        long speed = (long) ((long) (this.main.getInventoryRegister().murtailleavant.getValue() - this.main.getInventoryRegister().murtailleaprès.getValue() ) / this.main.getInventoryRegister().murvitesse.getValue());
+        double wallSize = this.main.getInventoryRegister().wallSizeAfter.getDiameter();
+        long speed = (long) ((long) (this.main.getInventoryRegister().wallSizeBefore.getRadius() - this.main.getInventoryRegister().wallSizeAfter.getRadius() ) / this.main.getInventoryRegister().wallSpeed.getValue());
 
         WorldBorder border = world.getWorldBorder();
         border.setCenter(0.0, 0.0);
@@ -295,7 +295,7 @@ public class GameRunnable extends BukkitRunnable {
 
 
         int nbTeam = TeamCustom.getNumberOfTeam();
-        double radius = this.main.getInventoryRegister().murtailleavant.getValue() - 200;
+        double radius = this.main.getInventoryRegister().wallSizeBefore.getRadius() - 200;
         int Z = 0;
         double X;
         for (TeamCustom team: TeamCustom.getAllTeams()) {

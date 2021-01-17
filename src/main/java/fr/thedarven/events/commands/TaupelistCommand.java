@@ -20,7 +20,7 @@ public class TaupelistCommand extends PlayerCommand {
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		MessagesClass.TaupeListMessage(sender);
 
-		if (this.main.getInventoryRegister().supertaupes.getValue()) {
+		if (this.main.getInventoryRegister().superMoles.getValue()) {
 			MessagesClass.SuperTaupeListMessage(sender);
 		}
 	}

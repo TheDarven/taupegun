@@ -1,22 +1,19 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionNumeric;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionNumeric;
+import fr.thedarven.scenarios.helper.NumericHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import fr.thedarven.scenarios.helper.NumericHelper;
-
 public class BloodDiamond extends OptionNumeric {
 
-	public BloodDiamond(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, infos);
-	}
-	
-	public BloodDiamond(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, infos);
+	public BloodDiamond(InventoryGUI parent) {
+		super("Blood Diamond", "Les diamants infliges des dégats lorsqu'ils sont minés.", "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
+				Material.TNT, parent, new NumericHelper(0, 4, 0, 1, 1, "❤", 2, true, 1));
 	}
 	
 	/**
@@ -25,17 +22,20 @@ public class BloodDiamond extends OptionNumeric {
 	 * @param e L'évènement de bloc cassé
 	 */
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent e){
-		if(e.isCancelled())
+	final public void onBlockBreak(BlockBreakEvent e){
+		if (e.isCancelled())
 			return;
 
-		if(e.getBlock().getType().equals(Material.DIAMOND_ORE) && this.value > 0 && e.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
-			if(e.getPlayer().getHealth() > this.value) {
-				e.getPlayer().damage(this.value);
-			}else {
-				e.getPlayer().setHealth(0.5);
-			}				
-		}	
+		Player player = e.getPlayer();
+
+		if (e.getBlock().getType() != Material.DIAMOND_ORE || this.value <= 0 || player.getGameMode() != GameMode.SURVIVAL)
+			return;
+
+		if (player.getHealth() > this.value) {
+			player.damage(this.value);
+		} else {
+			player.setHealth(0.5);
+		}
 	}
 
 }

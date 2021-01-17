@@ -11,11 +11,8 @@ public class InventoryKitsTNT extends InventoryKitsElement {
 		super(pName, parent);
 		reloadInventory();
 	}
-	
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
-	@SuppressWarnings("deprecation")
+
+	@Override
 	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		inv.addItem(new ItemStack(Material.TNT,5));

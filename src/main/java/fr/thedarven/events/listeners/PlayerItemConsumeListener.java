@@ -46,13 +46,6 @@ public class PlayerItemConsumeListener implements Listener {
 				}
 			}
 
-			if (e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Golden Head")) {
-				player.removePotionEffect(PotionEffectType.REGENERATION);
-				player.removePotionEffect(PotionEffectType.ABSORPTION);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
-				player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
-			}
-
 		}
 	}
 	

@@ -1,10 +1,10 @@
 package fr.thedarven.scenarios.languages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,12 +33,10 @@ public class InventoryLanguageElement extends InventoryGUI {
 		}
 		reloadItem();
 	}
-	
-	/**
-	 * Pour la description formatée
-	 */
-	protected ArrayList<String> getFormattedDescription() {
-		ArrayList<String> returnArray = super.getFormattedDescription();
+
+	@Override
+	protected List<String> getFormattedDescription() {
+		List<String> returnArray = super.getFormattedDescription();
 		if (getParent() instanceof InventoryLanguage) {
 			InventoryLanguage parent = (InventoryLanguage) getParent();
 			if (parent.getSelectedLanguage().equals(languageShortName)) {

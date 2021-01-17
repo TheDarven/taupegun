@@ -17,7 +17,7 @@ public class ClaimCommand extends MoleCommand {
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		InventoryKitsElement inventoryKitsElement = InventoryKitsElement.getKit(pl.getClaimTaupe());
-		if (!Objects.isNull(inventoryKitsElement)) {
+		if (Objects.nonNull(inventoryKitsElement)) {
 			inventoryKitsElement.giveItems(sender);
 			pl.setClaimTaupe("aucun");
 		}

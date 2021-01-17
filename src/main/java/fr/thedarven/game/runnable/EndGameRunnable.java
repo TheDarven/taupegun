@@ -54,7 +54,7 @@ public class EndGameRunnable extends BukkitRunnable {
 
     private void endGameMessage() {
         MessagesClass.FinalTaupeAnnonceMessage();
-        if (this.main.getInventoryRegister().supertaupes.getValue()) {
+        if (this.main.getInventoryRegister().superMoles.getValue()) {
             MessagesClass.FinalSuperTaupeAnnonceMessage();
         }
         MessagesClass.FinalKillAnnonceMessage();

@@ -54,7 +54,7 @@ public class ReviveCommand extends OperatorCommand {
 		Location respawnLocation = null;
 		for (PlayerTaupe mate: team.getPlayers()) {
 			Player matePlayer = mate.getPlayer();
-			if (!Objects.isNull(matePlayer)) {
+			if (Objects.nonNull(matePlayer)) {
 				respawnLocation = matePlayer.getLocation();
 				break;
 			}

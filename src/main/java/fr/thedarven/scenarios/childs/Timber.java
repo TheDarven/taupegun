@@ -1,7 +1,7 @@
 package fr.thedarven.scenarios.childs;
 
-import java.util.ArrayList;
-
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -10,18 +10,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Timber extends OptionBoolean{
 	
-	public Timber(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue);
-		updateLanguage(getLanguage());
-	}
-	
-	public Timber(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue);
+	public Timber(InventoryGUI parent) {
+		super("Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",
+			Material.LOG, parent, false);
 		updateLanguage(getLanguage());
 	}
 	
@@ -31,17 +28,17 @@ public class Timber extends OptionBoolean{
 	 * @param e L'évènement de cassage d'un bloc
 	 */
 	@EventHandler
-	public void onPlayerBreakBlock(BlockBreakEvent e) {
+	final public void onPlayerBreakBlock(BlockBreakEvent e) {
 		/* if(e.isCancelled() || !this.value)
 			return; */
 
 		Player p = e.getPlayer();
-		if (p == null || !isLog(e.getBlock()))
+		if (Objects.isNull(p) || !isLog(e.getBlock()))
 			return;
 			
 		World world = p.getWorld();
 		
-		ArrayList<Location> woods = new ArrayList<>();
+		List<Location> woods = new ArrayList<>();
 		woods.add(e.getBlock().getLocation());
 		
 		while (woods.size() > 0) {
@@ -104,7 +101,13 @@ public class Timber extends OptionBoolean{
 			} */
 		}
 	}
-	
+
+	/**
+	 * Permet de savoir si un bloc est une bûche
+	 *
+	 * @param block Le bloc à regarder
+	 * @return <b>true</b> si le bloc est une bûche, <b>fales</b> sinon
+	 */
 	private boolean isLog(Block block) {
 		return block.getType() == Material.LOG || block.getType() == Material.LOG_2;
 	}

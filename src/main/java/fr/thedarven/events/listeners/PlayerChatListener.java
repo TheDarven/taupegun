@@ -41,7 +41,7 @@ public class PlayerChatListener implements Listener {
 				return;
 			}
 
-			if (this.main.getInventoryRegister().tchatequipe.getValue()) {
+			if (this.main.getInventoryRegister().teamTchat.getValue()) {
 				if (e.getMessage().startsWith("!") || e.getMessage().startsWith("*"))  {
 					Bukkit.broadcastMessage(getTeamColor(pl)+player.getName() + ": §7" + e.getMessage().substring(1));
 				} else {
@@ -77,7 +77,7 @@ public class PlayerChatListener implements Listener {
 	
 	private String getTeamColor(PlayerTaupe pl) {
 		String color = "";
-		if (!Objects.isNull(pl.getTeam()) && !Objects.isNull(pl.getTeam().getTeam())) {
+		if (Objects.nonNull(pl.getTeam()) && Objects.nonNull(pl.getTeam().getTeam())) {
 			color = pl.getTeam().getTeam().getPrefix();
 		}
 		return color;

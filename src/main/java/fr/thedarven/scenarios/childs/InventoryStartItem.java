@@ -1,18 +1,21 @@
-package fr.thedarven.scenarios;
+package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.PlayerTaupe;
+import java.util.Objects;
 
-
-public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
+public class InventoryStartItem extends InventoryGUI implements ClickCooldown, InventoryGiveItem {
 
 	public InventoryStartItem(InventoryGUI parent) {
 		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
@@ -29,46 +32,42 @@ public class InventoryStartItem extends InventoryGUI implements ClickCooldown {
 		glassM.setDisplayName("§f");
 		glass.setItemMeta(glassM);
 		
-		for (i=4; i<9; i++) {
+		for (i = 4; i < 9; i++) {
 			getInventory().setItem(i, glass);
 		}
-		for (i=45; i<53; i++) {
+
+		for (i = 45; i < 53; i++) {
 			getInventory().setItem(i, glass);
 		}
 	}
 
-	/**
-	 * Pour donner les items de l'ivnentaire à un joueur
-	 *
-	 * @param player Le joueur
-	 */
+	@Override
 	public void giveItems(Player player) {
+		Inventory currentInventory = this.getInventory();
+		Inventory playerInventory = player.getInventory();
+
 		for (int i = 0; i < 45; i++) {
 			if (i < 4) {
-				player.getInventory().setItem(39-i, this.getInventory().getItem(i));
+				playerInventory.setItem(39 - i, currentInventory.getItem(i));
 			} else if (i < 36) {
-				player.getInventory().setItem(i, this.getInventory().getItem(i));
-			}else {
-				player.getInventory().setItem(i-36, this.getInventory().getItem(i));
+				playerInventory.setItem(i, currentInventory.getItem(i));
+			} else {
+				playerInventory.setItem(i - 36, currentInventory.getItem(i));
 			}
 		}
 	}
 	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(getInventory())) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(getInventory())) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			
-			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType() == Material.REDSTONE && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
 					e.setCancelled(true);
-					p.openInventory(getParent().getInventory());
+					player.openInventory(getParent().getInventory());
 					return;
 				}
 	

@@ -47,14 +47,14 @@ public class PlayerJoinQuitListener implements Listener {
 				);
 			}
 		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
-			if (!this.main.getInventoryRegister().coordonneesvisibles.getValue()) {
+			if (!this.main.getInventoryRegister().coordonneesVisibles.getValue()) {
 				DisableF3.disableF3(player);
 			}
 
-			if (!pl.isAlive() || !Objects.isNull(pl.getTeam())) {
+			if (!pl.isAlive() || Objects.nonNull(pl.getTeam())) {
 				player.setGameMode(GameMode.SPECTATOR);
 				World world = this.main.getWorldManager().getWorld();
-				if (!Objects.isNull(world)) {
+				if (Objects.nonNull(world)) {
 					player.teleport(new Location(world,0,200,0));
 				}
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
@@ -102,7 +102,7 @@ public class PlayerJoinQuitListener implements Listener {
 		this.main.getDatabaseManager().updatePlayerLast(player);
 		
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			this.main.getInventoryRegister().scenariosvisibles.reloadScenariosItem(player);
+			this.main.getInventoryRegister().scenariosVisible.reloadScenariosItem(player);
 		}
 
 		pl.setCustomName(player.getName());
@@ -113,7 +113,7 @@ public class PlayerJoinQuitListener implements Listener {
 		this.main.getScoreboardManager().onLogout(player);
 		this.main.getDatabaseManager().updatePlayerTimePlayed(player);
 		this.main.getDatabaseManager().updatePlayerLast(player);
-		this.main.getInventoryRegister().scenariosvisibles.removeScenariosItem(player);
+		this.main.getInventoryRegister().scenariosVisible.removeScenariosItem(player);
 		
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 		pl.addTimePlayed((int) (UtilsClass.getLongTimestamp() - pl.getLastConnection()));

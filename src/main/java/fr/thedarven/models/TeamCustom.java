@@ -175,7 +175,7 @@ public class TeamCustom {
 		}
 
 		Player player = Bukkit.getPlayer(pl.getUuid());
-		if (!Objects.isNull(player)) {
+		if (Objects.nonNull(player)) {
 			joinScoreboardTeam(pl.getName(), pl, player);
 		}
 
@@ -207,11 +207,11 @@ public class TeamCustom {
 		team.addEntry(name);
 		objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
-		if (!Objects.isNull(pl)) {
+		if (Objects.nonNull(pl)) {
 			players.add(pl);
 		}
 
-		if (!Objects.isNull(player)) {
+		if (Objects.nonNull(player)) {
 			Score score = objective.getScore(player);
 			score.setScore(20);
 			player.setScoreboard(board);
@@ -224,7 +224,7 @@ public class TeamCustom {
 		
 		team.removeEntry(pl.getName());
 		players.remove(pl);
-		if (!Objects.isNull(player)) {
+		if (Objects.nonNull(player)) {
 			board.resetScores(player);
 		}
 		pl.setTeam(null);
@@ -235,9 +235,9 @@ public class TeamCustom {
 	}
 
 	private void reloadTeamsInventories() {
-		TaupeGun.getInstance().getInventoryRegister().teams.reloadInventory();
+		TaupeGun.getInstance().getInventoryRegister().teamsMenu.reloadInventory();
 		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
-		if (!Objects.isNull(inventoryTeamsElement)) {
+		if (Objects.nonNull(inventoryTeamsElement)) {
 			inventoryTeamsElement.reloadInventory();
 		}
 		InventoryPlayers.reloadInventories();

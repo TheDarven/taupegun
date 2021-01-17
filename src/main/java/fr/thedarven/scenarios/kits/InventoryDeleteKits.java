@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.InventoryDelete;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryDelete;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.utils.api.Title;
@@ -22,22 +22,14 @@ public class InventoryDeleteKits extends InventoryDelete {
 	
 	
 	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+	@Override
 	public void updateLanguage(String language) {
 		DELETE_KIT_FORMAT = LanguageBuilder.getContent("KIT", "delete", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -49,15 +41,13 @@ public class InventoryDeleteKits extends InventoryDelete {
 	
 	
 	
-	/**
-	 * Pour supprimer un kit
-	 */
-	protected void deleteElement(Player p) {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("kitName", "§e§l"+this.getParent().getName()+"§r§c");
-		Title.sendActionBar(p, TextInterpreter.textInterpretation("§c"+DELETE_KIT_FORMAT, params));
+	@Override
+	protected void deleteElement(Player player) {
+		Map<String, String> params = new HashMap<>();
+		params.put("kitName", "§e§l" + this.getParent().getName() + "§r§c");
+		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
 		
 		InventoryKitsElement.removeKit(getParent().getName());
-		p.openInventory(TaupeGun.getInstance().getInventoryRegister().kits.getInventory());
+		player.openInventory(TaupeGun.getInstance().getInventoryRegister().kitsMenu.getInventory());
 	}
 }

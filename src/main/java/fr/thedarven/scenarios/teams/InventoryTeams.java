@@ -5,8 +5,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.thedarven.scenarios.helper.ClickCooldown;
 import fr.thedarven.scenarios.runnable.CreateTeamRunnable;
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.InventoryIncrement;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryIncrement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,13 +37,9 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		super("Equipes", "Menu de équipes.", "MENU_TEAM", 6, Material.BANNER, pInventoryGUI, 5, (byte) 15);
 	}
 
-	
 
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+	@Override
 	public void updateLanguage(String language) {
 		PLAYER_REPARTITION = LanguageBuilder.getContent("TEAM", "playersDistributed", language, true);
 		CREATE_TEAM = LanguageBuilder.getContent("TEAM", "nameChoice", language, true);
@@ -52,12 +48,8 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		
@@ -69,12 +61,10 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		
 		return languageElement;
 	}
-	
-	
-	
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
+
+
+
+	@Override
 	public void reloadInventory() {
 		clearChildsItems();
 
@@ -90,12 +80,8 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 				}
 			});
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (!(e.getWhoClicked() instanceof Player) || e.getClickedInventory() == null)
@@ -105,13 +91,13 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
 
 		if (click(p, EnumConfiguration.OPTION)){
-			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().teamsrandom.getItem())) {
+			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().randomizeTeams.getItem())) {
 				e.setCancelled(true);
 				randomTeamAction(p);
 				return;
 			}
 
-			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addteam.getItem())) {
+			if (e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addTeam.getItem())) {
 				e.setCancelled(true);
 
 				if (TeamCustom.board.getTeams().size() < 36) {
@@ -123,7 +109,7 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 				return;
 			}
 
-			if (e.getInventory().equals(TaupeGun.getInstance().getInventoryRegister().choisirCouleurEquipe.getInventory())){
+			if (e.getInventory().equals(TaupeGun.getInstance().getInventoryRegister().chooseTeamColor.getInventory())){
 
 				e.setCancelled(true);
 				if(e.getCurrentItem().getType() == Material.BANNER)
@@ -232,6 +218,6 @@ public class InventoryTeams extends InventoryIncrement implements ClickCooldown 
 		Title.sendActionBar(p, successTeamCreateMessage);
 
 		pl.setCreateTeamName(null);
-		p.openInventory(TaupeGun.getInstance().getInventoryRegister().teams.getLastChild().getInventory());
+		p.openInventory(TaupeGun.getInstance().getInventoryRegister().teamsMenu.getLastChild().getInventory());
 	}
 }

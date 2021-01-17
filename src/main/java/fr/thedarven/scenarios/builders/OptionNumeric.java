@@ -1,9 +1,6 @@
-package fr.thedarven.scenarios;
+package fr.thedarven.scenarios.builders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import fr.thedarven.scenarios.helper.ClickCooldown;
 import org.bukkit.inventory.ItemFlag;
@@ -37,145 +34,170 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	protected int value;
 	protected int pas;
 	protected String afterName;
-	protected int diviseur;
+	protected int divider;
 	protected int morePas;
 	protected boolean showDisabled;
 	protected double getterFactor;
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition, pData);
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
 		this.pas = infos.pas;
 		this.morePas = infos.morePas;
 		this.afterName = infos.afterName;
-		this.diviseur = infos.diviseur;
+		this.divider = infos.divider;
 		this.showDisabled = infos.showDisabled;
 		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pData);
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos, byte pData) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
 		this.pas = infos.pas;
 		this.morePas = infos.morePas;
 		this.afterName = infos.afterName;
-		this.diviseur = infos.diviseur;
+		this.divider = infos.divider;
 		this.showDisabled = infos.showDisabled;
 		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent, pPosition);
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
 		this.pas = infos.pas;
 		this.morePas = infos.morePas;
 		this.afterName = infos.afterName;
-		this.diviseur = infos.diviseur;
+		this.divider = infos.divider;
 		this.showDisabled = infos.showDisabled;
 		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, 1, pItem, pParent);
+	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos) {
+		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
 		this.pas = infos.pas;
 		this.morePas = infos.morePas;
 		this.afterName = infos.afterName;
-		this.diviseur = infos.diviseur;
+		this.divider = infos.divider;
 		this.showDisabled = infos.showDisabled;
 		this.getterFactor = infos.getterFactor;
 		
 		initDefaultTranslation();
 		
-		initItem(pItem);
+		initItem(pMaterial);
 		reloadItem();
 	}
 	
 	/**
-	 * Pour avoir la valeur
+	 * Pour avoir la valeur multiplié par son facteur
 	 * 
-	 * @return La valeur
+	 * @return La valeur multiplié par son facteur
 	 */
-	public double getValue() {
+	final public double getValue() {
 		return this.value * this.getterFactor;
 	}
 
-	public int getIntValue() {
+	/**
+	 * Pour avoir la valeur sans son facteur
+	 *
+	 * @return La valeur
+	 */
+	final public int getIntValue() {
 		return (int) (this.getValue());
 	}
 
-	public boolean isValueEquals(int value) {
+	/**
+	 * Pour savoir si une valeur est identique à celle de l'option
+	 *
+	 * @param value La valeur à comparer
+	 * @return <b>true</b> si elles sont égale, <b>false</b>
+	 */
+	final public boolean isValueEquals(int value) {
 		return this.value * this.getterFactor == value;
 	}
 
-	public boolean isValueGreater(int value) {
+	/**
+	 * Pour savoir si la valeur de l'option est strictement supérieur à une valeur
+	 *
+	 * @param value La valeur à comparer
+	 * @return <b>true</b> si la valeur de l'option est strictement plus grande, <b>false</b>
+	 */
+	final public boolean isValueGreater(int value) {
 		return this.value * this.getterFactor > value;
 	}
-	public boolean isValueGreaterOrEquals(int value) {
+
+	/**
+	 * Pour savoir si la valeur de l'option est supérieur ou égale à une valeur
+	 *
+	 * @param value La valeur à comparer
+	 * @return <b>true</b> si la valeur de l'option est plus grande ou égale, <b>false</b>
+	 */
+	final public boolean isValueGreaterOrEquals(int value) {
 		return this.value * this.getterFactor >= value;
 	}
 
-	public boolean isValueLower(int value) {
+	/**
+	 * Pour savoir si la valeur de l'option est strictement inférieure à une valeur
+	 *
+	 * @param value La valeur à comparer
+	 * @return <b>true</b> si la valeur de l'option est strictement plus petite, <b>false</b>
+	 */
+	final public boolean isValueLower(int value) {
 		return this.value * this.getterFactor < value;
 	}
-	public boolean isValueLowerOrEquals(int value) {
+
+	/**
+	 * Pour savoir si la valeur de l'option est inférieure ou égale à une valeur
+	 *
+	 * @param value La valeur à comparer
+	 * @return <b>true</b> si la valeur de l'option est plus petite ou égale, <b>false</b>
+	 */
+	final public boolean isValueLowerOrEquals(int value) {
 		return this.value * this.getterFactor <= value;
 	}
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+	@Override
 	public void updateLanguage(String language) {
 		afterName = LanguageBuilder.getContent(getTranslationName(), "afterName", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "afterName", afterName, false);
 		return languageElement;
 	}
-	
-	
-	
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+
+
+
+	@Override
 	protected String getFormattedItemName() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("name", this.name);
@@ -183,35 +205,29 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", getLanguage(), true));
 			params.put("afterName", "");
 		} else {
-			if (diviseur == 1) {
+			if (divider == 1) {
 				params.put("value", Integer.toString(this.value));
 			} else {
-				params.put("value", Double.toString(((double)this.value/ (double) this.diviseur)));
+				params.put("value", Double.toString((double) this.value / (double) this.divider));
 			}
 			params.put("afterName", afterName);
 		}
 		
 		return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
 	}
-	
-	/**
-	 * Pour avoir le nom formaté
-	 * 
-	 * @return Le nom formaté
-	 */
+
+	@Override
 	protected String getFormattedInventoryName() {
-		return name;
+		return this.name;
 	}
-	
-	/**
-	 * Pour la description formatée
-	 */
-	protected ArrayList<String> getFormattedDescription() {
-		ArrayList<String> returnArray = super.getFormattedDescription();
+
+	@Override
+	protected List<String> getFormattedDescription() {
+		List<String> returnArray = super.getFormattedDescription();
 		returnArray.add("");
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "click_configuration", getLanguage(), true));
+		Map<String, String> params = new HashMap<>();
+		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;
@@ -239,10 +255,10 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		pattern.add(new Pattern(bannerColor, PatternType.STRIPE_BOTTOM));
 		incrementM.setPatterns(pattern);
 		incrementM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-		if (this.diviseur == 1) {
+		if (this.divider == 1) {
 			incrementM.setDisplayName(nameColor + "+" + this.pas * factor + this.afterName);
 		} else {
-			incrementM.setDisplayName(nameColor + "+" + ((double) this.pas * factor/(double) this.diviseur) + this.afterName);
+			incrementM.setDisplayName(nameColor + "+" + ((double) this.pas * factor / (double) this.divider) + this.afterName);
 		}
 		increment.setItemMeta(incrementM);
 		return increment;
@@ -266,10 +282,10 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		pattern.add(new Pattern(bannerColor, PatternType.BORDER));
 		decrementM.setPatterns(pattern);
 		decrementM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-		if (this.diviseur == 1) {
+		if (this.divider == 1) {
 			decrementM.setDisplayName(nameColor + "-" + this.pas * factor + this.afterName);
 		} else {
-			decrementM.setDisplayName(nameColor + "-" + ((double) this.pas * 10.0/(double) this.diviseur) + this.afterName);
+			decrementM.setDisplayName(nameColor + "-" + ((double) this.pas * 10.0 / (double) this.divider) + this.afterName);
 		}
 		decrement.setItemMeta(decrementM);
 		return decrement;
@@ -278,10 +294,10 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	/**
 	 * Pour initier les items
 	 * 
-	 * @param pItem Le material
+	 * @param material Le material
 	 */
-	private void initItem(Material pItem) {
-		ItemStack item = new ItemStack(pItem,1, getData());
+	private void initItem(Material material) {
+		ItemStack item = new ItemStack(material,1, getData());
 		ItemMeta itemM = item.getItemMeta();
 		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
@@ -301,10 +317,8 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 			inventory.setItem(7, createPlusItem(DyeColor.GREEN, ChatColor.DARK_GREEN, 100));
 		}
 	}
-	
-	/**
-	 * Pour mettre à jour des items dans l'inventaire
-	 */
+
+	@Override
 	protected void reloadItems() {
 		super.reloadItems();
 		reloadItem();
@@ -313,46 +327,43 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 	/**
 	 * Pour recharger les items dans l'inventaire
 	 */
-	protected void reloadItem() {
+	final protected void reloadItem() {
 		// Dans l'inventaire
-		if (inventory != null) {
-			ItemStack item2 = this.inventory.getItem(4);
-			if (item2 != null) {
-				ItemMeta itemM2 = item2.getItemMeta();
-				itemM2.setDisplayName(getFormattedItemName());
-				item2.setItemMeta(itemM2);
-				this.inventory.setItem(4, item2);
-				updateName(false);
-			}
+		if (Objects.isNull(inventory))
+			return;
+
+		ItemStack item = this.inventory.getItem(4);
+		if (Objects.nonNull(item)) {
+			ItemMeta itemM2 = item.getItemMeta();
+			itemM2.setDisplayName(getFormattedItemName());
+			item.setItemMeta(itemM2);
+			this.inventory.setItem(4, item);
+			updateName(false);
 		}
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		int operation = 0;
 		int number = 0;
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			e.setCancelled(true);
 			
-			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(this.getParent().getInventory());
+			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
+					player.openInventory(this.getParent().getInventory());
 					return;
 				}
 				
 				if (e.getSlot() == 1 && this.morePas > 2) {
 					operation = 1;
-					number = this.pas*100;
+					number = this.pas * 100;
 				} else if (e.getSlot() == 2 && this.morePas > 1) {
 					operation = 1;
-					number = this.pas*10;
+					number = this.pas * 10;
 				} else if (e.getSlot() == 3) {
 					operation = 1;
 					number = this.pas;
@@ -361,22 +372,22 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 					number = this.pas;
 				} else if (e.getSlot() == 6 && this.morePas > 1) {
 					operation = 2;
-					number = this.pas*10;
+					number = this.pas * 10;
 				} else if (e.getSlot() == 7 && this.morePas > 2) {
 					operation = 2;
-					number = this.pas*100;
+					number = this.pas * 100;
 				}
 				
 				if (operation == 1) {
-					if (this.min < this.value-number) {
-						this.value = this.value-number;
+					if (this.min < this.value - number) {
+						this.value = this.value - number;
 					} else {
 						this.value = this.min;
 					}
 					reloadItem();
 				} else if (operation == 2) {
-					if (this.max > this.value+number) {
-						this.value = this.value+number;
+					if (this.max > this.value + number) {
+						this.value = this.value + number;
 					} else {
 						this.value = this.max;
 					}

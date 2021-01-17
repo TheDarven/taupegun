@@ -72,7 +72,7 @@ public abstract class PlayerCustom {
 	}
 	
 	public boolean isOnline(){
-		return !Objects.isNull(getPlayer());
+		return Objects.nonNull(getPlayer());
 	}
 	
 	

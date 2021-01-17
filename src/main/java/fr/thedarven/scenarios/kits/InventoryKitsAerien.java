@@ -13,10 +13,8 @@ public class InventoryKitsAerien extends InventoryKitsElement {
 		super(pName, parent);
 		reloadInventory();
 	}
-	
-	/**
-	 * Recharge les objets de l'inventaire
-	 */
+
+	@Override
 	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		

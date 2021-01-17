@@ -6,7 +6,7 @@ import java.util.Map;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.childs.ScenariosVisible;
 import fr.thedarven.scenarios.helper.ClickCooldown;
-import fr.thedarven.scenarios.InventoryGUI;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,24 +35,16 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 		this.selectedLanguage = null;
 		this.defaultSelectedLanguage = "fr_FR";
 	}
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+	@Override
 	public void updateLanguage(String language) {
 		SELECTING_LANGUAGE = LanguageBuilder.getContent("MENU_LANGUAGE", "selectingMessage", language, true);
 		
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "selectingMessage", SELECTING_LANGUAGE);
@@ -114,7 +106,7 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
 
-		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getInventoryRegister().scenariosvisibles;
+		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getInventoryRegister().scenariosVisible;
 		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
 		setSelectedLanguage(pSelectedLanguage);
@@ -133,12 +125,8 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 		
 		Title.sendActionBar(p, selectingLanguageMessage);
 	}
-	
-	/**
-	 * L'évènement de clique dans l'inventaire
-	 * 
-	 * @param e L'évènement de clique
-	 */
+
+	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
 		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {

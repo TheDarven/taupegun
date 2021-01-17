@@ -33,7 +33,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         Player playerWhoWatched = Bukkit.getPlayer(this.pl.getUuid());
         Player viewedPlayer = Bukkit.getPlayer(this.viewedPl.getUuid());
 
-        if (!Objects.isNull(playerWhoWatched) && !Objects.isNull(viewedPlayer) && playerWhoWatched.getGameMode() == GameMode.SPECTATOR && checkOpenedInventory(playerWhoWatched)) {
+        if (Objects.nonNull(playerWhoWatched) && Objects.nonNull(viewedPlayer) && playerWhoWatched.getGameMode() == GameMode.SPECTATOR && checkOpenedInventory(playerWhoWatched)) {
             openInventory(playerWhoWatched);
         } else {
             this.stopRunnable();

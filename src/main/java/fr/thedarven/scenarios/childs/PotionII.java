@@ -1,7 +1,7 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.scenarios.InventoryGUI;
-import fr.thedarven.scenarios.OptionBoolean;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,43 +12,30 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.Potion;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class PotionII extends OptionBoolean{
 
 	private static String TRANSFORM_POTION = "Poufff ! Votre potion est passé au niveau 1.";
 	
-	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pPosition, pValue, pData);
+	public PotionII(InventoryGUI parent) {
+		super("Potion II", "Activer ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
+				12, true, (byte) 8254);
 		updateLanguage(getLanguage());
 	}
-	
-	public PotionII(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, pItem, pParent, pValue, pData);
-		updateLanguage(getLanguage());
-	}
-	
-	
-	
-	
-	
-	
-	/**
-	 * Pour mettre à jours les traductions de l'inventaire
-	 * 
-	 * @param language La langue
-	 */
+
+
+
+
+	@Override
 	public void updateLanguage(String language) {
 		TRANSFORM_POTION = LanguageBuilder.getContent(getTranslationName(), "transformPotion", language, true);
 
 		super.updateLanguage(language);
 	}
-	
-	/**
-	 * Pour initier des traductions par défaut
-	 * 
-	 * @return L'instance LanguageBuilder associée à l'inventaire courant.
-	 */
+
+	@Override
 	protected LanguageBuilder initDefaultTranslation() {
 		LanguageBuilder languageElement = super.initDefaultTranslation();
 		languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "transformPotion", TRANSFORM_POTION);
@@ -63,12 +50,13 @@ public class PotionII extends OptionBoolean{
 	 * @param e L'évènement d'ajout d'un ingrédient à une potion
 	 */
     @EventHandler
-	public void onPotionBrew(BrewEvent e) {
+	final public void onPotionBrew(BrewEvent e) {
 		if (this.value)
 			return;
 
-		if (e.getContents().getIngredient().getType() == Material.GLOWSTONE_DUST)
+		if (e.getContents().getIngredient().getType() == Material.GLOWSTONE_DUST) {
 			e.setCancelled(true);
+		}
 	}
 
 	/**
@@ -77,7 +65,7 @@ public class PotionII extends OptionBoolean{
 	 * @param e L'évènement de consommation d'un item par un joueur
 	 */
 	@EventHandler
-	public void onPlayItemConsume(PlayerItemConsumeEvent e) {
+	final public void onPlayItemConsume(PlayerItemConsumeEvent e) {
 		if (this.value)
 			return;
 
@@ -102,13 +90,14 @@ public class PotionII extends OptionBoolean{
 	 * @param item L'item à convertir en Potion
 	 * @return L'objet Potion si potion de niveau 2, rien sinon
 	 */
-	public Optional<Potion> getUpgradedPotion(ItemStack item) {
-		if (item == null || item.getType() != Material.POTION)
+	final public Optional<Potion> getUpgradedPotion(ItemStack item) {
+		if (Objects.isNull(item) || item.getType() != Material.POTION)
 			return Optional.empty();
 
 		Potion potion = Potion.fromItemStack(item);
-		if (potion.getLevel() <= 1)
+		if (potion.getLevel() <= 1) {
 			return Optional.empty();
+		}
 		return Optional.of(potion);
 	}
 }
