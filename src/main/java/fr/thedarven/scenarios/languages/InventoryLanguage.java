@@ -1,12 +1,16 @@
 package fr.thedarven.scenarios.languages;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.childs.ScenariosVisible;
 import fr.thedarven.scenarios.helper.ClickCooldown;
-import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.skull.Skull;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.messages.MessagesClass;
+import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,23 +19,20 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.api.skull.Skull;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.texts.TextInterpreter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 
 	private static String SELECTING_LANGUAGE = "Vous avez sélectionné la langue {languageName}";
 
-	private InventoryLanguageElement selectedLanguage = null;
-	private String defaultSelectedLanguage = null;
-	
-	public InventoryLanguage(String pName, String pDescription, String pTranslationName, Material pItem, InventoryGUI pParent, int pPosition, byte pData) {
-		super(pName, pDescription, pTranslationName, 4, pItem, pParent, pPosition, pData);
+	private final String defaultSelectedLanguage;
+	private InventoryLanguageElement selectedLanguage;
+
+	public InventoryLanguage(InventoryGUI parent) {
+		super("Langue", "Changer de langue.", "MENU_LANGUAGE",4, Material.SKULL_ITEM, parent,
+				0, (byte) 3);
 		this.selectedLanguage = null;
 		this.defaultSelectedLanguage = "fr_FR";
 	}
@@ -58,8 +59,8 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 	 * 
 	 * @return Le nom court de la langue selectionnée
 	 */
-	public String getSelectedLanguage() {
-		return this.selectedLanguage == null ? this.defaultSelectedLanguage : this.selectedLanguage.getLanguageShortName();
+	final public String getSelectedLanguage() {
+		return Objects.isNull(this.selectedLanguage) ? this.defaultSelectedLanguage : this.selectedLanguage.getLanguageShortName();
 	}
 	
 	/**
@@ -67,7 +68,7 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 	 * 
 	 * @param pSelectedLanguage Le nouveau inventaire langue selectionné
 	 */
-	public void setSelectedLanguage(InventoryLanguageElement pSelectedLanguage) {
+	final public void setSelectedLanguage(InventoryLanguageElement pSelectedLanguage) {
 		this.selectedLanguage = pSelectedLanguage;
 		reloadItem();
 	}
@@ -77,19 +78,20 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 	/**
 	 * Pour recharger les items dans l'inventaire
 	 */
-	public void reloadItem() {
+	final public void reloadItem() {
 		int exItem = getItem().hashCode();
 		
 		String link = selectedLanguage.getLink();
-		link = link == null ? " " : link;
+		link = Objects.isNull(link) ? " " : link;
 		
 		ItemStack head = Skull.getCustomSkull(link, getItem());
 		ItemMeta headM = head.getItemMeta();
 		headM.setDisplayName(getFormattedItemName());
 		head.setItemMeta(headM);
 
-		if (this.getParent() != null)
+		if (Objects.nonNull(this.getParent())) {
 			this.getParent().updateChildItem(exItem, head, this);
+		}
 	}
 	
 	
@@ -97,11 +99,11 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 	/**
 	 * Pour changer la langue selectionnée
 	 * 
-	 * @param pSelectedLanguage L'inventaire de la langue selectionnée
-	 * @param p Le joueur qui a cliqué
+	 * @param selectedInventoryLanguage L'inventaire de la langue selectionnée
+	 * @param player Le joueur qui a cliqué
 	 */
-	private void changeSelectedLanguage(InventoryLanguageElement pSelectedLanguage, Player p) {
-		if (pSelectedLanguage == this.selectedLanguage)
+	private void changeSelectedLanguage(InventoryLanguageElement selectedInventoryLanguage, Player player) {
+		if (selectedInventoryLanguage == this.selectedLanguage)
 			return;
 
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
@@ -109,45 +111,46 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getInventoryRegister().scenariosVisible;
 		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
-		setSelectedLanguage(pSelectedLanguage);
-		Bukkit.getOnlinePlayers().forEach(player -> scenariosVisible.reloadScenariosItem(player, exName));
+		setSelectedLanguage(selectedInventoryLanguage);
+		Bukkit.getOnlinePlayers().forEach(p -> scenariosVisible.reloadScenariosItem(p, exName));
 		
-		if (exSelectedLanguage != null)
+		if (Objects.nonNull(exSelectedLanguage)) {
 			exSelectedLanguage.reloadItem();
-		pSelectedLanguage.reloadItem();
+		}
+		selectedInventoryLanguage.reloadItem();
 		
 		InventoryGUI.setLanguage();
 		Bukkit.getOnlinePlayers().forEach(MessagesClass::TabMessage);
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("languageName", "§6"+this.selectedLanguage.getName()+"§e");
-		String selectingLanguageMessage = TextInterpreter.textInterpretation("§e"+SELECTING_LANGUAGE, params);
+		Map<String, String> params = new HashMap<>();
+		params.put("languageName", "§6" + this.selectedLanguage.getName() + "§e");
+		String selectingLanguageMessage = TextInterpreter.textInterpretation("§e" + SELECTING_LANGUAGE, params);
 		
-		Title.sendActionBar(p, selectingLanguageMessage);
+		Title.sendActionBar(player, selectingLanguageMessage);
 	}
 
 	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			e.setCancelled(true);
 			
-			if (click(p,EnumConfiguration.OPTION) && !e.getCurrentItem().getType().equals(Material.AIR) && pl.getCanClick()) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == this.getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					p.openInventory(this.getParent().getInventory());
+			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
+					player.openInventory(this.getParent().getInventory());
 					return;
 				}
+
 				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-				if (inventoryGUI != null) {
+				if (Objects.nonNull(inventoryGUI)) {
 					if (inventoryGUI instanceof InventoryLanguageElement) {
-						InventoryLanguageElement clickedInventory = (InventoryLanguageElement) inventoryGUI;
-						if (click(p, EnumConfiguration.OPTION)) {
-							changeSelectedLanguage(clickedInventory, p);
+						if (click(player, EnumConfiguration.OPTION)) {
+							changeSelectedLanguage((InventoryLanguageElement) inventoryGUI, player);
 						}
 					} else {
-						p.openInventory(inventoryGUI.getInventory());
+						player.openInventory(inventoryGUI.getInventory());
 					}
 					return;
 				}

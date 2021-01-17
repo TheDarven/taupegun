@@ -32,7 +32,7 @@ public class ScenariosManager {
 	}
 	
 	public InventoryGUI menu = new InventoryGUI("Menu", null, "MENU_MAIN_MENU", 1, Material.GRASS, null);
-	public InventoryLanguage language = new InventoryLanguage("Langue", "Changer de langue.", "MENU_LANGUAGE",Material.SKULL_ITEM, menu, 0, (byte) 3);
+	public InventoryLanguage language = new InventoryLanguage(menu);
 	public InventoryGUI configurationMenu = new InventoryGUI("Configuration","Menu de configuration.", "MENU_CONFIGURATION", 2, Material.ANVIL, menu, 3);
 	public InventoryKits kitsMenu = new InventoryKits(menu);
 	public InventoryTeams teamsMenu = new InventoryTeams(menu);
