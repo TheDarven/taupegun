@@ -1,24 +1,18 @@
 package fr.thedarven.scenarios.kits;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import fr.thedarven.TaupeGun;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.InventoryIncrement;
 import fr.thedarven.scenarios.runnable.CreateKitRunnable;
+import fr.thedarven.utils.api.AnvilGUI;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.api.AnvilGUI;
-import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
 
 public class InventoryKits extends InventoryIncrement {
 	

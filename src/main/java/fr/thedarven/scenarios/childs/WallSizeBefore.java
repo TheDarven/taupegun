@@ -24,7 +24,7 @@ public class WallSizeBefore extends WallSizeHelper {
 
 	@Override
 	@EventHandler
-	final public void clickInventory(InventoryClickEvent e){
+	public void clickInventory(InventoryClickEvent e){
 		int operation = 0;
 		int number = 0;
 		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
