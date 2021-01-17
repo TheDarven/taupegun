@@ -1,10 +1,8 @@
 package fr.thedarven.scenarios.kits;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import org.bukkit.Location;
@@ -15,16 +13,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.PlayerTaupe;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem {
 	
 	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
-	public InventoryKitsElement(String pName, InventoryKits parent) {
-		super(pName, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
-		kits.put(pName, this);
+	public InventoryKitsElement(String name, InventoryKits parent) {
+		super(name, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
+		kits.put(name, this);
 		initItem();
 		reloadItem();
 		parent.reloadInventory();
@@ -39,12 +38,12 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 	@Override
 	protected String getFormattedInventoryName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	protected String getFormattedItemName() {
-		return name;
+		return this.name;
 	}
 	
 	
@@ -53,24 +52,23 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	 * Pour initier les items
 	 */
 	private void initItem() {
-		int i = 0;
 		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 		ItemMeta verreM = verre.getItemMeta();
 		verreM.setDisplayName("§f");
 		verre.setItemMeta(verreM);
 		
-		for (i=10; i<17; i++) {
+		for (int i = 10; i < 17; i++) {
 			getInventory().setItem(i, verre);
 		}
 	}
 
 	/**
-	 * Pour récupérer un kit à partir de son nom
+	 * Pour récupérer un InventoryKitElement à partir de son nom
 	 *
 	 * @param name Le nom du kit
-	 * @return Le kit si il existe, null sinon
+	 * @return <b>L'InventoryKitElement</b> s'il existe, <b>null</b> sinon
 	 */
-	public static InventoryKitsElement getKit(String name) {
+	public static InventoryKitsElement getInventoryKitElement(String name) {
 		return kits.get(name);
 	}
 	
@@ -79,10 +77,11 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	 * 
 	 * @param name Le nom du kit à supprimer
 	 */
-	static public void removeKit(String name) {
+	public static void removeKit(String name) {
 		InventoryGUI kit = kits.get(name);
-		if (kit == null)
+		if (Objects.isNull(kit)) {
 			return;
+		}
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
@@ -99,8 +98,9 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 		itemM.setDisplayName(getName());
 		item.setItemMeta(itemM);
 
-		if (this.getParent() != null)
+		if (Objects.nonNull(this.getParent())) {
 			this.getParent().updateChildItem(hashCode, item, this);
+		}
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 		for(int i = 0; i < 9; i++) {
 			item = this.inventory.getItem(i);
-			if (Objects.nonNull(item) && !item.getType().equals(Material.AIR)) {
+			if (Objects.nonNull(item) && item.getType() != Material.AIR) {
 				player.getWorld().dropItem(playerLocation, item);
 			}
 		}
@@ -119,37 +119,42 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
-			Player p = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory())) {
+			Player player = (Player) e.getWhoClicked();
+			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			
 			if (e.getClickedInventory().equals(getInventory())) {
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
+				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
 					e.setCancelled(true);
-					p.openInventory(getParent().getInventory());
+					player.openInventory(getParent().getInventory());
 					return;
-				} else if (!click(p, EnumConfiguration.OPTION)) {
+				}
+
+				if (!click(player, EnumConfiguration.OPTION)) {
 					e.setCancelled(true);
 					return;
-				} else {
-					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-					if(inventoryGUI != null) {
+				}
+
+				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+				if (Objects.nonNull(inventoryGUI)) {
+					e.setCancelled(true);
+					player.openInventory(inventoryGUI.getInventory());
+					delayClick(pl);
+					return;
+				}
+
+				if (e.getCurrentItem().getType() != Material.AIR) {
+					if (e.getCurrentItem().getType() == Material.STAINED_GLASS_PANE && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
 						e.setCancelled(true);
-						p.openInventory(inventoryGUI.getInventory());
-						delayClick(pl);
-						return;
 					}
-					if (!e.getCurrentItem().getType().equals(Material.AIR)) {
-						if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
-							e.setCancelled(true);
-						}
-					}	
 				}
 			}
 			
-			if (p.getOpenInventory() != null && p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
-				if (!click(p, EnumConfiguration.OPTION))
+			if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory()) &&
+					player.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
+				if (!click(player, EnumConfiguration.OPTION)) {
 					e.setCancelled(true);
+				}
 			}
 		}
 	}

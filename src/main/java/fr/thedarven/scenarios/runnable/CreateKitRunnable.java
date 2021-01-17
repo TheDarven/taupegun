@@ -1,6 +1,5 @@
 package fr.thedarven.scenarios.runnable;
 
-import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
@@ -35,7 +34,7 @@ public class CreateKitRunnable extends BukkitRunnable {
             return;
         }
 
-        InventoryKitsElement matchedKit = InventoryKitsElement.getKit(this.pl.getCreateKitName());
+        InventoryKitsElement matchedKit = InventoryKitsElement.getInventoryKitElement(this.pl.getCreateKitName());
         if(Objects.nonNull(matchedKit)) {
             this.player.openInventory(this.kitsMenu.getInventory());
             Title.sendActionBar(this.player, "§c" + InventoryKits.NAME_ALREADY_USED_FORMAT);

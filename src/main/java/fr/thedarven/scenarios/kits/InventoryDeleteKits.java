@@ -44,7 +44,7 @@ public class InventoryDeleteKits extends InventoryDelete {
 	@Override
 	protected void deleteElement(Player player) {
 		Map<String, String> params = new HashMap<>();
-		params.put("kitName", "§e§l" + this.getParent().getName() + "§r§c");
+		params.put("kitName", "§e§l" + getParent().getName() + "§r§c");
 		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
 		
 		InventoryKitsElement.removeKit(getParent().getName());

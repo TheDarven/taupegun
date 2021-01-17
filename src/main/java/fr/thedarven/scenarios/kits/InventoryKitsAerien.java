@@ -9,8 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryKitsAerien extends InventoryKitsElement {
 
-	public InventoryKitsAerien(String pName, InventoryKits parent) {
-		super(pName, parent);
+	public InventoryKitsAerien(String name, InventoryKits parent) {
+		super(name, parent);
 		reloadInventory();
 	}
 
@@ -23,7 +23,9 @@ public class InventoryKitsAerien extends InventoryKitsElement {
 		arcM.addEnchant(Enchantment.ARROW_KNOCKBACK, 2, true);
 		arc.setItemMeta(arcM);
 		inv.addItem(arc);
+
 		inv.addItem(new ItemStack(Material.ENDER_PEARL, 4));
+
 		ItemStack falling = new ItemStack(Material.ENCHANTED_BOOK, 1);
 		EnchantmentStorageMeta fallingM = (EnchantmentStorageMeta) falling.getItemMeta();
 		fallingM.addStoredEnchant(Enchantment.PROTECTION_FALL, 4, true);

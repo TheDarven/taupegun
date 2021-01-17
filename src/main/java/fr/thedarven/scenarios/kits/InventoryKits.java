@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.Objects;
+
 public class InventoryKits extends InventoryIncrement {
 	
 	public static String TOO_LONG_NAME_FORMAT = "Le nom du kit ne doit pas dépasser 16 caractères.";
@@ -60,16 +62,17 @@ public class InventoryKits extends InventoryIncrement {
 
 	@Override
 	public void reloadInventory() {
-		for (InventoryGUI inv : getChildsValue())
+		for (InventoryGUI inv : getChildsValue()) {
 			inv.getParent().removeItem(inv);
+		}
 
 		int i = 0;
 		for (InventoryGUI inv : getChildsValue()) {
 			if (inv instanceof InventoryKitsElement) {
-				modifiyPosition(inv,i);
+				modifiyPosition(inv, i);
 				i++;
 			} else if (getChilds().size() < 10){
-				modifiyPosition(inv,getChilds().size()-1);
+				modifiyPosition(inv,getChilds().size() - 1);
 			}
 		}
 	}
@@ -77,37 +80,37 @@ public class InventoryKits extends InventoryIncrement {
 	@Override
 	@EventHandler
 	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && e.getClickedInventory() != null) {
-			final Player p = (Player) e.getWhoClicked();
-			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
-			
-			if (click(p, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addKit.getItem())) {
+		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
+			final Player player = (Player) e.getWhoClicked();
+			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+
+
+			if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
+				e.setCancelled(true);
+				player.openInventory(getParent().getInventory());
+				return;
+			}
+
+			if (click(player, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addKit.getItem())) {
 				e.setCancelled(true);
 
 				final InventoryKits parent = this;
 
-				new AnvilGUI(TaupeGun.getInstance(), p, (menu, text) -> {
+				new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
 					pl.setCreateKitName(text);
-					Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateKitRunnable(p, pl, parent));
+					Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateKitRunnable(player, pl, parent));
 					return true;
 				}).setInputName(CREATE_KIT_NAME_FORMAT).open();
+				return;
+			}
 
-			} else if (e.getClickedInventory().equals(getInventory())) {
-				
-				if (e.getCurrentItem().getType().equals(Material.REDSTONE) && e.getRawSlot() == getLines()*9-1 && e.getCurrentItem().getItemMeta().getDisplayName().equals(getBackName())){
-					e.setCancelled(true);
-					p.openInventory(getParent().getInventory());
-					return;
-				} else {
-					InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-					if (inventoryGUI != null) {
-						e.setCancelled(true);
-						if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addKit || click(p, EnumConfiguration.OPTION)) {
-							p.openInventory(inventoryGUI.getInventory());
-							delayClick(pl);
-						}
-						return;
-					}
+			InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
+
+			if (Objects.nonNull(inventoryGUI)) {
+				e.setCancelled(true);
+				if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addKit || click(player, EnumConfiguration.OPTION)) {
+					player.openInventory(inventoryGUI.getInventory());
+					delayClick(pl);
 				}
 			}
 		}

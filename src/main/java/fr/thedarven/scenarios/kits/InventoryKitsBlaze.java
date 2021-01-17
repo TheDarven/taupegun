@@ -9,8 +9,8 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 public class InventoryKitsBlaze extends InventoryKitsElement {
 
-	public InventoryKitsBlaze(String pName, InventoryKits parent) {
-		super(pName, parent);
+	public InventoryKitsBlaze(String name, InventoryKits parent) {
+		super(name, parent);
 		reloadInventory();
 	}
 
@@ -18,6 +18,7 @@ public class InventoryKitsBlaze extends InventoryKitsElement {
 	public void reloadInventory() {
 		Inventory inv = this.getInventory();
 		inv.addItem(new ItemStack(Material.MONSTER_EGG, 3, EntityType.BLAZE.getTypeId()));
+
 		ItemStack fire = new ItemStack(Material.ENCHANTED_BOOK, 1);
 		EnchantmentStorageMeta fireM = (EnchantmentStorageMeta) fire.getItemMeta();
 		fireM.addStoredEnchant(Enchantment.FIRE_ASPECT, 1, true);
