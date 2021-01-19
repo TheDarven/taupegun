@@ -5,15 +5,12 @@ import fr.thedarven.models.Manager;
 import fr.thedarven.utils.api.SqlConnection;
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Date;
 
 public class DatabaseManager extends Manager {
 
-    private boolean connected = false;
+    private SqlConnection sqlConnection;
 
     private int gameId = 0;
 
@@ -23,23 +20,23 @@ public class DatabaseManager extends Manager {
     }
 
     private void loadDatabase(){
-        String host = main.getConfig().getString("bd.host-address", "");
-        String database = main.getConfig().getString("bd.database-name", "");
-        String user = main.getConfig().getString("bd.user", "");
-        String password = main.getConfig().getString("bd.password", "");
+        String host = this.main.getConfig().getString("bd.host-address", "");
+        String database = this.main.getConfig().getString("bd.database-name", "");
+        String user = this.main.getConfig().getString("bd.user", "");
+        String password = this.main.getConfig().getString("bd.password", "");
 
-        if(host.length() + database.length() + user.length() + password.length()  == 0) {
-            main.sql = new SqlConnection("jdbc:mysql://",host,database,user,password);
+        if (host.length() + database.length() + user.length() + password.length() == 0) {
+            this.sqlConnection = new SqlConnection("jdbc:mysql://",host,database,user,password);
             try {
-                main.sql.connection();
-                this.connected = true;
-            } catch (SQLException e) {
-                this.connected = false;
-            }
+                this.sqlConnection.connection();
+            } catch (SQLException ignored) { }
         }
 
-        if(!this.connected)
+        if (!this.sqlConnection.isConnected()) {
             System.out.println("[TaupeGun-WARN] La connexion a la base de donnee a echoue !");
+            return;
+        }
+
         this.createTables();
     }
 
@@ -48,19 +45,21 @@ public class DatabaseManager extends Manager {
     }
 
     private boolean canSqlRequest(){
-        return !main.development && this.connected;
+        return !this.main.development && this.sqlConnection.isConnected();
     }
 
 
     public void createTables(){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
+
+        Connection connection = this.sqlConnection.getConnection();
 
         ResultSet tables;
         try {
-            tables = SqlConnection.connection.getMetaData().getTables(null, null, "site_equipe", null);
+            tables = connection.getMetaData().getTables(null, null, "site_equipe", null);
             if (!tables.next()) {
-                Statement q = SqlConnection.connection.createStatement();
+                Statement q = connection.createStatement();
                 String sql = "CREATE TABLE IF NOT EXISTS `site_equipe` (\r\n" +
                         "`id` int(11) NOT NULL,\r\n" +
                         "  `nom` varchar(255) NOT NULL,\r\n" +
@@ -70,20 +69,20 @@ public class DatabaseManager extends Manager {
                         ") ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_equipe`\r\n" +
                         " ADD PRIMARY KEY (`id`);";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_equipe`\r\n" +
                         "MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;";
                 q.executeUpdate(sql);
             }
 
-            tables = SqlConnection.connection.getMetaData().getTables(null, null, "site_joueur", null);
+            tables = connection.getMetaData().getTables(null, null, "site_joueur", null);
             if (!tables.next()) {
-                Statement q = SqlConnection.connection.createStatement();
+                Statement q = connection.createStatement();
                 String sql = "CREATE TABLE IF NOT EXISTS `site_joueur` (\r\n" +
                         "  `uuid` varchar(255) NOT NULL,\r\n" +
                         "  `pseudo` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,\r\n" +
@@ -92,15 +91,15 @@ public class DatabaseManager extends Manager {
                         ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_joueur`\r\n" +
                         " ADD PRIMARY KEY (`uuid`);";
                 q.executeUpdate(sql);
             }
 
-            tables = SqlConnection.connection.getMetaData().getTables(null, null, "site_partie", null);
+            tables = connection.getMetaData().getTables(null, null, "site_partie", null);
             if (!tables.next()) {
-                Statement q = SqlConnection.connection.createStatement();
+                Statement q = connection.createStatement();
                 String sql = "CREATE TABLE IF NOT EXISTS `site_partie` (\r\n" +
                         "`id` int(11) NOT NULL,\r\n" +
                         "  `type` varchar(255) NOT NULL,\r\n" +
@@ -110,20 +109,20 @@ public class DatabaseManager extends Manager {
                         ") ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_partie`\r\n" +
                         " ADD PRIMARY KEY (`id`);";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_partie`\r\n" +
                         "MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;";
                 q.executeUpdate(sql);
             }
 
-            tables = SqlConnection.connection.getMetaData().getTables(null, null, "site_taupe", null);
+            tables = connection.getMetaData().getTables(null, null, "site_taupe", null);
             if (!tables.next()) {
-                Statement q = SqlConnection.connection.createStatement();
+                Statement q = connection.createStatement();
                 String sql = "CREATE TABLE IF NOT EXISTS `site_taupe` (\r\n" +
                         "`id` int(11) NOT NULL,\r\n" +
                         "  `id_partie` int(11) NOT NULL,\r\n" +
@@ -136,12 +135,12 @@ public class DatabaseManager extends Manager {
                         ") ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_taupe`\r\n" +
                         " ADD PRIMARY KEY (`id`);";
                 q.executeUpdate(sql);
 
-                q = SqlConnection.connection.createStatement();
+                q = connection.createStatement();
                 sql = "ALTER TABLE `site_taupe`\r\n" +
                         "MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=94;";
                 q.executeUpdate(sql);
@@ -152,11 +151,13 @@ public class DatabaseManager extends Manager {
     }
 
     public void createGame(){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
+        Connection connection = this.sqlConnection.getConnection();
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("INSERT INTO site_partie(type,debut) VALUES (?,?)");
+            PreparedStatement q = connection.prepareStatement("INSERT INTO site_partie(type,debut) VALUES (?,?)");
             q.setString(1, "taupegun");
             q.setInt(2, getTimestamp());
             q.execute();
@@ -166,9 +167,9 @@ public class DatabaseManager extends Manager {
         }
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("SELECT * FROM site_partie WHERE 1 ORDER BY id DESC LIMIT 1");
+            PreparedStatement q = connection.prepareStatement("SELECT * FROM site_partie WHERE 1 ORDER BY id DESC LIMIT 1");
             ResultSet resultat = q.executeQuery();
-            while(resultat.next()){
+            while (resultat.next()) {
                 gameId = resultat.getInt("id");
             }
             q.close();
@@ -180,11 +181,11 @@ public class DatabaseManager extends Manager {
 
     // TODO Rename
     public void updateGameDuration(){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_partie SET duree = ? WHERE id = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_partie SET duree = ? WHERE id = ?");
             q.setInt(1, this.main.getGameManager().getTimer());
             q.setInt(2, gameId);
             q.execute();
@@ -196,11 +197,13 @@ public class DatabaseManager extends Manager {
     }
 
     public int createTeam(String name, String color){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return 0;
 
+        Connection connection = this.sqlConnection.getConnection();
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("INSERT INTO site_equipe(nom,id_partie,couleur) VALUES (?,?,?)");
+            PreparedStatement q = connection.prepareStatement("INSERT INTO site_equipe(nom,id_partie,couleur) VALUES (?,?,?)");
             q.setString(1, name);
             q.setInt(2, gameId);
             q.setString(3, color);
@@ -209,11 +212,13 @@ public class DatabaseManager extends Manager {
         } catch (SQLException error) {
             error.printStackTrace();
         }
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("SELECT * FROM site_equipe WHERE 1 ORDER BY id DESC LIMIT 1");
+            PreparedStatement q = connection.prepareStatement("SELECT * FROM site_equipe WHERE 1 ORDER BY id DESC LIMIT 1");
             ResultSet resultat = q.executeQuery();
-            while(resultat.next())
+            while (resultat.next()) {
                 return resultat.getInt("id");
+            }
             q.close();
         } catch (SQLException error) {
             error.printStackTrace();
@@ -223,11 +228,11 @@ public class DatabaseManager extends Manager {
     }
 
     public void updateTeamDeath(String teamName){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_equipe SET mort = ? WHERE nom = ? AND id_partie = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_equipe SET mort = ? WHERE nom = ? AND id_partie = ?");
             q.setInt(1, 1);
             q.setString(2, teamName);
             q.setInt(3, gameId);
@@ -239,11 +244,11 @@ public class DatabaseManager extends Manager {
     }
 
     public void createMole(Player player, int teamId){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("INSERT INTO site_taupe(id_partie,uuid,id_team) VALUES (?,?,?)");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("INSERT INTO site_taupe(id_partie,uuid,id_team) VALUES (?,?,?)");
             q.setInt(1, gameId);
             q.setString(2, player.getUniqueId().toString());
             q.setInt(3, teamId);
@@ -255,11 +260,11 @@ public class DatabaseManager extends Manager {
     }
 
     public void updateMoleMole(int mole, int superMole, String uuid){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_taupe SET taupe = ?, supertaupe= ? WHERE uuid = ? AND id_partie = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_taupe SET taupe = ?, supertaupe= ? WHERE uuid = ? AND id_partie = ?");
             q.setInt(1, mole);
             q.setInt(2, superMole);
             q.setString(3, uuid);
@@ -272,17 +277,19 @@ public class DatabaseManager extends Manager {
     }
 
     public void updateMoleKills(Player player){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
+        Connection connection = this.sqlConnection.getConnection();
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("SELECT * FROM site_taupe WHERE uuid = ? AND id_partie = ?");
+            PreparedStatement q = connection.prepareStatement("SELECT * FROM site_taupe WHERE uuid = ? AND id_partie = ?");
             q.setString(1, player.getUniqueId().toString());
             q.setInt(2, gameId);
             ResultSet resultat = q.executeQuery();
-            while(resultat.next()){
+            while (resultat.next()) {
                 try {
-                    PreparedStatement q1 = SqlConnection.connection.prepareStatement("UPDATE site_taupe SET kills = ? WHERE id = ?");
+                    PreparedStatement q1 = connection.prepareStatement("UPDATE site_taupe SET kills = ? WHERE id = ?");
                     q1.setInt(1, resultat.getInt("kills")+1);
                     q1.setInt(2, resultat.getInt("id"));
                     q1.execute();
@@ -298,11 +305,11 @@ public class DatabaseManager extends Manager {
     }
 
     public void updateMoleDeath(String uuid, int dead){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_taupe SET mort = ? WHERE uuid = ? AND id_partie = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_taupe SET mort = ? WHERE uuid = ? AND id_partie = ?");
             q.setInt(1, dead);
             q.setString(2, uuid);
             q.setInt(3, gameId);
@@ -314,16 +321,18 @@ public class DatabaseManager extends Manager {
     }
 
     public void updatePlayerTimePlayed(Player player){
-        if(!canSqlRequest() || !hasAccount(player))
+        if (!canSqlRequest() || !hasAccount(player))
             return;
 
+        Connection connection = this.sqlConnection.getConnection();
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("SELECT * FROM site_joueur WHERE uuid = ?");
+            PreparedStatement q = connection.prepareStatement("SELECT * FROM site_joueur WHERE uuid = ?");
             q.setString(1, player.getUniqueId().toString());
             ResultSet resultat = q.executeQuery();
-            while(resultat.next()){
+            while (resultat.next()) {
                 try {
-                    PreparedStatement q1 = SqlConnection.connection.prepareStatement("UPDATE site_joueur SET time_play = ? WHERE uuid = ?");
+                    PreparedStatement q1 = connection.prepareStatement("UPDATE site_joueur SET time_play = ? WHERE uuid = ?");
                     q1.setInt(1,resultat.getInt("time_play")+(getTimestamp()-resultat.getInt("last")));
                     q1.setString(2, player.getUniqueId().toString());
                     q1.execute();
@@ -339,11 +348,11 @@ public class DatabaseManager extends Manager {
     }
 
     public void updatePlayerLast(Player player){
-        if(!canSqlRequest() || !hasAccount(player))
+        if (!canSqlRequest() || !hasAccount(player))
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_joueur SET last = ? WHERE uuid = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_joueur SET last = ? WHERE uuid = ?");
             q.setInt(1, getTimestamp());
             q.setString(2, player.getUniqueId().toString());
             q.execute();
@@ -355,11 +364,11 @@ public class DatabaseManager extends Manager {
     }
 
     private void updatePlayerPseudo(Player player){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return;
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("UPDATE site_joueur SET pseudo = ? WHERE uuid = ?");
+            PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_joueur SET pseudo = ? WHERE uuid = ?");
             q.setString(1, player.getName());
             q.setString(2, player.getUniqueId().toString());
             q.execute();
@@ -371,23 +380,26 @@ public class DatabaseManager extends Manager {
 
 
     private boolean hasAccount(Player player){
-        if(!canSqlRequest())
+        if (!canSqlRequest())
             return false;
 
+        Connection connection = this.sqlConnection.getConnection();
+
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("SELECT uuid FROM site_joueur WHERE uuid = ?");
+            PreparedStatement q = connection.prepareStatement("SELECT uuid FROM site_joueur WHERE uuid = ?");
             q.setString(1, player.getUniqueId().toString());
             ResultSet resultat = q.executeQuery();
 
-            while(resultat.next())
+            while (resultat.next()) {
                 return true;
+            }
             q.close();
         } catch (SQLException error) {
             error.printStackTrace();
         }
 
         try {
-            PreparedStatement q = SqlConnection.connection.prepareStatement("INSERT INTO site_joueur(uuid,pseudo,last,time_play) VALUES (?,?,?,?)");
+            PreparedStatement q = connection.prepareStatement("INSERT INTO site_joueur(uuid,pseudo,last,time_play) VALUES (?,?,?,?)");
             q.setString(1, player.getUniqueId().toString());
             q.setString(2, player.getName());
             q.setInt(3, getTimestamp());
