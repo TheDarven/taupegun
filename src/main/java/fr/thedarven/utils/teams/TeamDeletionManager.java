@@ -66,16 +66,16 @@ public class TeamDeletionManager {
 				
 				Bukkit.broadcastMessage(" ");
 				Bukkit.broadcastMessage(teamWinMessage);
-				for(Player playerOnline : Bukkit.getOnlinePlayers())
-					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
+				this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 				EnumGameState.setState(EnumGameState.END_FIREWORK);
 			}else if(TeamCustom.getAllAliveTeams().size() == 0){
 				String nobodyWinMessage = "§a"+LanguageBuilder.getContent("GAME", "nobodyWin", true);
 				
 				Bukkit.broadcastMessage(" ");
 				Bukkit.broadcastMessage(nobodyWinMessage);
-				for(Player playerOnline : Bukkit.getOnlinePlayers())
-					playerOnline.playSound(playerOnline.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
+
+				this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
+
 				EnumGameState.setState(EnumGameState.END_FIREWORK);
 			}
 		}

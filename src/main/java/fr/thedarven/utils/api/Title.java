@@ -13,7 +13,21 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 
 public class Title {
-	
+
+	private String title;
+	private String subTitle;
+	private int ticks;
+
+	public Title(String title, String subTitle, int ticks) {
+		this.title = title;
+		this.subTitle = subTitle;
+		this.ticks = ticks;
+	}
+
+	public void send(Player player) {
+		title(player, this.title, this.subTitle, this.ticks);
+	}
+
 	public static void title(Player p, String title, String subTitle, int ticks){
 		
 		IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title + "\"}");

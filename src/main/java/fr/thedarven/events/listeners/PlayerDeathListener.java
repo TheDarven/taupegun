@@ -73,9 +73,7 @@ public class PlayerDeathListener implements Listener {
 			
 			/* ON S'OCCUPE DU JOUEUR */
 			TeamCustom team = pl.getTeam();
-			for (Player playerOnline : Bukkit.getOnlinePlayers()) {
-				playerOnline.playSound(playerOnline.getLocation(), Sound.WITHER_SPAWN, 1, 1);
-			}
+			this.main.getPlayerManager().sendPlaySound(Sound.WITHER_SPAWN);
 			
 			if (UtilsClass.molesEnabled() && pl.isOnline()){
 				Map<String, String> params = new HashMap<>();

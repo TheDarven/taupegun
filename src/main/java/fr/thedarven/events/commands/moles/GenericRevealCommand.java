@@ -40,9 +40,8 @@ public abstract class GenericRevealCommand extends MoleCommand {
         String revealMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", this.translateName, true), params);
         Bukkit.broadcastMessage(this.messageColor + revealMessage);
 
-        for (Player playerOnline : Bukkit.getOnlinePlayers()) {
-            playerOnline.playSound(playerOnline.getLocation(), Sound.GHAST_SCREAM, 1, 1);
-        }
+        this.main.getPlayerManager().sendPlaySound(Sound.GHAST_SCREAM);
+
         this.main.getTeamDeletionManager().start();
     }
 

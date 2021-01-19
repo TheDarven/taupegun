@@ -77,12 +77,16 @@ public class PlayerJoinQuitListener implements Listener {
 			this.main.getGameManager().setCooldownTimer(10);
 
 			EnumGameState.setState(EnumGameState.LOBBY);
-			
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				p.playSound(p.getLocation(), Sound.WITHER_HURT , 1, 1);
-				Title.title(p, ChatColor.RED+LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", true), "", 10);
-            }
-			
+
+
+
+			this.main.getPlayerManager().sendPlaySoundAndTitle(
+					Sound.WITHER_HURT,
+					new Title("§c" + LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", true), "", 10)
+			);
+
+
+
 			for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 				pl.setTaupeTeam(null);
 				pl.setSuperTaupeTeam(null);

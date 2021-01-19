@@ -86,9 +86,7 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	private void announceRespawn(String revivedName) {
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH , 1, 1);
-		}
+		this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 
 		Map<String, String> params = new HashMap<>();
 		params.put("playerName", revivedName);

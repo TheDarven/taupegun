@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.thedarven.players.PlayerManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
@@ -45,6 +46,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private TeamDeletionManager teamDeletionManager;
 	private ScenariosManager scenariosManager;
 	private ItemManager itemManager;
+	private PlayerManager playerManager;
 	
 	public static TaupeGun getInstance(){
 		return instance;
@@ -57,25 +59,27 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		LanguageRegister.loadAllTranslations(this);
 		InventoryGUI.setLanguage();
 
-		scoreboardManager = new ScoreboardManager(this);
-		scenariosManager = new ScenariosManager(this);
-		listenerManager = new ListenerManager(this);
-		commandManager = new CommandManager(this);
+		this.scoreboardManager = new ScoreboardManager(this);
+		this.scenariosManager = new ScenariosManager(this);
+		this.listenerManager = new ListenerManager(this);
+		this.commandManager = new CommandManager(this);
 
 		this.saveDefaultConfig();
 
-		worldManager = new WorldManager(this);
-		worldManager.buildLobby();
+		this.worldManager = new WorldManager(this);
+		this.worldManager.buildLobby();
 
-		databaseManager = new DatabaseManager(this);
-		craftManager = new CraftManager(this);
-		itemManager = new ItemManager(this);
+		this.databaseManager = new DatabaseManager(this);
+		this.craftManager = new CraftManager(this);
+		this.itemManager = new ItemManager(this);
+		this.playerManager = new PlayerManager(this);
 		
-		for(Player p: Bukkit.getOnlinePlayers()){
+		for (Player p: Bukkit.getOnlinePlayers()){
 			this.listenerManager.getPlayerJoinQuitListener().loginAction(p);
 
-			for(PotionEffect potion : p.getActivePotionEffects())
+			for (PotionEffect potion : p.getActivePotionEffects()) {
 				p.removePotionEffect(potion.getType());
+			}
 
 			p.setHealth(20);
 			p.setMaxHealth(20.0);
@@ -86,9 +90,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		}
 		new RestGame(this);
 
-		gameManager = new GameManager(this);
+		this.gameManager = new GameManager(this);
 
-		teamDeletionManager = new TeamDeletionManager(this);
+		this.teamDeletionManager = new TeamDeletionManager(this);
 	}
 	
 	@Override
@@ -159,5 +163,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public ItemManager getItemManager() {
 		return itemManager;
+	}
+
+	public PlayerManager getPlayerManager() {
+		return playerManager;
 	}
 }

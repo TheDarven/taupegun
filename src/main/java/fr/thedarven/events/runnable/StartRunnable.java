@@ -49,10 +49,10 @@ public class StartRunnable extends BukkitRunnable {
                 break;
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), sound, 1, 1);
-            Title.title(player, title, "", 10);
-        }
+        this.main.getPlayerManager().sendPlaySoundAndTitle(
+                sound,
+                new Title(title, "", 10)
+        );
 
         this.main.getGameManager().decreaseCooldownTimer();
     }

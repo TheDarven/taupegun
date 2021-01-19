@@ -94,9 +94,7 @@ public class GameRunnable extends BukkitRunnable {
         if (!this.main.getScenariosManager().pvp.isValueEquals(this.gameManager.getTimer()))
             return;
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), Sound.WOLF_GROWL, 1, 1);
-        }
+        this.main.getPlayerManager().sendPlaySound(Sound.WOLF_GROWL);
 
         String pvpMessage = "§e" + LanguageBuilder.getContent("GAME", "pvpIsStarting",true);
         Bukkit.broadcastMessage(pvpMessage);
@@ -108,9 +106,7 @@ public class GameRunnable extends BukkitRunnable {
     private void episodeAnnouncing() {
         int timer = gameManager.getTimer();
         if (this.main.getScenariosManager().episode.isValueGreater(0) && timer != 0 && timer % this.main.getScenariosManager().episode.getValue() == 0) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.ORB_PICKUP);
             int episodeNumber = (int) (timer / (this.main.getScenariosManager().episode.getValue())) + 1;
 
             Map<String, String> params = new HashMap<>();
@@ -133,9 +129,7 @@ public class GameRunnable extends BukkitRunnable {
                 String moleAnnouncement = "§a" + LanguageBuilder.getContent("GAME", "moleAnnouncement",true);
                 Bukkit.broadcastMessage(moleAnnouncement);
             }
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.ORB_PICKUP);
         }
 
         // ANNONCE DES TAUPES
@@ -159,9 +153,7 @@ public class GameRunnable extends BukkitRunnable {
                 String superMoleAnnouncement = "§a" + LanguageBuilder.getContent("GAME", "superMoleAnnouncement",true);
                 Bukkit.broadcastMessage(superMoleAnnouncement);
             }
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.ORB_PICKUP);
         }
 
         // ANNONCE DES SUPER TAUPES
@@ -186,23 +178,17 @@ public class GameRunnable extends BukkitRunnable {
         if (wallValue.isValueEquals(timer + 181)) {
             String wallShrinking3Minutes = "§a[TaupeGun]§f "+LanguageBuilder.getContent("GAME", "wallShrinking3Minutes",true);
             Bukkit.broadcastMessage(wallShrinking3Minutes);
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.NOTE_PLING);
         }
 
         // LE MUR EST ENTRE 5s ET 00s //
         if (wallValue.isValueLowerOrEquals(timer + 6) && wallValue.isValueGreaterOrEquals(timer + 1)) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), Sound.NOTE_PLING , 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.NOTE_PLING);
         }
 
         // LE MUR EST A 00H00 //
         if (wallValue.isValueEquals(timer + 1)) {
-            for (Player p: Bukkit.getOnlinePlayers()) {
-                p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL , 1, 1);
-            }
+            this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_GROWL);
             this.teleportNetherPlayers();
         }
     }
