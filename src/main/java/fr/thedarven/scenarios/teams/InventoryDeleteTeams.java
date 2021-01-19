@@ -7,6 +7,7 @@ import java.util.Objects;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryDelete;
 import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -15,12 +16,12 @@ import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
-public class InventoryDeleteTeams extends InventoryDelete {
+public class InventoryDeleteTeams extends InventoryDelete implements AdminConfiguration {
 	
 	private static String TEAM_DELETE_FORMAT = "L'équipe {teamName} a été supprimée avec succès.";
 	
-	public InventoryDeleteTeams(InventoryGUI pInventoryGUI) {
-		super(pInventoryGUI, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
+	public InventoryDeleteTeams(InventoryGUI parent) {
+		super(parent, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
 	}
 
 
@@ -52,14 +53,14 @@ public class InventoryDeleteTeams extends InventoryDelete {
 		Team team = TeamCustom.board.getTeam(getParent().getName());
 		
 		Map<String, String> params = new HashMap<>();
-		params.put("teamName", "§e§l"+team.getName() + "§r§a");
+		params.put("teamName", "§e§l" + team.getName() + "§r§a");
 		Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params));
 		
 		TeamCustom teamDelete = TeamCustom.getTeamCustomByName(team.getName());
 		if (Objects.nonNull(teamDelete)) {
 			teamDelete.deleteTeam();
 		}
-		player.openInventory(TaupeGun.getInstance().getInventoryRegister().teamsMenu.getInventory());
-		InventoryPlayers.reloadInventories();
+		player.openInventory(TaupeGun.getInstance().getScenariosManager().teamsMenu.getInventory());
+		InventoryTeamsPlayers.reloadInventories();
 	}
 }

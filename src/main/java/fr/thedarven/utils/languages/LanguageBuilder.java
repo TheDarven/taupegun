@@ -54,7 +54,7 @@ public class LanguageBuilder {
 		if(element == null)
 			return null;
 
-		return element.getInsideContent(TaupeGun.getInstance().getInventoryRegister().language.getSelectedLanguage(), valueTitle, defaultValue);
+		return element.getInsideContent(TaupeGun.getInstance().getScenariosManager().language.getSelectedLanguage(), valueTitle, defaultValue);
 	}
 	
 	/**

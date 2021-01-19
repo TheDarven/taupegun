@@ -1,11 +1,9 @@
 package fr.thedarven.scenarios.languages;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.childs.ScenariosVisible;
-import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -14,8 +12,6 @@ import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
+public class InventoryLanguage extends InventoryGUI implements AdminConfiguration {
 
 	private static String SELECTING_LANGUAGE = "Vous avez sélectionné la langue {languageName}";
 
@@ -108,7 +104,7 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
 
-		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getInventoryRegister().scenariosVisible;
+		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getScenariosManager().scenariosVisible;
 		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
 		setSelectedLanguage(selectedInventoryLanguage);
@@ -129,33 +125,4 @@ public class InventoryLanguage extends InventoryGUI implements ClickCooldown {
 		Title.sendActionBar(player, selectingLanguageMessage);
 	}
 
-	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			e.setCancelled(true);
-			
-			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
-					player.openInventory(this.getParent().getInventory());
-					return;
-				}
-
-				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-				if (Objects.nonNull(inventoryGUI)) {
-					if (inventoryGUI instanceof InventoryLanguageElement) {
-						if (click(player, EnumConfiguration.OPTION)) {
-							changeSelectedLanguage((InventoryLanguageElement) inventoryGUI, player);
-						}
-					} else {
-						player.openInventory(inventoryGUI.getInventory());
-					}
-					return;
-				}
-				delayClick(pl);
-			}
-		}
-	}	
 }

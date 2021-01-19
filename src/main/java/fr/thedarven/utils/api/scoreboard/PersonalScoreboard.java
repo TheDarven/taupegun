@@ -47,12 +47,12 @@ public class PersonalScoreboard {
 		for(TeamCustom team : TeamCustom.getAllStartAliveTeams())
 			playerTeam += team.getTeam().getEntries().size();
 		
-		objectiveSign.removeAllLine(this.main.getInventoryRegister().wallShrinkingTime.getValue() - timer > 0 ? 9 : 8);
+		objectiveSign.removeAllLine(this.main.getScenariosManager().wallShrinkingTime.getValue() - timer > 0 ? 9 : 8);
 		
 		objectiveSign.setDisplayName("§6TaupeGun");
 		objectiveSign.setLine(i++, "§1");
-		if (this.main.getInventoryRegister().episode.getValue() > 0) {
-			int episodeNumber = timer / this.main.getInventoryRegister().episode.getIntValue() + 1;
+		if (this.main.getScenariosManager().episode.getValue() > 0) {
+			int episodeNumber = timer / this.main.getScenariosManager().episode.getIntValue() + 1;
 			
 			Map<String, String> params = new HashMap<>();
 			params.put("episodeNumber", episodeNumber+"");
@@ -64,11 +64,11 @@ public class PersonalScoreboard {
 		// WALL
 		String timerS;
 		Map<String, String> params = new HashMap<>();
-		if (this.main.getInventoryRegister().wallShrinkingTime.getValue() - timer > 0) {
-			if (this.main.getInventoryRegister().wallShrinkingTime.getValue() - timer >= 6000){
-				timerS = DurationFormatUtils.formatDuration((this.main.getInventoryRegister().wallShrinkingTime.getIntValue() - timer) * 1000, "mmm:ss");
+		if (this.main.getScenariosManager().wallShrinkingTime.getValue() - timer > 0) {
+			if (this.main.getScenariosManager().wallShrinkingTime.getValue() - timer >= 6000){
+				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000, "mmm:ss");
 			} else {
-				timerS = DurationFormatUtils.formatDuration((this.main.getInventoryRegister().wallShrinkingTime.getIntValue() - timer) * 1000, "mm:ss");
+				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000, "mm:ss");
 			}
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");

@@ -15,8 +15,8 @@ public class ItemCommand extends PlayerCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		this.main.getInventoryRegister().scenariosVisible.reloadScenariosItem(sender);
-		this.main.getInventoryRegister().ownTeam.actionBanner(sender);
+		this.main.getScenariosManager().scenariosVisible.reloadScenariosItem(sender);
+		this.main.getScenariosManager().ownTeam.actionBanner(sender);
 	}
 
 }

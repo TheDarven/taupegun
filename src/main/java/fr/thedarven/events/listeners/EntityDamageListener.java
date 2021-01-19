@@ -50,7 +50,7 @@ public class EntityDamageListener implements Listener {
 					saveDamageStats((Player) entityEvent.getDamager(), victim, e.getDamage(), false);
 				} else if (entityEvent.getDamager() instanceof Arrow && ((Arrow) entityEvent.getDamager()).getShooter() instanceof Player) {
 					saveDamageStats((Player) ((Arrow) entityEvent.getDamager()).getShooter(), victim, e.getDamage(), true);
-				} else if (entityEvent.getDamager() instanceof Creeper && e.getDamage() >= victim.getHealth() && !this.main.getInventoryRegister().creeperDeath.getValue()) {
+				} else if (entityEvent.getDamager() instanceof Creeper && e.getDamage() >= victim.getHealth() && !this.main.getScenariosManager().creeperDeath.getValue()) {
 					e.setCancelled(true);
 				}
 

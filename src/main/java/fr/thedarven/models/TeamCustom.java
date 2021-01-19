@@ -16,8 +16,8 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
-import fr.thedarven.scenarios.teams.InventoryParametres;
-import fr.thedarven.scenarios.teams.InventoryPlayers;
+import fr.thedarven.scenarios.teams.InventoryTeamsParameters;
+import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
 import fr.thedarven.scenarios.teams.InventoryTeamsElement;
 import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.teams.TeamUtils;
@@ -53,8 +53,8 @@ public class TeamCustom {
 		this.alive = pAlive;
 		
 		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(CodeColor.codeColorBP(pColor)));
-		new InventoryParametres(inv);
-		new InventoryPlayers(inv);
+		new InventoryTeamsParameters(inv);
+		new InventoryTeamsPlayers(inv);
 		new InventoryDeleteTeams(inv);
 
 		teams.put(name, this);
@@ -76,8 +76,8 @@ public class TeamCustom {
 		this.alive = pAlive;
 		
 		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(pColor));
-		new InventoryParametres(inv);
-		new InventoryPlayers(inv);
+		new InventoryTeamsParameters(inv);
+		new InventoryTeamsPlayers(inv);
 		new InventoryDeleteTeams(inv);
 		
 		teams.put(name, this);
@@ -235,12 +235,12 @@ public class TeamCustom {
 	}
 
 	private void reloadTeamsInventories() {
-		TaupeGun.getInstance().getInventoryRegister().teamsMenu.reloadInventory();
+		TaupeGun.getInstance().getScenariosManager().teamsMenu.reloadInventory();
 		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
 		if (Objects.nonNull(inventoryTeamsElement)) {
 			inventoryTeamsElement.reloadInventory();
 		}
-		InventoryPlayers.reloadInventories();
+		InventoryTeamsPlayers.reloadInventories();
 	}
 
 

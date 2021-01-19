@@ -5,20 +5,15 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.childs.*;
-import org.bukkit.Material;
-
-import fr.thedarven.scenarios.kits.InventoryDeleteKits;
-import fr.thedarven.scenarios.kits.InventoryKits;
-import fr.thedarven.scenarios.kits.InventoryKitsAerien;
-import fr.thedarven.scenarios.kits.InventoryKitsBlaze;
-import fr.thedarven.scenarios.kits.InventoryKitsPotion;
-import fr.thedarven.scenarios.kits.InventoryKitsTNT;
+import fr.thedarven.scenarios.helper.NumericHelper;
+import fr.thedarven.scenarios.kits.*;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
-import fr.thedarven.scenarios.teams.InventoryColor;
+import fr.thedarven.scenarios.teams.InventoryCreateTeam;
 import fr.thedarven.scenarios.teams.InventoryTeams;
+import fr.thedarven.scenarios.teams.InventoryTeamsColor;
 import fr.thedarven.scenarios.teams.InventoryTeamsRandom;
-import fr.thedarven.scenarios.helper.NumericHelper;
+import org.bukkit.Material;
 
 public class ScenariosManager {
 
@@ -51,9 +46,9 @@ public class ScenariosManager {
 	public InventoryDeleteKits aerienKitDelete = new InventoryDeleteKits(aerienKit);
 	public InventoryDeleteKits potionKitDelete = new InventoryDeleteKits(potionKit);
 	
-	public InventoryGUI addTeam = new InventoryGUI("✚ Ajouter une équipe", null, "MENU_TEAM_ADD", 1, Material.BANNER, teamsMenu, 0, (byte) 15);
+	public InventoryCreateTeam addTeam = new InventoryCreateTeam(teamsMenu);
 	public InventoryTeamsRandom randomizeTeams = new InventoryTeamsRandom(teamsMenu);
-	public InventoryColor chooseTeamColor = new InventoryColor();
+	public InventoryTeamsColor chooseTeamColor = new InventoryTeamsColor();
 	
 	public InventoryGUI timersMenu = new InventoryGUI("Timers", "Menu des timers.", "MENU_CONFIGURATION_TIMER", 1, Material.WATCH, configurationMenu, 0);
 	public Pvp pvp = new Pvp(timersMenu);

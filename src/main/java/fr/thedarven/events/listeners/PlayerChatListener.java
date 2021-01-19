@@ -41,7 +41,7 @@ public class PlayerChatListener implements Listener {
 				return;
 			}
 
-			if (this.main.getInventoryRegister().teamTchat.getValue()) {
+			if (this.main.getScenariosManager().teamTchat.getValue()) {
 				if (e.getMessage().startsWith("!") || e.getMessage().startsWith("*"))  {
 					Bukkit.broadcastMessage(getTeamColor(pl)+player.getName() + ": §7" + e.getMessage().substring(1));
 				} else {

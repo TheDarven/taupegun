@@ -34,7 +34,7 @@ public class StrengthNerf extends OptionNumeric {
         for (PotionEffect potion : player.getActivePotionEffects()) {
             if (potion.getType() == PotionEffectType.INCREASE_DAMAGE) {
                 double originalDamages = e.getDamage() / (1 + (1 + potion.getAmplifier()) * 1.3);
-                e.setDamage(originalDamages + originalDamages * (1 + potion.getAmplifier() * TaupeGun.getInstance().getInventoryRegister().strengthPercentage.getValue()));
+                e.setDamage(originalDamages + originalDamages * (1 + potion.getAmplifier() * TaupeGun.getInstance().getScenariosManager().strengthPercentage.getValue()));
             }
         }
     }

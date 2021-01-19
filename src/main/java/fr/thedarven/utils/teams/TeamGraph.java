@@ -29,14 +29,14 @@ public class TeamGraph {
 	}
 	
 	public boolean creationEquipes() {
-		int pNbrTaupes = this.main.getInventoryRegister().molesTeamSize.getIntValue();
+		int pNbrTaupes = this.main.getScenariosManager().molesTeamSize.getIntValue();
 		if (/*pNbrTaupes > molesOfTeam.size() ||*/ molesOfTeam.size() == 0) {
 			return false;
 		} else {
 			// TAUPES
 			ArrayList<String> kits = new ArrayList<String>();
-			for (InventoryGUI kit : this.main.getInventoryRegister().kitsMenu.getChildsValue()) {
-				if (kit != this.main.getInventoryRegister().addKit)
+			for (InventoryGUI kit : this.main.getScenariosManager().kitsMenu.getChildsValue()) {
+				if (kit != this.main.getScenariosManager().addKit)
 					kits.add(kit.getName());
 			}
 			int numTeam = 0;
@@ -61,7 +61,7 @@ public class TeamGraph {
 			}
 			
 			// SUPERTAUPES
-			if (this.main.getInventoryRegister().superMoles.getValue()) {
+			if (this.main.getScenariosManager().superMoles.getValue()) {
 				
 				TeamCustom supertaupe = new TeamCustom(TeamUtils.getMoleTeamName(),"4", 0, 1, false, true);
 				

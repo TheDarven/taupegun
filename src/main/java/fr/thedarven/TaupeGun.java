@@ -34,8 +34,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public boolean development = false;
 	
 	public SqlConnection sql;
-	
-	private ScenariosManager scenariosManager;
+
 	private ScoreboardManager scoreboardManager;
 	private ListenerManager listenerManager;
 	private CommandManager commandManager;
@@ -44,7 +43,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private CraftManager craftManager;
 	private GameManager gameManager;
 	private TeamDeletionManager teamDeletionManager;
-	private ScenariosManager inventoryRegister;
+	private ScenariosManager scenariosManager;
 	private ItemManager itemManager;
 	
 	public static TaupeGun getInstance(){
@@ -59,7 +58,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		InventoryGUI.setLanguage();
 
 		scoreboardManager = new ScoreboardManager(this);
-		inventoryRegister = new ScenariosManager(this);
+		scenariosManager = new ScenariosManager(this);
 		listenerManager = new ListenerManager(this);
 		commandManager = new CommandManager(this);
 
@@ -95,7 +94,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		for(Player p: Bukkit.getOnlinePlayers()){
-			if(!inventoryRegister.coordonneesVisibles.getValue())
+			if(!scenariosManager.coordonneesVisibles.getValue())
 				DisableF3.enableF3(p);
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
@@ -148,7 +147,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		return this.teamDeletionManager;
 	}
 
-	public ScenariosManager getInventoryRegister() { return this.inventoryRegister; }
+	public ScenariosManager getScenariosManager() { return this.scenariosManager; }
 
 	public ScoreboardManager getScoreboardManager() {
 		 return this.scoreboardManager;

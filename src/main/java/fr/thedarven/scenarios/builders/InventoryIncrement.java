@@ -1,8 +1,9 @@
 package fr.thedarven.scenarios.builders;
 
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.Material;
 
-public abstract class InventoryIncrement extends InventoryGUI{
+public abstract class InventoryIncrement extends InventoryGUI implements AdminConfiguration {
 	
 	public InventoryIncrement(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition) {
 		super(pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition);

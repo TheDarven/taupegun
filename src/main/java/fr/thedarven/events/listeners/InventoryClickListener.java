@@ -6,6 +6,7 @@ import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
@@ -35,6 +36,13 @@ public class InventoryClickListener implements Listener {
 	public void clickInventory(InventoryClickEvent e) {
 		if (!(e.getWhoClicked() instanceof Player))
 			return;
+
+		InventoryGUI clickedInventory = InventoryGUI.getInventoryGUIByInventory(e.getInventory());
+		if (!Objects.isNull(clickedInventory)) {
+			e.setCancelled(true);
+			clickedInventory.onInventoryPreClick(e);
+			return;
+		}
 
 		Player player = (Player) e.getWhoClicked();
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
@@ -79,7 +87,7 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 
-			if (clickItem.getType() == Material.BEACON && clickItem.getItemMeta().getDisplayName().equals(this.main.getInventoryRegister().scenariosVisible.getFormattedScenariosItemName())) {
+			if (clickItem.getType() == Material.BEACON && clickItem.getItemMeta().getDisplayName().equals(this.main.getScenariosManager().scenariosVisible.getFormattedScenariosItemName())) {
 				if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
 					UtilsClass.openConfigInventory(player);
 				e.setCancelled(true);

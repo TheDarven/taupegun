@@ -2,21 +2,20 @@ package fr.thedarven.scenarios.kits;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.InventoryIncrement;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.runnable.CreateKitRunnable;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.Objects;
 
-public class InventoryKits extends InventoryIncrement {
+public class InventoryKits extends InventoryIncrement implements AdminConfiguration {
 	
 	public static String TOO_LONG_NAME_FORMAT = "Le nom du kit ne doit pas dépasser 16 caractères.";
 	public static String NAME_ALREADY_USED_FORMAT = "Le nom est déjà utilisé pour un autre kit.";
@@ -58,8 +57,6 @@ public class InventoryKits extends InventoryIncrement {
 
 
 
-
-
 	@Override
 	public void reloadInventory() {
 		for (InventoryGUI inv : getChildsValue()) {
@@ -77,43 +74,22 @@ public class InventoryKits extends InventoryIncrement {
 		}
 	}
 
+
+
 	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
-			final Player player = (Player) e.getWhoClicked();
-			final PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		if (Objects.equals(e.getCurrentItem(), TaupeGun.getInstance().getScenariosManager().addKit.getItem())) {
+			final InventoryKits parent = this;
 
-
-			if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
-				e.setCancelled(true);
-				player.openInventory(getParent().getInventory());
-				return;
-			}
-
-			if (click(player, EnumConfiguration.OPTION) && e.getCurrentItem().equals(TaupeGun.getInstance().getInventoryRegister().addKit.getItem())) {
-				e.setCancelled(true);
-
-				final InventoryKits parent = this;
-
-				new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
-					pl.setCreateKitName(text);
-					Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateKitRunnable(player, pl, parent));
-					return true;
-				}).setInputName(CREATE_KIT_NAME_FORMAT).open();
-				return;
-			}
-
-			InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-
-			if (Objects.nonNull(inventoryGUI)) {
-				e.setCancelled(true);
-				if (inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addKit || click(player, EnumConfiguration.OPTION)) {
-					player.openInventory(inventoryGUI.getInventory());
-					delayClick(pl);
-				}
-			}
+			new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
+				pl.setCreateKitName(text);
+				Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateKitRunnable(player, pl, parent));
+				return true;
+			}).setInputName(CREATE_KIT_NAME_FORMAT).open();
+			return;
 		}
+
+		openChildInventory(e.getCurrentItem(), player, pl);
 	}
 	
 }

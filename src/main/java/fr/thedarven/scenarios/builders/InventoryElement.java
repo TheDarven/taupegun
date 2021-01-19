@@ -1,12 +1,13 @@
 package fr.thedarven.scenarios.builders;
 
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.Material;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public abstract class InventoryElement extends InventoryGUI {
+public abstract class InventoryElement extends InventoryGUI implements AdminConfiguration {
 	
 	private static final Map<String, InventoryElement> elements = new LinkedHashMap<>();
 	

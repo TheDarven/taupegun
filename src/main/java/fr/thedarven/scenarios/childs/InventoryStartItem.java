@@ -1,21 +1,17 @@
 package fr.thedarven.scenarios.childs;
 
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Objects;
-
-public class InventoryStartItem extends InventoryGUI implements ClickCooldown, InventoryGiveItem {
+public class InventoryStartItem extends InventoryGUI implements AdminConfiguration, InventoryGiveItem {
 
 	public InventoryStartItem(InventoryGUI parent) {
 		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
@@ -56,26 +52,15 @@ public class InventoryStartItem extends InventoryGUI implements ClickCooldown, I
 			}
 		}
 	}
-	
-	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(getInventory())) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			
-			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
-					e.setCancelled(true);
-					player.openInventory(getParent().getInventory());
-					return;
-				}
-	
-				if (e.getCurrentItem().getType() == Material.STAINED_GLASS_PANE && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
-					e.setCancelled(true);
-				}
-			}
-		}
+
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		if (openChildInventory(e.getCurrentItem(), player, pl))
+			return;
+
+		if (isLockedCaseItem(e.getCurrentItem()))
+			return;
+
+		e.setCancelled(false);
 	}
 	
 }

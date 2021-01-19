@@ -1,6 +1,7 @@
 package fr.thedarven.scenarios.languages;
 
 import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class InventoryLanguageElement extends InventoryGUI {
+public class InventoryLanguageElement extends InventoryGUI implements AdminConfiguration {
 
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
 	

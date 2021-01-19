@@ -43,7 +43,7 @@ public class RestGame {
 		
 		this.started_at = UtilsClass.getLongTimestamp();
 		this.duration = 0;
-		this.language = this.main.getInventoryRegister().language.getSelectedLanguage();
+		this.language = this.main.getScenariosManager().language.getSelectedLanguage();
 		
 		try {
 			this.ip = InetAddress.getLocalHost().getHostAddress();

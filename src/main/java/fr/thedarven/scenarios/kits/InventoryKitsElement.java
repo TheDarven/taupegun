@@ -2,13 +2,12 @@ package fr.thedarven.scenarios.kits;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem {
+public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem, AdminConfiguration {
 	
 	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
@@ -85,7 +84,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
-		TaupeGun.getInstance().getInventoryRegister().kitsMenu.reloadInventory();
+		TaupeGun.getInstance().getScenariosManager().kitsMenu.reloadInventory();
 	}
 	
 	/**
@@ -117,46 +116,14 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	}
 
 	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory())) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			
-			if (e.getClickedInventory().equals(getInventory())) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
-					e.setCancelled(true);
-					player.openInventory(getParent().getInventory());
-					return;
-				}
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		if (openChildInventory(e.getCurrentItem(), player, pl))
+			return;
 
-				if (!click(player, EnumConfiguration.OPTION)) {
-					e.setCancelled(true);
-					return;
-				}
+		if (isLockedCaseItem(e.getCurrentItem()))
+			return;
 
-				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-				if (Objects.nonNull(inventoryGUI)) {
-					e.setCancelled(true);
-					player.openInventory(inventoryGUI.getInventory());
-					delayClick(pl);
-					return;
-				}
-
-				if (e.getCurrentItem().getType() != Material.AIR) {
-					if (e.getCurrentItem().getType() == Material.STAINED_GLASS_PANE && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§f")){
-						e.setCancelled(true);
-					}
-				}
-			}
-			
-			if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory()) &&
-					player.getOpenInventory().getTopInventory().hashCode() == getInventory().hashCode()){
-				if (!click(player, EnumConfiguration.OPTION)) {
-					e.setCancelled(true);
-				}
-			}
-		}
+		e.setCancelled(false);
 	}
 	
 }

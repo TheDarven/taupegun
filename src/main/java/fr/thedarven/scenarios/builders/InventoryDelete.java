@@ -8,6 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,8 +21,8 @@ public abstract class InventoryDelete extends InventoryGUI {
 	private static String CONFIRM_ACTION = "✔ Confirmer";
 	private static String CANCEL_ACTION = "✘ Annuler";
 	
-	public InventoryDelete(InventoryGUI pInventoryGUI, String pName, String pTranslationName, int pPosition) {
-		super(pName, "", pTranslationName, 1, Material.STAINED_CLAY, pInventoryGUI, pPosition, (byte) 14);
+	public InventoryDelete(InventoryGUI parent, String pName, String pTranslationName, int pPosition) {
+		super(pName, "", pTranslationName, 1, Material.STAINED_CLAY, parent, pPosition, (byte) 14);
 		
 		initItem();
 		updateLanguage(getLanguage());
@@ -123,24 +124,15 @@ public abstract class InventoryDelete extends InventoryGUI {
 	protected abstract void deleteElement(Player player);
 
 	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(inventory)) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			e.setCancelled(true);
-			
-			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
-				if (e.getCurrentItem().getType() == Material.STAINED_CLAY){
-					if (e.getCurrentItem().getDurability() == 13) {
-						deleteElement(player);
-					} else if (e.getCurrentItem().getDurability() == 14) {
-						player.openInventory(getParent().getInventory());
-					}
-				}
-				delayClick(pl);
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		if (e.getCurrentItem().getType() == Material.STAINED_CLAY) {
+			if (e.getCurrentItem().getDurability() == 13) {
+				deleteElement(player);
+			} else if (e.getCurrentItem().getDurability() == 14) {
+				player.openInventory(getParent().getInventory());
 			}
 		}
+		delayClick(pl);
 	}
 	
 }

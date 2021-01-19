@@ -2,13 +2,12 @@ package fr.thedarven.scenarios.builders;
 
 import java.util.*;
 
-import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
@@ -18,10 +17,9 @@ import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class OptionBoolean extends InventoryGUI implements ClickCooldown {
+public class OptionBoolean extends InventoryGUI implements AdminConfiguration {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -220,28 +218,15 @@ public class OptionBoolean extends InventoryGUI implements ClickCooldown {
 	}
 
 	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			e.setCancelled(true);
-			
-			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
-					player.openInventory(this.getParent().getInventory());
-					return;
-				}
-
-				if (e.getSlot() == 3 && this.value) {
-					this.value = false;
-					reloadItem();
-				} else if (e.getSlot() == 5 && !this.value) {
-					this.value = true;
-					reloadItem();
-				}
-				delayClick(pl);
-			}
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		if (e.getSlot() == 3 && this.value) {
+			this.value = false;
+			reloadItem();
+		} else if (e.getSlot() == 5 && !this.value) {
+			this.value = true;
+			reloadItem();
 		}
+		delayClick(pl);
 	}
+
 }

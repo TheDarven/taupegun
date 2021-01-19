@@ -73,9 +73,9 @@ public class GameRunnable extends BukkitRunnable {
         this.main.getDatabaseManager().createGame();
 
         world.setGameRuleValue("doMobSpawning", "true");
-        if (this.main.getInventoryRegister().daylightCycle.getValue())
+        if (this.main.getScenariosManager().daylightCycle.getValue())
             world.setGameRuleValue("doDaylightCycle", "true");
-        world.getWorldBorder().setDamageAmount(this.main.getInventoryRegister().wallDamage.getValue());
+        world.getWorldBorder().setDamageAmount(this.main.getScenariosManager().wallDamage.getValue());
         world.setTime(0);
 
         this.initGamePlayers();
@@ -91,7 +91,7 @@ public class GameRunnable extends BukkitRunnable {
      * Annonce de l'activation du PVP
      */
     private void pvpEnabling() {
-        if (!this.main.getInventoryRegister().pvp.isValueEquals(this.gameManager.getTimer()))
+        if (!this.main.getScenariosManager().pvp.isValueEquals(this.gameManager.getTimer()))
             return;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -107,11 +107,11 @@ public class GameRunnable extends BukkitRunnable {
      */
     private void episodeAnnouncing() {
         int timer = gameManager.getTimer();
-        if (this.main.getInventoryRegister().episode.isValueGreater(0) && timer != 0 && timer % this.main.getInventoryRegister().episode.getValue() == 0) {
+        if (this.main.getScenariosManager().episode.isValueGreater(0) && timer != 0 && timer % this.main.getScenariosManager().episode.getValue() == 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP , 1, 1);
             }
-            int episodeNumber = (int) (timer / (this.main.getInventoryRegister().episode.getValue())) + 1;
+            int episodeNumber = (int) (timer / (this.main.getScenariosManager().episode.getValue())) + 1;
 
             Map<String, String> params = new HashMap<>();
             params.put("episodeNumber", Integer.toString(episodeNumber));
@@ -125,7 +125,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     public void molesAnnouncing() {
         int timer = this.gameManager.getTimer();
-        OptionNumeric molesAnnouncing = this.main.getInventoryRegister().molesActivation;
+        OptionNumeric molesAnnouncing = this.main.getScenariosManager().molesActivation;
 
         // 5s AVANT L'ANNONCE DES TAUPES
         if (molesAnnouncing.isValueLowerOrEquals(timer + 6) && molesAnnouncing.isValueGreaterOrEquals(timer + 1)) {
@@ -149,7 +149,7 @@ public class GameRunnable extends BukkitRunnable {
         }
 
 
-        if (!this.main.getInventoryRegister().superMoles.getValue())
+        if (!this.main.getScenariosManager().superMoles.getValue())
             return;
 
         // 5s AVANT L'ANNONCE DES SUPER TAUPES
@@ -180,7 +180,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     private void wallAnnouncing() {
         int timer = this.gameManager.getTimer();
-        OptionNumeric wallValue = this.main.getInventoryRegister().wallShrinkingTime;
+        OptionNumeric wallValue = this.main.getScenariosManager().wallShrinkingTime;
 
         // LE MUR EST A 3min //
         if (wallValue.isValueEquals(timer + 181)) {
@@ -218,7 +218,7 @@ public class GameRunnable extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
-            if (!this.main.getInventoryRegister().coordonneesVisibles.getValue()) {
+            if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
                 DisableF3.disableF3(player);
             }
             UtilsClass.clearPlayer(player);
@@ -226,7 +226,7 @@ public class GameRunnable extends BukkitRunnable {
             if (playerTaupe.getTeam() == null) {
                 playerTaupe.setAlive(false);
             } else {
-                this.main.getInventoryRegister().startItem.giveItems(player);
+                this.main.getScenariosManager().startItem.giveItems(player);
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2) );
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0) );
@@ -239,7 +239,7 @@ public class GameRunnable extends BukkitRunnable {
      * Téléporte les joueurs à leur point de spawn
      */
     private void teleportPlayers(World world) {
-        double rayon = this.main.getInventoryRegister().wallSizeBefore.getRadius() - 100;
+        double rayon = this.main.getScenariosManager().wallSizeBefore.getRadius() - 100;
         int Z = -1;
         double X, radius = (6.283184/TeamCustom.getAllTeams().size() - TeamCustom.getTaupeTeams().size() - TeamCustom.getSuperTaupeTeams().size());
 
@@ -286,8 +286,8 @@ public class GameRunnable extends BukkitRunnable {
             return;
         }
 
-        double wallSize = this.main.getInventoryRegister().wallSizeAfter.getDiameter();
-        long speed = (long) ((long) (this.main.getInventoryRegister().wallSizeBefore.getRadius() - this.main.getInventoryRegister().wallSizeAfter.getRadius() ) / this.main.getInventoryRegister().wallSpeed.getValue());
+        double wallSize = this.main.getScenariosManager().wallSizeAfter.getDiameter();
+        long speed = (long) ((long) (this.main.getScenariosManager().wallSizeBefore.getRadius() - this.main.getScenariosManager().wallSizeAfter.getRadius() ) / this.main.getScenariosManager().wallSpeed.getValue());
 
         WorldBorder border = world.getWorldBorder();
         border.setCenter(0.0, 0.0);
@@ -295,7 +295,7 @@ public class GameRunnable extends BukkitRunnable {
 
 
         int nbTeam = TeamCustom.getNumberOfTeam();
-        double radius = this.main.getInventoryRegister().wallSizeBefore.getRadius() - 200;
+        double radius = this.main.getScenariosManager().wallSizeBefore.getRadius() - 200;
         int Z = 0;
         double X;
         for (TeamCustom team: TeamCustom.getAllTeams()) {

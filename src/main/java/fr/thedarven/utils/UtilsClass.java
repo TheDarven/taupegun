@@ -18,11 +18,11 @@ public class UtilsClass {
 	}
 	
 	public static boolean molesEnabled() {
-		return TaupeGun.getInstance().getInventoryRegister().molesActivation.getValue() <= TaupeGun.getInstance().getGameManager().getTimer();
+		return TaupeGun.getInstance().getScenariosManager().molesActivation.getValue() <= TaupeGun.getInstance().getGameManager().getTimer();
 	}
 	
 	public static boolean superMolesEnabled() {
-		return TaupeGun.getInstance().getInventoryRegister().superMoles.getValue() && TaupeGun.getInstance().getInventoryRegister().molesActivation.getValue()+1200 <= TaupeGun.getInstance().getGameManager().getTimer();
+		return TaupeGun.getInstance().getScenariosManager().superMoles.getValue() && TaupeGun.getInstance().getScenariosManager().molesActivation.getValue()+1200 <= TaupeGun.getInstance().getGameManager().getTimer();
 	}
 	
 	public static void clearPlayer(Player p) {
@@ -35,9 +35,9 @@ public class UtilsClass {
 	
 	public static void openConfigInventory(Player p) {
 		if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
-			p.openInventory(TaupeGun.getInstance().getInventoryRegister().menu.getInventory());
-		else if(TaupeGun.getInstance().getInventoryRegister().scenariosVisible.getValue())
-			p.openInventory(TaupeGun.getInstance().getInventoryRegister().configurationMenu.getInventory());
+			p.openInventory(TaupeGun.getInstance().getScenariosManager().menu.getInventory());
+		else if(TaupeGun.getInstance().getScenariosManager().scenariosVisible.getValue())
+			p.openInventory(TaupeGun.getInstance().getScenariosManager().configurationMenu.getInventory());
 	}
 
 	public static int getTimestamp() {

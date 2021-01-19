@@ -31,7 +31,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     protected void operate() {
         Player player = pl.getPlayer();
 
-        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getInventoryRegister().ownTeam.getValue()){
+        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getScenariosManager().ownTeam.getValue()){
             openInventory(player);
         } else {
             this.stopRunnable();
@@ -42,7 +42,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     protected Inventory createInventory() {
         Player player = pl.getPlayer();
 
-        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !TaupeGun.getInstance().getInventoryRegister().ownTeam.getValue())
+        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !TaupeGun.getInstance().getScenariosManager().ownTeam.getValue())
             return null;
 
         String teamChoiceTitle = "§7" + LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);

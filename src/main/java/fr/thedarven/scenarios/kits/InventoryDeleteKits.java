@@ -6,13 +6,14 @@ import java.util.Map;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryDelete;
 import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
-public class InventoryDeleteKits extends InventoryDelete {
+public class InventoryDeleteKits extends InventoryDelete implements AdminConfiguration {
 	
 	private static String DELETE_KIT_FORMAT = "Le kit {kitName} a été supprimé avec succès.";
 	
@@ -48,6 +49,6 @@ public class InventoryDeleteKits extends InventoryDelete {
 		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
 		
 		InventoryKitsElement.removeKit(getParent().getName());
-		player.openInventory(TaupeGun.getInstance().getInventoryRegister().kitsMenu.getInventory());
+		player.openInventory(TaupeGun.getInstance().getScenariosManager().kitsMenu.getInventory());
 	}
 }

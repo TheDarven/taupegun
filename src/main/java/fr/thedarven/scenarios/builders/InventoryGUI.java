@@ -3,7 +3,7 @@ package fr.thedarven.scenarios.builders;
 import java.util.*;
 
 import fr.thedarven.scenarios.ScenariosManager;
-import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.runnable.DelayClickRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +21,8 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
+
+import javax.annotation.Nullable;
 
 public class InventoryGUI extends InventoryBuilder {
 	
@@ -276,7 +278,7 @@ public class InventoryGUI extends InventoryBuilder {
 	 * Pour obtenir la langue actuellement selectionnées
 	 */
 	public static String getLanguage() {
-		ScenariosManager inventoryRegister = TaupeGun.getInstance().getInventoryRegister();
+		ScenariosManager inventoryRegister = TaupeGun.getInstance().getScenariosManager();
 		if (Objects.nonNull(inventoryRegister) && Objects.nonNull(inventoryRegister.language)) {
 			return inventoryRegister.language.getSelectedLanguage();
 		}
@@ -290,7 +292,11 @@ public class InventoryGUI extends InventoryBuilder {
 		List<InventoryGUI> elementsValues = new ArrayList<>(elements.values());
 		elementsValues.forEach(inv -> inv.updateLanguage(getLanguage()));
 	}
-	
+
+	@Nullable
+	public static InventoryGUI getInventoryGUIByInventory(Inventory inventory) {
+		return elements.get(inventory);
+	}
 	
 	/**
 	 * Pour ajouter un cooldown de clique au joueur
@@ -313,59 +319,103 @@ public class InventoryGUI extends InventoryBuilder {
 			e.setCancelled(true);
 		}
 	}
-	
+
+
 	/**
-	 * L'évènement de clic dans l'inventaire
-	 * 
+	 * Permet de valider l'action de clic dans l'inventaire
+	 *
 	 * @param e L'évènement de clic
 	 */
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
-		
-		if ((e.isShiftClick() || e.getClick().equals(ClickType.DOUBLE_CLICK)) && Objects.nonNull(e.getClickedInventory()) && elements.containsKey(e.getInventory())) {
-			e.setCancelled(true);
+	public void onInventoryPreClick(InventoryClickEvent e) {
+		if (e.isShiftClick() || e.getClick() == ClickType.DOUBLE_CLICK)
+			return;
+
+		Player player = (Player) e.getWhoClicked();
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+
+		if (!click(player, EnumConfiguration.INVENTORY) || Objects.isNull(e.getCurrentItem()) || !pl.getCanClick())
+			return;
+
+		if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
+			if (canOpenInventory(getParent(), player)) {
+				player.openInventory(this.getParent().getInventory());
+			}
 			return;
 		}
-		
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
-			Player player = (Player) e.getWhoClicked();
-			e.setCancelled(true);
-			
-			if (click(player, EnumConfiguration.INVENTORY) && e.getCurrentItem().getType() != Material.AIR) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())){
-					player.openInventory(this.getParent().getInventory());
-					return;
-				}
 
-				InventoryGUI inventoryGUI = this.childs.get(e.getCurrentItem().hashCode());
-				if (Objects.nonNull(inventoryGUI) && inventoryGUI != TaupeGun.getInstance().getInventoryRegister().addTeam && inventoryGUI != TaupeGun.getInstance().getInventoryRegister().randomizeTeams) {
-					if (inventoryGUI instanceof ClickCooldown) {
-						if (click(player, EnumConfiguration.OPTION)) {
-							player.openInventory(inventoryGUI.getInventory());
-						}
-					} else {
-						player.openInventory(inventoryGUI.getInventory());
-					}
-					return;
-				}
-
-				/* for(InventoryGUI inventoryGUI : childs) {
-					if(inventoryGUI.getItem().equals(e.getCurrentItem()) && inventoryGUI != InventoryRegister.addteam && inventoryGUI != InventoryRegister.teamsrandom) {
-						if(inventoryGUI instanceof OptionBoolean || inventoryGUI instanceof OptionNumeric || inventoryGUI instanceof InventoryTeams || inventoryGUI instanceof InventoryStartItem || inventoryGUI instanceof InventoryLanguage) {
-							if(click(player, EnumConfiguration.OPTION)) {
-								player.openInventory(inventoryGUI.getInventory());
-							}
-						}else {
-							player.openInventory(inventoryGUI.getInventory());
-						}
-						return;
-					}
-				} */
-			}
+		if (!canOpenInventory(this, player)) {
+			player.closeInventory();
+			return;
 		}
+
+		onInventoryClick(e, player, pl);
 	}
 
+	/**
+	 * Lorsqu'un utilisateur clic dans l'inventaire
+	 *
+	 * @param e L'évènement de clic
+	 * @param player Le Player qui clic
+	 * @param pl Le PlayerTaupe du Player qui clic
+	 */
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		openChildInventory(e.getCurrentItem(), player, pl);
+	}
+
+	/**
+	 * Permet d'ouvrir l'inventaire de l'item enfant sur lequel le Player à cliqué
+	 *
+	 * @param item L'item cliqué
+	 * @param player Le Player qui a cliqué
+	 * @param pl Le PlayerTaupe du Player
+	 * @return <b>true</b> si l'item cliqué est celui d'un inventaire enfant, <b>false</b> sinon
+	 */
+	final protected boolean openChildInventory(ItemStack item, Player player, PlayerTaupe pl) {
+		InventoryGUI inventoryGUI = this.childs.get(item.hashCode());
+		if (Objects.isNull(inventoryGUI))
+			return false;
+
+		if (inventoryGUI instanceof InventoryAction) {
+			((InventoryAction) inventoryGUI).action(player, pl);
+			return true;
+		}
+
+		if (canOpenInventory(inventoryGUI, player)) {
+			player.openInventory(inventoryGUI.getInventory());
+			delayClick(pl);
+		}
+		return true;
+	}
+
+	/**
+	 * Permet de savoir si un item est un item de case lock
+	 *
+	 * @param itemStack L'item à vérifier
+	 * @return <b>true</b> si l'item est un item de case lock, <b>false</b> sinon
+	 */
+	final protected boolean isLockedCaseItem(ItemStack itemStack) {
+		return itemStack.getType() == Material.STAINED_GLASS_PANE && itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().equals("§f");
+	}
+
+	/**
+	 * Permet de savoir si un item est un item retour
+	 *
+	 * @param itemStack L'item à vérifier
+	 * @param slot Le slot dans lequel l'item se trouvait
+	 * @return <b>true</b> si l'item est un item de retour, <b>false</b> sinon
+	 */
 	final protected boolean isReturnItem(ItemStack itemStack, int slot) {
 		return itemStack.getType() == Material.REDSTONE && slot == this.getLines() * 9 - 1 && itemStack.getItemMeta().getDisplayName().equals(getBackName());
+	}
+
+	/**
+	 * Permet de savoir si le Player peut ouvrir l'InventoryGUI
+	 *
+	 * @param inventoryGUI L'InventoryGUI à ouvrir
+	 * @param player Le Player à tester
+	 * @return <b>true</b> si le Player peut l'ouvrir, <b>false</b> sinon
+	 */
+	final protected boolean canOpenInventory(InventoryGUI inventoryGUI, Player player) {
+		return !(inventoryGUI instanceof AdminConfiguration) || inventoryGUI.click(player, EnumConfiguration.OPTION);
 	}
 }

@@ -47,7 +47,7 @@ public class WorldManager extends Manager {
             border.setDamageAmount(1.0);
             border.setCenter(0.0, 0.0);
             border.setWarningDistance(20);
-            border.setSize(this.main.getInventoryRegister().wallSizeBefore.getDiameter());
+            border.setSize(this.main.getScenariosManager().wallSizeBefore.getDiameter());
         }
 
         if(worldNether != null) {

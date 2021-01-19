@@ -2,13 +2,12 @@ package fr.thedarven.scenarios.builders;
 
 import java.util.*;
 
-import fr.thedarven.scenarios.helper.ClickCooldown;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -19,12 +18,11 @@ import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class OptionNumeric extends InventoryGUI implements ClickCooldown {
+public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -342,59 +340,57 @@ public class OptionNumeric extends InventoryGUI implements ClickCooldown {
 		}
 	}
 
+
 	@Override
-	@EventHandler
-	public void clickInventory(InventoryClickEvent e){
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		updateValue(pl, e.getSlot());
+	}
+
+	/**
+	 * Permet d'effectuer l'action du clic sur un item
+	 *
+	 * @param pl Le PlayerTaupe qui a cliqué
+	 * @param slot Le slot sur lequel le joueur à cliqué
+	 */
+	final protected void updateValue(PlayerTaupe pl, int slot) {
 		int operation = 0;
 		int number = 0;
-		if (e.getWhoClicked() instanceof Player && Objects.nonNull(e.getClickedInventory()) && e.getClickedInventory().equals(this.inventory)) {
-			Player player = (Player) e.getWhoClicked();
-			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			e.setCancelled(true);
-			
-			if (click(player,EnumConfiguration.OPTION) && e.getCurrentItem().getType() != Material.AIR && pl.getCanClick()) {
-				if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
-					player.openInventory(this.getParent().getInventory());
-					return;
-				}
-				
-				if (e.getSlot() == 1 && this.morePas > 2) {
-					operation = 1;
-					number = this.pas * 100;
-				} else if (e.getSlot() == 2 && this.morePas > 1) {
-					operation = 1;
-					number = this.pas * 10;
-				} else if (e.getSlot() == 3) {
-					operation = 1;
-					number = this.pas;
-				} else if (e.getSlot() == 5) {
-					operation = 2;
-					number = this.pas;
-				} else if (e.getSlot() == 6 && this.morePas > 1) {
-					operation = 2;
-					number = this.pas * 10;
-				} else if (e.getSlot() == 7 && this.morePas > 2) {
-					operation = 2;
-					number = this.pas * 100;
-				}
-				
-				if (operation == 1) {
-					if (this.min < this.value - number) {
-						this.value = this.value - number;
-					} else {
-						this.value = this.min;
-					}
-					reloadItem();
-				} else if (operation == 2) {
-					if (this.max > this.value + number) {
-						this.value = this.value + number;
-					} else {
-						this.value = this.max;
-					}
-					reloadItem();
-				}
-				delayClick(pl);
-			}
+		if (slot == 1 && this.morePas > 2) {
+			operation = 1;
+			number = this.pas * 100;
+		} else if (slot == 2 && this.morePas > 1) {
+			operation = 1;
+			number = this.pas * 10;
+		} else if (slot == 3) {
+			operation = 1;
+			number = this.pas;
+		} else if (slot == 5) {
+			operation = 2;
+			number = this.pas;
+		} else if (slot == 6 && this.morePas > 1) {
+			operation = 2;
+			number = this.pas * 10;
+		} else if (slot == 7 && this.morePas > 2) {
+			operation = 2;
+			number = this.pas * 100;
 		}
+
+		if (operation == 1) {
+			if (this.min < this.value - number) {
+				this.value = this.value - number;
+			} else {
+				this.value = this.min;
+			}
+			reloadItem();
+		} else if (operation == 2) {
+			if (this.max > this.value + number) {
+				this.value = this.value + number;
+			} else {
+				this.value = this.max;
+			}
+			reloadItem();
+		}
+		delayClick(pl);
 	}
+
 }
