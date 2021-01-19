@@ -33,8 +33,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public static TaupeGun instance;
 
 	public boolean development = false;
-	
-	public SqlConnection sql;
 
 	private ScoreboardManager scoreboardManager;
 	private ListenerManager listenerManager;
