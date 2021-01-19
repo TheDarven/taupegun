@@ -85,12 +85,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 
 		AtomicInteger pos = new AtomicInteger(0);
 		team.getEntries().forEach(entry -> {
-			ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-			SkullMeta headM = (SkullMeta) head.getItemMeta();
-			headM.setOwner(entry);
-			headM.setDisplayName(entry);
-			head.setItemMeta(headM);
-			getInventory().setItem(pos.getAndIncrement(), head);
+			getInventory().setItem(pos.getAndIncrement(), TaupeGun.getInstance().getPlayerManager().getHeadOfPlayer(entry, entry));
 		});
 
 		getChildsValue().forEach(inv -> {

@@ -79,15 +79,11 @@ public class PlayerDeathListener implements Listener {
 				Map<String, String> params = new HashMap<>();
 				params.put("playerName", pl.getName());
 				String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
-				
-				ItemStack tete = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-				SkullMeta teteM = (SkullMeta) tete.getItemMeta();
-				teteM.setOwner(pl.getName());
-				teteM.setDisplayName(headName);
-				tete.setItemMeta(teteM);
+
+				this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName);
 
 				if (Objects.nonNull(pl.getPlayer())) {
-					pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), tete);
+					pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
 				}
 			}
 			

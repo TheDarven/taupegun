@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.teams;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryGUI;
@@ -55,13 +56,8 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 		int i = 0;
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-			if (pl.getTeam() == null) {
-				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-				SkullMeta headM = (SkullMeta) head.getItemMeta();
-				headM.setOwner(player.getName());
-				headM.setDisplayName(player.getName());
-				head.setItemMeta(headM);
-				getInventory().setItem(i, head);
+			if (Objects.isNull(pl.getTeam())) {
+				getInventory().setItem(i, TaupeGun.getInstance().getPlayerManager().getHeadOfPlayer(player.getName(), player.getName()));
 				i++;
 			}
 		}
