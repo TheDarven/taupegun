@@ -5,8 +5,6 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.CodeColor;
-import fr.thedarven.utils.PlayerOrientation;
-import fr.thedarven.utils.api.Title;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +17,7 @@ import java.util.Objects;
 
 public class PlayerMoveListener implements Listener {
 
-	private static TaupeGun main;
+	private final TaupeGun main;
 
 	public PlayerMoveListener(TaupeGun main) {
 		this.main = main;
@@ -49,7 +47,7 @@ public class PlayerMoveListener implements Listener {
     	if (EnumGameState.isCurrentState(EnumGameState.GAME)){
     		// AFFICHE L'ORIENTATION DES TEAMMATES
 			if (!this.main.getGameManager().molesEnabled()){
-				Title.sendActionBar(player, PlayerOrientation.Orientation(player));
+				this.main.getPlayerManager().sendOrientationMessage(player, pl);
 			}
 			return;
     	}
