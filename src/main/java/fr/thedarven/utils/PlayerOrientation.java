@@ -2,6 +2,7 @@ package fr.thedarven.utils;
 
 import java.util.Set;
 
+import fr.thedarven.TaupeGun;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -9,13 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.models.TeamCustom;
-import fr.thedarven.utils.teams.TeamUtils;
 
 public class PlayerOrientation {
 	
 	public static String Orientation(Player p){
 		String bar = "";
-		String spectatorTeamName = TeamUtils.getSpectatorTeamName();
+		String spectatorTeamName = TaupeGun.getInstance().getTeamManager().getSpectatorTeamName();
 		
 		Set<Team> teams = TeamCustom.board.getTeams();
 		for(Team team : teams){

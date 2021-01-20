@@ -7,10 +7,8 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.teams.TeamUtils;
 import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -82,7 +80,7 @@ public class GameRunnable extends BukkitRunnable {
 
         this.teleportPlayers(world);
 
-        new TeamCustom(TeamUtils.getSpectatorTeamName(), 15, 0, 0, true, false);
+        new TeamCustom(this.main.getTeamManager().getSpectatorTeamName(), 15, 0, 0, true, false);
 
         this.main.getWorldManager().destroyLobby();
     }
@@ -207,7 +205,7 @@ public class GameRunnable extends BukkitRunnable {
             if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
                 DisableF3.disableF3(player);
             }
-            UtilsClass.clearPlayer(player);
+            this.main.getPlayerManager().clearPlayer(player);
 
             if (playerTaupe.getTeam() == null) {
                 playerTaupe.setAlive(false);

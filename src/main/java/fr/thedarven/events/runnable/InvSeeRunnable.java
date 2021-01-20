@@ -1,9 +1,9 @@
 package fr.thedarven.events.runnable;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.runnable.PlayerInventoryRunnable;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
@@ -115,7 +115,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
         // MOLE
         lores.clear();
-        if (!UtilsClass.molesEnabled()) {
+        if (!TaupeGun.getInstance().getGameManager().molesEnabled()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -135,7 +135,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         }
 
         // SUPERMOLE
-        if (!UtilsClass.molesEnabled()) {
+        if (!TaupeGun.getInstance().getGameManager().molesEnabled()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");

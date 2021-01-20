@@ -2,6 +2,7 @@ package fr.thedarven.players;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.api.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,6 +10,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.Objects;
 
 public class PlayerManager extends Manager {
 
@@ -53,6 +56,22 @@ public class PlayerManager extends Manager {
         head.setItemMeta(headM);
 
         return head;
+    }
+
+    public void clearPlayer(Player p) {
+        if (Objects.nonNull(p.getOpenInventory())) {
+            p.getOpenInventory().setCursor(null);
+        }
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
+        p.closeInventory();
+    }
+
+    public void openConfigInventory(Player p) {
+        if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
+            p.openInventory(TaupeGun.getInstance().getScenariosManager().menu.getInventory());
+        else if(TaupeGun.getInstance().getScenariosManager().scenariosVisible.getValue())
+            p.openInventory(TaupeGun.getInstance().getScenariosManager().configurationMenu.getInventory());
     }
 
 }

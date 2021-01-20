@@ -1,16 +1,18 @@
 package fr.thedarven;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import fr.thedarven.players.PlayerManager;
-import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.database.DatabaseManager;
 import fr.thedarven.events.commands.CommandManager;
+import fr.thedarven.events.listeners.ListenerManager;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.items.ItemManager;
+import fr.thedarven.players.PlayerManager;
+import fr.thedarven.scenarios.ScenariosManager;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.statsgame.RestGame;
+import fr.thedarven.teams.TeamManager;
 import fr.thedarven.utils.CraftManager;
+import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.utils.languages.LanguageRegister;
 import fr.thedarven.utils.teams.TeamDeletionManager;
 import fr.thedarven.world.WorldManager;
@@ -19,14 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
-
-import fr.thedarven.scenarios.ScenariosManager;
-import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.UtilsClass;
-import fr.thedarven.utils.api.SqlConnection;
-import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
-import fr.thedarven.events.listeners.ListenerManager;
-import fr.thedarven.statsgame.RestGame;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 
@@ -45,6 +39,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private ScenariosManager scenariosManager;
 	private ItemManager itemManager;
 	private PlayerManager playerManager;
+	private TeamManager teamManager;
 	
 	public static TaupeGun getInstance(){
 		return instance;
@@ -68,9 +63,13 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.worldManager.buildLobby();
 
 		this.databaseManager = new DatabaseManager(this);
+
 		this.craftManager = new CraftManager(this);
+		this.craftManager.loadCrafts();
+
 		this.itemManager = new ItemManager(this);
 		this.playerManager = new PlayerManager(this);
+		this.teamManager = new TeamManager(this);
 		
 		for (Player p: Bukkit.getOnlinePlayers()){
 			this.listenerManager.getPlayerJoinQuitListener().loginAction(p);
@@ -100,35 +99,11 @@ public class TaupeGun extends JavaPlugin implements Listener{
 				DisableF3.enableF3(p);
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
-			
-			UtilsClass.clearPlayer(p);
+
+			getPlayerManager().clearPlayer(p);
 		}
 		if (this.databaseManager.getGameId() != 0)
 			databaseManager.updateGameDuration();
-	}
-	
-	public static ArrayList<String> toLoreItem(String pDescription, String pColor, int pSize){
-		ArrayList<String> list = new ArrayList<String>();
-		if(pDescription == null)
-			return list;
-		
-		pSize = pSize < 25 ? 25 : pSize;
-		List<String> items = Arrays.asList(pDescription.split(" "));
-		String ligne = null;
-		for(String element: items) {
-			if(ligne == null)
-				ligne = pColor;
-			if(ligne.length() > pColor.length() && (ligne+" "+element).length() > pSize) {
-				list.add(ligne);
-				ligne = pColor+element;
-			}else {
-				ligne += (ligne.length() == pColor.length() ? "" : " ")+element;
-			}
-		}
-		if(ligne != null)
-			list.add(ligne);
-		
-		return list;
 	}
 
 	public ListenerManager getListenerManager(){
@@ -165,5 +140,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public PlayerManager getPlayerManager() {
 		return playerManager;
+	}
+
+	public TeamManager getTeamManager() {
+		return teamManager;
 	}
 }

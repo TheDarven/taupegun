@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
@@ -19,7 +17,6 @@ import fr.thedarven.models.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.statsgame.RestPlayerKill;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 
@@ -75,7 +72,7 @@ public class PlayerDeathListener implements Listener {
 			TeamCustom team = pl.getTeam();
 			this.main.getPlayerManager().sendPlaySound(Sound.WITHER_SPAWN);
 			
-			if (UtilsClass.molesEnabled() && pl.isOnline()){
+			if (this.main.getGameManager().molesEnabled() && pl.isOnline()){
 				Map<String, String> params = new HashMap<>();
 				params.put("playerName", pl.getName());
 				String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);

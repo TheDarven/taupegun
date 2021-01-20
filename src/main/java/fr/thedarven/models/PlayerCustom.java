@@ -3,7 +3,7 @@ package fr.thedarven.models;
 import java.util.Objects;
 import java.util.UUID;
 
-import fr.thedarven.utils.UtilsClass;
+import fr.thedarven.TaupeGun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public abstract class PlayerCustom {
 	public PlayerCustom(UUID uuid) {
 		this.uuid = uuid;
 		
-		lastConnection = UtilsClass.getLongTimestamp();
+		lastConnection = TaupeGun.getInstance().getDatabaseManager().getLongTimestamp();
 		timePlayed = 0;
 		
 		minedDiamond = 0;
@@ -91,12 +91,12 @@ public abstract class PlayerCustom {
 	public int getUpdatedTimePlayed() {
 		int returnValue = this.timePlayed;
 		if(isOnline())
-			returnValue += (int)(UtilsClass.getLongTimestamp() - this.lastConnection);
+			returnValue += (int)(TaupeGun.getInstance().getDatabaseManager().getLongTimestamp() - this.lastConnection);
 		return returnValue;
 	}
 	
 	public void setLastConnection() {
-		this.lastConnection = UtilsClass.getLongTimestamp();
+		this.lastConnection = TaupeGun.getInstance().getDatabaseManager().getLongTimestamp();
 	}
 	
 	public void addTimePlayed(int amount) {

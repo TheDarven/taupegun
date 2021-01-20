@@ -2,7 +2,6 @@ package fr.thedarven.events.commands;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -14,7 +13,7 @@ public class ScenariosCommand extends PlayerCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		UtilsClass.openConfigInventory(sender);
+		this.main.getPlayerManager().openConfigInventory(sender);
 	}
 
 }

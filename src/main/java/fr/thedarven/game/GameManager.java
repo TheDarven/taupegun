@@ -72,6 +72,14 @@ public class GameManager extends Manager {
 			}
 		}
 	}
+
+	public boolean molesEnabled() {
+		return this.main.getScenariosManager().molesActivation.getValue() <= this.main.getGameManager().getTimer();
+	}
+
+	public boolean superMolesEnabled() {
+		return this.main.getScenariosManager().superMoles.getValue() && this.main.getScenariosManager().molesActivation.getValue() + 1200 <= this.main.getGameManager().getTimer();
+	}
 	
 	/* private static void damagesEnabling() {
 		if(TaupeGun.timer == 60) {

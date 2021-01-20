@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import fr.thedarven.utils.UtilsClass;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
 
@@ -41,7 +40,7 @@ public class RestGame {
 
 		this.main = main;
 		
-		this.started_at = UtilsClass.getLongTimestamp();
+		this.started_at = this.main.getDatabaseManager().getLongTimestamp();
 		this.duration = 0;
 		this.language = this.main.getScenariosManager().language.getSelectedLanguage();
 		

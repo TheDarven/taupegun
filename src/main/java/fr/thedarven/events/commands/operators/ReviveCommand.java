@@ -5,7 +5,6 @@ import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.*;
@@ -38,7 +37,7 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (args.length > 0 && !UtilsClass.molesEnabled()) {
+		if (args.length > 0 && !this.main.getGameManager().molesEnabled()) {
 			return super.validateCommand(sender, pl, cmd, alias, args);
 		} else {
 			sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotRevive", true));

@@ -4,7 +4,6 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.commands.PlayerCommand;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -23,7 +22,7 @@ public abstract class MoleCommand extends PlayerCommand {
     }
 
     public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-        if (pl.isTaupe() && pl.isAlive() && UtilsClass.molesEnabled()) {
+        if (pl.isTaupe() && pl.isAlive() && this.main.getGameManager().molesEnabled()) {
             return super.validateCommand(sender, pl, cmd, alias, args);
         }
         return false;

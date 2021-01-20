@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 import fr.thedarven.statsgame.RestGame;
 
@@ -16,24 +17,24 @@ public class RestRequest {
 		URL urlForGetRequest = new URL(RestGame.REQUEST_ADDRESS);
 		String readLine = null;
 		
-		HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-		conection.setRequestMethod("POST");
-		conection.setRequestProperty("Content-Type", "application/json");
-		conection.setRequestProperty("access_token", accessToken);
-		conection.setDoOutput(true);
+		HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setRequestProperty("access_token", accessToken);
+		connection.setDoOutput(true);
 		
-		OutputStream os = conection.getOutputStream();
+		OutputStream os = connection.getOutputStream();
 		OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");    
 		osw.write(content);
 		osw.flush();
 		osw.close();
 		os.close();
 		
-		int responseCode = conection.getResponseCode();
+		int responseCode = connection.getResponseCode();
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
-			StringBuffer response = new StringBuffer();
-			while ((readLine = in .readLine()) != null) {
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder response = new StringBuilder();
+			while (Objects.nonNull(readLine = in.readLine())) {
 				response.append(readLine);
 			}
 			in.close();

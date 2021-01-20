@@ -2,7 +2,6 @@ package fr.thedarven.events.commands;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.command.Command;
@@ -32,7 +31,7 @@ public class TaupelistCommand extends PlayerCommand {
 				return false;
 			}
 
-			if (!UtilsClass.molesEnabled()) {
+			if (!this.main.getGameManager().molesEnabled()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "molesNotAnnounced", true));
 				return false;
 			}

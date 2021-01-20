@@ -130,7 +130,7 @@ public abstract class InventoryBuilder implements Listener {
 	 * @return La description formatée
 	 */
 	protected List<String> getFormattedDescription() {
-		return TaupeGun.toLoreItem(description, DESCRIPTION_COLOR, getFormattedItemName().length() + 15);
+		return toLoreItem(description, DESCRIPTION_COLOR, getFormattedItemName().length() + 15);
 	}
 
 
@@ -301,7 +301,35 @@ public abstract class InventoryBuilder implements Listener {
 		updateName(true);
 	}
 
+	/**
+	 * Pour couper une phrase en plusieurs lignes
+	 *
+	 * @param description Le message à couper
+	 * @param color La couleur à mettre au début de chaque ligne
+	 * @param size La taille maximale de chaque ligne
+	 * @return La phrase coupé en plusieurs ligne
+	 */
+	protected List<String> toLoreItem(String description, String color, int size){
+		size = Math.max(size, 25);
 
+		List<String> items = Arrays.asList(description.split(" "));
+		List<String> list = new ArrayList<>();
+
+		StringBuilder lines = new StringBuilder(color + items.get(0));
+		for (String item: items) {
+			if ((lines.length() + 1 + item.length()) > size) {
+				list.add(lines.toString());
+				lines = new StringBuilder(color + item);
+			} else {
+				lines.append(" ").append(item);
+			}
+		}
+		if (lines.length() > 0) {
+			list.add(lines.toString());
+		}
+
+		return list;
+	}
 	
 	/**
 	 * Pour mettre à jour des items dans l'inventaire

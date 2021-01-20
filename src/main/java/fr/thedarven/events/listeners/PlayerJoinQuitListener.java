@@ -14,7 +14,6 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
@@ -59,7 +58,7 @@ public class PlayerJoinQuitListener implements Listener {
 				}
 				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
 				
-				UtilsClass.clearPlayer(player);
+				this.main.getPlayerManager().clearPlayer(player);
 			}
 		}
 		loginAction(player);
@@ -120,6 +119,6 @@ public class PlayerJoinQuitListener implements Listener {
 		this.main.getScenariosManager().scenariosVisible.removeScenariosItem(player);
 		
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		pl.addTimePlayed((int) (UtilsClass.getLongTimestamp() - pl.getLastConnection()));
+		pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
 	}
 }

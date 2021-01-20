@@ -22,7 +22,7 @@ public class ListenerManager extends Manager {
 
 		this.playerJoinQuitListener = new PlayerJoinQuitListener(this.main);
 		pm.registerEvents(this.playerJoinQuitListener, this.main);
-		pm.registerEvents(new PlayerMoveListener(), this.main);
+		pm.registerEvents(new PlayerMoveListener(this.main), this.main);
 		pm.registerEvents(new EntityDamageListener(this.main), this.main);
 		this.deathListener = new PlayerDeathListener(this.main);
 		pm.registerEvents(this.deathListener, this.main);

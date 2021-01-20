@@ -2,7 +2,7 @@ package fr.thedarven.statsgame;
 
 import java.util.UUID;
 
-import fr.thedarven.utils.UtilsClass;
+import fr.thedarven.TaupeGun;
 
 public class RestPlayerDeath {
 	private UUID victim;
@@ -16,7 +16,7 @@ public class RestPlayerDeath {
 		this.reason = reason;
 		this.entityType = entityType == null ? "NONE" : entityType;
 		this.revived = false;
-		this.created_at = UtilsClass.getLongTimestamp();
+		this.created_at = TaupeGun.getInstance().getDatabaseManager().getLongTimestamp();
 	}
 	
 	public UUID getVictim() {

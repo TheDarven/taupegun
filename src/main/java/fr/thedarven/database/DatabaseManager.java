@@ -413,13 +413,12 @@ public class DatabaseManager extends Manager {
         return false;
     }
 
-
-    public static int getTimestamp() {
+    public int getTimestamp() {
         long date = new Date().getTime();
         return (int) ((date-(date%100))/1000);
     }
 
-    public static long getLongTimestamp() {
+    public long getLongTimestamp() {
         long date = new Date().getTime();
         return (date-(date%100))/1000;
     }

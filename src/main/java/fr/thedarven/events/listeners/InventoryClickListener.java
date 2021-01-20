@@ -3,11 +3,10 @@ package fr.thedarven.events.listeners;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.events.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
+import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.utils.UtilsClass;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -88,8 +87,9 @@ public class InventoryClickListener implements Listener {
 			}
 
 			if (clickItem.getType() == Material.BEACON && clickItem.getItemMeta().getDisplayName().equals(this.main.getScenariosManager().scenariosVisible.getFormattedScenariosItemName())) {
-				if (EnumGameState.isCurrentState(EnumGameState.LOBBY))
-					UtilsClass.openConfigInventory(player);
+				if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+					this.main.getPlayerManager().openConfigInventory(player);
+				}
 				e.setCancelled(true);
 				return;
 			}

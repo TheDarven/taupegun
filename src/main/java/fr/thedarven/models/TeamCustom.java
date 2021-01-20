@@ -1,26 +1,19 @@
 package fr.thedarven.models;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
+import fr.thedarven.scenarios.teams.InventoryTeamsElement;
+import fr.thedarven.scenarios.teams.InventoryTeamsParameters;
+import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
+import fr.thedarven.utils.CodeColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scoreboard.*;
 
-import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
-import fr.thedarven.scenarios.teams.InventoryTeamsParameters;
-import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
-import fr.thedarven.scenarios.teams.InventoryTeamsElement;
-import fr.thedarven.utils.CodeColor;
-import fr.thedarven.utils.teams.TeamUtils;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TeamCustom {
 
@@ -62,7 +55,7 @@ public class TeamCustom {
 	
 	public TeamCustom(String name, String pColor, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
 		team = board.registerNewTeam(name);
-		if (name.startsWith(TeamUtils.getMoleTeamName()) || name.startsWith(TeamUtils.getSuperMoleTeamName()))
+		if (name.startsWith(TaupeGun.getInstance().getTeamManager().getMoleTeamName()) || name.startsWith(TaupeGun.getInstance().getTeamManager().getSuperMoleTeamName()))
 			team.setPrefix("§" + pColor + "[" + name + "] ");
 		else
 			team.setPrefix("§" + pColor);
