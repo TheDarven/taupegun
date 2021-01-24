@@ -310,6 +310,9 @@ public abstract class InventoryBuilder implements Listener {
 	 * @return La phrase coupé en plusieurs ligne
 	 */
 	protected List<String> toLoreItem(String description, String color, int size){
+		if (Objects.isNull(description))
+			return new ArrayList<>();
+
 		size = Math.max(size, 25);
 
 		List<String> items = Arrays.asList(description.split(" "));
