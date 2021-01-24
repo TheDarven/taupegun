@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.Objects;
 
 public class DatabaseManager extends Manager {
 
@@ -25,8 +26,9 @@ public class DatabaseManager extends Manager {
         String user = this.main.getConfig().getString("bd.user", "");
         String password = this.main.getConfig().getString("bd.password", "");
 
+
+        this.sqlConnection = new SqlConnection("jdbc:mysql://", host, database, user, password);
         if (host.length() + database.length() + user.length() + password.length() == 0) {
-            this.sqlConnection = new SqlConnection("jdbc:mysql://",host,database,user,password);
             try {
                 this.sqlConnection.connection();
             } catch (SQLException ignored) { }
