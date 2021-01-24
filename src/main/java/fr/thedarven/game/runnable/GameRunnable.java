@@ -10,7 +10,7 @@ import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;

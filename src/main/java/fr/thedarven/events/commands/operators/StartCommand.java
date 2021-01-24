@@ -6,7 +6,7 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.teams.TeamGraph;
+import fr.thedarven.utils.TeamGraph;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;

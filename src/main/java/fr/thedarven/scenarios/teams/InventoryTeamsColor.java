@@ -9,7 +9,7 @@ import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -14,7 +14,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 
 public abstract class InventoryBuilder implements Listener {
 	

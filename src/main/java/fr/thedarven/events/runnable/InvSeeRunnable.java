@@ -6,7 +6,7 @@ import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

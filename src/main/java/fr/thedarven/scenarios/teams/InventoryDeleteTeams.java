@@ -14,7 +14,7 @@ import org.bukkit.scoreboard.Team;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 
 public class InventoryDeleteTeams extends InventoryDelete implements AdminConfiguration {
 	

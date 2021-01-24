@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;

@@ -6,7 +6,7 @@ import fr.thedarven.models.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;

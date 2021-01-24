@@ -5,7 +5,7 @@ import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
 import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.texts.TextInterpreter;
+import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
