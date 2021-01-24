@@ -73,7 +73,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
         if (elementStartWith(teamName, LanguageBuilder.getAllContent("TEAM", "superMoleTeamName")))
             return false;
 
-        return !Objects.equals(teamName, LanguageBuilder.getContent("TEAM", "nameChoice", true));
+        return Objects.equals(teamName, LanguageBuilder.getContent("TEAM", "nameChoice", true));
     }
 
     /**
