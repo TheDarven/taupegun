@@ -2,6 +2,7 @@ package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.TeamCustom;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.texts.TextInterpreter;
 import org.bukkit.Bukkit;
@@ -42,7 +43,9 @@ public abstract class GenericRevealCommand extends MoleCommand {
 
         this.main.getPlayerManager().sendPlaySound(Sound.GHAST_SCREAM);
 
-        this.main.getTeamDeletionManager().start();
+        if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
+            this.main.getTeamDeletionManager().start();
+        }
     }
 
 }

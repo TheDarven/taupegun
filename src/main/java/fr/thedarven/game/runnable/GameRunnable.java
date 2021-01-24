@@ -51,7 +51,9 @@ public class GameRunnable extends BukkitRunnable {
 
         main.getTeamDeletionManager().start();
 
-        if (EnumGameState.isCurrentState(EnumGameState.END_FIREWORK)){
+        if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
+            this.main.getTeamDeletionManager().start();
+        } else if (EnumGameState.isCurrentState(EnumGameState.END_FIREWORK)){
             this.gameManager.endGame();
         }
 
