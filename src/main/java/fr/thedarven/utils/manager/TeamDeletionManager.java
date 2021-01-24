@@ -1,4 +1,4 @@
-package fr.thedarven.utils.teams;
+package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
@@ -22,10 +22,6 @@ public class TeamDeletionManager {
 	}
 
 	public void start() {
-		if (!EnumGameState.isCurrentState(EnumGameState.GAME))
-			return;
-
-
 		List<TeamCustom> aliveTeams = TeamCustom.getAllAliveTeams();
 
 		if (this.main.getGameManager().getTimer() > this.main.getScenariosManager().molesActivation.getValue()) {

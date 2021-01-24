@@ -1,4 +1,4 @@
-package fr.thedarven.utils;
+package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
