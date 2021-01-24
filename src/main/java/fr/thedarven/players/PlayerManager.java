@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.Objects;
 
@@ -68,6 +69,21 @@ public class PlayerManager extends Manager {
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
         p.closeInventory();
+    }
+
+    public void resetPlayerData(Player player) {
+        this.main.getListenerManager().getPlayerJoinQuitListener().loginAction(player);
+
+        for (PotionEffect potion : player.getActivePotionEffects()) {
+            player.removePotionEffect(potion.getType());
+        }
+
+        player.setHealth(20);
+        player.setMaxHealth(20.0);
+        player.setFoodLevel(20);
+        player.setExhaustion(5F);
+        player.setExp(0L+0F);
+        player.setLevel(0);
     }
 
     public void openConfigInventory(Player p) {

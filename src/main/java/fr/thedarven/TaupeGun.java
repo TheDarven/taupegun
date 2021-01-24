@@ -10,17 +10,16 @@ import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.teams.TeamManager;
-import fr.thedarven.utils.manager.CraftManager;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.utils.languages.LanguageRegister;
+import fr.thedarven.utils.manager.CraftManager;
 import fr.thedarven.utils.manager.TeamDeletionManager;
 import fr.thedarven.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
 
 public class TaupeGun extends JavaPlugin implements Listener{	
 
@@ -70,40 +69,29 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.itemManager = new ItemManager(this);
 		this.playerManager = new PlayerManager(this);
 		this.teamManager = new TeamManager(this);
-		
-		for (Player p: Bukkit.getOnlinePlayers()){
-			this.listenerManager.getPlayerJoinQuitListener().loginAction(p);
 
-			for (PotionEffect potion : p.getActivePotionEffects()) {
-				p.removePotionEffect(potion.getType());
-			}
+		Bukkit.getOnlinePlayers().forEach(player -> this.playerManager.resetPlayerData(player));
 
-			p.setHealth(20);
-			p.setMaxHealth(20.0);
-			p.setFoodLevel(20);
-			p.setExhaustion(5F);
-			p.setExp(0L+0F);
-			p.setLevel(0);
-		}
 		new RestGame(this);
 
 		this.gameManager = new GameManager(this);
-
 		this.teamDeletionManager = new TeamDeletionManager(this);
 	}
 	
 	@Override
 	public void onDisable(){
-		for(Player p: Bukkit.getOnlinePlayers()){
-			if(!scenariosManager.coordonneesVisibles.getValue())
+		for (Player p: Bukkit.getOnlinePlayers()) {
+			if (!scenariosManager.coordonneesVisibles.getValue()) {
 				DisableF3.enableF3(p);
+			}
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
 
 			getPlayerManager().clearPlayer(p);
 		}
-		if (this.databaseManager.getGameId() != 0)
+		if (this.databaseManager.getGameId() != 0) {
 			databaseManager.updateGameDuration();
+		}
 	}
 
 	public ListenerManager getListenerManager(){
