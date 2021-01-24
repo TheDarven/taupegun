@@ -1,10 +1,10 @@
 package fr.thedarven.events.listeners;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
-import fr.thedarven.utils.CodeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -37,7 +37,7 @@ public class PlayerMoveListener implements Listener {
 			if (Objects.nonNull(team)) {
 				for (int y = -3; y < 0; y++) {
 					if (block.getRelative(0, y,0).getType() == Material.STAINED_GLASS) {
-						block.getRelative(0, y, 0).setData((byte) CodeColor.codeColorPS(team.getTeam().getPrefix().substring(1, 2)));
+						block.getRelative(0, y, 0).setData((byte) ColorEnum.getByColor(team.getTeam().getPrefix()).getId());
 					}
 				}
 			}

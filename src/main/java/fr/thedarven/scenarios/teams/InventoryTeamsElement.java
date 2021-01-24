@@ -3,6 +3,7 @@ package fr.thedarven.scenarios.teams;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
@@ -22,11 +24,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InventoryTeamsElement extends InventoryGUI implements AdminConfiguration {
 
 	public static Map<String, InventoryTeamsElement> teams = new LinkedHashMap<>();
-	private int color;
+	private ColorEnum colorEnum;
 	
-	public InventoryTeamsElement(String name, int color) {
+	public InventoryTeamsElement(String name, ColorEnum colorEnum) {
 		super(name, null, "MENU_TEAM_ITEM", 3, Material.BANNER, TaupeGun.getInstance().getScenariosManager().teamsMenu, 0);
-		this.color = color;
+		this.colorEnum = colorEnum;
 		teams.put(name, this);
 		reloadItem();
 		TaupeGun.getInstance().getScenariosManager().teamsMenu.reloadInventory();
@@ -37,17 +39,17 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 	 * 
 	 * @return La couleur
 	 */
-	public int getColor() {
-		return this.color;
+	public ColorEnum getColor() {
+		return this.colorEnum;
 	}
 	
 	/**
 	 * Pour changer la couleur de l'équipe
 	 * 
-	 * @param color La nouvelle couleur
+	 * @param colorEnum La nouvelle couleur
 	 */
-	public void setColor(int color) {
-		this.color = color;
+	public void setColor(ColorEnum colorEnum) {
+		this.colorEnum = colorEnum;
 		reloadItem();
 	}
 	
@@ -104,8 +106,8 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 		ItemStack item = getItem();
 		int hashCode = item.hashCode();
 
-		item.setDurability((short) color);
-		ItemMeta itemM = item.getItemMeta();
+		BannerMeta itemM = (BannerMeta) item.getItemMeta();
+		itemM.setBaseColor(colorEnum.getDyeColor());
 		itemM.setDisplayName(getFormattedItemName());
 
 		List<String> itemLore = new ArrayList<>();
@@ -182,8 +184,11 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 				MessagesEventClass.TeamDeletePlayerMessage(e);
 				reloadInventory();
 				InventoryTeamsPlayers.reloadInventories();
+				return;
 			}
 		}
+
+		openChildInventory(item, player, pl);
 	}
 
 	/**

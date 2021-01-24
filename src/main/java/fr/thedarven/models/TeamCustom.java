@@ -1,12 +1,12 @@
 package fr.thedarven.models;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
 import fr.thedarven.scenarios.teams.InventoryTeamsElement;
 import fr.thedarven.scenarios.teams.InventoryTeamsParameters;
 import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
-import fr.thedarven.utils.CodeColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -26,6 +26,8 @@ public class TeamCustom {
 	private static Map<String, TeamCustom> teams = new HashMap<>();
 
 	private String name;
+	private ColorEnum colorEnum;
+
 	private Team team;
 	private int taupeTeam;
 	private int superTaupeTeam;
@@ -33,49 +35,40 @@ public class TeamCustom {
 	private List<PlayerTaupe> players;
 	private boolean alive;
 	
-	public TeamCustom(String name, int pColor, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+	public TeamCustom(String name, ColorEnum colorEnum, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
 		team = board.registerNewTeam(name);
-		team.setPrefix("§" + CodeColor.codeColorBP(pColor));
+		if (name.startsWith(TaupeGun.getInstance().getTeamManager().getMoleTeamName()) || name.startsWith(TaupeGun.getInstance().getTeamManager().getSuperMoleTeamName())) {
+			team.setPrefix(colorEnum.getColor() + "[" + name + "] ");
+		} else {
+			team.setPrefix(colorEnum.getColor());
+		}
 		team.setSuffix("§f");
 
 		this.name = name;
+		this.colorEnum = colorEnum;
+
 		this.taupeTeam = pTaupe;
 		this.superTaupeTeam = pSuperTaupe;
 		this.spectator = pSpectator;
 		this.players = new ArrayList<>();
 		this.alive = pAlive;
 		
-		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(CodeColor.codeColorBP(pColor)));
-		new InventoryTeamsParameters(inv);
-		new InventoryTeamsPlayers(inv);
-		new InventoryDeleteTeams(inv);
-
-		teams.put(name, this);
-	}
-	
-	public TeamCustom(String name, String pColor, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
-		team = board.registerNewTeam(name);
-		if (name.startsWith(TaupeGun.getInstance().getTeamManager().getMoleTeamName()) || name.startsWith(TaupeGun.getInstance().getTeamManager().getSuperMoleTeamName()))
-			team.setPrefix("§" + pColor + "[" + name + "] ");
-		else
-			team.setPrefix("§" + pColor);
-		team.setSuffix("§f");
-
-		this.name = name;
-		this.taupeTeam = pTaupe;
-		this.superTaupeTeam = pSuperTaupe;
-		this.spectator = pSpectator;
-		this.players = new ArrayList<>();
-		this.alive = pAlive;
-		
-		InventoryTeamsElement inv = new InventoryTeamsElement(name, CodeColor.codeColorPB(pColor));
+		InventoryTeamsElement inv = new InventoryTeamsElement(name, colorEnum);
 		new InventoryTeamsParameters(inv);
 		new InventoryTeamsPlayers(inv);
 		new InventoryDeleteTeams(inv);
 		
 		teams.put(name, this);
 	}
-	
+
+	public ColorEnum getColorEnum() {
+		return colorEnum;
+	}
+
+	public void setColorEnum(ColorEnum colorEnum) {
+		this.colorEnum = colorEnum;
+	}
+
 	public Team getTeam() { return this.team; }
 	
 	public boolean isTaupeTeam() {

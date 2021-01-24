@@ -6,7 +6,6 @@ import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
 import fr.thedarven.models.runnable.PlayerInventoryRunnable;
-import fr.thedarven.utils.CodeColor;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -66,8 +66,9 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     }
 
     private ItemStack getItemOfTeam(TeamCustom team, TeamCustom playerTeam) {
-        ItemStack item = new ItemStack(Material.BANNER, 1, (byte) CodeColor.codeColorPB(team.getTeam().getPrefix().replace("§", "")));
-        ItemMeta itemM = item.getItemMeta();
+        ItemStack item = new ItemStack(Material.BANNER, 1);
+        BannerMeta itemM = (BannerMeta) item.getItemMeta();
+        itemM.setBaseColor(team.getColorEnum().getDyeColor());
         itemM.setDisplayName(team.getTeam().getPrefix() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 
         if (Objects.nonNull(playerTeam) && playerTeam == team) {

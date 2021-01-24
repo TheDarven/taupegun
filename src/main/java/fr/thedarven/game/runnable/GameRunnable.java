@@ -1,6 +1,7 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.models.enums.EnumGameState;
@@ -80,7 +81,7 @@ public class GameRunnable extends BukkitRunnable {
 
         this.teleportPlayers(world);
 
-        new TeamCustom(this.main.getTeamManager().getSpectatorTeamName(), 15, 0, 0, true, false);
+        new TeamCustom(this.main.getTeamManager().getSpectatorTeamName(), ColorEnum.WHITE, 0, 0, true, false);
 
         this.main.getWorldManager().destroyLobby();
     }
