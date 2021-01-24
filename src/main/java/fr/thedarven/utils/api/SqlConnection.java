@@ -52,7 +52,7 @@ public class SqlConnection {
     }
    
     public boolean isConnected(){
-        return Objects.nonNull(connection);
+        return Objects.nonNull(connection) && this.connected;
     }
 }
 
