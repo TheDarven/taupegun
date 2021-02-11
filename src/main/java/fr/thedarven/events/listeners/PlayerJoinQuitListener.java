@@ -50,7 +50,7 @@ public class PlayerJoinQuitListener implements Listener {
 				DisableF3.disableF3(player);
 			}
 
-			if (!pl.isAlive() || Objects.nonNull(pl.getTeam())) {
+			if (!pl.isAlive() || Objects.isNull(pl.getTeam())) {
 				player.setGameMode(GameMode.SPECTATOR);
 				World world = this.main.getWorldManager().getWorld();
 				if (Objects.nonNull(world)) {

@@ -171,22 +171,10 @@ public class TeamCustom {
 			reloadTeamsInventories();
 		}
 	}
-
-	// TODO Regarder usecase
+	
 	public void joinTeam(UUID uuid) {
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 		joinTeam(pl);
-	}
-
-	public void joinTeam(String pseudo) {
-		Player player = Bukkit.getPlayer(pseudo);
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		joinScoreboardTeam(pseudo, pl, player);
-
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			pl.setStartTeam(this);
-			reloadTeamsInventories();
-		}
 	}
 
 	private void joinScoreboardTeam(String name, PlayerTaupe pl, Player player) {

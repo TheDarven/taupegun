@@ -255,7 +255,7 @@ public class GameRunnable extends BukkitRunnable {
     private void processNotAlivePlayers() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-            if (pl.getTeam() == null && !pl.isAlive()) {
+            if (!pl.isAlive() && Objects.isNull(pl.getTeam())) {
                 TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId());
                 player.setGameMode(GameMode.SPECTATOR);
             }
