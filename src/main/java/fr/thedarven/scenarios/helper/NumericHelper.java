@@ -24,7 +24,7 @@ public class NumericHelper {
 	 * @param showDisplayed Afficher "désactiver" si la valeur est à 0
 	 * @param getterFactor Multiplicateur qui multiplie la valeur dans les getters de comparaison
 	 */
-	public NumericHelper(int min, int max, int value, int pas, int morePas, String afterName, int divider, boolean showDisplayed, double getterFactor) {
+	public NumericHelper(int min, int max, int value, int pas, int morePas, String afterName, int divider, boolean showDisabled, double getterFactor) {
 		this.min = min;
 		this.max = max;
 		this.value = value;
@@ -32,7 +32,7 @@ public class NumericHelper {
 		this.afterName = afterName;
 		this.divider = divider;
 		this.morePas = morePas;
-		this.showDisabled = showDisplayed;
+		this.showDisabled = showDisabled;
 		this.getterFactor = getterFactor;
 	}
 	

@@ -1067,6 +1067,21 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_MOLE_SUPERMOLE_TEAMSIZE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taille des équipes supertaupes",
+				"description": "Détermine la taille des équipes de supertaupes.",
+				"afterName": " supertaupe(s)"
+			},
+			"en_US": {
+				"name": "Supermoles team size",
+				"description": "Defines the size of the supermoles teams.",
+				"afterName": " supermole(s)"
+			}
+		}
+	},
 	
 	
 	
