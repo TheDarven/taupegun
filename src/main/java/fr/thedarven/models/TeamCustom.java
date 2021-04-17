@@ -90,7 +90,29 @@ public class TeamCustom {
 	public boolean isSpectator() {
 		return spectator;
 	}
-	
+
+	public List<PlayerTaupe> getTaupeTeamPlayers() {
+		if (this.taupeTeam == 0) {
+			return new ArrayList<>();
+		}
+
+		return PlayerTaupe.getAllPlayerManager()
+				.stream()
+				.filter(p -> p.getTaupeTeam() == this)
+				.collect(Collectors.toList());
+	}
+
+	public List<PlayerTaupe> getSuperTaupeTeamPlayers() {
+		if (this.superTaupeTeam == 0) {
+			return new ArrayList<>();
+		}
+
+		return PlayerTaupe.getAllPlayerManager()
+				.stream()
+				.filter(p -> p.getSuperTaupeTeam() == this)
+				.collect(Collectors.toList());
+	}
+
 	public List<PlayerTaupe> getPlayers(){
 		return players;
 	}
@@ -113,6 +135,28 @@ public class TeamCustom {
 
 	public int getSize() {
 		return this.players.size();
+	}
+
+	public long getTaupeTeamSize() {
+		if (this.taupeTeam == 0) {
+			return 0;
+		}
+
+		return PlayerTaupe.getAllPlayerManager()
+				.stream()
+				.filter(p -> p.getTaupeTeam() == this)
+				.count();
+	}
+
+	public long getSuperTaupeTeamSize() {
+		if (this.superTaupeTeam == 0) {
+			return 0;
+		}
+
+		return PlayerTaupe.getAllPlayerManager()
+				.stream()
+				.filter(p -> p.getSuperTaupeTeam() == this)
+				.count();
 	}
 
 	public String getName() {
@@ -257,6 +301,14 @@ public class TeamCustom {
 		return teams.values()
 				.stream()
 				.filter(TeamCustom::isSpectator)
+				.findFirst()
+				.orElse(null);
+	}
+
+	public static TeamCustom getTaupeTeam(int teamNumber) {
+		return teams.values()
+				.stream()
+				.filter(team -> team.getTaupeTeamNumber() == teamNumber)
 				.findFirst()
 				.orElse(null);
 	}

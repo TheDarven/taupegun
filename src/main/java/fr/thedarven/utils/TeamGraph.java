@@ -1,28 +1,27 @@
 package fr.thedarven.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.ColorEnum;
-import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
+import fr.thedarven.models.enums.ColorEnum;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class TeamGraph {
 
 	private TaupeGun main;
 	private List<List<PlayerTaupe>> molesOfTeam;
-	private List<List<PlayerTaupe>> moleTeam;
-	private List<List<PlayerTaupe>> superMoleTeam;
+	private List<TeamCustom> moleTeam;
 	private static Random r = new Random();
 	
 	public TeamGraph(TaupeGun main) {
 		this.main = main;
 		molesOfTeam = new ArrayList<>();
 		moleTeam = new ArrayList<>();
-		superMoleTeam = new ArrayList<>();
 	}
 	
 	public void addEquipes(List<PlayerTaupe> pAddEquipes) {
@@ -30,76 +29,100 @@ public class TeamGraph {
 	}
 	
 	public boolean creationEquipes() {
-		int pNbrTaupes = this.main.getScenariosManager().molesTeamSize.getIntValue();
 		if (/*pNbrTaupes > molesOfTeam.size() ||*/ molesOfTeam.size() == 0) {
 			return false;
 		} else {
 			// TAUPES
-			ArrayList<String> kits = new ArrayList<String>();
+			List<String> kits = new ArrayList<>();
 			for (InventoryGUI kit : this.main.getScenariosManager().kitsMenu.getChildsValue()) {
 				if (kit != this.main.getScenariosManager().addKit)
 					kits.add(kit.getName());
 			}
-			int numTeam = 0;
-			while (molesOfTeam.size() > 0) {
-				numTeam++;
-				sortByNumberPlayerInTeam();
-				if (pNbrTaupes > molesOfTeam.size())
-					pNbrTaupes = molesOfTeam.size();
-				ArrayList<PlayerTaupe> teamTaupe = new ArrayList<PlayerTaupe>();
-				
-				TeamCustom taupe = new TeamCustom(this.main.getTeamManager().getMoleTeamName()+numTeam, ColorEnum.RED, numTeam, 0, false, true);
-				
-				// Crée une équipe de taupe
-				for (int i=0; i<pNbrTaupes; i++) {
-					int random = r.nextInt(molesOfTeam.get(i).size());
-					teamTaupe.add(molesOfTeam.get(i).get(random));
-					molesOfTeam.get(i).get(random).setTaupeTeam(taupe);
-					molesOfTeam.get(i).get(random).setClaimTaupe(kits.get(r.nextInt(kits.size())));
+
+			this.createMoleTeams();
+			sortByNumberPlayerInTeam();
+			for (List<PlayerTaupe> moles: this.molesOfTeam) {
+				sortMoleTeamsByNbPlayers();
+				for (int i = 0; i < moles.size(); i++) {
+					PlayerTaupe mole = moles.get(i);
+					mole.setTaupeTeam(this.moleTeam.get(i));
+					mole.setClaimTaupe(kits.get(r.nextInt(kits.size())));
 				}
-				moleTeam.add(teamTaupe);
-				verifJoueursTaupes();
 			}
-			
+
 			// SUPERTAUPES
 			if (this.main.getScenariosManager().superMoles.getValue()) {
-				
-				TeamCustom supertaupe = new TeamCustom(this.main.getTeamManager().getMoleTeamName(),ColorEnum.DARK_RED, 0, 1, false, true);
-				
-				ArrayList<PlayerTaupe> teamSupertaupe = new ArrayList<PlayerTaupe>();
-				// Prend une taupe par équipe de taupe
-				for (int i=0; i<moleTeam.size(); i++) {
-					int random = r.nextInt(moleTeam.get(i).size());
-					teamSupertaupe.add(moleTeam.get(i).get(random));
-					moleTeam.get(i).get(random).setSuperTaupeTeam(supertaupe);
+				Collections.shuffle(this.moleTeam);
+
+				double superTaupesTeamSize = this.main.getScenariosManager().superMolesTeamSize.getValue();
+
+				int superTeamNumber = 0;
+				TeamCustom superMoleTeam = null;
+				for (int i = 0; i < this.moleTeam.size(); i++) {
+					TeamCustom team = this.moleTeam.get(i);
+					if (i % superTaupesTeamSize == 0) {
+						superTeamNumber++;
+						superMoleTeam = new TeamCustom(this.main.getTeamManager().getMoleTeamName() + superTeamNumber, ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
+					}
+					List<PlayerTaupe> players = team.getTaupeTeamPlayers();
+					if (players.size() > 0) {
+						Collections.shuffle(players);
+						players.get(0).setSuperTaupeTeam(superMoleTeam);
+					}
 				}
-				superMoleTeam.add(teamSupertaupe);
 			}
-			
+			// max(teamSize) <= nbTeam
+			// nbTaupes / nbJoueursParTeam <= nbTeam
+			// nbTeam = max( max(teamSize), nbTaupes / nbJoueursParTeam )
+
+			// 1. Créer le bon nombre d'équipe
+			// 2. Pour chaque équipe :
+				// a. Ordonner les équipes de taupes par nombre de joueurs croissant (avec aléatoire dans les équipes avec le même nombre de joueurs)
+				// b. Ajouter les joueurs aux équipes dans l'ordre
 			return true;
 		}
 	}
-	
-	private void verifJoueursTaupes() {
-		for (int i=0; i<molesOfTeam.size(); i++) {
-			ArrayList<Integer> list = new ArrayList<Integer>();
-			for(int j=0; j<molesOfTeam.get(i).size(); j++) {
-				if(molesOfTeam.get(i).get(j).isTaupe()){
-					list.add(j);
+
+	private void createMoleTeams() {
+		double nbPlayers = this.molesOfTeam.stream().mapToInt(List::size).sum();
+		double nbTaupes = this.main.getScenariosManager().molesTeamSize.getIntValue();
+		int maxTeamSize = this.molesOfTeam.stream().mapToInt(List::size).max().getAsInt();
+
+		int nbTeams = Math.max((int) Math.ceil(nbPlayers / nbTaupes), maxTeamSize);
+
+		String moleTeamName = this.main.getTeamManager().getMoleTeamName();
+
+		for (int i = 1; i <= nbTeams; i++) {
+			this.moleTeam.add(
+				new TeamCustom(moleTeamName + i, ColorEnum.RED, i, 0, false, true)
+			);
+		}
+	}
+
+	public void sortMoleTeamsByNbPlayers() {
+		int nbTeam = this.moleTeam.size();
+		for (int i = 0; i < nbTeam; i++) {
+			for (int j = i; j < nbTeam; j++) {
+				if (this.moleTeam.get(i).getTaupeTeamSize() > this.moleTeam.get(j).getTaupeTeamSize()) {
+					TeamCustom temp = this.moleTeam.get(i);
+					this.moleTeam.set(i, this.moleTeam.get(j));
+					this.moleTeam.set(j, temp);
 				}
 			}
-			for(int nbr : list) {
-				molesOfTeam.get(i).remove(nbr);
-			}
 		}
-		for(int i=0; i<molesOfTeam.size(); i++) {
-			if(molesOfTeam.get(i).size() == 0) {
-				molesOfTeam.remove(i);
-				i--;
+
+		for (int i = 0; i < nbTeam - 1; i++) {
+			if (this.moleTeam.get(i).getTaupeTeamSize() == this.moleTeam.get(i + 1).getTaupeTeamSize()) {
+				int random = r.nextInt(3);
+				if (random >= 1) {
+					TeamCustom temp = this.moleTeam.get(i);
+					this.moleTeam.set(i, this.moleTeam.get(i + 1));
+					this.moleTeam.set(i + 1, temp);
+				}
 			}
 		}
 	}
-	
+
 	public void sortByNumberPlayerInTeam() {
 		for(int i=0; i<molesOfTeam.size(); i++) {
 			for(int j=i; j<molesOfTeam.size(); j++) {
@@ -110,6 +133,11 @@ public class TeamGraph {
 				}
 			}
 		}
+
+		if (molesOfTeam.size() < 2) {
+			return;
+		}
+
 		for(int i=0; i<molesOfTeam.size()-1; i++) {
 			if(molesOfTeam.get(i).size() == molesOfTeam.get(i+1).size()) {
 				int random = r.nextInt(3);
