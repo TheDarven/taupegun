@@ -55,7 +55,8 @@ public class GameManager extends Manager {
 		main.getDatabaseManager().updateGameDuration();
 
 		RestGame.endGames();
-		Bukkit.getScheduler().runTaskTimer(this.main, new EndGameRunnable(this.main),5,5);
+		EndGameRunnable endGameRunnable = new EndGameRunnable(this.main);
+		endGameRunnable.runTaskTimer(this.main,5,5);
 	}
 
 	public void setMolesInDb() {
