@@ -63,7 +63,7 @@ public class InventoryCreateTeam extends InventoryAction implements  AdminConfig
     private void addTeamAction(Player player, PlayerTaupe pl) {
         new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
             pl.setCreateTeamName(text);
-            Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateTeamRunnable(TaupeGun.getInstance(), pl, player));
+            new CreateTeamRunnable(TaupeGun.getInstance(), pl, player).runTask(TaupeGun.getInstance());
             return true;
         }).setInputName(CREATE_TEAM).open();
     }

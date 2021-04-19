@@ -83,7 +83,7 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 
 			new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
 				pl.setCreateKitName(text);
-				Bukkit.getScheduler().runTask(TaupeGun.getInstance(), new CreateKitRunnable(player, pl, parent));
+				new CreateKitRunnable(player, pl, parent).runTask(TaupeGun.getInstance());
 				return true;
 			}).setInputName(CREATE_KIT_NAME_FORMAT).open();
 			return;
