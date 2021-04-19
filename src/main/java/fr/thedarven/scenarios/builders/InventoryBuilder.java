@@ -315,20 +315,25 @@ public abstract class InventoryBuilder implements Listener {
 
 		size = Math.max(size, 25);
 
-		List<String> items = Arrays.asList(description.split(" "));
+		String[] items = description.split(" ");
 		List<String> list = new ArrayList<>();
 
-		StringBuilder lines = new StringBuilder(color + items.get(0));
-		for (String item: items) {
-			if ((lines.length() + 1 + item.length()) > size) {
-				list.add(lines.toString());
-				lines = new StringBuilder(color + item);
-			} else {
-				lines.append(" ").append(item);
+		if (items.length > 0) {
+			StringBuilder lines = new StringBuilder(color + items[0]);
+
+			int nbItems = items.length;
+			for (int i = 1; i < nbItems; i++) {
+				String item = items[i];
+				if ((lines.length() + 1 + item.length()) > size) {
+					list.add(lines.toString());
+					lines = new StringBuilder(color + item);
+				} else {
+					lines.append(" ").append(item);
+				}
 			}
-		}
-		if (lines.length() > 0) {
-			list.add(lines.toString());
+			if (lines.length() > 0) {
+				list.add(lines.toString());
+			}
 		}
 
 		return list;
