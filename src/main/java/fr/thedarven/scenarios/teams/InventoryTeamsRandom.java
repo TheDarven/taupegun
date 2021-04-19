@@ -94,6 +94,6 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
 				teamIndex = 0;
 			}
 		}
-		Title.sendActionBar(player, "§player" + PLAYER_REPARTITION);
+		Title.sendActionBar(player, "§a" + PLAYER_REPARTITION);
 	}
 }
