@@ -52,7 +52,8 @@ public class PersonalScoreboard {
 		objectiveSign.setDisplayName("§6TaupeGun");
 		objectiveSign.setLine(i++, "§1");
 		if (this.main.getScenariosManager().episode.getValue() > 0) {
-			int episodeNumber = timer / this.main.getScenariosManager().episode.getIntValue() + 1;
+
+			int episodeNumber = (int) (timer / this.main.getScenariosManager().episode.getValue() + 1);
 			
 			Map<String, String> params = new HashMap<>();
 			params.put("episodeNumber", episodeNumber+"");
