@@ -21,7 +21,7 @@ import java.util.*;
 
 public class GameRunnable extends BukkitRunnable {
 
-    final private static int SECONDS_BEFORE_SUPERMOLE_ANNONCING = 1200;
+    final private static int SECONDS_BEFORE_SUPERMOLE_ANNOUNCING = 1200;
 
     private final TaupeGun main;
 
@@ -148,9 +148,9 @@ public class GameRunnable extends BukkitRunnable {
             return;
 
         // 5s AVANT L'ANNONCE DES SUPER TAUPES
-        if (molesAnnouncing.isValueLowerOrEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNONCING + 6)
-                && molesAnnouncing.isValueGreaterOrEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNONCING + 1)) {
-            if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNONCING + 6)) {
+        if (molesAnnouncing.isValueLowerOrEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNOUNCING + 6)
+                && molesAnnouncing.isValueGreaterOrEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNOUNCING + 1)) {
+            if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNOUNCING + 6)) {
                 String superMoleAnnouncement = "§a" + LanguageBuilder.getContent("GAME", "superMoleAnnouncement",true);
                 Bukkit.broadcastMessage(superMoleAnnouncement);
             }
@@ -158,7 +158,7 @@ public class GameRunnable extends BukkitRunnable {
         }
 
         // ANNONCE DES SUPER TAUPES
-        if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNONCING + 1)) {
+        if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNOUNCING + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
                 if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()) {
