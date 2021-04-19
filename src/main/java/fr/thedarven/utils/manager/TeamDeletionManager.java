@@ -32,7 +32,7 @@ public class TeamDeletionManager {
 				} else if (team.isSuperTaupeTeam()) {
 					alive = PlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getSuperTaupeTeam() == team);
 				} else if (!team.isSpectator() && team.getTeam().getEntries().size() == 0) {
-					this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName());
+					this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), true);
 					alive = false;
 					/* Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");
 					for(Player playerOnline : Bukkit.getOnlinePlayers()) {

@@ -3,6 +3,7 @@ package fr.thedarven.events.commands.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.TeamCustom;
+import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class ReviveCommand extends OperatorCommand {
 
 	public ReviveCommand(TaupeGun main){
-		super(main, new String[]{ "taupegun.revive" });
+		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{ "taupegun.revive" });
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (args.length > 0 && !this.main.getGameManager().molesEnabled()) {
+		if (args.length > 0 && !this.main.getGameManager().molesEnabled() && TeamCustom.getAllAliveTeams().size() > 1) {
 			return super.validateCommand(sender, pl, cmd, alias, args);
 		} else {
 			sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotRevive", true));
@@ -50,8 +51,13 @@ public class ReviveCommand extends OperatorCommand {
 		if (Objects.isNull(team) || team.isSpectator())
 			return;
 
+		if (!team.isAlive()) {
+			this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), false);
+			team.setAlive(true);
+		}
+
 		Location respawnLocation = null;
-		for (PlayerTaupe mate: team.getPlayers()) {
+		for (PlayerTaupe mate: team.getAlivesPlayers()) {
 			Player matePlayer = mate.getPlayer();
 			if (Objects.nonNull(matePlayer)) {
 				respawnLocation = matePlayer.getLocation();

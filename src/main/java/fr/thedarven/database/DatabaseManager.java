@@ -229,13 +229,13 @@ public class DatabaseManager extends Manager {
         return 0;
     }
 
-    public void updateTeamDeath(String teamName){
+    public void updateTeamDeath(String teamName, boolean value){
         if (!canSqlRequest())
             return;
 
         try {
             PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_equipe SET mort = ? WHERE nom = ? AND id_partie = ?");
-            q.setInt(1, 1);
+            q.setInt(1, value ? 1 : 0);
             q.setString(2, teamName);
             q.setInt(3, gameId);
             q.execute();
