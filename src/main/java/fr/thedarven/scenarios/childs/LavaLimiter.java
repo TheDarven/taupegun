@@ -17,7 +17,7 @@ public class LavaLimiter extends OptionBoolean {
 	private static String CANNOT_PLACE_LAVA = "Vous ne pouvez pas placer de la lave proche d'un joueur.";
 	
 	public LavaLimiter(InventoryGUI parent) {
-		super("Lava Limiter", "Désactive le placement de lave proches des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
+		super("Lava Limiter", "Désactive le placement de lave proche des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
 		updateLanguage(getLanguage());
 	}
 

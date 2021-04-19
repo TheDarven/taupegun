@@ -14,15 +14,15 @@ import org.bukkit.potion.PotionEffectType;
 public class StrengthNerf extends OptionNumeric {
 
     public StrengthNerf(InventoryGUI parent) {
-        super("Potion de force", "Détermine le pourcentage de dégats supplémentaire par palier des potions de force (par défaut 130%).",
+        super("Potion de force", "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%).",
                 "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL", Material.POTION, parent, 13,
                 new NumericHelper(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
     }
 
     /**
-     * Réduit les dégats provoqués par l'effet de Force
+     * Réduit les dégâts provoqués par l'effet de Force
      *
-     * @param e L'évènement de dégats infligés
+     * @param e L'évènement de dégâts infligés
      */
     @EventHandler
     final public void onDamage(EntityDamageByEntityEvent e){

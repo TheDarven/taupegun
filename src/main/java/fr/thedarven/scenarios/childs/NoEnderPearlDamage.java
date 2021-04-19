@@ -10,11 +10,11 @@ import fr.thedarven.scenarios.builders.OptionBoolean;
 public class NoEnderPearlDamage extends OptionBoolean {
 	
 	public NoEnderPearlDamage(InventoryGUI parent) {
-		super("No Enderpearl Damage", "Désactive les dégâts causés par les ender pearl.", "MENU_CONFIGURATION_SCENARIO_PEARLDAMAGE", Material.ENDER_PEARL, parent, false);
+		super("No Enderpearl Damage", "Désactive les dégâts causés par les enderpearl.", "MENU_CONFIGURATION_SCENARIO_PEARLDAMAGE", Material.ENDER_PEARL, parent, false);
 	}
 	
 	/**
-	 * Désactive les dégats des enderpearl
+	 * Désactive les dégâts des enderpearl
 	 * 
 	 * @param e L'évènement de téléportation
 	 */

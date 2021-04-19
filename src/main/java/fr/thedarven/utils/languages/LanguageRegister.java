@@ -112,12 +112,12 @@ public class LanguageRegister {
 		teamElement.addTranslation("fr_FR", "empty", "Aucun joueur");
 		teamElement.addTranslation("fr_FR", "leave", "Quitter l'équipe");
 		teamElement.addTranslation("fr_FR", "isLeaving", "Vous avez quitté la team {teamName}");
-		teamElement.addTranslation("fr_FR", "isJoining", "Vous avez rejoins la team {teamName}");
+		teamElement.addTranslation("fr_FR", "isJoining", "Vous avez rejoint la team {teamName}");
 		teamElement.addTranslation("fr_FR", "nameTooLong", "Le nom de l'équipe ne doit pas dépasser 16 caractères.");
 		teamElement.addTranslation("fr_FR", "isDeleting", "Le joueur {playerName} a été supprimé de l'équipe.");
 		teamElement.addTranslation("fr_FR", "isAdding", "Le joueur {playerName} a été ajouté à l'équipe.");
 		teamElement.addTranslation("fr_FR", "nameAlreadyUsed", "Ce nom d'équipe est déjà prit !");
-		teamElement.addTranslation("fr_FR", "teamRenamed", "L'équipe a été renommé en {teamName} avec succès.");
+		teamElement.addTranslation("fr_FR", "teamRenamed", "L'équipe a été renommée en {teamName} avec succès.");
 		teamElement.addTranslation("fr_FR", "teamChoiceTitle", "Menu des équipes");
 		teamElement.addTranslation("fr_FR", "spectatorTeamName", "Spectateurs");
 		teamElement.addTranslation("fr_FR", "moleTeamName", "Taupes");
@@ -152,11 +152,11 @@ public class LanguageRegister {
 		LanguageBuilder contentElement = LanguageBuilder.getLanguageBuilder("CONTENT");
 		contentElement.addTranslation("fr_FR", "moleMessageInfo", " Vous êtes une taupe, retournez votre équipe et remportez la partie avec votre équipe de taupes !");
 		contentElement.addTranslation("fr_FR", "moleMessageT", " Tapez /t pour envoyer un message à votre équipe.");
-		contentElement.addTranslation("fr_FR", "moleMessageReveal", " Tapez /reveal pour vous révèler aux yeux de tous et gagner une pomme d'or.");
-		contentElement.addTranslation("fr_FR", "moleMessageClaim", " Tapez /claim pour reçevoir votre kit {kitName}. Attention, les items peuvent dropper au sol !");
+		contentElement.addTranslation("fr_FR", "moleMessageReveal", " Tapez /reveal pour vous révéler aux yeux de tous et gagner une pomme d'or.");
+		contentElement.addTranslation("fr_FR", "moleMessageClaim", " Tapez /claim pour recevoir votre kit {kitName}. Attention, les items peuvent dropper au sol !");
 		contentElement.addTranslation("fr_FR", "superMoleMessageInfo", " Vous êtes une super taupe, retournez votre équipe de taupe et remportez la partie avec votre équipe de taupes !");
 		contentElement.addTranslation("fr_FR", "superMoleMessageT", " Tapez /supert pour envoyer un message à votre équipe.");
-		contentElement.addTranslation("fr_FR", "superMoleMessageReveal", " Tapez /superreveal pour vous révèler aux yeux de tous et gagner une pomme d'or.");
+		contentElement.addTranslation("fr_FR", "superMoleMessageReveal", " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.");
 		contentElement.addTranslation("fr_FR", "killList", "======== Liste des kills ========");
 		contentElement.addTranslation("fr_FR", "selected", "Sélectionné");
 		contentElement.addTranslation("fr_FR", "info", "[Info]");
@@ -183,20 +183,20 @@ public class LanguageRegister {
 		scoreboardElement.addTranslation("fr_FR", "wall", "Mur: {valueColor}{timer}{endValueColor}");
 		scoreboardElement.addTranslation("fr_FR", "timer", "Chrono: {valueColor}{timer}{endValueColor}");
 		scoreboardElement.addTranslation("fr_FR", "border", "Bordure: {valueColor}{border}{endValueColor}");
-		scoreboardElement.addTranslation("fr_FR", "episode", "Episode {episodeNumber}");
+		scoreboardElement.addTranslation("fr_FR", "episode", "Épisode {episodeNumber}");
 		
 		LanguageBuilder deathEventElement = LanguageBuilder.getLanguageBuilder("EVENT_DEATH");
 		deathEventElement.addTranslation("fr_FR", "deathAll", "{playerName} est mort.");
 		deathEventElement.addTranslation("fr_FR", "deathMumble", "Vous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.");
-		deathEventElement.addTranslation("fr_FR", "deathInfo", "Vous pouvez savoir la liste des taupes en faisant /taupelist.");
+		deathEventElement.addTranslation("fr_FR", "deathInfo", "Vous pouvez connaître la liste des taupes en faisant /taupelist.");
 		
 		LanguageBuilder loginEventElement = LanguageBuilder.getLanguageBuilder("EVENT_LOGIN");
 		loginEventElement.addTranslation("fr_FR", "developerModeTitle", "Mode développement : ON");
-		loginEventElement.addTranslation("fr_FR", "developerModeSubtitle", "Prévenez TheDarven (il doit être désactivé");
+		loginEventElement.addTranslation("fr_FR", "developerModeSubtitle", "Prévenez TheDarven (il doit être désactivé)");
 		
 		LanguageBuilder tchatEventElement = LanguageBuilder.getLanguageBuilder("EVENT_TCHAT");
 		tchatEventElement.addTranslation("fr_FR", "teamMessage", "[Equipe] ");
 		tchatEventElement.addTranslation("fr_FR", "spectatorMessage", "[Spec] ");
-		tchatEventElement.addTranslation("fr_FR", "cannotPrivateMessage", "Vous ne pouvez pas envoyer de messages privées.");
+		tchatEventElement.addTranslation("fr_FR", "cannotPrivateMessage", "Vous ne pouvez pas envoyer de messages privés.");
 	}
 }

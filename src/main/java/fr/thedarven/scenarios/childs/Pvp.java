@@ -20,7 +20,7 @@ public class Pvp extends OptionNumeric {
 	}
 	
 	/**
-	 * Désactive les dégats entre utilisateurs pendant la phase non PVP
+	 * Désactive les dégâts entre utilisateurs pendant la phase non PVP
 	 * 
 	 * @param e L'évènement de dégat infligé
 	 */

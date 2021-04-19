@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InventoryTeams extends InventoryIncrement implements AdminConfiguration {
 	
 	public InventoryTeams(InventoryGUI parent) {
-		super("Equipes", "Menu de équipes.", "MENU_TEAM", 6, Material.BANNER, parent, 5, (byte) 15);
+		super("Équipes", "Menu des équipes.", "MENU_TEAM", 6, Material.BANNER, parent, 5, (byte) 15);
 	}
 
 	@Override

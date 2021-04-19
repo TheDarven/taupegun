@@ -12,12 +12,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 public class BloodDiamond extends OptionNumeric {
 
 	public BloodDiamond(InventoryGUI parent) {
-		super("Blood Diamond", "Les diamants infliges des dégats lorsqu'ils sont minés.", "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
+		super("Blood Diamond", "Les diamants infliges des dégâts lorsqu'ils sont minés.", "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
 				Material.TNT, parent, new NumericHelper(0, 4, 0, 1, 1, "❤", 2, true, 1));
 	}
 	
 	/**
-	 * Lorsqu'on case un minerais de diamant, on inflige des dégats à l'utilisateur
+	 * Lorsqu'on case un minerais de diamant, on inflige des dégâts à l'utilisateur
 	 * 
 	 * @param e L'évènement de bloc cassé
 	 */

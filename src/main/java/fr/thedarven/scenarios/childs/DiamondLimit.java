@@ -23,7 +23,7 @@ public class DiamondLimit extends OptionNumeric {
 	private final HashMap<UUID, Integer> playersLimit = new HashMap<>();
 	
 	public DiamondLimit(InventoryGUI parent) {
-		super("Diamond Limit", "Limite le nombre de diamant que chaque joueur peu miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
+		super("Diamond Limit", "Limite le nombre de diamant que chaque joueur peut miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
 				Material.DIAMOND, parent, new NumericHelper(0, 50, 0, 1, 2, "", 1, true, 1));
 		updateLanguage(getLanguage());
 	}

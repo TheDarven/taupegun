@@ -20,7 +20,7 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
 	private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
 
 	public InventoryTeamsRandom(InventoryTeams parent) {
-		super("Equipes randoms", null, "MENU_TEAM_RANDOM", 1, Material.PAPER, parent, 45);
+		super("Équipes randoms", null, "MENU_TEAM_RANDOM", 1, Material.PAPER, parent, 45);
 	}
 
 	@Override

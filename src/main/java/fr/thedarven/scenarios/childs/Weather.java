@@ -10,7 +10,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class Weather extends OptionBoolean {
 
 	public Weather(InventoryGUI parent) {
-		super("Météo", "Activer ou non les changements métérologiques.", "MENU_CONFIGURATION_OTHER_WEATHER",
+		super("Météo", "Active ou non les changements météorologiques.", "MENU_CONFIGURATION_OTHER_WEATHER",
 				Material.DAYLIGHT_DETECTOR, parent, 9, true);
 	}
 	

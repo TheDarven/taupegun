@@ -24,7 +24,7 @@ public class OwnTeam extends OptionBoolean{
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
 	public OwnTeam(InventoryGUI parent) {
-		super("Choisir son équipe", "Donner la possibilité aux joueurs de créer et rejoindre eux mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
+		super("Choisir son équipe", "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
 				Material.BANNER, parent, 6, true, (byte) 10);
 		actionBanner(TEAM_CHOICE);
 	}

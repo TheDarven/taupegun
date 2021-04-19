@@ -17,10 +17,10 @@ import java.util.Optional;
 
 public class PotionII extends OptionBoolean{
 
-	private static String TRANSFORM_POTION = "Poufff ! Votre potion est passé au niveau 1.";
+	private static String TRANSFORM_POTION = "Poufff ! Votre potion est passée au niveau 1.";
 	
 	public PotionII(InventoryGUI parent) {
-		super("Potion II", "Activer ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
+		super("Potion II", "Active ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
 				12, true, (byte) 8254);
 		updateLanguage(getLanguage());
 	}

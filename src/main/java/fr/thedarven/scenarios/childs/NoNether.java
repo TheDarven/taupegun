@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 public class NoNether extends OptionBoolean {
 	
 	public NoNether(InventoryGUI parent) {
-		super("No Nether", "Désactive l'accès au nether.", "MENU_CONFIGURATION_SCENARIO_NONETHER", Material.OBSIDIAN, parent, false);
+		super("Nether", "Active ou non le nether.", "MENU_CONFIGURATION_SCENARIO_NETHER", Material.OBSIDIAN, parent, false);
 	}
 	
 	/**

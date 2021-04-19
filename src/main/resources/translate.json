@@ -19,11 +19,11 @@
 
 				"moleMessageInfo": " Vous êtes une taupe, trahissez votre équipe et remportez la partie avec votre équipe de taupes !",
 				"moleMessageT": " Tapez /t pour envoyer un message à votre équipe de taupes.",
-				"moleMessageReveal": " Tapez /reveal pour vous révèler aux yeux de tous et gagner une pomme d'or.",
-				"moleMessageClaim": " Tapez /claim pour reçevoir votre kit {kitName}. Attention, les items peuvent dropper au sol !",
+				"moleMessageReveal": " Tapez /reveal pour vous révéler aux yeux de tous et gagner une pomme d'or.",
+				"moleMessageClaim": " Tapez /claim pour recevoir votre kit {kitName}. Attention, les items peuvent dropper au sol !",
 				"superMoleMessageInfo": " Vous êtes une super taupe, trahissez votre équipe de taupe et remportez la partie avec votre équipe de super taupes !",
 				"superMoleMessageT": " Tapez /supert pour envoyer un message à votre équipe de super taupes.",
-				"superMoleMessageReveal": " Tapez /superreveal pour vous révèler aux yeux de tous et gagner une pomme d'or.",
+				"superMoleMessageReveal": " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.",
 				"killList": "======== Liste des kills ========",
 				"selected": "Sélectionné",
 				"statsLink": "Les statistiques de votre partie sont disponibles ici : {link}"
@@ -59,7 +59,7 @@
 				"delete": "Le kit {kitName} a été supprimé avec succès.",
 				"nameTooLong": "Le nom du kit ne doit pas dépasser 16 caractères.",
 				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre kit.",
-				"create": "Le kit {kitName} a été crée avec succès.",
+				"create": "Le kit {kitName} a été créé avec succès.",
 				"createNameMessage": "Nom du kit"
 			},
 			"en_US": {
@@ -88,7 +88,7 @@
 				"cannotSuperReveal": "Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.",
 
 				"operator": "Vous n'avez pas les permissions pour utiliser cette commande.",
-				"disabledCommand": "La commande est désactivé."
+				"disabledCommand": "La commande est désactivée."
 			},
 			"en_US": {
 				"heal": "You've been healed.",
@@ -155,11 +155,11 @@
 				"empty": "Aucun joueur",
 				"leave": "Quitter l'équipe",
 				"isLeaving": "Vous avez quitté la team {teamName}",
-				"isJoining": "Vous avez rejoins la team {teamName}",
+				"isJoining": "Vous avez rejoint la team {teamName}",
 				"isDeleting": "Le joueur {playerName} a été supprimé de l'équipe.",
 				"isAdding": "Le joueur {playerName} a été ajouté à l'équipe.",
 				"nameAlreadyUsed": "Ce nom d'équipe est déjà pris !",
-				"teamRenamed": "L'équipe a été renommé en {teamName} avec succès.",
+				"teamRenamed": "L'équipe a été renommée en {teamName} avec succès.",
 				"teamChoiceTitle": "Menu des équipes",
 				"spectatorTeamName": "Spectateurs",
 				"moleTeamName": "Taupes",
@@ -275,7 +275,7 @@
 				"wall": "Mur: {valueColor}{timer}{endValueColor}",
 				"timer": "Chrono: {valueColor}{timer}{endValueColor}",
 				"border": "Bordure: {valueColor}{border}{endValueColor}",
-				"episode": "Episode {episodeNumber}"
+				"episode": "Épisode {episodeNumber}"
 			},
 			"en_US": {
 				"author": "Plugin by TheDarven",
@@ -298,7 +298,7 @@
 			"fr_FR": {
 				"deathAll": "{playerName} est mort.",
 				"deathMumble": "Vous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.",
-				"deathInfo": "Vous pouvez savoir la liste des taupes en faisant /taupelist."
+				"deathInfo": "Vous pouvez connaître la liste des taupes en faisant /taupelist."
 			},
 			"en_US": {
 				"deathAll": "{playerName} died.",
@@ -326,7 +326,7 @@
 			"fr_FR": {
 				"teamMessage": "[Equipe] ",
 				"spectatorMessage": "[Spec] ",
-				"cannotPrivateMessage": "Vous ne pouvez pas envoyer de messages privées."
+				"cannotPrivateMessage": "Vous ne pouvez pas envoyer de messages privés."
 			},
 			"en_US": {
 				"teamMessage": "[Team] ",
@@ -391,7 +391,7 @@
 		"title": "MENU_STARTER_KIT",
 		"translations": {
 			"fr_FR": {
-				"name": "Stuff de départ.",
+				"name": "Stuff de départ",
 				"description": "Configuration du stuff de départ."
 			},
 			"en_US": {
@@ -406,8 +406,8 @@
 		"title": "MENU_TEAM",
 		"translations": {
 			"fr_FR": {
-				"name": "Equipes",
-				"description": "Menu de équipes."
+				"name": "Équipes",
+				"description": "Menu des équipes."
 			},
 			"en_US": {
 				"name": "Teams",
@@ -445,7 +445,7 @@
 		"title": "MENU_TEAM_RANDOM",
 		"translations": {
 			"fr_FR": {
-				"name": "Equipes randoms",
+				"name": "Équipes randoms",
 				"description": ""
 			},
 			"en_US": {
@@ -679,9 +679,9 @@
 		"title": "MENU_CONFIGURATION_WALL_DAMAGE",
 		"translations": {
 			"fr_FR": {
-				"name": "Dégats du mur",
-				"description": "Les dégats infligés par le mur.",
-				"afterName": " dégats"
+				"name": "Dégâts du mur",
+				"description": "Les dégâts infligés par le mur.",
+				"afterName": " dégâts"
 			},
 			"en_US": {
 				"name": "Wall damage",
@@ -698,7 +698,7 @@
 		"title": "MENU_CONFIGURATION_SCENARIO",
 		"translations": {
 			"fr_FR": {
-				"name": "Scenarios",
+				"name": "Scénarios",
 				"description": "Menu des scénarios."
 			},
 			"en_US": {
@@ -725,7 +725,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Blood Diamond",
-				"description": "Les diamants infligent des dégats lorsqu'ils sont minés.",
+				"description": "Les diamants infligent des dégâts lorsqu'ils sont minés.",
 				"afterName": "❤"
 			},
 			"en_US": {
@@ -740,7 +740,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Diamond Limit",
-				"description": "Limite le nombre de diamant que chaque joueur peu miner dans la partie.",
+				"description": "Limite le nombre de diamant que chaque joueur peut miner dans la partie.",
 				"exceededLimit": "Vous avez dépassé la limite de diamant."
 			},
 			"en_US": {
@@ -755,7 +755,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Lava Limiter",
-				"description": "Désactive le placement de lave proches des autres joueurs.",
+				"description": "Désactive le placement de lave proche des autres joueurs.",
 				"cannotPlace": "Vous ne pouvez pas placer de la lave proche d'un joueur."
 			},
 			"en_US": {
@@ -770,7 +770,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "No Enderpearl Damage",
-				"description": "Désactive les dégâts causés par les ender pearl."
+				"description": "Désactive les dégâts causés par les enderpearl."
 			},
 			"en_US": {
 				"name": "No Enderpearl Damage",
@@ -779,15 +779,15 @@
 		}
 	},
 	{
-		"title": "MENU_CONFIGURATION_SCENARIO_NONETHER",
+		"title": "MENU_CONFIGURATION_SCENARIO_NETHER",
 		"translations": {
 			"fr_FR": {
-				"name": "No Nether",
-				"description": "Désactive l'accès au nether."
+				"name": "Nether",
+				"description": "Active ou non le nether."
 			},
 			"en_US": {
-				"name": "No Nether",
-				"description": "Disables access to the nether."
+				"name": "Nether",
+				"description": "Enables or not the nether."
 			}
 		}
 	},
@@ -890,7 +890,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Coordonnées visibles",
-				"description": "Activer ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre."
+				"description": "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre."
 			},
 			"en_US": {
 				"name": "Visible coordinates",
@@ -918,12 +918,12 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Choisir son équipe",
-				"description": "Donner la possibilité aux joueurs de créer et rejoindre eux mêmes les équipes.",
+				"description": "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.",
 				"teamChoice": "Choix de l'équipe"
 			},
 			"en_US": {
 				"name": "Choose your team",
-				"description": "Allows players to create and join the teams themselves.",
+				"description": "Allows players to join the teams themselves.",
 				"teamChoice": "Team choice"
 			}
 		}
@@ -933,7 +933,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Tchat équipe",
-				"description": "Activer ou non les tchat privées des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs."
+				"description": "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs."
 			},
 			"en_US": {
 				"name": "Team chat",
@@ -946,8 +946,8 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Potion II",
-				"description": "Activer ou non les potions de niveau 2.",
-				"transformPotion": "Poufff ! Votre potion est passé au niveau 1."
+				"description": "Active ou non les potions de niveau 2.",
+				"transformPotion": "Poufff ! Votre potion est passée au niveau 1."
 			},
 			"en_US": {
 				"name": "Potion II",
@@ -961,7 +961,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Météo",
-				"description": "Activer ou non les changements métérologiques."
+				"description": "Active ou non les changements météorologiques."
 			},
 			"en_US": {
 				"name": "Weather",
@@ -974,7 +974,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Cycle jour/nuit",
-				"description": "Activer ou non le cycle jour/nuit."
+				"description": "Active ou non le cycle jour/nuit."
 			},
 			"en_US": {
 				"name": "Day/night cycle",
@@ -987,7 +987,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Potion de force",
-				"description": "Détermine le pourcentage de dégats supplémentaire par palier des potions de force (par défaut 130%)."
+				"description": "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%)."
 			},
 			"en_US": {
 				"name": "Strength potion",
@@ -1000,7 +1000,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Mort par creeper",
-				"description": "Activer ou non la mort par les explosions de creeper."
+				"description": "Active ou non la mort par les explosions de creeper."
 			},
 			"en_US": {
 				"name": "Death by creeper",
@@ -1029,7 +1029,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Supertaupes",
-				"description": "Activer ou non les supertaupes."
+				"description": "Active ou non les supertaupes."
 			},
 			"en_US": {
 				"name": "Supermoles",
@@ -1103,7 +1103,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "/taupelist",
-				"description": "Activer ou non la possibilité pour les spectateurs de voir la liste des taupes."
+				"description": "Active ou non la possibilité pour les spectateurs de voir la liste des taupes."
 			},
 			"en_US": {
 				"name": "/taupelist",
