@@ -1,14 +1,11 @@
 package fr.thedarven.scenarios.builders;
 
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

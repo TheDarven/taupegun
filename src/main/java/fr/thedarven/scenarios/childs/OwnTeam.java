@@ -1,7 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;

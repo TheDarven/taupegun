@@ -12,8 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.statsgame.RestPlayerKill;

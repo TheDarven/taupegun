@@ -1,7 +1,7 @@
 package fr.thedarven.events.listeners;
 
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,8 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class PlayerItemConsumeListener implements Listener {
 

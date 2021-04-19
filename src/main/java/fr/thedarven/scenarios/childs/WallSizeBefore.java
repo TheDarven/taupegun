@@ -1,15 +1,13 @@
 package fr.thedarven.scenarios.childs;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.WallSizeHelper;
 import fr.thedarven.scenarios.helper.NumericHelper;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.Objects;

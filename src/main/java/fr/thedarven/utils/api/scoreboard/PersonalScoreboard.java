@@ -12,8 +12,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 

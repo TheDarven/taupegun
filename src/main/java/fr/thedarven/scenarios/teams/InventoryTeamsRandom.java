@@ -1,7 +1,7 @@
 package fr.thedarven.scenarios.teams;
 
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryAction;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.Title;

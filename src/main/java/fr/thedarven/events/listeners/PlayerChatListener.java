@@ -2,7 +2,7 @@ package fr.thedarven.events.listeners;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.Bukkit;

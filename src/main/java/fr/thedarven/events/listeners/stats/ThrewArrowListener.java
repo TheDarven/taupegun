@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 
 public class ThrewArrowListener implements Listener {
 	

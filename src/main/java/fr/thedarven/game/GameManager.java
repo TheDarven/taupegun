@@ -4,10 +4,9 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.models.Manager;
-import org.bukkit.Bukkit;
 
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.statsgame.RestGame;
 
 import java.util.Objects;

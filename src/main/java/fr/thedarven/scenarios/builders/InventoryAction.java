@@ -1,6 +1,6 @@
 package fr.thedarven.scenarios.builders;
 
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 

@@ -11,7 +11,7 @@ import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;

@@ -1,14 +1,13 @@
 package fr.thedarven.scenarios.kits;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.InventoryIncrement;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.runnable.CreateKitRunnable;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

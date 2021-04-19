@@ -1,8 +1,8 @@
 package fr.thedarven.utils;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 

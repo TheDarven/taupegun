@@ -1,21 +1,17 @@
 package fr.thedarven.scenarios.teams;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.ColorEnum;
-import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.messages.MessagesEventClass;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;

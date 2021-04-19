@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 import javax.annotation.Nullable;

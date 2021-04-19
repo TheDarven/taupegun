@@ -1,4 +1,4 @@
-package fr.thedarven.models;
+package fr.thedarven.players;
 
 import fr.thedarven.models.enums.EnumInventory;
 import org.bukkit.inventory.Inventory;

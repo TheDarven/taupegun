@@ -3,7 +3,7 @@ package fr.thedarven.events.listeners;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.InvSeeRunnable;
 import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

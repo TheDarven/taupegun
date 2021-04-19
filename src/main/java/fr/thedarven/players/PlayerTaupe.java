@@ -1,11 +1,11 @@
-package fr.thedarven.models;
+package fr.thedarven.players;
 
 import java.util.*;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.runnable.PlayerRunnable;
-import org.bukkit.Bukkit;
+import fr.thedarven.players.runnable.PlayerRunnable;
+import fr.thedarven.teams.TeamCustom;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -2,8 +2,8 @@ package fr.thedarven.events.listeners;
 
 import fr.thedarven.events.events.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Material;

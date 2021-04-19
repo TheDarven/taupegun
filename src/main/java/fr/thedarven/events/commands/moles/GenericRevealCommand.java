@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;

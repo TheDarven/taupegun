@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;

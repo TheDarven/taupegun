@@ -3,7 +3,7 @@ package fr.thedarven.utils.messages;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 

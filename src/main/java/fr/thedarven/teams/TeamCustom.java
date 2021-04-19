@@ -1,6 +1,8 @@
-package fr.thedarven.models;
+package fr.thedarven.teams;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.players.PlayerCustom;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.teams.InventoryDeleteTeams;

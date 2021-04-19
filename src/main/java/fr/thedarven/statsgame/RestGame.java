@@ -10,8 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 
 public class RestGame {
 	

@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 
 public class DimensionListener implements Listener {
 

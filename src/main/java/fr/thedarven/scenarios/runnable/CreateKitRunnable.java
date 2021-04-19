@@ -1,6 +1,6 @@
 package fr.thedarven.scenarios.runnable;
 
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;

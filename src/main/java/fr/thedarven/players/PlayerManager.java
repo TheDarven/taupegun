@@ -2,7 +2,6 @@ package fr.thedarven.players;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
-import fr.thedarven.models.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.utils.api.Title;
 import net.md_5.bungee.api.ChatColor;

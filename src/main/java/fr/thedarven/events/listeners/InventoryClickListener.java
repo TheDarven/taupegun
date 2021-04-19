@@ -3,7 +3,7 @@ package fr.thedarven.events.listeners;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.events.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.scenarios.builders.InventoryGUI;

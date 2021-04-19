@@ -1,6 +1,6 @@
 package fr.thedarven.scenarios.runnable;
 
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DelayClickRunnable extends BukkitRunnable {

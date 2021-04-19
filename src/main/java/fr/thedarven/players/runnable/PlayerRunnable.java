@@ -1,6 +1,6 @@
-package fr.thedarven.models.runnable;
+package fr.thedarven.players.runnable;
 
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class PlayerRunnable extends BukkitRunnable {

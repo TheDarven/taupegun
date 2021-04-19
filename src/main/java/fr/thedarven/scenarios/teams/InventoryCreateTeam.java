@@ -1,8 +1,8 @@
 package fr.thedarven.scenarios.teams;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.TeamCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryAction;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -10,7 +10,6 @@ import fr.thedarven.scenarios.runnable.CreateTeamRunnable;
 import fr.thedarven.utils.api.AnvilGUI;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

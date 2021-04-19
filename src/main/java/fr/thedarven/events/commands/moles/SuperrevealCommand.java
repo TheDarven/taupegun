@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

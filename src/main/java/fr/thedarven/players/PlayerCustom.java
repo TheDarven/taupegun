@@ -1,4 +1,4 @@
-package fr.thedarven.models;
+package fr.thedarven.players;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -2,8 +2,8 @@ package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.models.PlayerTaupe;
-import fr.thedarven.models.runnable.PlayerInventoryRunnable;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.players.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
