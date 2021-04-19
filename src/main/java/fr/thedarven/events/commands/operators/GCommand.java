@@ -20,7 +20,7 @@ public class GCommand extends OperatorCommand {
 			message.append(word).append(" ");
 		}
 		String infoMessage = LanguageBuilder.getContent("CONTENT", "info", true);
-		Bukkit.broadcastMessage("§e" + infoMessage + "§a" + message.toString());
+		Bukkit.broadcastMessage("§e" + infoMessage + "§a" + message);
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
