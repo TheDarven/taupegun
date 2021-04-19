@@ -1,17 +1,22 @@
 package fr.thedarven.scenarios.languages;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.PlayerTaupe;
+import fr.thedarven.models.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.childs.ScenariosVisible;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.messages.MessagesEventClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -89,7 +94,17 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 			this.getParent().updateChildItem(exItem, head, this);
 		}
 	}
-	
+
+	@Override
+	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+		ItemStack item = e.getCurrentItem();
+		InventoryGUI inventoryGUI = this.childs.get(item.hashCode());
+		if (Objects.nonNull(inventoryGUI) && inventoryGUI instanceof InventoryLanguageElement) {
+			changeSelectedLanguage((InventoryLanguageElement) inventoryGUI, player);
+			return;
+		}
+		openChildInventory(item, player, pl);
+	}
 	
 	
 	/**
