@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 
 public class TaupelistCommand extends PlayerCommand {
 
-	private TaupeGun main;
-
 	public TaupelistCommand(TaupeGun main) {
 		super(main);
 	}
