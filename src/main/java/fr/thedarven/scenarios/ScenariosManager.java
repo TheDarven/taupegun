@@ -68,7 +68,7 @@ public class ScenariosManager {
 	public DiamondLimit diamondLimit = new DiamondLimit(scenariosMenu);
 	public LavaLimiter lavaLimiter = new LavaLimiter(scenariosMenu);
 	public NoEnderPearlDamage noEnderPearlDamage = new NoEnderPearlDamage(scenariosMenu);
-	public NoNether noNether = new NoNether(scenariosMenu);
+	public Nether nether = new Nether(scenariosMenu);
 	// public Timber timber = new Timber(scenariosMenu);
 	
 	public InventoryGUI dropMenu = new InventoryGUI("Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);

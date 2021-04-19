@@ -6,10 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerPortalEvent;
 
-public class NoNether extends OptionBoolean {
+public class Nether extends OptionBoolean {
 	
-	public NoNether(InventoryGUI parent) {
-		super("Nether", "Active ou non le nether.", "MENU_CONFIGURATION_SCENARIO_NETHER", Material.OBSIDIAN, parent, false);
+	public Nether(InventoryGUI parent) {
+		super("Nether", "Active ou non le nether.", "MENU_CONFIGURATION_SCENARIO_NETHER", Material.OBSIDIAN, parent, true);
 	}
 	
 	/**
