@@ -31,6 +31,7 @@ public class CommandManager extends Manager {
         main.getCommand("players").setExecutor(new PlayersCommand(this.main));
         main.getCommand("taupelist").setExecutor(new TaupelistCommand(this.main));
         main.getCommand("item").setExecutor(new ItemCommand(this.main));
+        main.getCommand("coords").setExecutor(new CoordsCommand(this.main));
 
         // Mole's commands
         main.getCommand("claim").setExecutor(new ClaimCommand(this.main));

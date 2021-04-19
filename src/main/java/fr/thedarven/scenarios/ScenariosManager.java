@@ -95,4 +95,5 @@ public class ScenariosManager {
 
 	public InventoryGUI commandsMenu = new InventoryGUI("Commandes", "Activation des commandes.", "MENU_CONFIGURATION_COMMAND", 1, Material.SIGN, configurationMenu, 12);
 	public OptionBoolean taupelistCommand = new OptionBoolean("/taupelist", "Active ou non la possibilité pour les spectateurs de voir la liste des taupes.", "MENU_CONFIGURATION_COMMAND_TAUPELIST", Material.BOOK, commandsMenu, true);
+	public OptionBoolean coordsCommand = new OptionBoolean("/coords", "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers.", "MENU_CONFIGURATION_COMMAND_COORDS", Material.EYE_OF_ENDER, commandsMenu, true);
 }

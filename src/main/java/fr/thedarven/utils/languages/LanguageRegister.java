@@ -107,7 +107,11 @@ public class LanguageRegister {
 		commandElement.addTranslation("fr_FR", "superReveal", "{playerName} se révèle être une supertaupe !");
 		
 		commandElement.addTranslation("fr_FR", "operator", "Vous n'avez pas les permissions pour utiliser cette commande.");
-		
+		commandElement.addTranslation("fr_FR", "disabledCommand", "La commande est désactivée.");
+
+		commandElement.addTranslation("fr_FR", "coordinates", "\"Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]\"");
+
+
 		LanguageBuilder teamElement = LanguageBuilder.getLanguageBuilder("TEAM");
 		teamElement.addTranslation("fr_FR", "empty", "Aucun joueur");
 		teamElement.addTranslation("fr_FR", "leave", "Quitter l'équipe");
@@ -161,7 +165,7 @@ public class LanguageRegister {
 		contentElement.addTranslation("fr_FR", "selected", "Sélectionné");
 		contentElement.addTranslation("fr_FR", "info", "[Info]");
 		contentElement.addTranslation("fr_FR", "statsLink", "Les statistiques de votre partie sont disponibles ici : {link}");
-		
+
 		LanguageBuilder invSeeElement = LanguageBuilder.getLanguageBuilder("INVSEE");
 		invSeeElement.addTranslation("fr_FR", "inventoryTitle", "Inventaire de {playerName}");
 		invSeeElement.addTranslation("fr_FR", "level", "Niveaux : {level}");

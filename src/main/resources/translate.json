@@ -1,7 +1,3 @@
-/*
-* AUTHORS :
-* Janeo (en_US)
-*/
 [
 	{
 		"title": "CONTENT",
@@ -88,7 +84,9 @@
 				"cannotSuperReveal": "Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.",
 
 				"operator": "Vous n'avez pas les permissions pour utiliser cette commande.",
-				"disabledCommand": "La commande est désactivée."
+				"disabledCommand": "La commande est désactivée.",
+
+				"coordinates": "Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]"
 			},
 			"en_US": {
 				"heal": "You've been healed.",
@@ -104,7 +102,9 @@
 				"cannotSuperReveal": "You have to reveal yourself as a mole first using the command /reveal",
 
 				"operator": "You do not have the necessary permissions to use this command.",
-				"disabledCommand": "The command is disabled."
+				"disabledCommand": "The command is disabled.",
+
+				"coordinates": "Coordinates of {playerName} : [x={x}, y={y}, z={z}]"
 			}
 		}
 	},
@@ -122,7 +122,7 @@
 				"gameCanStart": "La partie peut commencer !",
 				"gameIsStarting": "Go !",
 				"gameStartingCancelled": "Lancement annulé",
-				"worldNotExist":  "Aucun monde n'a été trouvé pour téléporter les équipes."
+				"worldNotExist": "Aucun monde n'a été trouvé pour téléporter les équipes."
 			},
 			"en_US": {
 				"gameAlreadyStarted": "The game has already started !",
@@ -135,7 +135,7 @@
 				"gameCanStart": "The game can start !",
 				"gameIsStarting": "Go !",
 				"gameStartingCancelled": "Launch canceled",
-				"worldNotExist":  "Aucun monde n'a été trouvé pour téléporter les équipes."
+				"worldNotExist": "No world has been found to teleport players from the nether."
 			}
 		}
 	},
@@ -1108,6 +1108,19 @@
 			"en_US": {
 				"name": "/taupelist",
 				"description": "Toggle mole list display for spectators."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_COMMAND_COORDS",
+		"translations": {
+			"fr_FR": {
+				"name": "/coords",
+				"description": "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers."
+			},
+			"en_US": {
+				"name": "/coords",
+				"description": "Toggle command to sends his coordinates to his mates."
 			}
 		}
 	}

@@ -41,3 +41,5 @@ commands:
     description: Pour lancer la partie.
   debug:
     description: Debug pour le developpement.
+  coords:
+    description: Pour envoyer ses coordonnees a son equipe
