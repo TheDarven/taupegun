@@ -965,7 +965,7 @@
 			},
 			"en_US": {
 				"name": "Weather",
-				"description": "Toggle weather changes."
+				"description": "Toggles weather changes."
 			}
 		}
 	},
@@ -978,7 +978,7 @@
 			},
 			"en_US": {
 				"name": "Day/night cycle",
-				"description": "Toggle the day/night cycle."
+				"description": "Toggles the day/night cycle."
 			}
 		}
 	},
@@ -1004,7 +1004,7 @@
 			},
 			"en_US": {
 				"name": "Death by creeper",
-				"description": "Toggle death by creeper explosion."
+				"description": "Toggles death by creeper explosion."
 			}
 		}
 	},
@@ -1107,7 +1107,7 @@
 			},
 			"en_US": {
 				"name": "/taupelist",
-				"description": "Toggle mole list display for spectators."
+				"description": "Toggles mole list display for spectators."
 			}
 		}
 	},
@@ -1120,7 +1120,7 @@
 			},
 			"en_US": {
 				"name": "/coords",
-				"description": "Toggle command to sends his coordinates to his mates."
+				"description": "Toggles the possibility to send quickly his coordinates to his teammates."
 			}
 		}
 	}
