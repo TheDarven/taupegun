@@ -19,6 +19,7 @@ import fr.thedarven.statsgame.RestPlayerDeath;
 import fr.thedarven.statsgame.RestPlayerKill;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerDeathListener implements Listener {
 
@@ -77,10 +78,15 @@ public class PlayerDeathListener implements Listener {
 				params.put("playerName", pl.getName());
 				String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
 
-				this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName);
-
 				if (Objects.nonNull(pl.getPlayer())) {
-					pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
+					if (this.main.getScenariosManager().goldenHead.getValue() > 0) {
+						pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
+					}
+
+					int nbGoldenApple = this.main.getScenariosManager().deathGoldenApple.getIntValue();
+					if (nbGoldenApple > 0) {
+						pl.getPlayer().getWorld().dropItem(pl.getPlayer().getLocation(), new ItemStack(Material.GOLDEN_APPLE, nbGoldenApple));
+					}
 				}
 			}
 			

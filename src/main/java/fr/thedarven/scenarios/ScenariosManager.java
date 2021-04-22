@@ -79,9 +79,10 @@ public class ScenariosManager {
 	public ScenariosVisible scenariosVisible = new ScenariosVisible(othersMenu);
 	public OptionBoolean coordonneesVisibles = new OptionBoolean("Coordonnées visibles", "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, othersMenu, true);
 	public GoldenHead goldenHead = new GoldenHead(othersMenu);
+	public OptionNumeric deathGoldenApple = new OptionNumeric("Pommes dorée à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
 	public OptionBoolean creeperDeath = new OptionBoolean("Mort par creeper", "Active ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, othersMenu, true, (byte) 4);
 	public OwnTeam ownTeam = new OwnTeam(othersMenu);
-	public OptionBoolean teamTchat = new OptionBoolean("Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 7, true);
+	public OptionBoolean teamTchat = new OptionBoolean("Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
 	public Weather weather = new Weather(othersMenu);
 	public OptionBoolean daylightCycle = new OptionBoolean("Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
 	public PotionII potionLevel2 = new PotionII(othersMenu);
