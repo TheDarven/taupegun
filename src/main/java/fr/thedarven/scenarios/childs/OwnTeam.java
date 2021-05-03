@@ -25,7 +25,7 @@ public class OwnTeam extends OptionBoolean{
 	
 	public OwnTeam(TaupeGun main, InventoryGUI parent) {
 		super(main, "Choisir son équipe", "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
-				Material.BANNER, parent, 6, true, (byte) 10);
+				Material.BANNER, parent, 7, true, (byte) 10);
 		actionBanner(TEAM_CHOICE);
 	}
 

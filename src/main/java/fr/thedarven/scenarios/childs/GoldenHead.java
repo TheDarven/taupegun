@@ -18,7 +18,7 @@ public class GoldenHead extends OptionNumeric {
 	
 	public GoldenHead(TaupeGun main, InventoryGUI parent) {
 		super(main, "Golden Head", "Nombre de coeurs régénérés par les Golden Head.", "MENU_CONFIGURATION_OTHER_GOLDENHEAD", Material.SKULL_ITEM,
-				parent, new NumericHelper(0, 8, 0, 1, 1, "❤", 2, true, 1));
+				parent, 4, new NumericHelper(0, 8, 0, 1, 1, "❤", 2, true, 1));
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import java.util.*;
 
 import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.players.InventoryPlayers;
 import fr.thedarven.scenarios.runnable.DelayClickRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -338,9 +339,7 @@ public class InventoryGUI extends InventoryBuilder {
 			return;
 
 		if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
-			if (canOpenInventory(getParent(), player)) {
-				player.openInventory(this.getParent().getInventory());
-			}
+			onReturnClick(player);
 			return;
 		}
 
@@ -382,10 +381,26 @@ public class InventoryGUI extends InventoryBuilder {
 		}
 
 		if (canOpenInventory(inventoryGUI, player)) {
+			if (inventoryGUI instanceof InventoryPlayers) {
+				((InventoryPlayers) inventoryGUI).openInventoryOfPlayer(player);
+				return true;
+			}
+
 			player.openInventory(inventoryGUI.getInventory());
 			delayClick(pl);
 		}
 		return true;
+	}
+
+	/**
+	 * Lorsqu'un utilisateur appuie sur l'item de retour
+	 *
+	 * @param player
+	 */
+	public void onReturnClick(Player player) {
+		if (canOpenInventory(getParent(), player)) {
+			player.openInventory(this.getParent().getInventory());
+		}
 	}
 
 	/**
@@ -416,7 +431,7 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @param player Le Player à tester
 	 * @return <b>true</b> si le Player peut l'ouvrir, <b>false</b> sinon
 	 */
-	final protected boolean canOpenInventory(InventoryGUI inventoryGUI, Player player) {
+	protected boolean canOpenInventory(InventoryGUI inventoryGUI, Player player) {
 		return !(inventoryGUI instanceof AdminConfiguration) || inventoryGUI.click(player, EnumConfiguration.OPTION);
 	}
 }

@@ -9,6 +9,8 @@ import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.scenarios.kits.*;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
+import fr.thedarven.scenarios.players.InventoryPlayers;
+import fr.thedarven.scenarios.players.configuration.InventoryPlayersConfiguration;
 import fr.thedarven.scenarios.teams.InventoryCreateTeam;
 import fr.thedarven.scenarios.teams.InventoryTeams;
 import fr.thedarven.scenarios.teams.InventoryTeamsColor;
@@ -24,6 +26,7 @@ public class ScenariosManager {
 
 	public InventoryGUI menu;
 	public InventoryLanguage language;
+	public InventoryGUI saveConfigurationMenu;
 	public InventoryGUI configurationMenu;
 	public InventoryKits kitsMenu;
 	public InventoryTeams teamsMenu;
@@ -94,7 +97,6 @@ public class ScenariosManager {
 	public OptionBoolean taupelistCommand;
 	public OptionBoolean coordsCommand;
 
-
 	public ScenariosManager(TaupeGun main) {
 		this.main = main;
 		initScenarios();
@@ -107,6 +109,7 @@ public class ScenariosManager {
 		this.kitsMenu = new InventoryKits(this.main, menu);
 		this.teamsMenu = new InventoryTeams(this.main, menu);
 		this.startItem = new InventoryStartItem(this.main, menu);
+		this.saveConfigurationMenu = new InventoryPlayersConfiguration(this.main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.", "MENU_SAVE_CONFIG", 4, Material.PISTON_BASE, menu, 8);
 
 		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
 		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
@@ -153,9 +156,9 @@ public class ScenariosManager {
 		this.othersMenu = new InventoryGUI(this.main, "Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 2, Material.COMMAND, configurationMenu, 8);
 		this.scenariosVisible = new ScenariosVisible(this.main, othersMenu);
 		this.coordonneesVisibles = new OptionBoolean(this.main, "Coordonnées visibles", "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, othersMenu, true);
+		this.creeperDeath = new OptionBoolean(this.main, "Mort par creeper", "Active ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, othersMenu, 9, true, (byte) 4);
 		this.goldenHead = new GoldenHead(this.main, othersMenu);
-		this.deathGoldenApple = new OptionNumeric(this.main, "Pommes dorée à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
-		this.creeperDeath = new OptionBoolean(this.main, "Mort par creeper", "Active ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, othersMenu, true, (byte) 4);
+		this.deathGoldenApple = new OptionNumeric(this.main, "Pommes dorée à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, 5, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
 		this.ownTeam = new OwnTeam(this.main, othersMenu);
 		this.teamTchat = new OptionBoolean(this.main, "Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
 		this.weather = new Weather(this.main, othersMenu);

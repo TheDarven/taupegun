@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class InventoryStartItem extends InventoryGUI implements AdminConfiguration, InventoryGiveItem {
 
 	public InventoryStartItem(TaupeGun main, InventoryGUI parent) {
-		super(main,"Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
+		super(main,"Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 7);
 		initItem();
 	}
 	
