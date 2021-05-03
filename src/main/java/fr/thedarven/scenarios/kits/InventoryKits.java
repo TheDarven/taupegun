@@ -21,8 +21,8 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 	public static String KIT_CREATE = "Le kit {kitName} a été créé avec succès.";
 	public static String CREATE_KIT_NAME_FORMAT = "Nom du kit";
 	
-	public InventoryKits(InventoryGUI parent) {
-		super("Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, parent, 4);
+	public InventoryKits(TaupeGun main, InventoryGUI parent) {
+		super(main, "Kits", "Menu des kits.", "MENU_KIT", 2, Material.ENDER_CHEST, parent, 4);
 	}
 
 
@@ -77,12 +77,12 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 
 	@Override
 	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-		if (Objects.equals(e.getCurrentItem(), TaupeGun.getInstance().getScenariosManager().addKit.getItem())) {
+		if (Objects.equals(e.getCurrentItem(), this.main.getScenariosManager().addKit.getItem())) {
 			final InventoryKits parent = this;
 
-			new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
+			new AnvilGUI(this.main, player, (menu, text) -> {
 				pl.setCreateKitName(text);
-				new CreateKitRunnable(player, pl, parent).runTask(TaupeGun.getInstance());
+				new CreateKitRunnable(this.main, player, pl, parent).runTask(this.main);
 				return true;
 			}).setInputName(CREATE_KIT_NAME_FORMAT).open();
 			return;

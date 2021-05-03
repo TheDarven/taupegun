@@ -20,8 +20,8 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	
 	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	
-	public InventoryKitsElement(String name, InventoryKits parent) {
-		super(name, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
+	public InventoryKitsElement(TaupeGun main, String name, InventoryKits parent) {
+		super(main, name, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
 		kits.put(name, this);
 		initItem();
 		reloadItem();
@@ -84,7 +84,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
-		TaupeGun.getInstance().getScenariosManager().kitsMenu.reloadInventory();
+		this.main.getScenariosManager().kitsMenu.reloadInventory();
 	}
 	
 	/**

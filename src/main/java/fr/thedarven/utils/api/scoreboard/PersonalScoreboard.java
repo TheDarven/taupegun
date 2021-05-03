@@ -37,7 +37,7 @@ public class PersonalScoreboard {
 	public void reloadData(){}
 
 	public void setLines(String ip){
-		int timer = TaupeGun.getInstance().getGameManager().getTimer();
+		int timer = this.main.getGameManager().getTimer();
 
 		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
 		int i = 0;

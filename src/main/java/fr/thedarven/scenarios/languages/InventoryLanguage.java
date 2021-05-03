@@ -28,8 +28,8 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 	private final String defaultSelectedLanguage;
 	private InventoryLanguageElement selectedLanguage;
 
-	public InventoryLanguage(InventoryGUI parent) {
-		super("Langue", "Changer de langue.", "MENU_LANGUAGE",4, Material.SKULL_ITEM, parent,
+	public InventoryLanguage(TaupeGun main, InventoryGUI parent) {
+		super(main, "Langue", "Changer de langue.", "MENU_LANGUAGE",4, Material.SKULL_ITEM, parent,
 				0, (byte) 3);
 		this.selectedLanguage = null;
 		this.defaultSelectedLanguage = "fr_FR";
@@ -116,7 +116,7 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
 
-		ScenariosVisible scenariosVisible = TaupeGun.getInstance().getScenariosManager().scenariosVisible;
+		ScenariosVisible scenariosVisible = this.main.getScenariosManager().scenariosVisible;
 		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
 		setSelectedLanguage(selectedInventoryLanguage);

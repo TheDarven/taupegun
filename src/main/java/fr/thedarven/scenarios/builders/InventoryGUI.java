@@ -28,32 +28,33 @@ public class InventoryGUI extends InventoryBuilder {
 	
 	private static final String ANSI_RESET = "\u001B[0m";
 	private static final String ANSI_RED = "\u001B[0;31m";
-	
+
 	private static final Map<Inventory, InventoryGUI> elements = new LinkedHashMap<>();
 
 	protected Inventory inventory;
 	protected Map<Integer, InventoryGUI> childs = new LinkedHashMap<>();
 	
-	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, pData);
+	public InventoryGUI(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, pData);
+		this.main = main;
 		initInventory();
 		elements.put(this.inventory, this);
 	}
 	
-	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, byte pData) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pData);
+	public InventoryGUI(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, byte pData) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pData);
 		initInventory();
 		elements.put(this.inventory, this);
 	}
 	
-	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, (byte) 0);
+	public InventoryGUI(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, (byte) 0);
 		initInventory();
 		elements.put(this.inventory, this);
 	}
 	
-	public InventoryGUI(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pParent, (byte) 0);
+	public InventoryGUI(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, (byte) 0);
 		initInventory();
 		elements.put(this.inventory, this);
 	}
@@ -278,7 +279,7 @@ public class InventoryGUI extends InventoryBuilder {
 	 * Pour obtenir la langue actuellement selectionnées
 	 */
 	public static String getLanguage() {
-		ScenariosManager inventoryRegister = TaupeGun.getInstance().getScenariosManager();
+		ScenariosManager inventoryRegister = this.main.getScenariosManager();
 		if (Objects.nonNull(inventoryRegister) && Objects.nonNull(inventoryRegister.language)) {
 			return inventoryRegister.language.getSelectedLanguage();
 		}

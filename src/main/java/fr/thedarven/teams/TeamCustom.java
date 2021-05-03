@@ -55,10 +55,10 @@ public class TeamCustom {
 		this.players = new ArrayList<>();
 		this.alive = pAlive;
 		
-		InventoryTeamsElement inv = new InventoryTeamsElement(name, colorEnum);
-		new InventoryTeamsParameters(inv);
-		new InventoryTeamsPlayers(inv);
-		new InventoryDeleteTeams(inv);
+		InventoryTeamsElement inv = new InventoryTeamsElement(TaupeGun.getInstance(), name, colorEnum);
+		new InventoryTeamsParameters(TaupeGun.getInstance(), inv);
+		new InventoryTeamsPlayers(TaupeGun.getInstance(), inv);
+		new InventoryDeleteTeams(TaupeGun.getInstance(), inv);
 		
 		teams.put(name, this);
 	}

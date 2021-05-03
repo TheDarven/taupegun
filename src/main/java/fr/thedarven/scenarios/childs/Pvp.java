@@ -14,8 +14,8 @@ import fr.thedarven.scenarios.helper.NumericHelper;
 
 public class Pvp extends OptionNumeric {
 	
-	public Pvp(InventoryGUI parent) {
-		super("PvP", "La minute à laquelle le PvP s'active.", "MENU_CONFIGURATION_TIMER_PVP",Material.IRON_SWORD,
+	public Pvp(TaupeGun main, InventoryGUI parent) {
+		super(main, "PvP", "La minute à laquelle le PvP s'active.", "MENU_CONFIGURATION_TIMER_PVP",Material.IRON_SWORD,
 				parent, new NumericHelper(0, 30, 10, 1, 2, "min", 1, false, ScenariosManager.SECONDS_PER_MINUTE));
 	}
 	
@@ -26,7 +26,7 @@ public class Pvp extends OptionNumeric {
 	 */
 	@EventHandler
     final public void onOtherDamage(EntityDamageByEntityEvent e){
-		if (this.isValueLower(TaupeGun.getInstance().getGameManager().getTimer()))
+		if (this.isValueLower(this.main.getGameManager().getTimer()))
 			return;
 
 		if (e.getEntity() instanceof Player){

@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import org.bukkit.ChatColor;
@@ -15,8 +16,8 @@ import fr.thedarven.scenarios.helper.NumericHelper;
 
 public class GoldenHead extends OptionNumeric {
 	
-	public GoldenHead(InventoryGUI parent) {
-		super("Golden Head", "Nombre de coeurs régénérés par les Golden Head.", "MENU_CONFIGURATION_OTHER_GOLDENHEAD", Material.SKULL_ITEM,
+	public GoldenHead(TaupeGun main, InventoryGUI parent) {
+		super(main, "Golden Head", "Nombre de coeurs régénérés par les Golden Head.", "MENU_CONFIGURATION_OTHER_GOLDENHEAD", Material.SKULL_ITEM,
 				parent, new NumericHelper(0, 8, 0, 1, 1, "❤", 2, true, 1));
 	}
 	

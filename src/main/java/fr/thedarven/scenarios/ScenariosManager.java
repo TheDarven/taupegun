@@ -22,79 +22,155 @@ public class ScenariosManager {
 
 	private final TaupeGun main;
 
+	public InventoryGUI menu;
+	public InventoryLanguage language;
+	public InventoryGUI configurationMenu;
+	public InventoryKits kitsMenu;
+	public InventoryTeams teamsMenu;
+	public InventoryStartItem startItem;
+
+	public InventoryLanguageElement fr_FR;
+	public InventoryLanguageElement en_US;
+
+	public InventoryGUI addKit;
+	public InventoryKitsTNT tntKit;
+	public InventoryKitsBlaze blazeKit;
+	public InventoryKitsAerien aerienKit;
+	public InventoryKitsPotion potionKit;
+	public InventoryDeleteKits tntKitDelete;
+	public InventoryDeleteKits blazeKitDelete;
+	public InventoryDeleteKits aerienKitDelete;
+	public InventoryDeleteKits potionKitDelete;
+
+	public InventoryCreateTeam addTeam;
+	public InventoryTeamsRandom randomizeTeams;
+	public InventoryTeamsColor chooseTeamColor;
+
+	public InventoryGUI timersMenu;
+	public Pvp pvp;
+	public OptionNumeric molesActivation;
+	public OptionNumeric wallShrinkingTime;
+	public OptionNumeric episode;
+
+	public InventoryGUI wallMenu;
+	public WallSizeBefore wallSizeBefore;
+	public WallSizeAfter wallSizeAfter;
+	public OptionNumeric wallSpeed;
+	public OptionNumeric wallDamage;
+
+	public InventoryGUI scenariosMenu;
+	public CutClean cutClean;
+	public BloodDiamond bloodDiamond;
+	public DiamondLimit diamondLimit;
+	public LavaLimiter lavaLimiter;
+	public NoEnderPearlDamage noEnderPearlDamage;
+	public Nether nether;
+	// public Timber timber;
+
+	public InventoryGUI dropMenu;
+	public AppleDrop appleDrop;
+	public FlintDrop flintDrop;
+
+	public InventoryGUI othersMenu;
+	public ScenariosVisible scenariosVisible;
+	public OptionBoolean coordonneesVisibles;
+	public GoldenHead goldenHead;
+	public OptionNumeric deathGoldenApple;
+	public OptionBoolean creeperDeath;
+	public OwnTeam ownTeam;
+	public OptionBoolean teamTchat;
+	public Weather weather;
+	public OptionBoolean daylightCycle;
+	public PotionII potionLevel2;
+	public StrengthNerf strengthPercentage;
+
+	public InventoryGUI molesMenu;
+	public OptionBoolean superMoles;
+	public OptionNumeric numberOfMole;
+	public OptionNumeric molesTeamSize;
+	public OptionNumeric superMolesTeamSize;
+
+	public InventoryGUI commandsMenu;
+	public OptionBoolean taupelistCommand;
+	public OptionBoolean coordsCommand;
+
+
 	public ScenariosManager(TaupeGun main) {
 		this.main = main;
+		initScenarios();
 	}
-	
-	public InventoryGUI menu = new InventoryGUI("Menu", null, "MENU_MAIN_MENU", 1, Material.GRASS, null);
-	public InventoryLanguage language = new InventoryLanguage(menu);
-	public InventoryGUI configurationMenu = new InventoryGUI("Configuration","Menu de configuration.", "MENU_CONFIGURATION", 2, Material.ANVIL, menu, 3);
-	public InventoryKits kitsMenu = new InventoryKits(menu);
-	public InventoryTeams teamsMenu = new InventoryTeams(menu);
-	public InventoryStartItem startItem = new InventoryStartItem(menu);
-	
-	public InventoryLanguageElement fr_FR = new InventoryLanguageElement("Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
-	public InventoryLanguageElement en_US = new InventoryLanguageElement("English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
-	
-	public InventoryGUI addKit = new InventoryGUI("✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
-	public InventoryKitsTNT tntKit = new InventoryKitsTNT("TNT", kitsMenu);
-	public InventoryKitsBlaze blazeKit = new InventoryKitsBlaze("Blaze", kitsMenu);
-	public InventoryKitsAerien aerienKit = new InventoryKitsAerien("Aérien", kitsMenu);
-	public InventoryKitsPotion potionKit = new InventoryKitsPotion("Potion", kitsMenu);
-	public InventoryDeleteKits tntKitDelete = new InventoryDeleteKits(tntKit);
-	public InventoryDeleteKits blazeKitDelete = new InventoryDeleteKits(blazeKit);
-	public InventoryDeleteKits aerienKitDelete = new InventoryDeleteKits(aerienKit);
-	public InventoryDeleteKits potionKitDelete = new InventoryDeleteKits(potionKit);
-	
-	public InventoryCreateTeam addTeam = new InventoryCreateTeam(teamsMenu);
-	public InventoryTeamsRandom randomizeTeams = new InventoryTeamsRandom(teamsMenu);
-	public InventoryTeamsColor chooseTeamColor = new InventoryTeamsColor();
-	
-	public InventoryGUI timersMenu = new InventoryGUI("Timers", "Menu des timers.", "MENU_CONFIGURATION_TIMER", 1, Material.WATCH, configurationMenu, 0);
-	public Pvp pvp = new Pvp(timersMenu);
-	public OptionNumeric molesActivation = new OptionNumeric("Annonces taupes", "La minute à laquelle les taupes sont annoncées.", "MENU_CONFIGURATION_TIMER_MOLES", Material.PAPER, timersMenu, new NumericHelper(1, 70, 30, 1, 2, "min", 1, false, SECONDS_PER_MINUTE));
-	public OptionNumeric wallShrinkingTime = new OptionNumeric("Début de la réduction", "Minute à laquelle le mur commence à se réduire.", "MENU_CONFIGURATION_TIMER_SHRINK", Material.BARRIER, timersMenu, new NumericHelper(1, 180, 80, 1, 3, "min", 1, false, SECONDS_PER_MINUTE));
-	public OptionNumeric episode = new OptionNumeric("Durée d'un épisode", "La durée d'une épisode.", "MENU_CONFIGURATION_TIMER_EPISODE", Material.PAINTING, timersMenu, new NumericHelper(0, 60, 0, 5, 1, "min", 1, true, SECONDS_PER_MINUTE));
-	
-	public InventoryGUI wallMenu = new InventoryGUI("Mur", "Menu du mur.", "MENU_CONFIGURATION_WALL", 1, Material.BARRIER, configurationMenu, 2);
-	public WallSizeBefore wallSizeBefore = new WallSizeBefore(wallMenu);
-	public WallSizeAfter wallSizeAfter = new WallSizeAfter(wallMenu);
-	public OptionNumeric wallSpeed = new OptionNumeric("Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", "MENU_CONFIGURATION_WALL_SPEED", Material.DIAMOND_BARDING, wallMenu, new NumericHelper(20, 200, 100, 10, 2, " blocs/seconde", 100, false, SECONDS_PER_MS));
-	public OptionNumeric wallDamage = new OptionNumeric("Dégâts du mur", "Les dégâts infligés par le mur.", "MENU_CONFIGURATION_WALL_DAMAGE", Material.TNT, wallMenu, new NumericHelper(10, 200, 100, 10, 2, " dégâts", 100, false, SECONDS_PER_MS));
-	
-	public InventoryGUI scenariosMenu = new InventoryGUI("Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 1, Material.PAPER, configurationMenu, 4);
-	public CutClean cutClean = new CutClean(scenariosMenu);
-	public BloodDiamond bloodDiamond = new BloodDiamond(scenariosMenu);
-	public DiamondLimit diamondLimit = new DiamondLimit(scenariosMenu);
-	public LavaLimiter lavaLimiter = new LavaLimiter(scenariosMenu);
-	public NoEnderPearlDamage noEnderPearlDamage = new NoEnderPearlDamage(scenariosMenu);
-	public Nether nether = new Nether(scenariosMenu);
-	// public Timber timber = new Timber(scenariosMenu);
-	
-	public InventoryGUI dropMenu = new InventoryGUI("Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);
-	public AppleDrop appleDrop = new AppleDrop(dropMenu);
-	public FlintDrop flintDrop = new FlintDrop(dropMenu);
-	
-	public InventoryGUI othersMenu = new InventoryGUI("Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 2, Material.COMMAND, configurationMenu, 8);
-	public ScenariosVisible scenariosVisible = new ScenariosVisible(othersMenu);
-	public OptionBoolean coordonneesVisibles = new OptionBoolean("Coordonnées visibles", "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, othersMenu, true);
-	public GoldenHead goldenHead = new GoldenHead(othersMenu);
-	public OptionNumeric deathGoldenApple = new OptionNumeric("Pommes dorée à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
-	public OptionBoolean creeperDeath = new OptionBoolean("Mort par creeper", "Active ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, othersMenu, true, (byte) 4);
-	public OwnTeam ownTeam = new OwnTeam(othersMenu);
-	public OptionBoolean teamTchat = new OptionBoolean("Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
-	public Weather weather = new Weather(othersMenu);
-	public OptionBoolean daylightCycle = new OptionBoolean("Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
-	public PotionII potionLevel2 = new PotionII(othersMenu);
-	public StrengthNerf strengthPercentage = new StrengthNerf(othersMenu);
-	
-	public InventoryGUI molesMenu = new InventoryGUI("Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configurationMenu, 10);
-	public OptionBoolean superMoles = new OptionBoolean("Supertaupes", "Active ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, molesMenu, false);
-	public OptionNumeric numberOfMole = new OptionNumeric("Nombre de taupes", "Détermine le nombre de taupes par équipe de départ.", "MENU_CONFIGURATION_MOLE_NUMBEROF", Material.ARMOR_STAND, molesMenu, new NumericHelper(1, 2, 1, 1, 1, " taupe(s)", 1, false, 1));
-	public OptionNumeric molesTeamSize = new OptionNumeric("Taille des équipes", "Détermine la taille des équipes de taupes.", "MENU_CONFIGURATION_MOLE_TEAMSIZE", Material.BRICK, molesMenu, new NumericHelper(1, 5, 3, 1, 1, " taupe(s)", 1, false, 1));
-	public OptionNumeric superMolesTeamSize = new OptionNumeric("Taille des équipes supertaupes", "Détermine la taille des équipes de supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE_TEAMSIZE", Material.NETHER_BRICK, molesMenu, new NumericHelper(1, 10, 1, 1, 1, " supertaupe(s)", 1, false, 1));
 
-	public InventoryGUI commandsMenu = new InventoryGUI("Commandes", "Activation des commandes.", "MENU_CONFIGURATION_COMMAND", 1, Material.SIGN, configurationMenu, 12);
-	public OptionBoolean taupelistCommand = new OptionBoolean("/taupelist", "Active ou non la possibilité pour les spectateurs de voir la liste des taupes.", "MENU_CONFIGURATION_COMMAND_TAUPELIST", Material.BOOK, commandsMenu, true);
-	public OptionBoolean coordsCommand = new OptionBoolean("/coords", "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers.", "MENU_CONFIGURATION_COMMAND_COORDS", Material.EYE_OF_ENDER, commandsMenu, true);
+	private void initScenarios() {
+		this.menu = new InventoryGUI(this.main, "Menu", null, "MENU_MAIN_MENU", 1, Material.GRASS, null);
+		this.language = new InventoryLanguage(this.main, menu);
+		this.configurationMenu = new InventoryGUI(this.main, "Configuration","Menu de configuration.", "MENU_CONFIGURATION", 2, Material.ANVIL, menu, 3);
+		this.kitsMenu = new InventoryKits(this.main, menu);
+		this.teamsMenu = new InventoryTeams(this.main, menu);
+		this.startItem = new InventoryStartItem(this.main, menu);
+
+		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
+		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
+
+		this.addKit = new InventoryGUI(this.main, "✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
+		this.tntKit = new InventoryKitsTNT(this.main, "TNT", kitsMenu);
+		this.blazeKit = new InventoryKitsBlaze(this.main, "Blaze", kitsMenu);
+		this.aerienKit = new InventoryKitsAerien(this.main, "Aérien", kitsMenu);
+		this.potionKit = new InventoryKitsPotion(this.main, "Potion", kitsMenu);
+		this.tntKitDelete = new InventoryDeleteKits(this.main, tntKit);
+		this.blazeKitDelete = new InventoryDeleteKits(this.main, blazeKit);
+		this.aerienKitDelete = new InventoryDeleteKits(this.main, aerienKit);
+		this.potionKitDelete = new InventoryDeleteKits(this.main, potionKit);
+
+		this.addTeam = new InventoryCreateTeam(this.main, teamsMenu);
+		this.randomizeTeams = new InventoryTeamsRandom(this.main, teamsMenu);
+		this.chooseTeamColor = new InventoryTeamsColor(this.main);
+
+		this.timersMenu = new InventoryGUI(this.main, "Timers", "Menu des timers.", "MENU_CONFIGURATION_TIMER", 1, Material.WATCH, configurationMenu, 0);
+		this.pvp = new Pvp(this.main, timersMenu);
+		this.molesActivation = new OptionNumeric(this.main, "Annonces taupes", "La minute à laquelle les taupes sont annoncées.", "MENU_CONFIGURATION_TIMER_MOLES", Material.PAPER, timersMenu, new NumericHelper(1, 70, 30, 1, 2, "min", 1, false, SECONDS_PER_MINUTE));
+		this.wallShrinkingTime = new OptionNumeric(this.main, "Début de la réduction", "Minute à laquelle le mur commence à se réduire.", "MENU_CONFIGURATION_TIMER_SHRINK", Material.BARRIER, timersMenu, new NumericHelper(1, 180, 80, 1, 3, "min", 1, false, SECONDS_PER_MINUTE));
+		this.episode = new OptionNumeric(this.main, "Durée d'un épisode", "La durée d'une épisode.", "MENU_CONFIGURATION_TIMER_EPISODE", Material.PAINTING, timersMenu, new NumericHelper(0, 60, 0, 5, 1, "min", 1, true, SECONDS_PER_MINUTE));
+
+		this.wallMenu = new InventoryGUI(this.main, "Mur", "Menu du mur.", "MENU_CONFIGURATION_WALL", 1, Material.BARRIER, configurationMenu, 2);
+		this.wallSizeBefore = new WallSizeBefore(this.main, wallMenu);
+		this.wallSizeAfter = new WallSizeAfter(this.main, wallMenu);
+		this.wallSpeed = new OptionNumeric(this.main, "Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", "MENU_CONFIGURATION_WALL_SPEED", Material.DIAMOND_BARDING, wallMenu, new NumericHelper(20, 200, 100, 10, 2, " blocs/seconde", 100, false, SECONDS_PER_MS));
+		this.wallDamage = new OptionNumeric(this.main, "Dégâts du mur", "Les dégâts infligés par le mur.", "MENU_CONFIGURATION_WALL_DAMAGE", Material.TNT, wallMenu, new NumericHelper(10, 200, 100, 10, 2, " dégâts", 100, false, SECONDS_PER_MS));
+
+		this.scenariosMenu = new InventoryGUI(this.main, "Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 1, Material.PAPER, configurationMenu, 4);
+		this.cutClean = new CutClean(this.main, scenariosMenu);
+		this.bloodDiamond = new BloodDiamond(this.main, scenariosMenu);
+		this.diamondLimit = new DiamondLimit(this.main, scenariosMenu);
+		this.lavaLimiter = new LavaLimiter(this.main, scenariosMenu);
+		this.noEnderPearlDamage = new NoEnderPearlDamage(this.main, scenariosMenu);
+		this.nether = new Nether(this.main, scenariosMenu);
+		// this.timber = new Timber(scenariosMenu);
+
+		this.dropMenu = new InventoryGUI(this.main, "Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);
+		this.appleDrop = new AppleDrop(this.main, dropMenu);
+		this.flintDrop = new FlintDrop(this.main, dropMenu);
+
+		this.othersMenu = new InventoryGUI(this.main, "Autres", "Autres paramètres.", "MENU_CONFIGURATION_OTHER", 2, Material.COMMAND, configurationMenu, 8);
+		this.scenariosVisible = new ScenariosVisible(this.main, othersMenu);
+		this.coordonneesVisibles = new OptionBoolean(this.main, "Coordonnées visibles", "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre.", "MENU_CONFIGURATION_OTHER_SHOWCOORDS", Material.EYE_OF_ENDER, othersMenu, true);
+		this.goldenHead = new GoldenHead(this.main, othersMenu);
+		this.deathGoldenApple = new OptionNumeric(this.main, "Pommes dorée à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
+		this.creeperDeath = new OptionBoolean(this.main, "Mort par creeper", "Active ou non la mort par les explosions de creeper.", "MENU_CONFIGURATION_OTHER_CREEPER", Material.SKULL_ITEM, othersMenu, true, (byte) 4);
+		this.ownTeam = new OwnTeam(this.main, othersMenu);
+		this.teamTchat = new OptionBoolean(this.main, "Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
+		this.weather = new Weather(this.main, othersMenu);
+		this.daylightCycle = new OptionBoolean(this.main, "Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
+		this.potionLevel2 = new PotionII(this.main, othersMenu);
+		this.strengthPercentage = new StrengthNerf(this.main, othersMenu);
+
+		this.molesMenu = new InventoryGUI(this.main, "Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configurationMenu, 10);
+		this.superMoles = new OptionBoolean(this.main, "Supertaupes", "Active ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, molesMenu, false);
+		this.numberOfMole = new OptionNumeric(this.main, "Nombre de taupes", "Détermine le nombre de taupes par équipe de départ.", "MENU_CONFIGURATION_MOLE_NUMBEROF", Material.ARMOR_STAND, molesMenu, new NumericHelper(1, 2, 1, 1, 1, " taupe(s)", 1, false, 1));
+		this.molesTeamSize = new OptionNumeric(this.main, "Taille des équipes", "Détermine la taille des équipes de taupes.", "MENU_CONFIGURATION_MOLE_TEAMSIZE", Material.BRICK, molesMenu, new NumericHelper(1, 5, 3, 1, 1, " taupe(s)", 1, false, 1));
+		this.superMolesTeamSize = new OptionNumeric(this.main, "Taille des équipes supertaupes", "Détermine la taille des équipes de supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE_TEAMSIZE", Material.NETHER_BRICK, molesMenu, new NumericHelper(1, 10, 1, 1, 1, " supertaupe(s)", 1, false, 1));
+
+		this.commandsMenu = new InventoryGUI(this.main, "Commandes", "Activation des commandes.", "MENU_CONFIGURATION_COMMAND", 1, Material.SIGN, configurationMenu, 12);
+		this.taupelistCommand = new OptionBoolean(this.main, "/taupelist", "Active ou non la possibilité pour les spectateurs de voir la liste des taupes.", "MENU_CONFIGURATION_COMMAND_TAUPELIST", Material.BOOK, commandsMenu, true);
+		this.coordsCommand = new OptionBoolean(this.main, "/coords", "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers.", "MENU_CONFIGURATION_COMMAND_COORDS", Material.EYE_OF_ENDER, commandsMenu, true);
+	}
 }

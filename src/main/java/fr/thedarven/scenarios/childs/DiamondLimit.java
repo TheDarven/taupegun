@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.helper.NumericHelper;
@@ -22,8 +23,8 @@ public class DiamondLimit extends OptionNumeric {
 	
 	private final HashMap<UUID, Integer> playersLimit = new HashMap<>();
 	
-	public DiamondLimit(InventoryGUI parent) {
-		super("Diamond Limit", "Limite le nombre de diamant que chaque joueur peut miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
+	public DiamondLimit(TaupeGun main, InventoryGUI parent) {
+		super(main, "Diamond Limit", "Limite le nombre de diamant que chaque joueur peut miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
 				Material.DIAMOND, parent, new NumericHelper(0, 50, 0, 1, 2, "", 1, true, 1));
 		updateLanguage(getLanguage());
 	}

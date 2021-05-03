@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import org.bukkit.Material;
@@ -15,8 +16,8 @@ import java.util.Objects;
 
 public class CutClean extends OptionBoolean {
 	
-	public CutClean(InventoryGUI parent) {
-		super("CutClean", "Aucun cuisson n'est nécessaire avec ce scénario.", "MENU_CONFIGURATION_SCENARIO_CUTCLEAN", Material.IRON_INGOT, parent, false);
+	public CutClean(TaupeGun main, InventoryGUI parent) {
+		super(main, "CutClean", "Aucun cuisson n'est nécessaire avec ce scénario.", "MENU_CONFIGURATION_SCENARIO_CUTCLEAN", Material.IRON_INGOT, parent, false);
 	}
 	
 	/**

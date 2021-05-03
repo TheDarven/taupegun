@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
@@ -9,8 +10,8 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class Weather extends OptionBoolean {
 
-	public Weather(InventoryGUI parent) {
-		super("Météo", "Active ou non les changements météorologiques.", "MENU_CONFIGURATION_OTHER_WEATHER",
+	public Weather(TaupeGun main, InventoryGUI parent) {
+		super(main, "Météo", "Active ou non les changements météorologiques.", "MENU_CONFIGURATION_OTHER_WEATHER",
 				Material.DAYLIGHT_DETECTOR, parent, 9, true);
 	}
 	

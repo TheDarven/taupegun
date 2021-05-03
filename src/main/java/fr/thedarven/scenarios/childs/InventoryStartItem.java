@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -13,8 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryStartItem extends InventoryGUI implements AdminConfiguration, InventoryGiveItem {
 
-	public InventoryStartItem(InventoryGUI parent) {
-		super("Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
+	public InventoryStartItem(TaupeGun main, InventoryGUI parent) {
+		super(main,"Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 8);
 		initItem();
 	}
 	

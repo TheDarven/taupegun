@@ -17,8 +17,8 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
 	
 	private static String DELETE_KIT_FORMAT = "Le kit {kitName} a été supprimé avec succès.";
 	
-	public InventoryDeleteKits(InventoryGUI pInventoryGUI) {
-		super(pInventoryGUI, "Supprimer le kit", "MENU_KIT_ITEM_DELETE", 9);
+	public InventoryDeleteKits(TaupeGun main, InventoryGUI pInventoryGUI) {
+		super(main, pInventoryGUI, "Supprimer le kit", "MENU_KIT_ITEM_DELETE", 9);
 	}
 	
 	
@@ -49,6 +49,6 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
 		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
 		
 		InventoryKitsElement.removeKit(getParent().getName());
-		player.openInventory(TaupeGun.getInstance().getScenariosManager().kitsMenu.getInventory());
+		player.openInventory(this.main.getScenariosManager().kitsMenu.getInventory());
 	}
 }

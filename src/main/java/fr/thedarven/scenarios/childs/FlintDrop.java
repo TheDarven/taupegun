@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.helper.NumericHelper;
@@ -31,8 +32,8 @@ public class FlintDrop extends OptionNumeric {
 			{59, 131, 32, 250, 1561}
 	};
 
-	public FlintDrop(InventoryGUI parent) {
-		super("Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT,
+	public FlintDrop(TaupeGun main, InventoryGUI parent) {
+		super(main, "Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT,
 				parent, new NumericHelper(1, 200, 20, 1, 3, "%", 2, false, 2));
 	}
 	

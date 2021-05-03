@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.builders.InventoryGUI;
@@ -22,8 +23,8 @@ public class OwnTeam extends OptionBoolean{
 
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
-	public OwnTeam(InventoryGUI parent) {
-		super("Choisir son équipe", "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
+	public OwnTeam(TaupeGun main, InventoryGUI parent) {
+		super(main, "Choisir son équipe", "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.", "MENU_CONFIGURATION_OTHER_TEAM",
 				Material.BANNER, parent, 6, true, (byte) 10);
 		actionBanner(TEAM_CHOICE);
 	}

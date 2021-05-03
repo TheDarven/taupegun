@@ -2,6 +2,7 @@ package fr.thedarven.scenarios.builders;
 
 import java.util.*;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -35,32 +36,32 @@ public class OptionBoolean extends InventoryGUI implements AdminConfiguration {
 	
 	protected boolean value;
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
+	public OptionBoolean(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue, byte pData) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
 		this.value = pValue;
 		
 		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
+	public OptionBoolean(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue, byte pData) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
 		this.value = pValue;
 		
 		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
+	public OptionBoolean(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, boolean pValue) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
 		this.value = pValue;
 		
 		initItem(pMaterial);
 		reloadItem();
 	}
 	
-	public OptionBoolean(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent);
+	public OptionBoolean(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, boolean pValue) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent);
 		this.value = pValue;
 		
 		initItem(pMaterial);

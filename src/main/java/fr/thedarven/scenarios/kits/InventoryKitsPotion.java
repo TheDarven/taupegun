@@ -1,13 +1,14 @@
 package fr.thedarven.scenarios.kits;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public class InventoryKitsPotion extends InventoryKitsElement {
 
-	public InventoryKitsPotion(String name, InventoryKits parent) {
-		super(name, parent);
+	public InventoryKitsPotion(TaupeGun main, String name, InventoryKits parent) {
+		super(main, name, parent);
 		reloadInventory();
 	}
 

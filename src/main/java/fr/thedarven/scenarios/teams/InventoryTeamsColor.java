@@ -29,8 +29,8 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 			ColorEnum.AQUA, ColorEnum.LIGHT_PURPLE, ColorEnum.ORANGE, ColorEnum.WHITE };
 	private static String SUCCESS_TEAM_CREATE_FORMAT = "L'équipe {teamName} a été créée avec succès.";
 
-	public InventoryTeamsColor() {
-		super("Choix de la couleur", null, "MENU_TEAM_ADD_COLOR", 2, Material.ACACIA_DOOR, null, 22);
+	public InventoryTeamsColor(TaupeGun main) {
+		super(main, "Choix de la couleur", null, "MENU_TEAM_ADD_COLOR", 2, Material.ACACIA_DOOR, null, 22);
 		initItem();
 	}
 
@@ -106,7 +106,7 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 		Title.sendActionBar(player, successTeamCreateMessage);
 
 		pl.setCreateTeamName(null);
-		player.openInventory(TaupeGun.getInstance().getScenariosManager().teamsMenu.getLastChild().getInventory());
+		player.openInventorythis.main.getScenariosManager().teamsMenu.getLastChild().getInventory());
 	}
 
 }

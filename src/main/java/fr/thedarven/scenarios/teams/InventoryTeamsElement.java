@@ -22,12 +22,12 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 	public static Map<String, InventoryTeamsElement> teams = new LinkedHashMap<>();
 	private ColorEnum colorEnum;
 	
-	public InventoryTeamsElement(String name, ColorEnum colorEnum) {
-		super(name, null, "MENU_TEAM_ITEM", 3, Material.BANNER, TaupeGun.getInstance().getScenariosManager().teamsMenu, 0);
+	public InventoryTeamsElement(TaupeGun main, String name, ColorEnum colorEnum) {
+		super(main, name, null, "MENU_TEAM_ITEM", 3, Material.BANNER, main.getScenariosManager().teamsMenu, 0);
 		this.colorEnum = colorEnum;
 		teams.put(name, this);
 		reloadItem();
-		TaupeGun.getInstance().getScenariosManager().teamsMenu.reloadInventory();
+		this.main.getScenariosManager().teamsMenu.reloadInventory();
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 
 		AtomicInteger pos = new AtomicInteger(0);
 		team.getEntries().forEach(entry -> {
-			getInventory().setItem(pos.getAndIncrement(), TaupeGun.getInstance().getPlayerManager().getHeadOfPlayer(entry, entry));
+			getInventory().setItem(pos.getAndIncrement(), this.main.getPlayerManager().getHeadOfPlayer(entry, entry));
 		});
 
 		getChildsValue().forEach(inv -> {

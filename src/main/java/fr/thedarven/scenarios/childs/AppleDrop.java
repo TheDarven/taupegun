@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -27,8 +28,8 @@ public class AppleDrop extends OptionNumeric {
 
 	static List<Integer> leaves = new ArrayList<>(Arrays.asList(0,1,4,5,8,9,12,13));
 	
-	public AppleDrop(InventoryGUI parent) {
-		super("Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, parent,
+	public AppleDrop(TaupeGun main, InventoryGUI parent) {
+		super(main, "Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, parent,
 				new NumericHelper(1, 200, 1, 1, 3, "%", 2, false, 2));
 	}
 	

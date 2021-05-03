@@ -19,8 +19,8 @@ public class InventoryCreateTeam extends InventoryAction implements  AdminConfig
     private static String TOO_MUCH_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
     private static String CREATE_TEAM = "Choix du nom";
 
-    public InventoryCreateTeam(InventoryGUI parent) {
-        super("✚ Ajouter une équipe", null, "MENU_TEAM_ADD", 1, Material.BANNER,
+    public InventoryCreateTeam(TaupeGun main, InventoryGUI parent) {
+        super(main, "✚ Ajouter une équipe", null, "MENU_TEAM_ADD", 1, Material.BANNER,
                 parent, 0, (byte) 15);
     }
 
@@ -60,9 +60,9 @@ public class InventoryCreateTeam extends InventoryAction implements  AdminConfig
      * @param pl Le PlayerTaupe du joueur
      */
     private void addTeamAction(Player player, PlayerTaupe pl) {
-        new AnvilGUI(TaupeGun.getInstance(), player, (menu, text) -> {
+        new AnvilGUI(this.main, player, (menu, text) -> {
             pl.setCreateTeamName(text);
-            new CreateTeamRunnable(TaupeGun.getInstance(), pl, player).runTask(TaupeGun.getInstance());
+            new CreateTeamRunnable(this.main, pl, player).runTask(this.main);
             return true;
         }).setInputName(CREATE_TEAM).open();
     }

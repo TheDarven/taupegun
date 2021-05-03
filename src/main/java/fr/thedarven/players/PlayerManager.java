@@ -86,10 +86,11 @@ public class PlayerManager extends Manager {
     }
 
     public void openConfigInventory(Player p) {
-        if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY))
-            p.openInventory(TaupeGun.getInstance().getScenariosManager().menu.getInventory());
-        else if(TaupeGun.getInstance().getScenariosManager().scenariosVisible.getValue())
-            p.openInventory(TaupeGun.getInstance().getScenariosManager().configurationMenu.getInventory());
+        if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            p.openInventory(this.main.getScenariosManager().menu.getInventory());
+        } else if (this.main.getScenariosManager().scenariosVisible.getValue()) {
+            p.openInventory(this.main.getScenariosManager().configurationMenu.getInventory());
+        }
     }
 
     public void sendOrientationMessage(Player player, PlayerTaupe playerTaupe){

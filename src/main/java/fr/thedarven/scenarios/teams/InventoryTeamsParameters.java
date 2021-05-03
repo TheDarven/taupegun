@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.teams;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -17,8 +18,8 @@ protected static ArrayList<InventoryTeamsParameters> inventory = new ArrayList<>
 	private static String CHANGE_NAME = "Changer le nom";
 	private static String CHANGE_COLOR = "Changer la couleur";
 
-	public InventoryTeamsParameters(InventoryGUI parent) {
-		super("Paramètres", null, "MENU_TEAM_ITEM_PARAMETER", 1, Material.REDSTONE_COMPARATOR, parent, 22);
+	public InventoryTeamsParameters(TaupeGun main, InventoryGUI parent) {
+		super(main, "Paramètres", null, "MENU_TEAM_ITEM_PARAMETER", 1, Material.REDSTONE_COMPARATOR, parent, 22);
 		inventory.add(this);
 		
 		updateLanguage(getLanguage());

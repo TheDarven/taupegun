@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import org.bukkit.Location;
@@ -16,8 +17,8 @@ import java.util.Objects;
 
 public class Timber extends OptionBoolean{
 	
-	public Timber(InventoryGUI parent) {
-		super("Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",
+	public Timber(TaupeGun main, InventoryGUI parent) {
+		super(main, "Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",
 			Material.LOG, parent, false);
 		updateLanguage(getLanguage());
 	}

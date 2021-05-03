@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.builders;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.Material;
 
@@ -11,12 +12,12 @@ public abstract class InventoryElement extends InventoryGUI implements AdminConf
 	
 	private static final Map<String, InventoryElement> elements = new LinkedHashMap<>();
 	
-	public InventoryElement(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition);
+	public InventoryElement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition);
 	}
 	
-	public InventoryElement(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition, byte pData) {
-		super(pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition, pData);
+	public InventoryElement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pInventoryGUI, int pPosition, byte pData) {
+		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pInventoryGUI, pPosition, pData);
 	}
 	
 	/**

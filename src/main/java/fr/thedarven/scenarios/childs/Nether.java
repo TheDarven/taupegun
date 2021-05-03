@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import org.bukkit.Material;
@@ -8,8 +9,8 @@ import org.bukkit.event.player.PlayerPortalEvent;
 
 public class Nether extends OptionBoolean {
 	
-	public Nether(InventoryGUI parent) {
-		super("Nether", "Active ou non le nether.", "MENU_CONFIGURATION_SCENARIO_NETHER", Material.OBSIDIAN, parent, true);
+	public Nether(TaupeGun main, InventoryGUI parent) {
+		super(main, "Nether", "Active ou non le nether.", "MENU_CONFIGURATION_SCENARIO_NETHER", Material.OBSIDIAN, parent, true);
 	}
 	
 	/**

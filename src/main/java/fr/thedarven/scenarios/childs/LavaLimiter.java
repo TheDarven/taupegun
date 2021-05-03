@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -16,8 +17,8 @@ public class LavaLimiter extends OptionBoolean {
 	
 	private static String CANNOT_PLACE_LAVA = "Vous ne pouvez pas placer de la lave proche d'un joueur.";
 	
-	public LavaLimiter(InventoryGUI parent) {
-		super("Lava Limiter", "Désactive le placement de lave proche des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
+	public LavaLimiter(TaupeGun main, InventoryGUI parent) {
+		super(main, "Lava Limiter", "Désactive le placement de lave proche des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
 		updateLanguage(getLanguage());
 	}
 

@@ -1,11 +1,12 @@
 package fr.thedarven.scenarios.runnable;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
-import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.api.Title;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,11 +16,13 @@ import java.util.Objects;
 
 public class CreateKitRunnable extends BukkitRunnable {
 
+    private final TaupeGun main;
     private final PlayerTaupe pl;
     private final Player player;
     private final InventoryKits kitsMenu;
 
-    public CreateKitRunnable(Player player, PlayerTaupe pl, InventoryKits kitsMenu) {
+    public CreateKitRunnable(TaupeGun main, Player player, PlayerTaupe pl, InventoryKits kitsMenu) {
+        this.main = main;
         this.player = player;
         this.pl = pl;
         this.kitsMenu = kitsMenu;
@@ -42,8 +45,8 @@ public class CreateKitRunnable extends BukkitRunnable {
             return;
         }
 
-        InventoryKitsElement kit = new InventoryKitsElement(this.pl.getCreateKitName(), this.kitsMenu);
-        new InventoryDeleteKits(kit);
+        InventoryKitsElement kit = new InventoryKitsElement(this.main, this.pl.getCreateKitName(), this.kitsMenu);
+        new InventoryDeleteKits(this.main, kit);
 
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + this.pl.getCreateKitName() + "§r§a");

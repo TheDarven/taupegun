@@ -1,5 +1,6 @@
 package fr.thedarven.players.runnable;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.entity.Player;
@@ -11,8 +12,8 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
 
     private final EnumInventory enumInventory;
 
-    public PlayerInventoryRunnable(PlayerTaupe pl, EnumInventory enumInventory) {
-        super(pl);
+    public PlayerInventoryRunnable(TaupeGun main, PlayerTaupe pl, EnumInventory enumInventory) {
+        super(main, pl);
         this.enumInventory = enumInventory;
     }
 

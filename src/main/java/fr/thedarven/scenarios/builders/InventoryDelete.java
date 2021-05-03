@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.builders;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -18,8 +19,8 @@ public abstract class InventoryDelete extends InventoryGUI {
 	private static String CONFIRM_ACTION = "✔ Confirmer";
 	private static String CANCEL_ACTION = "✘ Annuler";
 	
-	public InventoryDelete(InventoryGUI parent, String pName, String pTranslationName, int pPosition) {
-		super(pName, "", pTranslationName, 1, Material.STAINED_CLAY, parent, pPosition, (byte) 14);
+	public InventoryDelete(TaupeGun main, InventoryGUI parent, String pName, String pTranslationName, int pPosition) {
+		super(main, pName, "", pTranslationName, 1, Material.STAINED_CLAY, parent, pPosition, (byte) 14);
 		
 		initItem();
 		updateLanguage(getLanguage());

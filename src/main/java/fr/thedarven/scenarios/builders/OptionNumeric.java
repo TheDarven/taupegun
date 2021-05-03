@@ -2,6 +2,7 @@ package fr.thedarven.scenarios.builders;
 
 import java.util.*;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -37,8 +38,8 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 	protected boolean showDisabled;
 	protected double getterFactor;
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
+	public OptionNumeric(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition, pData);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
@@ -55,8 +56,8 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos, byte pData) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
+	public OptionNumeric(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos, byte pData) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pData);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
@@ -73,8 +74,8 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
+	public OptionNumeric(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent, pPosition);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;
@@ -91,8 +92,8 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 		reloadItem();
 	}
 	
-	public OptionNumeric(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos) {
-		super(pName, pDescription, pTranslationName, 1, pMaterial, pParent);
+	public OptionNumeric(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos) {
+		super(main, pName, pDescription, pTranslationName, 1, pMaterial, pParent);
 		this.min = infos.min;
 		this.max = infos.max;
 		this.value = infos.value;

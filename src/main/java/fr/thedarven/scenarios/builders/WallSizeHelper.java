@@ -1,24 +1,25 @@
 package fr.thedarven.scenarios.builders;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.helper.NumericHelper;
 import org.bukkit.Material;
 
 public abstract class WallSizeHelper extends OptionNumeric {
 
-    public WallSizeHelper(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
-        super(pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos, pData);
+    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos, byte pData) {
+        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos, pData);
     }
 
-    public WallSizeHelper(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos, byte pData) {
-        super(pName, pDescription, pTranslationName, pMaterial, pParent, infos, pData);
+    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos, byte pData) {
+        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, infos, pData);
     }
 
-    public WallSizeHelper(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos) {
-        super(pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos);
+    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, int pPosition, NumericHelper infos) {
+        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos);
     }
 
-    public WallSizeHelper(String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos) {
-        super(pName, pDescription, pTranslationName, pMaterial, pParent, infos);
+    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, InventoryGUI pParent, NumericHelper infos) {
+        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, infos);
     }
 
     /**

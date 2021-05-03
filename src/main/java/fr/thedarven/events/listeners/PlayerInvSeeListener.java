@@ -37,7 +37,7 @@ public class PlayerInvSeeListener implements Listener {
 	private void createAndOpenInvSeeInventory(PlayerTaupe plWhoWatched, PlayerTaupe viewedPl) {
 		InvSeeRunnable invSeeRunnable = (InvSeeRunnable) plWhoWatched.getRunnable(InvSeeRunnable.class);
 		if (Objects.isNull(invSeeRunnable)) {
-			invSeeRunnable = new InvSeeRunnable(plWhoWatched, viewedPl);
+			invSeeRunnable = new InvSeeRunnable(this.main, plWhoWatched, viewedPl);
 			invSeeRunnable.runTaskTimer(this.main,1,10);
 		}
 		invSeeRunnable.openInventory();

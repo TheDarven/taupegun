@@ -13,8 +13,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class StrengthNerf extends OptionNumeric {
 
-    public StrengthNerf(InventoryGUI parent) {
-        super("Potion de force", "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%).",
+    public StrengthNerf(TaupeGun main, InventoryGUI parent) {
+        super(main, "Potion de force", "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%).",
                 "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL", Material.POTION, parent, 13,
                 new NumericHelper(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
     }
@@ -34,7 +34,7 @@ public class StrengthNerf extends OptionNumeric {
         for (PotionEffect potion : player.getActivePotionEffects()) {
             if (potion.getType() == PotionEffectType.INCREASE_DAMAGE) {
                 double originalDamages = e.getDamage() / (1 + (1 + potion.getAmplifier()) * 1.3);
-                e.setDamage(originalDamages + originalDamages * (1 + potion.getAmplifier() * TaupeGun.getInstance().getScenariosManager().strengthPercentage.getValue()));
+                e.setDamage(originalDamages + originalDamages * (1 + potion.getAmplifier() * this.main.getScenariosManager().strengthPercentage.getValue()));
             }
         }
     }

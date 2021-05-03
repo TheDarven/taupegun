@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.kits;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -9,8 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryKitsAerien extends InventoryKitsElement {
 
-	public InventoryKitsAerien(String name, InventoryKits parent) {
-		super(name, parent);
+	public InventoryKitsAerien(TaupeGun main, String name, InventoryKits parent) {
+		super(main, name, parent);
 		reloadInventory();
 	}
 

@@ -4,8 +4,8 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.players.runnable.PlayerInventoryRunnable;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,15 +23,15 @@ import java.util.Objects;
 
 public class TeamSelectionRunnable extends PlayerInventoryRunnable {
 
-    public TeamSelectionRunnable(PlayerTaupe pl) {
-        super(pl, EnumInventory.TEAM);
+    public TeamSelectionRunnable(TaupeGun main, PlayerTaupe pl) {
+        super(main, pl, EnumInventory.TEAM);
     }
 
     @Override
     protected void operate() {
         Player player = pl.getPlayer();
 
-        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && TaupeGun.getInstance().getScenariosManager().ownTeam.getValue()){
+        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && this.main.getScenariosManager().ownTeam.getValue()){
             openInventory(player);
         } else {
             this.stopRunnable();
@@ -42,7 +42,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     protected Inventory createInventory() {
         Player player = pl.getPlayer();
 
-        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !TaupeGun.getInstance().getScenariosManager().ownTeam.getValue())
+        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !this.main.getScenariosManager().ownTeam.getValue())
             return null;
 
         String teamChoiceTitle = "§7" + LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);

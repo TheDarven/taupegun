@@ -20,8 +20,8 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
 	
 	private static String TEAM_DELETE_FORMAT = "L'équipe {teamName} a été supprimée avec succès.";
 	
-	public InventoryDeleteTeams(InventoryGUI parent) {
-		super(parent, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
+	public InventoryDeleteTeams(TaupeGun main, InventoryGUI parent) {
+		super(main, parent, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
 	}
 
 
@@ -60,7 +60,7 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
 		if (Objects.nonNull(teamDelete)) {
 			teamDelete.deleteTeam();
 		}
-		player.openInventory(TaupeGun.getInstance().getScenariosManager().teamsMenu.getInventory());
+		player.openInventory(this.main.getScenariosManager().teamsMenu.getInventory());
 		InventoryTeamsPlayers.reloadInventories();
 	}
 }

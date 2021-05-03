@@ -23,7 +23,8 @@ public abstract class InventoryBuilder implements Listener {
 	private static final String DESCRIPTION_COLOR = "§7";
 
 	protected static String BACK_STRING = "Retour";
-	
+
+	protected TaupeGun main;
 	protected String name;
 	private ItemStack item;
 	private int lines;
@@ -33,7 +34,8 @@ public abstract class InventoryBuilder implements Listener {
 	private int position;
 	protected String translationName;
 	
-	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
+	public InventoryBuilder(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
+		this.main = main;
 		this.name = pName;
 		this.description = pDescription;
 		this.data = pData;
@@ -46,11 +48,12 @@ public abstract class InventoryBuilder implements Listener {
 		initDefaultTranslation();
 		initItem(pMaterial, pData);
 		
-		PluginManager pm = TaupeGun.getInstance().getServer().getPluginManager();
-		pm.registerEvents(this, TaupeGun.getInstance());
+		PluginManager pm = this.main.getServer().getPluginManager();
+		pm.registerEvents(this, this.main);
 	}
 	
-	public InventoryBuilder(String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, byte pData) {
+	public InventoryBuilder(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, byte pData) {
+		this.main = main;
 		this.name = pName;
 		this.description = pDescription;
 		this.data = pData;
@@ -63,8 +66,8 @@ public abstract class InventoryBuilder implements Listener {
 		initDefaultTranslation();
 		initItem(pMaterial, pData);
 		
-		PluginManager pm = TaupeGun.getInstance().getServer().getPluginManager();
-		pm.registerEvents(this, TaupeGun.getInstance());
+		PluginManager pm = this.main.getServer().getPluginManager();
+		pm.registerEvents(this, this.main);
 	}
 	
 	/**
@@ -364,6 +367,6 @@ public abstract class InventoryBuilder implements Listener {
 		
 		if ((player.isOp() || player.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || enumConfiguration.equals(EnumConfiguration.INVENTORY))) {
 			return true;
-		} else return !player.isOp() && !player.hasPermission("taupegun.scenarios") && enumConfiguration.equals(EnumConfiguration.INVENTORY) && TaupeGun.getInstance().getScenariosManager().scenariosVisible.getValue();
+		} else return !player.isOp() && !player.hasPermission("taupegun.scenarios") && enumConfiguration.equals(EnumConfiguration.INVENTORY) && this.main.getScenariosManager().scenariosVisible.getValue();
 	}
 }

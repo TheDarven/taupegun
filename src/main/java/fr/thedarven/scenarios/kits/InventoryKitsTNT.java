@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.kits;
 
+import fr.thedarven.TaupeGun;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
@@ -7,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryKitsTNT extends InventoryKitsElement {
 
-	public InventoryKitsTNT(String name, InventoryKits parent) {
-		super(name, parent);
+	public InventoryKitsTNT(TaupeGun main, String name, InventoryKits parent) {
+		super(main, name, parent);
 		reloadInventory();
 	}
 

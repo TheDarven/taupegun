@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.teams;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.InventoryIncrement;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -9,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryTeams extends InventoryIncrement implements AdminConfiguration {
 	
-	public InventoryTeams(InventoryGUI parent) {
-		super("Équipes", "Menu des équipes.", "MENU_TEAM", 6, Material.BANNER, parent, 5, (byte) 15);
+	public InventoryTeams(TaupeGun main, InventoryGUI parent) {
+		super(main, "Équipes", "Menu des équipes.", "MENU_TEAM", 6, Material.BANNER, parent, 5, (byte) 15);
 	}
 
 	@Override

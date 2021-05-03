@@ -22,8 +22,8 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 	private static String TEAM_FULL_FORMAT = "L'équipe {teamName} est déjà complète.";
 	protected static List<InventoryTeamsPlayers> inventories = new ArrayList<>();
 	
-	public InventoryTeamsPlayers(InventoryGUI parent) {
-		super("Ajouter un joueur", null, "MENU_TEAM_ITEM_ADD_PLAYER", 6, Material.ARMOR_STAND, parent, 0);
+	public InventoryTeamsPlayers(TaupeGun main, InventoryGUI parent) {
+		super(main, "Ajouter un joueur", null, "MENU_TEAM_ITEM_ADD_PLAYER", 6, Material.ARMOR_STAND, parent, 0);
 		inventories.add(this);
 		reloadInventory();
 		
@@ -56,7 +56,7 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			if (Objects.isNull(pl.getTeam())) {
-				getInventory().setItem(i, TaupeGun.getInstance().getPlayerManager().getHeadOfPlayer(player.getName(), player.getName()));
+				getInventory().setItem(i, this.main.getPlayerManager().getHeadOfPlayer(player.getName(), player.getName()));
 				i++;
 			}
 		}

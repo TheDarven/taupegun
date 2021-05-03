@@ -27,6 +27,6 @@ public class CraftManager extends Manager {
         recipe.shape("OOO", "OTO", "OOO");
         recipe.setIngredient('O', Material.GOLD_INGOT);
         recipe.setIngredient('T', Material.SKULL_ITEM, (short) 3);
-        TaupeGun.getInstance().getServer().addRecipe(recipe);
+        this.main.getServer().addRecipe(recipe);
     }
 }

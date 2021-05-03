@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -19,8 +20,8 @@ public class PotionII extends OptionBoolean{
 
 	private static String TRANSFORM_POTION = "Poufff ! Votre potion est passée au niveau 1.";
 	
-	public PotionII(InventoryGUI parent) {
-		super("Potion II", "Active ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
+	public PotionII(TaupeGun main, InventoryGUI parent) {
+		super(main, "Potion II", "Active ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
 				12, true, (byte) 8254);
 		updateLanguage(getLanguage());
 	}

@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.teams;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryAction;
@@ -19,8 +20,8 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
 
 	private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
 
-	public InventoryTeamsRandom(InventoryTeams parent) {
-		super("Équipes randoms", null, "MENU_TEAM_RANDOM", 1, Material.PAPER, parent, 45);
+	public InventoryTeamsRandom(TaupeGun main, InventoryTeams parent) {
+		super(main, "Équipes randoms", null, "MENU_TEAM_RANDOM", 1, Material.PAPER, parent, 45);
 	}
 
 	@Override

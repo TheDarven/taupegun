@@ -110,7 +110,7 @@ public class InventoryClickListener implements Listener {
 	private void createAndOpenTeamsInventory(PlayerTaupe pl) {
 		TeamSelectionRunnable teamSelectionRunnable = (TeamSelectionRunnable) pl.getRunnable(TeamSelectionRunnable.class);
 		if (Objects.isNull(teamSelectionRunnable)) {
-			teamSelectionRunnable = new TeamSelectionRunnable(pl);
+			teamSelectionRunnable = new TeamSelectionRunnable(this.main, pl);
 			teamSelectionRunnable.runTaskTimer(this.main,1,10);
 		}
 		teamSelectionRunnable.openInventory();

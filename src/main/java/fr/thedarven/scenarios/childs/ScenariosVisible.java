@@ -1,5 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.models.enums.EnumGameState;
@@ -16,8 +17,8 @@ public class ScenariosVisible extends OptionBoolean {
 
     private String SCENARIOS_ITEM_NAME = "Configuration";
 
-    public ScenariosVisible(InventoryGUI parent) {
-        super("Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.",
+    public ScenariosVisible(TaupeGun main, InventoryGUI parent) {
+        super(main, "Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.",
                 "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE, parent, true);
         updateLanguage(getLanguage());
     }

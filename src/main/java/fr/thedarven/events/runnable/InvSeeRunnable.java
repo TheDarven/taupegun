@@ -23,8 +23,8 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
     private final PlayerTaupe viewedPl;
 
-    public InvSeeRunnable(PlayerTaupe pl, PlayerTaupe viewedPl) {
-        super(pl, EnumInventory.INVSEE);
+    public InvSeeRunnable(TaupeGun main, PlayerTaupe pl, PlayerTaupe viewedPl) {
+        super(main, pl, EnumInventory.INVSEE);
         this.viewedPl = viewedPl;
     }
 
@@ -115,7 +115,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
         // MOLE
         lores.clear();
-        if (!TaupeGun.getInstance().getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().molesEnabled()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -135,7 +135,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         }
 
         // SUPERMOLE
-        if (!TaupeGun.getInstance().getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().molesEnabled()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");

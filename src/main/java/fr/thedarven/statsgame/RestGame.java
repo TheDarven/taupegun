@@ -130,7 +130,7 @@ public class RestGame {
 	public void endGame() {
 		if(currentGame == this) {
 			if(Bukkit.getServer().getOnlineMode()) {
-				this.duration = TaupeGun.getInstance().getGameManager().getTimer();
+				this.duration = this.main.getGameManager().getTimer();
 				
 				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {	
 					TeamCustom team = pt.getStartTeam();
