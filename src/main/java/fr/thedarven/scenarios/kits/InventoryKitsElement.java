@@ -84,7 +84,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 		kit.getParent().removeChild(kit);
 		kits.remove(name);
-		this.main.getScenariosManager().kitsMenu.reloadInventory();
+		TaupeGun.getInstance().getScenariosManager().kitsMenu.reloadInventory();
 	}
 	
 	/**

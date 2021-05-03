@@ -18,7 +18,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
     private final Player player;
 
     public CreateTeamRunnable(TaupeGun main, PlayerTaupe pl, Player player) {
-        super(pl);
+        super(main, pl);
         this.main = main;
         this.player = player;
     }

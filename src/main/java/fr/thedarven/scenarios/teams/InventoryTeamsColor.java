@@ -106,7 +106,7 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 		Title.sendActionBar(player, successTeamCreateMessage);
 
 		pl.setCreateTeamName(null);
-		player.openInventorythis.main.getScenariosManager().teamsMenu.getLastChild().getInventory());
+		player.openInventory(this.main.getScenariosManager().teamsMenu.getLastChild().getInventory());
 	}
 
 }

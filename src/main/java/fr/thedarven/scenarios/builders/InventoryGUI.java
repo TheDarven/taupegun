@@ -279,7 +279,7 @@ public class InventoryGUI extends InventoryBuilder {
 	 * Pour obtenir la langue actuellement selectionnées
 	 */
 	public static String getLanguage() {
-		ScenariosManager inventoryRegister = this.main.getScenariosManager();
+		ScenariosManager inventoryRegister = TaupeGun.getInstance().getScenariosManager();
 		if (Objects.nonNull(inventoryRegister) && Objects.nonNull(inventoryRegister.language)) {
 			return inventoryRegister.language.getSelectedLanguage();
 		}
