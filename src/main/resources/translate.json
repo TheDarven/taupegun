@@ -918,12 +918,12 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Pommes d'or à la mort",
-				"description": "Détermine le nombre de pommes d'or drop à la mort d'un joueur.",
+				"description": "Détermine le nombre de pommes dorées drop à la mort d'un joueur.",
 				"afterName": " pomme(s)"
 			},
 			"en_US": {
-				"name": "Golden apples on death",
-				"description": "Number of golden apples dropped when a player dies.",
+				"name": "Golden apples at death",
+				"description": "Sets the number of golden apples dropped when a player dies.",
 				"afterName": " apple(s)"
 			}
 		}
