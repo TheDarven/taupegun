@@ -92,6 +92,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		if (this.databaseManager.getGameId() != 0) {
 			databaseManager.updateGameDuration();
 		}
+		this.scenariosManager.savePlayersConfiguration();
 	}
 
 	public ListenerManager getListenerManager(){

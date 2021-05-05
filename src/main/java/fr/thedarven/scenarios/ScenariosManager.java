@@ -9,24 +9,31 @@ import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.scenarios.kits.*;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
-import fr.thedarven.scenarios.players.InventoryPlayers;
-import fr.thedarven.scenarios.players.configuration.InventoryPlayersConfiguration;
+import fr.thedarven.scenarios.players.presets.InventoryPlayersPreset;
 import fr.thedarven.scenarios.teams.InventoryCreateTeam;
 import fr.thedarven.scenarios.teams.InventoryTeams;
 import fr.thedarven.scenarios.teams.InventoryTeamsColor;
 import fr.thedarven.scenarios.teams.InventoryTeamsRandom;
+import fr.thedarven.utils.FileHelper;
 import org.bukkit.Material;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ScenariosManager {
 
 	public final static int SECONDS_PER_MINUTE = 60;
 	private final static double SECONDS_PER_MS = 0.01;
+	private final static String PLAYER_CONFIGURATION_FILE = "players_presets.ser";
 
 	private final TaupeGun main;
+	private Map<UUID, PlayerConfiguration> playersConfigurations;
 
 	public InventoryGUI menu;
 	public InventoryLanguage language;
-	public InventoryGUI saveConfigurationMenu;
+	public InventoryPlayersPreset saveConfigurationMenu;
 	public InventoryGUI configurationMenu;
 	public InventoryKits kitsMenu;
 	public InventoryTeams teamsMenu;
@@ -99,7 +106,9 @@ public class ScenariosManager {
 
 	public ScenariosManager(TaupeGun main) {
 		this.main = main;
+		this.playersConfigurations = new HashMap<>();
 		initScenarios();
+		loadPlayersConfigurations();
 	}
 
 	private void initScenarios() {
@@ -109,7 +118,7 @@ public class ScenariosManager {
 		this.kitsMenu = new InventoryKits(this.main, menu);
 		this.teamsMenu = new InventoryTeams(this.main, menu);
 		this.startItem = new InventoryStartItem(this.main, menu);
-		this.saveConfigurationMenu = new InventoryPlayersConfiguration(this.main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.", "MENU_SAVE_CONFIG", 4, Material.PISTON_BASE, menu, 8);
+		this.saveConfigurationMenu = new InventoryPlayersPreset(this.main,4, Material.PISTON_BASE, menu, 8);
 
 		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
 		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
@@ -175,5 +184,31 @@ public class ScenariosManager {
 		this.commandsMenu = new InventoryGUI(this.main, "Commandes", "Activation des commandes.", "MENU_CONFIGURATION_COMMAND", 1, Material.SIGN, configurationMenu, 12);
 		this.taupelistCommand = new OptionBoolean(this.main, "/taupelist", "Active ou non la possibilité pour les spectateurs de voir la liste des taupes.", "MENU_CONFIGURATION_COMMAND_TAUPELIST", Material.BOOK, commandsMenu, true);
 		this.coordsCommand = new OptionBoolean(this.main, "/coords", "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers.", "MENU_CONFIGURATION_COMMAND_COORDS", Material.EYE_OF_ENDER, commandsMenu, true);
+	}
+
+	public TaupeGun getMain() {
+		return this.main;
+	}
+
+	public PlayerConfiguration getPlayerConfiguration(UUID uuid) {
+		if (!this.playersConfigurations.containsKey(uuid)) {
+			this.playersConfigurations.put(uuid, new PlayerConfiguration(uuid, this));
+		}
+		return this.playersConfigurations.get(uuid);
+	}
+
+	private void loadPlayersConfigurations() {
+		FileHelper<Map<UUID, PlayerConfiguration>> fileConfiguration = new FileHelper<>(this.main, PLAYER_CONFIGURATION_FILE);
+		this.playersConfigurations = fileConfiguration.readFile();
+		if (Objects.nonNull(this.playersConfigurations)) {
+			this.playersConfigurations.values().forEach(playerConfiguration -> playerConfiguration.setManager(this));
+		} else {
+			this.playersConfigurations = new HashMap<>();
+		}
+	}
+
+	public void savePlayersConfiguration() {
+		FileHelper<Map<UUID, PlayerConfiguration>> fileConfiguration = new FileHelper<>(this.main, PLAYER_CONFIGURATION_FILE);
+		fileConfiguration.writeFile(this.playersConfigurations);
 	}
 }
