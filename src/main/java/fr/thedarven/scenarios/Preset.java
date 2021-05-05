@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class Preset implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private int index;
     private final Map<String, Object> values;
@@ -26,6 +28,10 @@ public class Preset implements Serializable {
 
     public int getIndex() {
         return this.index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public void setManager(ScenariosManager manager) {

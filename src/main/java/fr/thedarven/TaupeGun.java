@@ -51,6 +51,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		LanguageRegister.loadAllTranslations(this);
 		InventoryGUI.setLanguage();
 
+		this.itemManager = new ItemManager(this);
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.scenariosManager = new ScenariosManager(this);
 		this.listenerManager = new ListenerManager(this);
@@ -66,7 +67,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.craftManager = new CraftManager(this);
 		this.craftManager.loadCrafts();
 
-		this.itemManager = new ItemManager(this);
 		this.playerManager = new PlayerManager(this);
 		this.teamManager = new TeamManager(this);
 

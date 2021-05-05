@@ -6,12 +6,8 @@ import fr.thedarven.scenarios.Preset;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.players.InventoryPlayersElement;
-import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
 import org.bukkit.Material;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class InventoryPlayersElementPreset extends InventoryPlayersElement implements AdminConfiguration {

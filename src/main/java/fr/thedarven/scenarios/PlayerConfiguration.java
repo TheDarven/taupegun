@@ -12,6 +12,8 @@ import java.util.UUID;
 
 public class PlayerConfiguration implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public final static int NB_MAX_PRESETS = 9;
 
     private final UUID uuid;
@@ -37,7 +39,6 @@ public class PlayerConfiguration implements Serializable {
         if (!isPresetAmountLimit() || isUsedPresetName(name)) {
             return Optional.empty();
         }
-
         Preset newPreset = new Preset(name, this.manager, getNbPresets());
         this.presets.add(newPreset);
         createInventoryOfPreset(newPreset);
@@ -47,6 +48,12 @@ public class PlayerConfiguration implements Serializable {
     public void removePreset(Preset preset) {
         this.presets.remove(preset);
         getInventoryPlayersElementPreset().removePreset(preset);
+        for (Preset p: this.presets) {
+            if (p.getIndex() > preset.getIndex()) {
+                p.setIndex(p.getIndex() - 1);
+            }
+        }
+        getInventoryPlayersElementPreset().reloadInventory();
     }
 
     public boolean isPresetAmountLimit() {

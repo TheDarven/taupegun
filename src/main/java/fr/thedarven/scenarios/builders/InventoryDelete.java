@@ -26,9 +26,7 @@ public abstract class InventoryDelete extends InventoryGUI {
 		updateLanguage(getLanguage());
 		reloadItem();
 	}
-	
-	
-	
+
 	@Override
 	public void updateLanguage(String language) {
 		CONFIRM_ACTION = LanguageBuilder.getContent("CONTENT", "confirm", language, true);
