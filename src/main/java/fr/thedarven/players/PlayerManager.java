@@ -23,7 +23,7 @@ public class PlayerManager extends Manager {
     }
 
     /**
-     * Permet d'envouer un playsound à tous les joueurs connectés
+     * Permet d'envoyer un playsound à tous les joueurs connectés
      *
      * @param sound Le son
      */

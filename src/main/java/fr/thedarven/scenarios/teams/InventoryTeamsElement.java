@@ -149,21 +149,6 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 			inv.getParent().reloadInventory();
 		}
 		teams.remove(name);
-
-		/* for(int i=0; i<inventory.size(); i++) {
-			if(inventory.get(i).getName().equals(pNom)) {
-				for(InventoryGUI inv : inventory.get(i).getChildsValue()) {
-					if(inv instanceof InventoryPlayers)
-						InventoryPlayers.inventory.remove(inv);
-					InventoryPlayers.reloadInventory();
-				}
-				inventory.get(i).getParent().removeChild(inventory.get(i));
-				inventory.get(i).getParent().removeItem(inventory.get(i));
-				InventoryRegister.teams.reloadInventory();
-				inventory.remove(i);
-				return;
-			}
-		} */
 	}
 
 	@Override
