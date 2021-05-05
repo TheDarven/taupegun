@@ -14,7 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class InventoryCreateTeam extends InventoryAction implements  AdminConfiguration {
+public class InventoryCreateTeam extends InventoryAction implements AdminConfiguration {
 
     private static String TOO_MUCH_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
     private static String CREATE_TEAM = "Choix du nom";

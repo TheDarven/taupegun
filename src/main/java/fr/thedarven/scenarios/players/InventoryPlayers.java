@@ -17,22 +17,22 @@ public abstract class InventoryPlayers extends InventoryGUI {
         super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition);
     }
 
-    protected abstract InventoryPlayersElement createElement(Player player);
+    protected abstract InventoryPlayersElement createElement(UUID uuid);
 
     protected void addElement(InventoryPlayersElement element, UUID uuid) {
         players.put(uuid, element);
     }
 
     public void openInventoryOfPlayer(Player player) {
-        player.openInventory(getInventoryOfPlayer(player).getInventory());
+        player.openInventory(getInventoryOfUuid(player.getUniqueId()).getInventory());
     }
 
-    public InventoryPlayersElement getInventoryOfPlayer(Player player) {
+    public InventoryPlayersElement getInventoryOfUuid(UUID uuid) {
         InventoryPlayersElement inventory;
-        if (this.players.containsKey(player.getUniqueId())) {
-            inventory = this.players.get(player.getUniqueId());
+        if (this.players.containsKey(uuid)) {
+            inventory = this.players.get(uuid);
         } else {
-            inventory = createElement(player);
+            inventory = createElement(uuid);
         }
         return inventory;
     }
