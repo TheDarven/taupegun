@@ -2,7 +2,9 @@ package fr.thedarven.scenarios.builders;
 
 import java.util.*;
 
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
@@ -294,7 +296,8 @@ public abstract class InventoryBuilder implements Listener {
 	 * @param data La data de l'item
 	 */
 	private void initItem(Material material, byte data) {
-		ItemStack item = new ItemStack(material,1, data);
+		ItemStack item = this.main.getItemManager().getTaggedItemStack(material, data);
+
 		ItemMeta itemM = item.getItemMeta();
 		itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
