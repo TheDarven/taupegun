@@ -1,13 +1,8 @@
 package fr.thedarven.scenarios;
 
-import fr.thedarven.scenarios.players.presets.InventoryDeletePreset;
-import fr.thedarven.scenarios.players.presets.InventoryLoadPreset;
-import fr.thedarven.scenarios.players.presets.InventoryPlayersElementPreset;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class PlayerConfiguration implements Serializable {
@@ -26,6 +21,10 @@ public class PlayerConfiguration implements Serializable {
         this.presets = new ArrayList<>();
     }
 
+    public UUID getUuid() {
+        return this.uuid;
+    }
+
     public void setManager(ScenariosManager manager) {
         this.manager = manager;
         this.presets.forEach(preset -> preset.setManager(this.manager));
@@ -35,7 +34,19 @@ public class PlayerConfiguration implements Serializable {
         return this.presets.size();
     }
 
-    public Optional<Preset> createPreset(String name) {
+    public void addPreset(Preset preset) {
+        this.presets.add(preset);
+    }
+
+    public boolean removePreset(Preset preset) {
+        return this.presets.remove(preset);
+    }
+
+    public List<Preset> getPresets() {
+        return this.presets;
+    }
+
+    /* public Optional<Preset> createPreset(String name) {
         if (!isPresetAmountLimit() || isUsedPresetName(name)) {
             return Optional.empty();
         }
@@ -43,9 +54,9 @@ public class PlayerConfiguration implements Serializable {
         this.presets.add(newPreset);
         createInventoryOfPreset(newPreset);
         return Optional.of(newPreset);
-    }
+    } */
 
-    public void removePreset(Preset preset) {
+    /* public void removePreset(Preset preset) {
         this.presets.remove(preset);
         getInventoryPlayersElementPreset().removePreset(preset);
         for (Preset p: this.presets) {
@@ -54,7 +65,7 @@ public class PlayerConfiguration implements Serializable {
             }
         }
         getInventoryPlayersElementPreset().reloadInventory();
-    }
+    } */
 
     public boolean isPresetAmountLimit() {
         return NB_MAX_PRESETS > getNbPresets();
@@ -64,7 +75,7 @@ public class PlayerConfiguration implements Serializable {
         return this.presets.stream().anyMatch(preset -> preset.getName().equalsIgnoreCase(name));
     }
 
-    public void createInventoryOfPresets() {
+    /* public void createInventoryOfPresets() {
         this.presets.forEach(this::createInventoryOfPreset);
     }
 
@@ -73,9 +84,9 @@ public class PlayerConfiguration implements Serializable {
 
         new InventoryLoadPreset(this.manager.getMain(), preset, inventory);
         new InventoryDeletePreset(this.manager.getMain(), inventory, this, preset);
-    }
+    } */
 
-    public InventoryPlayersElementPreset getInventoryPlayersElementPreset() {
+    /* public InventoryPlayersElementPreset getInventoryPlayersElementPreset() {
         return (InventoryPlayersElementPreset) this.manager.saveConfigurationMenu.getInventoryOfUuid(this.uuid);
-    }
+    }*/
 }

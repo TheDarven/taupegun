@@ -39,7 +39,7 @@ public class Preset implements Serializable {
     }
 
     public void updatePreset() {
-
+        // TODO Init values of preset here
     }
 
 }

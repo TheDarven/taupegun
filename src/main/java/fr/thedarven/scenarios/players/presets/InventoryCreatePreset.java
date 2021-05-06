@@ -22,7 +22,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     protected void action(Player player, PlayerTaupe pl) {
         player.sendMessage("Création en cours");
         // TODO Create preset
-        this.playerConfiguration.createPreset("New preset " + playerConfiguration.getNbPresets());
+        this.main.getScenariosManager().createPreset("New preset " + playerConfiguration.getNbPresets(), playerConfiguration);
 
     }
 

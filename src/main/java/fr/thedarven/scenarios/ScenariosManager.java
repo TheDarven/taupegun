@@ -9,7 +9,7 @@ import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.scenarios.kits.*;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
-import fr.thedarven.scenarios.players.presets.InventoryPlayersPreset;
+import fr.thedarven.scenarios.players.presets.*;
 import fr.thedarven.scenarios.teams.InventoryCreateTeam;
 import fr.thedarven.scenarios.teams.InventoryTeams;
 import fr.thedarven.scenarios.teams.InventoryTeamsColor;
@@ -17,10 +17,7 @@ import fr.thedarven.scenarios.teams.InventoryTeamsRandom;
 import fr.thedarven.utils.FileHelper;
 import org.bukkit.Material;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ScenariosManager {
 
@@ -195,6 +192,50 @@ public class ScenariosManager {
 			this.playersConfigurations.put(uuid, new PlayerConfiguration(uuid, this));
 		}
 		return this.playersConfigurations.get(uuid);
+	}
+
+	public boolean createPreset(String name, PlayerConfiguration playerConfiguration) {
+		if (!playerConfiguration.isPresetAmountLimit() || playerConfiguration.isUsedPresetName(name)) {
+			return false;
+		}
+		Preset newPreset = new Preset(name, this, playerConfiguration.getNbPresets());
+		playerConfiguration.addPreset(newPreset);
+		createInventoryOfPreset(newPreset, playerConfiguration);
+		return true;
+	}
+
+	public void removePreset(Preset preset, PlayerConfiguration playerConfiguration) {
+		if (playerConfiguration.removePreset(preset)) {
+			for (Preset otherPresets: playerConfiguration.getPresets()) {
+				if (otherPresets.getIndex() > preset.getIndex()) {
+					otherPresets.setIndex(otherPresets.getIndex() - 1);
+				}
+			}
+		}
+
+		InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
+		inventory.removePresetInventories(preset);
+	}
+
+
+	public void initInventoryOfPlayer(PlayerConfiguration playerConfiguration) {
+		// TODO Create creation inv here
+		InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
+		if (Objects.nonNull(inventory)) {
+			playerConfiguration.getPresets().forEach(preset -> createInventoryOfPreset(preset, playerConfiguration));
+			new InventoryCreatePreset(this.main, inventory, playerConfiguration);
+		}
+	}
+
+	public void createInventoryOfPreset(Preset preset, PlayerConfiguration playerConfiguration) {
+		InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
+
+		new InventoryLoadPreset(this.main, preset, inventory);
+		new InventoryDeletePreset(this.main, inventory, playerConfiguration, preset);
+	}
+
+	public InventoryPlayersElementPreset getInventoryPlayersElementPreset(PlayerConfiguration playerConfiguration) {
+		return (InventoryPlayersElementPreset) this.saveConfigurationMenu.getInventoryOfUuid(playerConfiguration.getUuid());
 	}
 
 	private void loadPlayersConfigurations() {

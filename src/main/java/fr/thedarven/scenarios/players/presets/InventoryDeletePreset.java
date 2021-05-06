@@ -28,11 +28,8 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
         /* Map<String, String> params = new HashMap<>();
         params.put("teamName", "§e§l" + team.getName() + "§r§a");
         Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params)); */
-
         // TODO Send message on delete
-
-        this.playerConfiguration.removePreset(this.preset);
-
+        this.main.getScenariosManager().removePreset(this.preset, this.playerConfiguration);
         player.openInventory(getParent().getInventory());
     }
 

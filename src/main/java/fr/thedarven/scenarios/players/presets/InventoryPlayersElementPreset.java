@@ -17,16 +17,11 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
     public InventoryPlayersElementPreset(TaupeGun main, int pLines, Material pMaterial, InventoryGUI pParent, UUID owner, InventoryPlayersPreset clusterParent) {
         super(main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.", "MENU_PRESET", pLines, pMaterial, pParent, owner, clusterParent);
         this.playerConfiguration = this.main.getScenariosManager().getPlayerConfiguration(this.owner);
-        createChildsInventory();
+        this.main.getScenariosManager().initInventoryOfPlayer(this.playerConfiguration);
         reloadInventory();
     }
 
-    private void createChildsInventory() {
-        new InventoryCreatePreset(this.main, this, this.playerConfiguration);
-        playerConfiguration.createInventoryOfPresets();
-    }
-
-    public void removePreset(Preset preset) {
+    public void removePresetInventories(Preset preset) {
         getChildsValue()
                 .forEach(child -> {
                     if (child instanceof InventoryLoadPreset) {
