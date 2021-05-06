@@ -46,27 +46,6 @@ public class PlayerConfiguration implements Serializable {
         return this.presets;
     }
 
-    /* public Optional<Preset> createPreset(String name) {
-        if (!isPresetAmountLimit() || isUsedPresetName(name)) {
-            return Optional.empty();
-        }
-        Preset newPreset = new Preset(name, this.manager, getNbPresets());
-        this.presets.add(newPreset);
-        createInventoryOfPreset(newPreset);
-        return Optional.of(newPreset);
-    } */
-
-    /* public void removePreset(Preset preset) {
-        this.presets.remove(preset);
-        getInventoryPlayersElementPreset().removePreset(preset);
-        for (Preset p: this.presets) {
-            if (p.getIndex() > preset.getIndex()) {
-                p.setIndex(p.getIndex() - 1);
-            }
-        }
-        getInventoryPlayersElementPreset().reloadInventory();
-    } */
-
     public boolean isPresetAmountLimit() {
         return NB_MAX_PRESETS > getNbPresets();
     }
@@ -74,19 +53,4 @@ public class PlayerConfiguration implements Serializable {
     public boolean isUsedPresetName(String name) {
         return this.presets.stream().anyMatch(preset -> preset.getName().equalsIgnoreCase(name));
     }
-
-    /* public void createInventoryOfPresets() {
-        this.presets.forEach(this::createInventoryOfPreset);
-    }
-
-    public void createInventoryOfPreset(Preset preset) {
-        InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset();
-
-        new InventoryLoadPreset(this.manager.getMain(), preset, inventory);
-        new InventoryDeletePreset(this.manager.getMain(), inventory, this, preset);
-    } */
-
-    /* public InventoryPlayersElementPreset getInventoryPlayersElementPreset() {
-        return (InventoryPlayersElementPreset) this.manager.saveConfigurationMenu.getInventoryOfUuid(this.uuid);
-    }*/
 }
