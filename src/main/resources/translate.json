@@ -290,6 +290,26 @@
 			}
 		}
 	},
+	{
+		"title": "PRESET",
+		"translations": {
+			"fr_FR": {
+				"tooManyPresets": "Vous ne pouvez pas avoir plus de 9 presets.",
+				"createKitDefaultName": "Nom du preset",
+				"nameTooLong": "Le nom du preset ne doit pas dépasser 16 caractères.",
+				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre preset.",
+				"create": "Le preset {presetName} a été créé avec succès."
+			},
+			"en_US": {
+				"tooManyPresets": "You cannot create more than 9 presets.",
+				"createKitDefaultName": "Preset's name",
+				"nameTooLong": "The preset's name cannot exceed 16 characters.",
+				"nameAlreadyUsed": "The name has already been used for another preset.",
+				"create": "The {presetName} preset has been successfully created."
+			}
+		}
+	},
+
 
 
 	{
@@ -400,7 +420,57 @@
 			}
 		}
 	},
-	
+
+	{
+		"title": "MENU_PRESET",
+		"translations": {
+			"fr_FR": {
+				"name": "Configurations sauvegardées",
+				"description": "Pour sauvegarder et charger ses configurations personnelles."
+			},
+			"en_US": {
+				"name": "Configurations sauvegardées",
+				"description": "Pour sauvegarder et charger ses configurations personnelles."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ADD",
+		"translations": {
+			"fr_FR": {
+				"name": "Ajouter un preset",
+				"description": "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur."
+			},
+			"en_US": {
+				"name": "Ajouter un preset",
+				"description": "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ITEM",
+		"translations": {
+			"fr_FR": {
+				"description": "Charger le preset."
+			},
+			"en_US": {
+				"description": "Charger le preset."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ITEM_DELETE",
+		"translations": {
+			"fr_FR": {
+				"title": "Supprimer le preset"
+			},
+			"en_US": {
+				"title": "Supprimer le preset"
+			}
+		}
+	},
+
+
 
 	{
 		"title": "MENU_TEAM",

@@ -18,7 +18,7 @@ public class InventoryLoadPreset extends InventoryAction implements AdminConfigu
     private final Preset preset;
 
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset pParent) {
-        super(main, preset.getName(), "Charger le preset", "MENU_PRESET_ITEM", 1, Material.DIRT, pParent);
+        super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", 1, Material.DIRT, pParent);
         this.preset = preset;
         this.getParent().reloadInventory();
     }

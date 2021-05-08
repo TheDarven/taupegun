@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 public class InventoryCreateTeam extends InventoryAction implements AdminConfiguration {
 
-    private static String TOO_MUCH_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
+    private static String TOO_MANY_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
     private static String CREATE_TEAM = "Choix du nom";
 
     public InventoryCreateTeam(TaupeGun main, InventoryGUI parent) {
@@ -27,7 +27,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
     @Override
     public void updateLanguage(String language) {
         CREATE_TEAM = LanguageBuilder.getContent("TEAM", "nameChoice", language, true);
-        TOO_MUCH_TEAM = LanguageBuilder.getContent("TEAM", "tooManyTeams", language, true);
+        TOO_MANY_TEAM = LanguageBuilder.getContent("TEAM", "tooManyTeams", language, true);
 
         super.updateLanguage(language);
     }
@@ -38,7 +38,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
 
         LanguageBuilder languageTeam = LanguageBuilder.getLanguageBuilder("TEAM");
         languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameChoice", CREATE_TEAM);
-        languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "tooManyTeams", TOO_MUCH_TEAM);
+        languageTeam.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "tooManyTeams", TOO_MANY_TEAM);
 
         return languageElement;
     }
@@ -48,7 +48,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
         if (TeamCustom.board.getTeams().size() < 36) {
             addTeamAction(player, pl);
         } else {
-            Title.sendActionBar(player, ChatColor.RED + TOO_MUCH_TEAM);
+            Title.sendActionBar(player, ChatColor.RED + TOO_MANY_TEAM);
             player.closeInventory();
         }
     }

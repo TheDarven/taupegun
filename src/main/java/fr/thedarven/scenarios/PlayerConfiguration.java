@@ -47,7 +47,7 @@ public class PlayerConfiguration implements Serializable {
     }
 
     public boolean isPresetAmountLimit() {
-        return NB_MAX_PRESETS > getNbPresets();
+        return NB_MAX_PRESETS <= getNbPresets();
     }
 
     public boolean isUsedPresetName(String name) {

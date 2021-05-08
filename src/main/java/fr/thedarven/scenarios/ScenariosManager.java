@@ -195,7 +195,7 @@ public class ScenariosManager {
 	}
 
 	public boolean createPreset(String name, PlayerConfiguration playerConfiguration) {
-		if (!playerConfiguration.isPresetAmountLimit() || playerConfiguration.isUsedPresetName(name)) {
+		if (playerConfiguration.isPresetAmountLimit() || playerConfiguration.isUsedPresetName(name)) {
 			return false;
 		}
 		Preset newPreset = new Preset(name, this, playerConfiguration.getNbPresets());

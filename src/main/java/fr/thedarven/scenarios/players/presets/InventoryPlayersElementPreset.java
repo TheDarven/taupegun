@@ -48,7 +48,7 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
                 modifiyPosition(inv, ((InventoryLoadPreset) inv).getPreset().getIndex());
             } else if (inv instanceof InventoryDeletePreset) {
                 modifiyPosition(inv, ((InventoryDeletePreset) inv).getPreset().getIndex() + PlayerConfiguration.NB_MAX_PRESETS);
-            } else if (this.playerConfiguration.isPresetAmountLimit()){
+            } else if (!this.playerConfiguration.isPresetAmountLimit()){
                 modifiyPosition(inv,nbPresets);
             }
         }

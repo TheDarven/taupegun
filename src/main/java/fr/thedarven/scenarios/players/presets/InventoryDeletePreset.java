@@ -13,7 +13,7 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
     private final Preset preset;
 
     public InventoryDeletePreset(TaupeGun main, InventoryPlayersElementPreset parent, PlayerConfiguration playerConfiguration, Preset preset) {
-        super(main, parent, "Supprimer", "MENU_PRESET_ITEM_DELETE", 1);
+        super(main, parent, "Supprimer le preset", "MENU_PRESET_ITEM_DELETE", 1);
         this.playerConfiguration = playerConfiguration;
         this.preset = preset;
         this.getParent().reloadInventory();
