@@ -1,14 +1,11 @@
 package fr.thedarven.teams;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerCustom;
-import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.scenarios.teams.InventoryDeleteTeams;
-import fr.thedarven.scenarios.teams.InventoryTeamsElement;
-import fr.thedarven.scenarios.teams.InventoryTeamsParameters;
-import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
+import fr.thedarven.players.PlayerCustom;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.scenarios.teams.element.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -56,7 +53,9 @@ public class TeamCustom {
 		this.alive = pAlive;
 		
 		InventoryTeamsElement inv = new InventoryTeamsElement(TaupeGun.getInstance(), name, colorEnum);
-		new InventoryTeamsParameters(TaupeGun.getInstance(), inv);
+		InventoryTeamsParameters parameters = new InventoryTeamsParameters(TaupeGun.getInstance(), inv);
+		new InventoryTeamsChangeColor(TaupeGun.getInstance(), parameters);
+		new InventoryTeamsRename(TaupeGun.getInstance(), parameters);
 		new InventoryTeamsPlayers(TaupeGun.getInstance(), inv);
 		new InventoryDeleteTeams(TaupeGun.getInstance(), inv);
 		

@@ -27,6 +27,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
         super(main, "Ajouter un preset", "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur.",
                 "MENU_PRESET_ADD", 1, Material.BOOK, parent);
         this.playerConfiguration = playerConfiguration;
+        updateLanguage(getLanguage());
     }
 
     @Override

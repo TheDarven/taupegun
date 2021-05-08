@@ -143,11 +143,9 @@
 		"title": "TEAM",
 		"translations": {
 			"fr_FR": {
-				"changeName": "Changer le nom",
 				"nameChoice": "Choix du nom",
 				"nameTooLong": "Le nom de l'équipe ne doit pas dépasser 16 caractères.",
 				"tooManyTeams": "Vous ne pouvez pas créer plus de 36 équipes.",
-				"changeColor": "Changer la couleur",
 				"create": "L'équipe {teamName} a été créée avec succès.",
 				"delete": "L'équipe {teamName} a été supprimée avec succès.",
 				"full": "L'équipe {teamName} est déjà complète.",
@@ -166,11 +164,9 @@
 				"superMoleTeamName": "SuperTaupe"
 			},
 			"en_US": {
-				"changeName": "Change the name",
 				"nameChoice": "Name choice",
 				"nameTooLong": "The team's name cannot exceed 16 characters.",
 				"tooManyTeams": "You cannot create more than 36 teams.",
-				"changeColor": "Change color",
 				"create": "The {teamName} team has been successfully created.",
 				"delete": "The {teamName} team has been successfully deleted.",
 				"full": "The {teamName} team is already full.",
@@ -295,17 +291,23 @@
 		"translations": {
 			"fr_FR": {
 				"tooManyPresets": "Vous ne pouvez pas avoir plus de 9 presets.",
-				"createKitDefaultName": "Nom du preset",
+				"createPresetDefaultName": "Nom du preset",
 				"nameTooLong": "Le nom du preset ne doit pas dépasser 16 caractères.",
 				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre preset.",
-				"create": "Le preset {presetName} a été créé avec succès."
+				"create": "Le preset {presetName} a été créé avec succès.",
+				"delete": "Votre preset {presetName} a été supprimé avec succès.",
+				"load": "Le preset {presetName} a été chargé avec succès.",
+				"update": "Le preset {presetName} a été modifié avec succès."
 			},
 			"en_US": {
 				"tooManyPresets": "You cannot create more than 9 presets.",
-				"createKitDefaultName": "Preset's name",
+				"createPresetDefaultName": "Preset's name",
 				"nameTooLong": "The preset's name cannot exceed 16 characters.",
 				"nameAlreadyUsed": "The name has already been used for another preset.",
-				"create": "The {presetName} preset has been successfully created."
+				"create": "The {presetName} preset has been successfully created.",
+				"delete": "The {presetName} preset has been successfully deleted.",
+				"load": "Le preset {presetName} a été chargé avec succès.",
+				"update": "Le preset {presetName} a été modifié avec succès."
 			}
 		}
 	},
@@ -550,6 +552,46 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_TEAM_ITEM_PARAMETER_COLOR",
+		"translations": {
+			"fr_FR": {
+				"name": "Changer la couleur",
+				"description": "En développement."
+			},
+			"en_US": {
+				"name": "Change color",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ITEM_PARAMETER_RENAME",
+		"translations": {
+			"fr_FR": {
+				"name": "Changer la couleur",
+				"description": "En développement."
+			},
+			"en_US": {
+				"name": "Change color",
+				"description": ""
+			}
+		}
+	},
+	{
+	"title": "MENU_TEAM_ITEM_PARAMETER_RENAME",
+		"translations": {
+			"fr_FR": {
+				"name": "Changer le nom",
+				"description": "En développement."
+			},
+			"en_US": {
+				"name": "Change the name",
+				"description": ""
+			}
+		}
+	},
+
 	{
 		"title": "MENU_TEAM_ITEM_ADD_PLAYER",
 		"translations": {

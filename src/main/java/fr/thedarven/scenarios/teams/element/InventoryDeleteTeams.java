@@ -1,4 +1,4 @@
-package fr.thedarven.scenarios.teams;
+package fr.thedarven.scenarios.teams.element;
 
 import java.util.HashMap;
 import java.util.Map;

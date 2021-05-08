@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import fr.thedarven.scenarios.teams.InventoryTeamsPlayers;
+import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;

@@ -1,4 +1,4 @@
-package fr.thedarven.scenarios.teams;
+package fr.thedarven.scenarios.teams.element;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;

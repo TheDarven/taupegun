@@ -24,6 +24,7 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
         super(main, parent, "Supprimer le preset", "MENU_PRESET_ITEM_DELETE", 1);
         this.playerConfiguration = playerConfiguration;
         this.preset = preset;
+        updateLanguage(getLanguage());
         this.getParent().reloadInventory();
     }
 

@@ -22,6 +22,7 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
 
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", Material.DIRT, preset, parent);
+        updateLanguage(getLanguage());
         this.getParent().reloadInventory();
     }
 

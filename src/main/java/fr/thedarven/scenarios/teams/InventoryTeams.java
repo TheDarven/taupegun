@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.InventoryIncrement;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.teams.element.InventoryTeamsElement;
 import org.bukkit.Material;
 
 import java.util.concurrent.atomic.AtomicInteger;
