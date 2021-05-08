@@ -1,10 +1,12 @@
 package fr.thedarven.scenarios.childs;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.items.ItemManager;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
+import fr.thedarven.scenarios.helper.StorablePreset;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,7 +14,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class InventoryStartItem extends InventoryGUI implements AdminConfiguration, InventoryGiveItem {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class InventoryStartItem extends InventoryGUI implements AdminConfiguration, InventoryGiveItem, StorablePreset {
 
 	public InventoryStartItem(TaupeGun main, InventoryGUI parent) {
 		super(main,"Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 7);
@@ -63,5 +69,37 @@ public class InventoryStartItem extends InventoryGUI implements AdminConfigurati
 
 		e.setCancelled(false);
 	}
-	
+
+	@Override
+	public Object getPresetValue() {
+		Inventory currentInventory = this.getInventory();
+		List<String> items = new ArrayList<>();
+		ItemManager itemManager = this.main.getItemManager();
+
+		for (int i = 0; i < 45; i++) {
+			if ((i > 9 || i < 4) && Objects.nonNull(currentInventory.getItem(i)) && currentInventory.getItem(i).getType() != Material.AIR) {
+				items.add(itemManager.toBase64(currentInventory.getItem(i)));
+			} else {
+				items.add(null);
+			}
+		}
+		return items;
+	}
+
+	@Override
+	public void setPresetValue(Object value) {
+		Inventory currentInventory = this.getInventory();
+		ItemManager itemManager = this.main.getItemManager();
+
+		if (value instanceof List) {
+			List<String> values = (ArrayList<String>) value;
+			int index = 0;
+			for (String item: values) {
+				if (Objects.nonNull(item)) {
+					currentInventory.setItem(index, itemManager.fromBase64(item));
+				}
+				index++;
+			}
+		}
+	}
 }
