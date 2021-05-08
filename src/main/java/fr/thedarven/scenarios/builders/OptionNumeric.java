@@ -1,29 +1,27 @@
 package fr.thedarven.scenarios.builders;
 
-import java.util.*;
-
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.helper.AdminConfiguration;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.helper.NumericHelper;
+import fr.thedarven.scenarios.helper.StorablePreset;
 import fr.thedarven.utils.TextInterpreter;
-
+import fr.thedarven.utils.languages.LanguageBuilder;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import net.md_5.bungee.api.ChatColor;
+import java.util.*;
 
-public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
+public class OptionNumeric extends InventoryGUI implements AdminConfiguration, StorablePreset {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -109,7 +107,17 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 		initItem(pMaterial);
 		reloadItem();
 	}
-	
+
+	public void setValue(int value) {
+		if (value < min) {
+			value = min;
+		} else if (value > max) {
+			value = max;
+		}
+		this.value = value;
+		reloadItem();
+	}
+
 	/**
 	 * Pour avoir la valeur multiplié par son facteur
 	 * 
@@ -377,21 +385,22 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration {
 		}
 
 		if (operation == 1) {
-			if (this.min < this.value - number) {
-				this.value = this.value - number;
-			} else {
-				this.value = this.min;
-			}
-			reloadItem();
+			setValue(this.value - number);
 		} else if (operation == 2) {
-			if (this.max > this.value + number) {
-				this.value = this.value + number;
-			} else {
-				this.value = this.max;
-			}
-			reloadItem();
+			setValue(this.value + number);
 		}
 		delayClick(pl);
 	}
 
+	@Override
+	public Object getPresetValue() {
+		return this.value;
+	}
+
+	@Override
+	public void setPresetValue(Object value) {
+		if (value instanceof Integer) {
+			setValue((Integer) value);
+		}
+	}
 }

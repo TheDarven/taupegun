@@ -30,8 +30,7 @@ public class OwnTeam extends OptionBoolean {
 
 	@Override
 	protected void setValue(boolean value) {
-		this.value = value;
-		reloadItem();
+		super.setValue(value);
 		if (this.value) {
 			Bukkit.getOnlinePlayers().forEach(this::giveBanner);
 		} else {

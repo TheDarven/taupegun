@@ -223,7 +223,6 @@ public class ScenariosManager {
 
 
 	public void initInventoryOfPlayer(PlayerConfiguration playerConfiguration) {
-		// TODO Create creation inv here
 		InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
 		if (Objects.nonNull(inventory)) {
 			playerConfiguration.getPresets().forEach(preset -> createInventoryOfPreset(preset, playerConfiguration));
@@ -249,6 +248,8 @@ public class ScenariosManager {
 		inventoriesGUI.stream()
 				.filter(inventory -> inventory instanceof StorablePreset)
 				.forEach(inventory -> values.put(inventory.getTranslationName(), ((StorablePreset) inventory).getPresetValue()));
+
+		// TODO Items + kits
 
 		return values;
 	}
