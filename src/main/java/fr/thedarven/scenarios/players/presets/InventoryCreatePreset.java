@@ -24,8 +24,8 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     private final PlayerConfiguration playerConfiguration;
 
     public InventoryCreatePreset(TaupeGun main, InventoryPlayersElementPreset parent, PlayerConfiguration playerConfiguration) {
-        super(main, "Ajouter un preset", "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur.", "MENU_PRESET_ADD", 1, Material.ANVIL,
-                parent);
+        super(main, "Ajouter un preset", "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur.",
+                "MENU_PRESET_ADD", 1, Material.BOOK, parent);
         this.playerConfiguration = playerConfiguration;
     }
 
