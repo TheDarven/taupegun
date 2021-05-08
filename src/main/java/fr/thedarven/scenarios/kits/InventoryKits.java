@@ -79,8 +79,7 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 			final InventoryKits parent = this;
 
 			new AnvilGUI(this.main, player, (menu, text) -> {
-				pl.setCreateKitName(text);
-				new CreateKitRunnable(this.main, player, pl, parent).runTask(this.main);
+				new CreateKitRunnable(this.main, player, pl, parent, text).runTask(this.main);
 				return true;
 			}).setInputName(CREATE_KIT_NAME_FORMAT).open();
 			return;

@@ -20,38 +20,37 @@ public class CreateKitRunnable extends BukkitRunnable {
     private final PlayerTaupe pl;
     private final Player player;
     private final InventoryKits kitsMenu;
+    private final String kitName;
 
-    public CreateKitRunnable(TaupeGun main, Player player, PlayerTaupe pl, InventoryKits kitsMenu) {
+    public CreateKitRunnable(TaupeGun main, Player player, PlayerTaupe pl, InventoryKits kitsMenu, String kitName) {
         this.main = main;
         this.player = player;
         this.pl = pl;
         this.kitsMenu = kitsMenu;
+        this.kitName = kitName;
     }
 
     @Override
     public void run() {
-        if (this.pl.getCreateKitName().length() > 16){
+        if (this.kitName.length() > 16) {
             this.player.closeInventory();
             Title.sendActionBar(this.player, "§c" + InventoryKits.TOO_LONG_NAME_FORMAT);
-            this.pl.setCreateKitName(null);
             return;
         }
 
-        InventoryKitsElement matchedKit = InventoryKitsElement.getInventoryKitElement(this.pl.getCreateKitName());
-        if(Objects.nonNull(matchedKit)) {
+        InventoryKitsElement matchedKit = InventoryKitsElement.getInventoryKitElement(this.kitName);
+        if (Objects.nonNull(matchedKit)) {
             this.player.openInventory(this.kitsMenu.getInventory());
             Title.sendActionBar(this.player, "§c" + InventoryKits.NAME_ALREADY_USED_FORMAT);
-            this.pl.setCreateKitName(null);
             return;
         }
 
-        InventoryKitsElement kit = new InventoryKitsElement(this.main, this.pl.getCreateKitName(), this.kitsMenu);
+        InventoryKitsElement kit = new InventoryKitsElement(this.main, kitName, this.kitsMenu);
         new InventoryDeleteKits(this.main, kit);
 
         Map<String, String> params = new HashMap<>();
-        params.put("kitName", "§e§l" + this.pl.getCreateKitName() + "§r§a");
+        params.put("kitName", "§e§l" + this.kitName + "§r§a");
         Title.sendActionBar(this.player, TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params));
-        pl.setCreateKitName(null);
         this.player.openInventory(this.kitsMenu.getLastChild().getInventory());
     }
 

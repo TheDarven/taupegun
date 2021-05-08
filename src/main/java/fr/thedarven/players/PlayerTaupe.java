@@ -1,7 +1,5 @@
 package fr.thedarven.players;
 
-import java.util.*;
-
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.runnable.PlayerRunnable;
@@ -10,10 +8,10 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class PlayerTaupe extends PlayerCustom {
 
@@ -36,7 +34,6 @@ public class PlayerTaupe extends PlayerCustom {
 
 	private boolean canClick;
 	private String createTeamName;
-	private String createKitName;
 
 	public PlayerTaupe(UUID playerUuid) {
 		super(playerUuid);
@@ -62,7 +59,6 @@ public class PlayerTaupe extends PlayerCustom {
 		this.claim = "aucun";
 		this.canClick = true;
 		this.createTeamName = null;
-		this.createKitName = null;
 
 		if (!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
 			this.alive = false;
@@ -246,20 +242,12 @@ public class PlayerTaupe extends PlayerCustom {
 		return createTeamName;
 	}
 
-	public String getCreateKitName() {
-		return createKitName;
-	}
-
 	public void setCanClick(boolean pCanClick) {
 		this.canClick = pCanClick;
 	}
 
 	public void setCreateTeamName(String pName) {
 		createTeamName = pName;
-	}
-
-	public void setCreateKitName(String pName) {
-		createKitName = pName;
 	}
 
 	public static PlayerTaupe getPlayerTaupeByName(String name) {
