@@ -115,7 +115,7 @@ public class ScenariosManager {
 		this.kitsMenu = new InventoryKits(this.main, menu);
 		this.teamsMenu = new InventoryTeams(this.main, menu);
 		this.startItem = new InventoryStartItem(this.main, menu);
-		this.saveConfigurationMenu = new InventoryPlayersPreset(this.main,4, Material.PISTON_BASE, menu, 8);
+		this.saveConfigurationMenu = new InventoryPlayersPreset(this.main, 5, Material.PISTON_BASE, menu, 8);
 
 		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
 		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
@@ -231,6 +231,8 @@ public class ScenariosManager {
 		InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
 
 		new InventoryLoadPreset(this.main, preset, inventory);
+		new InventoryRenamePreset(this.main, preset, inventory);
+		new InventoryUpdatePreset(this.main, preset, inventory);
 		new InventoryDeletePreset(this.main, inventory, playerConfiguration, preset);
 	}
 

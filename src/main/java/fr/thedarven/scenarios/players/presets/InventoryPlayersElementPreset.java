@@ -24,12 +24,8 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
     public void removePresetInventories(Preset preset) {
         getChildsValue()
                 .forEach(child -> {
-                    if (child instanceof InventoryLoadPreset) {
-                        if (((InventoryLoadPreset) child).getPreset() == preset) {
-                            removeChild(child);
-                        }
-                    } else if (child instanceof InventoryDeletePreset) {
-                        if (((InventoryDeletePreset) child).getPreset() == preset) {
+                    if (child instanceof InventoryPresetAction) {
+                        if (((InventoryPresetAction) child).getPreset() == preset) {
                             removeChild(child);
                         }
                     }
@@ -46,8 +42,12 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
         for (InventoryGUI inv : getChildsValue()) {
             if (inv instanceof InventoryLoadPreset) {
                 modifiyPosition(inv, ((InventoryLoadPreset) inv).getPreset().getIndex());
+            } else if (inv instanceof InventoryRenamePreset) {
+                modifiyPosition(inv, ((InventoryRenamePreset) inv).getPreset().getIndex() + PlayerConfiguration.NB_MAX_PRESETS * 2);
+            } else if (inv instanceof InventoryUpdatePreset) {
+                modifiyPosition(inv, ((InventoryUpdatePreset) inv).getPreset().getIndex() + PlayerConfiguration.NB_MAX_PRESETS);
             } else if (inv instanceof InventoryDeletePreset) {
-                modifiyPosition(inv, ((InventoryDeletePreset) inv).getPreset().getIndex() + PlayerConfiguration.NB_MAX_PRESETS);
+                modifiyPosition(inv, ((InventoryDeletePreset) inv).getPreset().getIndex() + PlayerConfiguration.NB_MAX_PRESETS * 3);
             } else if (!this.playerConfiguration.isPresetAmountLimit()){
                 modifiyPosition(inv,nbPresets);
             }

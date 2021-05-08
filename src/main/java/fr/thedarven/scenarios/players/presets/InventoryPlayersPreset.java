@@ -15,11 +15,12 @@ import java.util.UUID;
 public class InventoryPlayersPreset extends InventoryPlayers implements AdminConfiguration {
 
     public InventoryPlayersPreset(TaupeGun main, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition) {
-        super(main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.", "MENU_PRESET", pLines, pMaterial, pParent, pPosition);
+        super(main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.",
+                "MENU_PRESET", pLines, pMaterial, pParent, pPosition);
     }
 
     protected InventoryPlayersElement createElement(UUID uuid) {
-        return new InventoryPlayersElementPreset(this.main, 4, Material.DIRT, this, uuid, this);
+        return new InventoryPlayersElementPreset(this.main, this.getLines(), Material.DIRT, this, uuid, this);
     }
 
     @Override
