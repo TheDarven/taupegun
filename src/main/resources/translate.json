@@ -306,8 +306,8 @@
 				"nameAlreadyUsed": "The name has already been used for another preset.",
 				"create": "The {presetName} preset has been successfully created.",
 				"delete": "The {presetName} preset has been successfully deleted.",
-				"load": "Le preset {presetName} a été chargé avec succès.",
-				"update": "Le preset {presetName} a été modifié avec succès."
+				"load": "The preset {presetName} has been successfully loaded.",
+				"update": "The preset {presetName} has been successfully modified."
 			}
 		}
 	},
@@ -431,8 +431,8 @@
 				"description": "Pour sauvegarder et charger ses configurations personnelles."
 			},
 			"en_US": {
-				"name": "Configurations sauvegardées",
-				"description": "Pour sauvegarder et charger ses configurations personnelles."
+				"name": "Saved presets",
+				"description": "Save and load your own custom presets."
 			}
 		}
 	},
@@ -444,8 +444,8 @@
 				"description": "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur."
 			},
 			"en_US": {
-				"name": "Ajouter un preset",
-				"description": "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur."
+				"name": "Create a preset",
+				"description": "Save current configuration. It will be reusable after a server restart."
 			}
 		}
 	},
@@ -456,7 +456,7 @@
 				"description": "Charger le preset."
 			},
 			"en_US": {
-				"description": "Charger le preset."
+				"description": "Load preset."
 			}
 		}
 	},
@@ -467,7 +467,33 @@
 				"title": "Supprimer le preset"
 			},
 			"en_US": {
-				"title": "Supprimer le preset"
+				"title": "Delete the preset"
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_RENAME",
+		"translations": {
+			"fr_FR": {
+				"title": "Renommer le preset",
+				"description": "En développement."
+			},
+			"en_US": {
+				"title": "Delete the preset",
+				"description": "Under development."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_UPDATE",
+		"translations": {
+			"fr_FR": {
+				"title": "Modifier le preset",
+				"description": "Permet de remplacer le preset sauvegardé par la configuration actuelle."
+			},
+			"en_US": {
+				"title": "Modify preset",
+				"description": "Replace saved preset with your current configuration."
 			}
 		}
 	},
@@ -561,7 +587,7 @@
 			},
 			"en_US": {
 				"name": "Change color",
-				"description": ""
+				"description": "Under development."
 			}
 		}
 	},
@@ -569,29 +595,17 @@
 		"title": "MENU_TEAM_ITEM_PARAMETER_RENAME",
 		"translations": {
 			"fr_FR": {
-				"name": "Changer la couleur",
-				"description": "En développement."
-			},
-			"en_US": {
-				"name": "Change color",
-				"description": ""
-			}
-		}
-	},
-	{
-	"title": "MENU_TEAM_ITEM_PARAMETER_RENAME",
-		"translations": {
-			"fr_FR": {
 				"name": "Changer le nom",
 				"description": "En développement."
 			},
 			"en_US": {
 				"name": "Change the name",
-				"description": ""
+				"description": "Under development."
 			}
 		}
 	},
 
+	
 	{
 		"title": "MENU_TEAM_ITEM_ADD_PLAYER",
 		"translations": {
