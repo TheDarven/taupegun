@@ -1,9 +1,9 @@
 package fr.thedarven.scenarios.helper;
 
-public interface StorablePreset<T> {
+public interface StorablePreset {
 
-    T getPresetValue();
+    Object getPresetValue();
 
-    void setPresetValue(T value);
+    void setPresetValue(Object value);
 
 }

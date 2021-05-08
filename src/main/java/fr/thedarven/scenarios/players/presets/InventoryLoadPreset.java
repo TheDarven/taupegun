@@ -4,18 +4,42 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.Preset;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class InventoryLoadPreset extends InventoryPresetAction implements AdminConfiguration {
 
+    private static String LOAD_PRESET = "Le preset {presetName} a été chargé avec succès.";
+
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", Material.DIRT, preset, parent);
         this.getParent().reloadInventory();
+    }
+
+    @Override
+    public void updateLanguage(String language) {
+        LOAD_PRESET = LanguageBuilder.getContent("PRESET", "load", language, true);
+
+        super.updateLanguage(language);
+    }
+
+    @Override
+    protected LanguageBuilder initDefaultTranslation() {
+        LanguageBuilder languageElement = super.initDefaultTranslation();
+
+        LanguageBuilder languagePreset = LanguageBuilder.getLanguageBuilder("PRESET");
+        languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "load", LOAD_PRESET);
+
+        return languageElement;
     }
 
     /**
@@ -35,6 +59,10 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
 
     @Override
     protected void action(Player player, PlayerTaupe pl) {
-        // TODO Select the preset
+        Map<String, String> params = new HashMap<>();
+        params.put("presetName", "§e§l" + this.preset.getName() + "§r§a");
+        Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + LOAD_PRESET, params));
+
+        this.main.getScenariosManager().setCurrentConfiguration(this.preset);
     }
 }

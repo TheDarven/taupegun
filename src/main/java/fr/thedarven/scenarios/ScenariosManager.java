@@ -6,6 +6,7 @@ import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.childs.*;
 import fr.thedarven.scenarios.helper.NumericHelper;
+import fr.thedarven.scenarios.helper.StorablePreset;
 import fr.thedarven.scenarios.kits.*;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
@@ -109,6 +110,8 @@ public class ScenariosManager {
 	}
 
 	private void initScenarios() {
+		InventoryGUI.clearElements();
+
 		this.menu = new InventoryGUI(this.main, "Menu", null, "MENU_MAIN_MENU", 1, Material.GRASS, null);
 		this.language = new InventoryLanguage(this.main, menu);
 		this.configurationMenu = new InventoryGUI(this.main, "Configuration","Menu de configuration.", "MENU_CONFIGURATION", 2, Material.ANVIL, menu, 3);
@@ -199,6 +202,7 @@ public class ScenariosManager {
 			return false;
 		}
 		Preset newPreset = new Preset(name, this, playerConfiguration.getNbPresets());
+		newPreset.setPreset(getCurrentConfiguration());
 		playerConfiguration.addPreset(newPreset);
 		createInventoryOfPreset(newPreset, playerConfiguration);
 		return true;
@@ -235,6 +239,34 @@ public class ScenariosManager {
 		new InventoryUpdatePreset(this.main, preset, inventory);
 		new InventoryDeletePreset(this.main, inventory, playerConfiguration, preset);
 	}
+
+
+
+	public Map<String, Object> getCurrentConfiguration() {
+		Map<String, Object> values = new HashMap<>();
+
+		List<InventoryGUI> inventoriesGUI = InventoryGUI.getInventoriesGUI();
+		inventoriesGUI.stream()
+				.filter(inventory -> inventory instanceof StorablePreset)
+				.forEach(inventory -> values.put(inventory.getTranslationName(), ((StorablePreset) inventory).getPresetValue()));
+
+		return values;
+	}
+
+	public void setCurrentConfiguration(Preset preset) {
+		Map<String, Object> values = preset.getValues();
+
+		List<InventoryGUI> inventoriesGUI = InventoryGUI.getInventoriesGUI();
+		inventoriesGUI.stream()
+				.filter(inventory -> inventory instanceof StorablePreset)
+				.forEach(inventory -> {
+					if (values.containsKey(inventory.getTranslationName())) {
+						((StorablePreset) inventory).setPresetValue(values.get(inventory.getTranslationName()));
+					}
+				});
+	}
+
+
 
 	public InventoryPlayersElementPreset getInventoryPlayersElementPreset(PlayerConfiguration playerConfiguration) {
 		return (InventoryPlayersElementPreset) this.saveConfigurationMenu.getInventoryOfUuid(playerConfiguration.getUuid());

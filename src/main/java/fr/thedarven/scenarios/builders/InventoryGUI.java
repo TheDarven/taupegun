@@ -30,7 +30,7 @@ public class InventoryGUI extends InventoryBuilder {
 	private static final String ANSI_RESET = "\u001B[0m";
 	private static final String ANSI_RED = "\u001B[0;31m";
 
-	private static final Map<Inventory, InventoryGUI> elements = new LinkedHashMap<>();
+	private static Map<Inventory, InventoryGUI> elements = new LinkedHashMap<>();
 
 	protected Inventory inventory;
 	protected Map<Integer, InventoryGUI> childs = new LinkedHashMap<>();
@@ -433,5 +433,13 @@ public class InventoryGUI extends InventoryBuilder {
 	 */
 	protected boolean canOpenInventory(InventoryGUI inventoryGUI, Player player) {
 		return !(inventoryGUI instanceof AdminConfiguration) || inventoryGUI.click(player, EnumConfiguration.OPTION);
+	}
+
+	public static List<InventoryGUI> getInventoriesGUI() {
+		return new ArrayList<>(elements.values());
+	}
+
+	public static void clearElements() {
+		elements = new LinkedHashMap<>();
 	}
 }

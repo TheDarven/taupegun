@@ -1,7 +1,6 @@
 package fr.thedarven.scenarios.childs;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
@@ -10,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -19,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
-public class OwnTeam extends OptionBoolean{
+public class OwnTeam extends OptionBoolean {
 
 	private static String TEAM_CHOICE = "Choix de l'équipe";
 	
@@ -29,6 +27,17 @@ public class OwnTeam extends OptionBoolean{
 		actionBanner(TEAM_CHOICE);
 	}
 
+
+	@Override
+	protected void setValue(boolean value) {
+		this.value = value;
+		reloadItem();
+		if (this.value) {
+			Bukkit.getOnlinePlayers().forEach(this::giveBanner);
+		} else {
+			Bukkit.getOnlinePlayers().forEach(this::removeBanner);
+		}
+	}
 
 
 	@Override
@@ -140,20 +149,6 @@ public class OwnTeam extends OptionBoolean{
 		bannerM.setDisplayName("§e" + TEAM_CHOICE);
 		banner.setItemMeta(bannerM);
 		player.getInventory().setItem(8, banner);
-	}
-
-	@Override
-	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-		if (this.value && e.getSlot() == 3) {
-			this.value = false;
-			super.reloadItem();
-			Bukkit.getOnlinePlayers().forEach(this::removeBanner);
-		} else if (!this.value && e.getSlot() == 5) {
-			this.value = true;
-			super.reloadItem();
-			Bukkit.getOnlinePlayers().forEach(this::giveBanner);
-		}
-		delayClick(pl);
 	}
 	
 }

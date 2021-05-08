@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Timber extends OptionBoolean{
+public class Timber extends OptionBoolean {
 	
 	public Timber(TaupeGun main, InventoryGUI parent) {
 		super(main, "Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",

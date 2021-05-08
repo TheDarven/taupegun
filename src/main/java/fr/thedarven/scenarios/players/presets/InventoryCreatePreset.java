@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class InventoryCreatePreset extends InventoryAction implements AdminConfiguration {
 
-    private String TOO_MANY_PRESET = "Vous ne pouvez pas avoir plus de 9 presets.";
+    private static String TOO_MANY_PRESET = "Vous ne pouvez pas avoir plus de 9 presets.";
     private static String DEFAULT_PRESET_NAME = "Nom du preset";
     public static String TOO_LONG_NAME_FORMAT = "Le nom du preset ne doit pas dépasser 16 caractères.";
     public static String NAME_ALREADY_USED_FORMAT = "Le nom est déjà utilisé pour un autre preset.";

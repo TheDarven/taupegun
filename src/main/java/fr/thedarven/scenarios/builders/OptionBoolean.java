@@ -1,26 +1,25 @@
 package fr.thedarven.scenarios.builders;
 
-import java.util.*;
-
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.helper.AdminConfiguration;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.helper.StorablePreset;
 import fr.thedarven.utils.TextInterpreter;
-
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
-public class OptionBoolean extends InventoryGUI implements AdminConfiguration {
+import java.util.*;
+
+public class OptionBoolean extends InventoryGUI implements AdminConfiguration, StorablePreset {
 	
 	private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
 	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
@@ -67,7 +66,12 @@ public class OptionBoolean extends InventoryGUI implements AdminConfiguration {
 		initItem(pMaterial);
 		reloadItem();
 	}
-	
+
+	protected void setValue(boolean value) {
+		this.value = value;
+		reloadItem();
+	}
+
 	/**
 	 * Pour avoir la valeur
 	 * 
@@ -221,13 +225,22 @@ public class OptionBoolean extends InventoryGUI implements AdminConfiguration {
 	@Override
 	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
 		if (e.getSlot() == 3 && this.value) {
-			this.value = false;
-			reloadItem();
+			setValue(false);
 		} else if (e.getSlot() == 5 && !this.value) {
-			this.value = true;
-			reloadItem();
+			setValue(true);
 		}
 		delayClick(pl);
 	}
 
+	@Override
+	public Object getPresetValue() {
+		return this.value;
+	}
+
+	@Override
+	public void setPresetValue(Object value) {
+		if (value instanceof Boolean) {
+			setValue((Boolean) value);
+		}
+	}
 }

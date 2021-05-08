@@ -10,7 +10,7 @@ public class Preset implements Serializable {
 
     private String name;
     private int index;
-    private final Map<String, Object> values;
+    private Map<String, Object> values;
 
     private transient ScenariosManager manager;
 
@@ -19,7 +19,6 @@ public class Preset implements Serializable {
         this.manager = manager;
         this.index = index;
         this.values = new HashMap<>();
-        updatePreset();
     }
 
     public String getName() {
@@ -34,12 +33,18 @@ public class Preset implements Serializable {
         this.index = index;
     }
 
+    public Map<String, Object> getValues() {
+        return this.values;
+    }
+
+    public void setPreset(Map<String, Object> values) {
+        this.values = values;
+    }
+
     public void setManager(ScenariosManager manager) {
         this.manager = manager;
     }
 
-    public void updatePreset() {
-        // TODO Init values of preset here
-    }
+
 
 }
