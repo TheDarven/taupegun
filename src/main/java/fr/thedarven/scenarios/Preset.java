@@ -37,7 +37,7 @@ public class Preset implements Serializable {
         return this.values;
     }
 
-    public void setPreset(Map<String, Object> values) {
+    public void setValues(Map<String, Object> values) {
         this.values = values;
     }
 

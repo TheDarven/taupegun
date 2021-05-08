@@ -202,7 +202,7 @@ public class ScenariosManager {
 			return false;
 		}
 		Preset newPreset = new Preset(name, this, playerConfiguration.getNbPresets());
-		newPreset.setPreset(getCurrentConfiguration());
+		newPreset.setValues(getCurrentConfiguration());
 		playerConfiguration.addPreset(newPreset);
 		createInventoryOfPreset(newPreset, playerConfiguration);
 		return true;

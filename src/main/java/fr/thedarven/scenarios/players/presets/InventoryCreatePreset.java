@@ -32,7 +32,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     @Override
     public void updateLanguage(String language) {
         TOO_MANY_PRESET = LanguageBuilder.getContent("PRESET", "tooManyPresets", language, true);
-        DEFAULT_PRESET_NAME = LanguageBuilder.getContent("PRESET", "createKitDefaultName", language, true);
+        DEFAULT_PRESET_NAME = LanguageBuilder.getContent("PRESET", "createPresetDefaultName", language, true);
         TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("PRESET", "nameTooLong", language, true);
         NAME_ALREADY_USED_FORMAT = LanguageBuilder.getContent("PRESET", "nameAlreadyUsed", language, true);
         PRESET_CREATE = LanguageBuilder.getContent("PRESET", "create", language, true);
@@ -46,7 +46,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
 
         LanguageBuilder languagePreset = LanguageBuilder.getLanguageBuilder("PRESET");
         languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "tooManyPresets", TOO_MANY_PRESET);
-        languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "createKitDefaultName", DEFAULT_PRESET_NAME);
+        languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "createPresetDefaultName", DEFAULT_PRESET_NAME);
         languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameTooLong", TOO_LONG_NAME_FORMAT);
         languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "nameAlreadyUsed", NAME_ALREADY_USED_FORMAT);
         languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "create", PRESET_CREATE);
