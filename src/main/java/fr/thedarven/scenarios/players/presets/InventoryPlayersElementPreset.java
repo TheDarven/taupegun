@@ -28,6 +28,10 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
                         if (((InventoryPresetAction) child).getPreset() == preset) {
                             removeChild(child);
                         }
+                    } else if (child instanceof InventoryDeletePreset) {
+                        if (((InventoryDeletePreset) child).getPreset() == preset) {
+                            removeChild(child);
+                        }
                     }
                 });
         reloadInventory();
