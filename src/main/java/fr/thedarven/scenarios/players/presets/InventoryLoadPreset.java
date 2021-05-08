@@ -3,8 +3,6 @@ package fr.thedarven.scenarios.players.presets;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.Preset;
-import fr.thedarven.scenarios.builders.InventoryAction;
-import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,18 +11,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
-public class InventoryLoadPreset extends InventoryAction implements AdminConfiguration {
+public class InventoryLoadPreset extends InventoryPresetAction implements AdminConfiguration {
 
-    private final Preset preset;
-
-    public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset pParent) {
-        super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", 1, Material.DIRT, pParent);
-        this.preset = preset;
+    public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
+        super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", Material.DIRT, preset, parent);
         this.getParent().reloadInventory();
-    }
-
-    public Preset getPreset() {
-        return this.preset;
     }
 
     /**
@@ -44,6 +35,6 @@ public class InventoryLoadPreset extends InventoryAction implements AdminConfigu
 
     @Override
     protected void action(Player player, PlayerTaupe pl) {
-        // TODO Selected preset
+        // TODO Select the preset
     }
 }
