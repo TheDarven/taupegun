@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class InventoryRenamePreset extends InventoryPresetAction implements AdminConfiguration {
 
     public InventoryRenamePreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
-        super(main, "Renommer le preset", "Permet de renommer votre preset.", "MENU_PRESET_RENAME",
+        super(main, "Renommer le preset", "En développement.", "MENU_PRESET_RENAME",
                 Material.NAME_TAG, preset, parent);
         this.getParent().reloadInventory();
     }
