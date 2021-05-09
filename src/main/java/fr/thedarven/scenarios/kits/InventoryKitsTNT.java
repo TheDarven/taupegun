@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryKitsTNT extends InventoryKitsElement {
 
 	public InventoryKitsTNT(TaupeGun main, String name, InventoryKits parent) {
-		super(main, name, parent);
+		super(main, parent, null);
 		reloadInventory();
 	}
 

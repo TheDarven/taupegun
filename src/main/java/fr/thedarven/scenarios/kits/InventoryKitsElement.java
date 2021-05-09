@@ -1,6 +1,8 @@
 package fr.thedarven.scenarios.kits;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.items.ItemManager;
+import fr.thedarven.kits.Kit;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -9,20 +11,22 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem, AdminConfiguration {
 	
-	protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
-	
-	public InventoryKitsElement(TaupeGun main, String name, InventoryKits parent) {
-		super(main, name, "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
-		kits.put(name, this);
+	// protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
+	protected final Kit kit;
+
+	public InventoryKitsElement(TaupeGun main, InventoryKits parent, Kit kit) {
+		super(main, kit.getName(), "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
+		this.kit = kit;
+		// kits.put(name, this);
 		initItem();
 		reloadItem();
 		parent.reloadInventory();
@@ -51,40 +55,33 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	 * Pour initier les items
 	 */
 	private void initItem() {
+		Inventory inventory = getInventory();
+
 		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 		ItemMeta verreM = verre.getItemMeta();
 		verreM.setDisplayName("§f");
 		verre.setItemMeta(verreM);
 		
 		for (int i = 10; i < 17; i++) {
-			getInventory().setItem(i, verre);
+			inventory.setItem(i, verre);
+		}
+
+		List<String> itemsString = this.kit.getItems();
+		ItemManager itemManager = this.main.getItemManager();
+		for (int i = 0; i < 9; i++) {
+			String itemString = itemsString.get(i);
+			if (Objects.nonNull(itemString)) {
+				inventory.setItem(i, itemManager.fromBase64(itemString));
+			} else {
+				inventory.setItem(i, new ItemStack(Material.AIR));
+			}
 		}
 	}
 
-	/**
-	 * Pour récupérer un InventoryKitElement à partir de son nom
-	 *
-	 * @param name Le nom du kit
-	 * @return <b>L'InventoryKitElement</b> s'il existe, <b>null</b> sinon
-	 */
-	public static InventoryKitsElement getInventoryKitElement(String name) {
-		return kits.get(name);
-	}
-	
-	/**
-	 * Pour supprimer un kit
-	 * 
-	 * @param name Le nom du kit à supprimer
-	 */
-	public static void removeKit(String name) {
-		InventoryGUI kit = kits.get(name);
-		if (Objects.isNull(kit)) {
-			return;
-		}
-
-		kit.getParent().removeChild(kit);
-		kits.remove(name);
-		TaupeGun.getInstance().getScenariosManager().kitsMenu.reloadInventory();
+	public void removeKitInventories() {
+		getChildsValue().forEach(child -> removeChild(child, false));
+		reloadInventory();
+		getParent().removeChild(this, true);
 	}
 	
 	/**
@@ -94,7 +91,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 		ItemStack item = getItem();
 		int hashCode = item.hashCode();
 		ItemMeta itemM = item.getItemMeta();
-		itemM.setDisplayName(getName());
+		itemM.setDisplayName(this.kit.getName());
 		item.setItemMeta(itemM);
 
 		if (Objects.nonNull(this.getParent())) {

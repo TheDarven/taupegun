@@ -5,6 +5,7 @@ import fr.thedarven.events.commands.CommandManager;
 import fr.thedarven.events.listeners.ListenerManager;
 import fr.thedarven.game.GameManager;
 import fr.thedarven.items.ItemManager;
+import fr.thedarven.kits.KitManager;
 import fr.thedarven.players.PlayerManager;
 import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
@@ -28,6 +29,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public boolean development = false;
 
 	private ScoreboardManager scoreboardManager;
+	private KitManager kitManager;
 	private ListenerManager listenerManager;
 	private CommandManager commandManager;
 	private WorldManager worldManager;
@@ -54,6 +56,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.itemManager = new ItemManager(this);
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.scenariosManager = new ScenariosManager(this);
+		this.kitManager = new KitManager(this);
 		this.listenerManager = new ListenerManager(this);
 		this.commandManager = new CommandManager(this);
 
@@ -134,4 +137,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public TeamManager getTeamManager() {
 		return teamManager;
 	}
+
+	public KitManager getKitManager() { return this.kitManager; }
 }

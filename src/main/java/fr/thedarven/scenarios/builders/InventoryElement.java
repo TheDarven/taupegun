@@ -37,8 +37,7 @@ public abstract class InventoryElement extends InventoryGUI implements AdminConf
 
 		InventoryGUI parent = getParent();
 		if (Objects.nonNull(parent)) {
-			parent.removeChild(element);
-			parent.reloadInventory();
+			parent.removeChild(element, true);
 		}
 		elements.remove(name);
 	}

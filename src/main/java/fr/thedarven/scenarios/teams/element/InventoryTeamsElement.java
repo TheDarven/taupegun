@@ -145,8 +145,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 			});
 
 		if (Objects.nonNull(inv.getParent())) {
-			inv.getParent().removeChild(inv);
-			inv.getParent().reloadInventory();
+			inv.getParent().removeChild(inv, true);
 		}
 		teams.remove(name);
 	}

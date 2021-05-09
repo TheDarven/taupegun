@@ -124,14 +124,14 @@ public class ScenariosManager {
 		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
 
 		this.addKit = new InventoryGUI(this.main, "✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
-		this.tntKit = new InventoryKitsTNT(this.main, "TNT", kitsMenu);
+		/* this.tntKit = new InventoryKitsTNT(this.main, "TNT", kitsMenu);
 		this.blazeKit = new InventoryKitsBlaze(this.main, "Blaze", kitsMenu);
 		this.aerienKit = new InventoryKitsAerien(this.main, "Aérien", kitsMenu);
 		this.potionKit = new InventoryKitsPotion(this.main, "Potion", kitsMenu);
 		this.tntKitDelete = new InventoryDeleteKits(this.main, tntKit);
 		this.blazeKitDelete = new InventoryDeleteKits(this.main, blazeKit);
 		this.aerienKitDelete = new InventoryDeleteKits(this.main, aerienKit);
-		this.potionKitDelete = new InventoryDeleteKits(this.main, potionKit);
+		this.potionKitDelete = new InventoryDeleteKits(this.main, potionKit); */
 
 		this.addTeam = new InventoryCreateTeam(this.main, teamsMenu);
 		this.randomizeTeams = new InventoryTeamsRandom(this.main, teamsMenu);
@@ -249,7 +249,7 @@ public class ScenariosManager {
 				.filter(inventory -> inventory instanceof StorablePreset)
 				.forEach(inventory -> values.put(inventory.getTranslationName(), ((StorablePreset) inventory).getPresetValue()));
 
-		// TODO Items + kits
+		// TODO kits
 
 		return values;
 	}

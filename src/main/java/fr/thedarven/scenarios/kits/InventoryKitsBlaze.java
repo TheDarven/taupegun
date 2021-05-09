@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 public class InventoryKitsBlaze extends InventoryKitsElement {
 
 	public InventoryKitsBlaze(TaupeGun main, String name, InventoryKits parent) {
-		super(main, name, parent);
+		super(main, parent, null);
 		reloadInventory();
 	}
 

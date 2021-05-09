@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionType;
 public class InventoryKitsPotion extends InventoryKitsElement {
 
 	public InventoryKitsPotion(TaupeGun main, String name, InventoryKits parent) {
-		super(main, name, parent);
+		super(main, parent, null);
 		reloadInventory();
 	}
 

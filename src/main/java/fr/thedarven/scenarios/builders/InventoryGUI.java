@@ -1,14 +1,17 @@
 package fr.thedarven.scenarios.builders;
 
-import java.util.*;
-
+import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.players.InventoryPlayers;
 import fr.thedarven.scenarios.runnable.DelayClickRunnable;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
@@ -18,12 +21,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.utils.languages.LanguageBuilder;
-
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class InventoryGUI extends InventoryBuilder {
 	
@@ -109,10 +108,18 @@ public class InventoryGUI extends InventoryBuilder {
 	 * Pour supprimer un enfant
 	 *
 	 * @param inventoryGUI L'enfant à supprimer
+	 * @param reload Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
 	 */
-	final public void removeChild(InventoryGUI inventoryGUI) {
+	final public void removeChild(InventoryGUI inventoryGUI, boolean reload) {
 		this.childs.remove(inventoryGUI.getItem().hashCode());
 		this.removeItem(inventoryGUI);
+		if (reload) {
+			reloadInventory();
+		}
+
+		if (Objects.nonNull(inventoryGUI.getInventory())) {
+			inventoryGUI.getInventory().getViewers().forEach(HumanEntity::closeInventory);
+		}
 	}
 
 	/**

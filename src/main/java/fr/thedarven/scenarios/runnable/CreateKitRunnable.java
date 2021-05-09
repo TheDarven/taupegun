@@ -1,6 +1,8 @@
 package fr.thedarven.scenarios.runnable;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.kits.Kit;
+import fr.thedarven.kits.KitManager;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
@@ -10,6 +12,7 @@ import fr.thedarven.utils.api.Title;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -38,20 +41,19 @@ public class CreateKitRunnable extends BukkitRunnable {
             return;
         }
 
-        InventoryKitsElement matchedKit = InventoryKitsElement.getInventoryKitElement(this.kitName);
-        if (Objects.nonNull(matchedKit)) {
+        KitManager kitManager = this.main.getKitManager();
+
+        if (kitManager.isUsedKitName(this.kitName)) {
             this.player.openInventory(this.kitsMenu.getInventory());
             Title.sendActionBar(this.player, "§c" + InventoryKits.NAME_ALREADY_USED_FORMAT);
             return;
         }
 
-        InventoryKitsElement kit = new InventoryKitsElement(this.main, kitName, this.kitsMenu);
-        new InventoryDeleteKits(this.main, kit);
-
+        Kit kit = kitManager.createKit(this.kitName, new ArrayList<>());
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + this.kitName + "§r§a");
         Title.sendActionBar(this.player, TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params));
-        this.player.openInventory(this.kitsMenu.getLastChild().getInventory());
+        this.player.openInventory(kit.getConfigurationInventory().getInventory());
     }
 
 }

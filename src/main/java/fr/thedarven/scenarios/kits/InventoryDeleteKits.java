@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.kits.Kit;
 import fr.thedarven.scenarios.builders.InventoryDelete;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
@@ -16,9 +17,11 @@ import fr.thedarven.utils.TextInterpreter;
 public class InventoryDeleteKits extends InventoryDelete implements AdminConfiguration {
 	
 	private static String DELETE_KIT_FORMAT = "Le kit {kitName} a été supprimé avec succès.";
+	private final Kit kit;
 	
-	public InventoryDeleteKits(TaupeGun main, InventoryGUI pInventoryGUI) {
-		super(main, pInventoryGUI, "Supprimer le kit", "MENU_KIT_ITEM_DELETE", 9);
+	public InventoryDeleteKits(TaupeGun main, InventoryGUI parent, Kit kit) {
+		super(main, parent, "Supprimer le kit", "MENU_KIT_ITEM_DELETE", 9);
+		this.kit = kit;
 	}
 	
 	
@@ -47,8 +50,8 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
 		Map<String, String> params = new HashMap<>();
 		params.put("kitName", "§e§l" + getParent().getName() + "§r§c");
 		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
-		
-		InventoryKitsElement.removeKit(getParent().getName());
+
+		this.main.getKitManager().removeKit(this.kit);
 		player.openInventory(this.main.getScenariosManager().kitsMenu.getInventory());
 	}
 }
