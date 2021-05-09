@@ -1,10 +1,10 @@
 package fr.thedarven.utils;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.kits.Kit;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.models.enums.ColorEnum;
-import fr.thedarven.scenarios.builders.InventoryGUI;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,11 +33,7 @@ public class TeamGraph {
 			return false;
 		} else {
 			// TAUPES
-			List<String> kits = new ArrayList<>();
-			for (InventoryGUI kit : this.main.getScenariosManager().kitsMenu.getChildsValue()) {
-				if (kit != this.main.getScenariosManager().addKit)
-					kits.add(kit.getName());
-			}
+			List<Kit> kits = this.main.getKitManager().getAllKitsCopy();
 
 			this.createMoleTeams();
 			sortByNumberPlayerInTeam();
@@ -46,7 +42,7 @@ public class TeamGraph {
 				for (int i = 0; i < moles.size(); i++) {
 					PlayerTaupe mole = moles.get(i);
 					mole.setTaupeTeam(this.moleTeam.get(i));
-					mole.setClaimTaupe(kits.get(r.nextInt(kits.size())));
+					mole.setMoleKit(kits.get(r.nextInt(kits.size())));
 				}
 			}
 

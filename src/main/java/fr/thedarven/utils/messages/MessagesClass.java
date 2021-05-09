@@ -119,7 +119,7 @@ public class MessagesClass {
 		String moleMessageReveal = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageReveal", true);
 		
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("kitName", "§e§l"+PlayerTaupe.getPlayerManager(p.getUniqueId()).getClaimTaupe()+"§r§6");
+		params.put("kitName", "§e§l" + PlayerTaupe.getPlayerManager(p.getUniqueId()).getMoleKit().getName() + "§r§6");
 		String moleMessageClaim = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("CONTENT", "moleMessageClaim", true), params);
 		
 		p.sendMessage(ChatColor.RED+"---------------");

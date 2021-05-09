@@ -1,7 +1,7 @@
 package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenarios.kits.InventoryKitsElement;
+import fr.thedarven.kits.Kit;
 import fr.thedarven.players.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -16,16 +16,14 @@ public class ClaimCommand extends MoleCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		InventoryKitsElement inventoryKitsElement = InventoryKitsElement.getInventoryKitElement(pl.getClaimTaupe());
-		if (Objects.nonNull(inventoryKitsElement)) {
-			inventoryKitsElement.giveItems(sender);
-			pl.setClaimTaupe("aucun");
-		}
+		Kit moleKit = pl.getMoleKit();
+		moleKit.getConfigurationInventory().giveItems(sender);
+		pl.setMoleKit(null);
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (super.validateCommand(sender, pl, cmd, alias, args)) {
-			return !pl.getClaimTaupe().equals("aucun");
+			return Objects.nonNull(pl.getMoleKit()) && Objects.nonNull(pl.getMoleKit().getConfigurationInventory());
 		}
 		return false;
 	}

@@ -1,6 +1,7 @@
 package fr.thedarven.players;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.kits.Kit;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.runnable.PlayerRunnable;
 import fr.thedarven.teams.TeamCustom;
@@ -20,7 +21,7 @@ public class PlayerTaupe extends PlayerCustom {
 	private String name;
 	private boolean alive;
 	private int kill;
-	private String claim;
+	private Kit moleKit;
 
 	private Location netherPortal;
 
@@ -56,7 +57,7 @@ public class PlayerTaupe extends PlayerCustom {
 
 		this.teamTaupe = null;
 		this.teamSuperTaupe = null;
-		this.claim = "aucun";
+		this.moleKit = null;
 		this.canClick = true;
 		this.createTeamName = null;
 
@@ -162,8 +163,8 @@ public class PlayerTaupe extends PlayerCustom {
 		netherPortal = loc;
 	}
 
-	public void setClaimTaupe(String claim) {
-		this.claim = claim;
+	public void setMoleKit(Kit moleKit) {
+		this.moleKit = moleKit;
 	}
 
 
@@ -212,8 +213,8 @@ public class PlayerTaupe extends PlayerCustom {
 		return (isSuperTaupe() && isAlive() && team == teamSuperTaupe);
 	}
 
-	public String getClaimTaupe() {
-		return claim;
+	public Kit getMoleKit() {
+		return this.moleKit;
 	}
 
 	public boolean hasWin() {
