@@ -141,8 +141,8 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 				if(child instanceof InventoryTeamsPlayers) {
 					InventoryTeamsPlayers.inventories.remove(child);
 				}
-				InventoryTeamsPlayers.reloadInventories();
 			});
+		InventoryTeamsPlayers.reloadInventories();
 
 		if (Objects.nonNull(inv.getParent())) {
 			inv.getParent().removeChild(inv, true);

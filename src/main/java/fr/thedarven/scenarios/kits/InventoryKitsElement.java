@@ -79,8 +79,6 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 	}
 
 	public void removeKitInventories() {
-		getChildsValue().forEach(child -> removeChild(child, false));
-		reloadInventory();
 		getParent().removeChild(this, true);
 	}
 	

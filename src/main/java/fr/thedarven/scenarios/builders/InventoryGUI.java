@@ -111,6 +111,12 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @param reload Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
 	 */
 	final public void removeChild(InventoryGUI inventoryGUI, boolean reload) {
+		inventoryGUI.getChilds()
+				.values()
+				.forEach(child -> {
+					inventoryGUI.removeChild(child, false);
+				});
+
 		this.childs.remove(inventoryGUI.getItem().hashCode());
 		this.removeItem(inventoryGUI);
 		if (reload) {
