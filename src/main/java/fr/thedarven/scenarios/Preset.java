@@ -44,7 +44,5 @@ public class Preset implements Serializable {
     public void setManager(ScenariosManager manager) {
         this.manager = manager;
     }
-
-
-
+    
 }

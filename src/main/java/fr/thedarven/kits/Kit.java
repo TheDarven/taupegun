@@ -1,16 +1,16 @@
 package fr.thedarven.kits;
 
-import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Kit implements Serializable {
+public class Kit implements Serializable, Cloneable {
 
     private String name;
-    private final List<String> items;
+    private List<String> items;
     private InventoryKitsElement configurationInventory;
 
     public Kit(String name) {
@@ -21,7 +21,7 @@ public class Kit implements Serializable {
 
     public Kit(String name, List<String> items) {
         this.name = name;
-        this.items = new ArrayList<>(items);
+        this.items = items;
         this.configurationInventory = null;
     }
 
@@ -39,6 +39,16 @@ public class Kit implements Serializable {
 
     public void setConfigurationInventory(InventoryKitsElement inventory) {
         this.configurationInventory = inventory;
+    }
+
+    public Object clone() {
+        Kit kit = null;
+        try {
+            kit = (Kit) super.clone();
+            kit.name = new String(this.name);
+            kit.items = new ArrayList<>(this.items);
+        } catch (CloneNotSupportedException ignored) { }
+        return kit;
     }
 
 }

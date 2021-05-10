@@ -33,7 +33,7 @@ public class TeamGraph {
 			return false;
 		} else {
 			// TAUPES
-			List<Kit> kits = this.main.getKitManager().getAllKitsCopy();
+			List<Kit> kits = this.main.getKitManager().getAllKits();
 
 			this.createMoleTeams();
 			sortByNumberPlayerInTeam();

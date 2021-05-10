@@ -83,8 +83,14 @@ public class KitManager extends Manager {
         createKit("Potion", potionItems);
     }
 
-    public List<Kit> getAllKitsCopy() {
-        return new ArrayList<>(this.kits);
+    public List<Kit> getAllKits() {
+        return this.kits;
+    }
+
+    public List<Kit> getCopyOfAllKits() {
+        List<Kit> clonedKits = new ArrayList<>();
+        this.kits.forEach(kit -> clonedKits.add((Kit) kit.clone()));
+        return clonedKits;
     }
 
     public Kit loadKit(String name, List<String> items) {
@@ -145,8 +151,8 @@ public class KitManager extends Manager {
      * @param newKits
      */
     public void loadKits(List<Kit> newKits) {
-        this.kits.forEach(this::removeKit); // close inv si delete
-        newKits.forEach(kit -> loadKit(kit.getName(), kit.getItems()));
+        this.kits.forEach(this::removeKit);
+        newKits.forEach(kit -> loadKit(kit.getName(), new ArrayList<>(kit.getItems())));
     }
 
     public boolean isUsedKitName(String name) {
