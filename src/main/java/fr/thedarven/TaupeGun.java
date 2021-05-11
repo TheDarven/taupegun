@@ -13,7 +13,7 @@ import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.teams.TeamManager;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
-import fr.thedarven.utils.languages.LanguageRegister;
+import fr.thedarven.utils.languages.LanguageManager;
 import fr.thedarven.utils.manager.CraftManager;
 import fr.thedarven.utils.manager.TeamDeletionManager;
 import fr.thedarven.world.WorldManager;
@@ -28,6 +28,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public boolean development = false;
 
+	private LanguageManager languageManager;
 	private ScoreboardManager scoreboardManager;
 	private KitManager kitManager;
 	private ListenerManager listenerManager;
@@ -50,7 +51,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 
-		LanguageRegister.loadAllTranslations(this);
+		this.languageManager = new LanguageManager(this);
+		this.languageManager.loadAllTranslations(this);
 		InventoryGUI.setLanguage();
 
 		this.itemManager = new ItemManager(this);
