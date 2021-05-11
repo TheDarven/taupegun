@@ -83,7 +83,7 @@ public class GameRunnable extends BukkitRunnable {
 
         this.teleportPlayers(world);
 
-        new TeamCustom(this.main.getTeamManager().getSpectatorTeamName(), ColorEnum.WHITE, 0, 0, true, false);
+        new TeamCustom(this.main, this.main.getTeamManager().getSpectatorTeamName(), ColorEnum.WHITE, 0, 0, true, false);
 
         this.main.getWorldManager().destroyLobby();
     }

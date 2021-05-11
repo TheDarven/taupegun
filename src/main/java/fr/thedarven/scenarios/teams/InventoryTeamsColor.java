@@ -97,7 +97,7 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 
 		DyeColor dyeColor = ((BannerMeta) itemStack.getItemMeta()).getBaseColor();
 
-		new TeamCustom(pl.getCreateTeamName(), ColorEnum.getByDyeColor(dyeColor), 0, 0, false, true);
+		new TeamCustom(this.main, pl.getCreateTeamName(), ColorEnum.getByDyeColor(dyeColor), 0, 0, false, true);
 
 		Map<String, String> params = new HashMap<>();
 		params.put("teamName", "§e§l"+pl.getCreateTeamName() + "§r§a");

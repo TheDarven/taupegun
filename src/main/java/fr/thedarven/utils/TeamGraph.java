@@ -58,7 +58,7 @@ public class TeamGraph {
 					TeamCustom team = this.moleTeam.get(i);
 					if (i % superTaupesTeamSize == 0) {
 						superTeamNumber++;
-						superMoleTeam = new TeamCustom(this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber, ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
+						superMoleTeam = new TeamCustom(this.main, this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber, ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
 					}
 					List<PlayerTaupe> players = team.getTaupeTeamPlayers();
 					if (players.size() > 0) {
@@ -90,7 +90,7 @@ public class TeamGraph {
 
 		for (int i = 1; i <= nbTeams; i++) {
 			this.moleTeam.add(
-				new TeamCustom(moleTeamName + i, ColorEnum.RED, i, 0, false, true)
+				new TeamCustom(this.main, moleTeamName + i, ColorEnum.RED, i, 0, false, true)
 			);
 		}
 	}

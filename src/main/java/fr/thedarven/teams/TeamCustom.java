@@ -24,6 +24,8 @@ public class TeamCustom {
 	
 	private static Map<String, TeamCustom> teams = new HashMap<>();
 
+	private final TaupeGun main;
+
 	private String name;
 	private ColorEnum colorEnum;
 
@@ -34,9 +36,10 @@ public class TeamCustom {
 	private List<PlayerTaupe> players;
 	private boolean alive;
 	
-	public TeamCustom(String name, ColorEnum colorEnum, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+	public TeamCustom(TaupeGun main, String name, ColorEnum colorEnum, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+		this.main = main;
 		team = board.registerNewTeam(name);
-		if (name.startsWith(TaupeGun.getInstance().getTeamManager().getMoleTeamName()) || name.startsWith(TaupeGun.getInstance().getTeamManager().getSuperMoleTeamName())) {
+		if (name.startsWith(this.main.getTeamManager().getMoleTeamName()) || name.startsWith(this.main.getTeamManager().getSuperMoleTeamName())) {
 			team.setPrefix(colorEnum.getColor() + "[" + name + "] ");
 		} else {
 			team.setPrefix(colorEnum.getColor());
@@ -52,12 +55,12 @@ public class TeamCustom {
 		this.players = new ArrayList<>();
 		this.alive = pAlive;
 		
-		InventoryTeamsElement inv = new InventoryTeamsElement(TaupeGun.getInstance(), name, colorEnum);
-		InventoryTeamsParameters parameters = new InventoryTeamsParameters(TaupeGun.getInstance(), inv);
-		new InventoryTeamsChangeColor(TaupeGun.getInstance(), parameters);
-		new InventoryTeamsRename(TaupeGun.getInstance(), parameters);
-		new InventoryTeamsPlayers(TaupeGun.getInstance(), inv);
-		new InventoryDeleteTeams(TaupeGun.getInstance(), inv);
+		InventoryTeamsElement inv = new InventoryTeamsElement(this.main, name, colorEnum);
+		InventoryTeamsParameters parameters = new InventoryTeamsParameters(this.main, inv);
+		new InventoryTeamsChangeColor(this.main, parameters);
+		new InventoryTeamsRename(this.main, parameters);
+		new InventoryTeamsPlayers(this.main, inv);
+		new InventoryDeleteTeams(this.main, inv);
 		
 		teams.put(name, this);
 	}
@@ -254,7 +257,7 @@ public class TeamCustom {
 	}
 
 	private void reloadTeamsInventories() {
-		TaupeGun.getInstance().getScenariosManager().teamsMenu.reloadInventory();
+		this.main.getScenariosManager().teamsMenu.reloadInventory();
 		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
 		if (Objects.nonNull(inventoryTeamsElement)) {
 			inventoryTeamsElement.reloadInventory();
