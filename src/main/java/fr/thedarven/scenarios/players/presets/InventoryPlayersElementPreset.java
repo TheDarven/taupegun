@@ -22,7 +22,7 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
     }
 
     public void removePresetInventories(Preset preset) {
-        getChildsValue()
+        getChildrenValue()
                 .forEach(child -> {
                     if (child instanceof InventoryPresetAction) {
                         if (((InventoryPresetAction) child).getPreset() == preset) {
@@ -39,11 +39,11 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
 
     @Override
     public void reloadInventory() {
-        clearChildsItems();
+        clearChildrenItems();
 
         int nbPresets = this.playerConfiguration.getNbPresets();
 
-        for (InventoryGUI inv : getChildsValue()) {
+        for (InventoryGUI inv : getChildrenValue()) {
             if (inv instanceof InventoryLoadPreset) {
                 modifiyPosition(inv, ((InventoryLoadPreset) inv).getPreset().getIndex());
             } else if (inv instanceof InventoryRenamePreset) {

@@ -1,4 +1,4 @@
-package fr.thedarven.scenarios.childs;
+package fr.thedarven.scenarios.children;
 
 import fr.thedarven.TaupeGun;
 import org.bukkit.Material;

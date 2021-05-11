@@ -20,6 +20,6 @@ public abstract class InventoryIncrement extends InventoryGUI implements AdminCo
 	 * @return Le dernier enfant
 	 */
 	final public InventoryGUI getLastChild() {
-		return getChildsValue().get(this.childs.size() - 1);
+		return getChildrenValue().get(this.children.size() - 1);
 	}
 }

@@ -94,7 +94,7 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		if (this.main.getScenariosManager().kitsMenu.getChilds().size() <= 1) {
+		if (this.main.getScenariosManager().kitsMenu.getChildren().size() <= 1) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughKits", true));
 			return false;
 		}

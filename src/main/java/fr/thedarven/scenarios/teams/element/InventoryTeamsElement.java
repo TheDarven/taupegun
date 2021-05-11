@@ -86,7 +86,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 			getInventory().setItem(pos.getAndIncrement(), this.main.getPlayerManager().getHeadOfPlayer(entry, entry));
 		});
 
-		getChildsValue().forEach(inv -> {
+		getChildrenValue().forEach(inv -> {
 			if (inv instanceof InventoryTeamsPlayers) {
 				getInventory().setItem(pos.get(), inv.getItem());
 				getInventory().setItem(pos.incrementAndGet(), new ItemStack(Material.AIR, 1));
@@ -136,7 +136,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 			return;
 		}
 
-		inv.getChildsValue()
+		inv.getChildrenValue()
 			.forEach(child -> {
 				if(child instanceof InventoryTeamsPlayers) {
 					InventoryTeamsPlayers.inventories.remove(child);

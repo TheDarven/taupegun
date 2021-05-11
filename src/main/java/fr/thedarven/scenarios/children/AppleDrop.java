@@ -1,4 +1,4 @@
-package fr.thedarven.scenarios.childs;
+package fr.thedarven.scenarios.children;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

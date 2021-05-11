@@ -32,7 +32,7 @@ public class InventoryGUI extends InventoryBuilder {
 	private static Map<Inventory, InventoryGUI> elements = new LinkedHashMap<>();
 
 	protected Inventory inventory;
-	protected Map<Integer, InventoryGUI> childs = new LinkedHashMap<>();
+	protected Map<Integer, InventoryGUI> children = new LinkedHashMap<>();
 	
 	public InventoryGUI(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition, byte pData) {
 		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, pData);
@@ -100,8 +100,8 @@ public class InventoryGUI extends InventoryBuilder {
 	 * 
 	 * @return Les enfants
 	 */
-	final public Map<Integer, InventoryGUI> getChilds(){
-		return this.childs;
+	final public Map<Integer, InventoryGUI> getChildren(){
+		return this.children;
 	}
 
 	/**
@@ -111,12 +111,12 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @param reload Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
 	 */
 	final public void removeChild(InventoryGUI inventoryGUI, boolean reload) {
-		List<InventoryGUI> children = getChildsValue();
+		List<InventoryGUI> children = getChildrenValue();
 		children.forEach(child -> {
 					inventoryGUI.removeChild(child, false);
 				});
 
-		this.childs.remove(inventoryGUI.getItem().hashCode());
+		this.children.remove(inventoryGUI.getItem().hashCode());
 		this.removeItem(inventoryGUI);
 		if (reload) {
 			reloadInventory();
@@ -133,8 +133,8 @@ public class InventoryGUI extends InventoryBuilder {
 	 *
 	 * @return Liste copie des enfannts
 	 */
-	final public List<InventoryGUI> getChildsValue() {
-		return new ArrayList<>(this.childs.values());
+	final public List<InventoryGUI> getChildrenValue() {
+		return new ArrayList<>(this.children.values());
 	}
 	
 	/**
@@ -149,8 +149,8 @@ public class InventoryGUI extends InventoryBuilder {
 	/**
 	 * Pour supprimer l'item des enfants de l'inventaire
 	 */
-	final protected void clearChildsItems() {
-		this.getChildsValue().forEach(this::removeItem);
+	final protected void clearChildrenItems() {
+		this.getChildrenValue().forEach(this::removeItem);
 	}
 	
 	
@@ -206,7 +206,7 @@ public class InventoryGUI extends InventoryBuilder {
 		}
 
 		if (setItem) {
-			this.childs.put(inventoryGUI.getItem().hashCode(), inventoryGUI);
+			this.children.put(inventoryGUI.getItem().hashCode(), inventoryGUI);
 			this.inventory.setItem(inventoryGUI.getPosition(), inventoryGUI.getItem());
 		}
 	}
@@ -274,15 +274,15 @@ public class InventoryGUI extends InventoryBuilder {
 		if (item == null )
 			return;
 
-		this.childs.remove(hashCode);
-		this.childs.put(pNewItem.hashCode(), inventoryGUI);
+		this.children.remove(hashCode);
+		this.children.put(pNewItem.hashCode(), inventoryGUI);
 		this.inventory.setItem(inventoryGUI.getPosition(), pNewItem); */
 
 		for (int i = 0; i < this.inventory.getSize(); i++) {
 			ItemStack item = this.inventory.getItem(i);
 			if (Objects.nonNull(item) && item.hashCode() == hashCode) {
-				this.childs.remove(hashCode);
-				this.childs.put(newItem.hashCode(), (InventoryGUI) child);
+				this.children.remove(hashCode);
+				this.children.put(newItem.hashCode(), (InventoryGUI) child);
 				this.inventory.setItem(i, newItem);
 				return;
 			}
@@ -384,7 +384,7 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @return <b>true</b> si l'item cliqué est celui d'un inventaire enfant, <b>false</b> sinon
 	 */
 	final protected boolean openChildInventory(ItemStack item, Player player, PlayerTaupe pl) {
-		InventoryGUI inventoryGUI = this.childs.get(item.hashCode());
+		InventoryGUI inventoryGUI = this.children.get(item.hashCode());
 		if (Objects.isNull(inventoryGUI))
 			return false;
 

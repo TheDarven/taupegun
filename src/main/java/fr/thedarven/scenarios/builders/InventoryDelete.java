@@ -51,16 +51,16 @@ public abstract class InventoryDelete extends InventoryGUI {
 
 	@Override
 	public void reloadInventory() {
-		clearChildsItems();
+		clearChildrenItems();
 
 		AtomicInteger counter = new AtomicInteger(0);
-		final int childsSize = getChilds().size();
+		final int childrenSize = getChildren().size();
 
-		getChildsValue().forEach(child -> {
+		getChildrenValue().forEach(child -> {
 			if (child instanceof InventoryKitsElement) {
 				modifiyPosition(child, counter.getAndIncrement());
-			} else if (childsSize < 10){
-				modifiyPosition(child,childsSize - 1);
+			} else if (childrenSize < 10){
+				modifiyPosition(child,childrenSize - 1);
 			}
 		});
 	}

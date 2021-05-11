@@ -6,7 +6,7 @@ import fr.thedarven.kits.KitManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
-import fr.thedarven.scenarios.childs.*;
+import fr.thedarven.scenarios.children.*;
 import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.scenarios.helper.StorablePreset;
 import fr.thedarven.scenarios.kits.*;

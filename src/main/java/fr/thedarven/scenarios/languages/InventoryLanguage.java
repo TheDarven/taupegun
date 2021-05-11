@@ -3,7 +3,7 @@ package fr.thedarven.scenarios.languages;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.scenarios.childs.ScenariosVisible;
+import fr.thedarven.scenarios.children.ScenariosVisible;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
@@ -95,7 +95,7 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 	@Override
 	public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
 		ItemStack item = e.getCurrentItem();
-		InventoryGUI inventoryGUI = this.childs.get(item.hashCode());
+		InventoryGUI inventoryGUI = this.children.get(item.hashCode());
 		if (Objects.nonNull(inventoryGUI) && inventoryGUI instanceof InventoryLanguageElement) {
 			changeSelectedLanguage((InventoryLanguageElement) inventoryGUI, player);
 			return;

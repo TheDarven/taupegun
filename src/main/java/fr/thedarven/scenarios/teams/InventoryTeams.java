@@ -17,17 +17,17 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
 
 	@Override
 	public void reloadInventory() {
-		clearChildsItems();
+		clearChildrenItems();
 
 		AtomicInteger pos = new AtomicInteger(0);
-		getChildsValue()
+		getChildrenValue()
 			.forEach(inv -> {
 				if (inv instanceof InventoryTeamsRandom) {
 					modifiyPosition(inv, inv.getPosition());
 				} else if (inv instanceof InventoryTeamsElement) {
 					modifiyPosition(inv, pos.getAndIncrement());
 				} else {
-					modifiyPosition(inv,getChilds().size() - 2);
+					modifiyPosition(inv, getChildren().size() - 2);
 				}
 			});
 	}
