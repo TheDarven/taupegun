@@ -99,8 +99,8 @@ public class PlayerJoinQuitListener implements Listener {
 	public void loginAction(Player player) {
 		player.setScoreboard(TeamCustom.board);
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		
-		MessagesClass.TabMessage(player);
+
+		this.main.getMessageManager().updateTabContent(player);
 		this.main.getScoreboardManager().onLogin(player);
 		this.main.getDatabaseManager().updatePlayerLast(player);
 		

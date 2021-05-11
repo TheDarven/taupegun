@@ -49,7 +49,7 @@ public abstract class OperatorCommand extends PlayerCommand {
         if (sender.isOp() || hasPermission(sender)) {
             return super.validateCommand(sender, pl, cmd, alias, args);
         } else {
-            MessagesClass.CannotCommandOperatorMessage(sender);;
+            this.main.getMessageManager().sendNotOperatorMessage(sender);
         }
         return false;
     }

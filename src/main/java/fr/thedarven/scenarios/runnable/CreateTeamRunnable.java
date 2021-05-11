@@ -41,7 +41,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
 
         if (isUnavailableTeamName(pl.getCreateTeamName())){
             this.player.closeInventory();
-            MessagesClass.CannotTeamCreateNameAlreadyMessage(this.player);
+            this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
             this.pl.setCreateTeamName(null);
             return;
         }
@@ -52,7 +52,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
                 .findFirst()
                 .ifPresent(team-> {
                     this.player.closeInventory();
-                    MessagesClass.CannotTeamCreateNameAlreadyMessage(this.player);
+                    this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
                     this.pl.setCreateTeamName(null);
                 });
     }

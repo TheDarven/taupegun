@@ -5,11 +5,10 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.children.ScenariosVisible;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -128,7 +127,7 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 		selectedInventoryLanguage.reloadItem();
 		
 		InventoryGUI.setLanguage();
-		Bukkit.getOnlinePlayers().forEach(MessagesClass::TabMessage);
+		Bukkit.getOnlinePlayers().forEach(receiver -> this.main.getMessageManager().updateTabContent(receiver));
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("languageName", "§6" + this.selectedLanguage.getName() + "§e");

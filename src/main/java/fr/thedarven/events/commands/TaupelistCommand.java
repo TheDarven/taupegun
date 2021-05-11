@@ -1,9 +1,11 @@
 package fr.thedarven.events.commands;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.messages.MessageManager;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -15,10 +17,11 @@ public class TaupelistCommand extends PlayerCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		MessagesClass.TaupeListMessage(sender);
+		MessageManager messageManager = this.main.getMessageManager();
 
+		messageManager.sendTaupeListMessage(sender);
 		if (this.main.getScenariosManager().superMoles.getValue()) {
-			MessagesClass.SuperTaupeListMessage(sender);
+			messageManager.sendSuperTaupeListMessage(sender);
 		}
 	}
 

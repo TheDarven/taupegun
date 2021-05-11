@@ -1,10 +1,14 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.messages.MessageManager;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.EntityType;
@@ -53,10 +57,23 @@ public class EndGameRunnable extends BukkitRunnable {
     }
 
     private void endGameMessage() {
-        MessagesClass.FinalTaupeAnnonceMessage();
+        MessageManager messageManager = this.main.getMessageManager();
+
+        messageManager.sendTaupeListMessage(null);
         if (this.main.getScenariosManager().superMoles.getValue()) {
-            MessagesClass.FinalSuperTaupeAnnonceMessage();
+            messageManager.sendSuperTaupeListMessage(null);
         }
-        MessagesClass.FinalKillAnnonceMessage();
+        sendKillRankingMessage();
+    }
+
+    /**
+     * Sends into server chat the number of kills of each player.
+     */
+    private void sendKillRankingMessage() {
+        String killListMessage = "§l§6" + LanguageBuilder.getContent("CONTENT", "killList", true);
+        Bukkit.broadcastMessage(killListMessage);
+        PlayerTaupe.getAllPlayerManager().stream()
+                .filter(pc -> pc.getKill() > 0)
+                .forEach(pc -> Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.GREEN + pc.getName() + ": " + ChatColor.RESET + " " + pc.getKill()));
     }
 }

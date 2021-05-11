@@ -89,7 +89,7 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 		TeamCustom teamCustom = TeamCustom.getTeamCustomByName(pl.getCreateTeamName());
 		if (Objects.nonNull(teamCustom)) {
 			player.closeInventory();
-			MessagesClass.CannotTeamCreateNameAlreadyMessage(player);
+			this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(player);
 			pl.setCreateTeamName(null);
 			return;
 		}

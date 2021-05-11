@@ -29,7 +29,7 @@ public class SayCommand implements CommandExecutor {
 			Player player = (Player) sender;
 
 			if (!player.isOp() && !player.hasPermission("taupegun.say")){
-				MessagesClass.CannotCommandOperatorMessage(player);
+				this.main.getMessageManager().sendNotOperatorMessage(player);
 				return true;
 			}
 

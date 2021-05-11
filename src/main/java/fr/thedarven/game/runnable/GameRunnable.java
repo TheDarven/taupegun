@@ -1,23 +1,24 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.ColorEnum;
-import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.game.GameManager;
+import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class GameRunnable extends BukkitRunnable {
 
@@ -137,8 +138,9 @@ public class GameRunnable extends BukkitRunnable {
         if (molesAnnouncing.isValueEquals(timer + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isTaupe()) {
-                    MessagesClass.TaupeAnnonceMessage(player);
+                PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
+                if (playerTaupe.isTaupe()) {
+                    sendMoleInfoMessage(player, playerTaupe);
                 }
             }
         }
@@ -162,7 +164,7 @@ public class GameRunnable extends BukkitRunnable {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
                 if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()) {
-                    MessagesClass.SuperTaupeAnnonceMessage(player);
+                    sendSuperMoleInfoMessage(player);
                 }
             }
         }
@@ -303,5 +305,45 @@ public class GameRunnable extends BukkitRunnable {
 
         String wallShrinkingMessage = "§a[TaupeGun]§f "+LanguageBuilder.getContent("GAME", "wallShrinking",true);
         Bukkit.broadcastMessage(wallShrinkingMessage);
+    }
+
+    /**
+     * Sends information about the role of mole : available commands, gameplay objectives.
+     *
+     * @param receiver
+     * @param receiverTaupe
+     */
+    public void sendMoleInfoMessage(Player receiver, PlayerTaupe receiverTaupe) {
+        String moleMessageInfo = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageInfo", true);
+        String moleMessageT = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageT", true);
+        String moleMessageReveal = "§6"+LanguageBuilder.getContent("CONTENT", "s", true);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("kitName", "§e§l" + receiverTaupe.getMoleKit().getName() + "§r§6");
+        String moleMessageClaim = TextInterpreter.textInterpretation("§6"+LanguageBuilder.getContent("CONTENT", "moleMessageClaim", true), params);
+
+        receiver.sendMessage(ChatColor.RED + "---------------");
+        receiver.sendMessage(moleMessageInfo);
+        receiver.sendMessage(moleMessageT);
+        receiver.sendMessage(moleMessageReveal);
+        receiver.sendMessage(moleMessageClaim);
+        receiver.sendMessage(ChatColor.RED + "---------------");
+    }
+
+    /**
+     * Sends information about the role of super mole : available commands, gameplay objectives.
+     *
+     * @param receiver
+     */
+    public void sendSuperMoleInfoMessage(Player receiver) {
+        String superMoleMessageInfo = "§6" + LanguageBuilder.getContent("CONTENT", "superMoleMessageInfo", true);
+        String superMoleMessageT = "§6" + LanguageBuilder.getContent("CONTENT", "superMoleMessageT", true);
+        String superMoleMessageReveal = "§6" + LanguageBuilder.getContent("CONTENT", "superMoleMessageReveal", true);
+
+        receiver.sendMessage(ChatColor.RED + "---------------");
+        receiver.sendMessage(superMoleMessageInfo);
+        receiver.sendMessage(superMoleMessageT);
+        receiver.sendMessage(superMoleMessageReveal);
+        receiver.sendMessage(ChatColor.RED + "---------------");
     }
 }
