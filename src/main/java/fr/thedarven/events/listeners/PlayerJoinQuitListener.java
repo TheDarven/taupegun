@@ -16,7 +16,6 @@ import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.DisableF3;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.Objects;

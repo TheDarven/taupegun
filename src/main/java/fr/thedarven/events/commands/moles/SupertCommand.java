@@ -2,7 +2,6 @@ package fr.thedarven.events.commands.moles;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -14,7 +13,7 @@ public class SupertCommand extends MoleCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		MessagesClass.CommandSupertaupeMessageMessage(sender, args, pl.getSuperTaupeTeam());
+		this.main.getMessageManager().superMoleSendsSuperMoleMessage(sender, pl, args);
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {

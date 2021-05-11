@@ -7,7 +7,6 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesEventClass;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -83,7 +82,7 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 				PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
 				if (Objects.nonNull(playerTaupe)) {
 					teamJoin.joinTeam(playerTaupe);
-					MessagesEventClass.TeamAddPlayerMessage(player, playerTaupe);
+					sendAddPlayerTeamMessage(player, playerTaupe);
 					player.openInventory(getParent().getInventory());
 				}
 			} else {
@@ -92,6 +91,14 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 				Title.sendActionBar(player, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
 			}
 		}
+	}
+
+	public void sendAddPlayerTeamMessage(Player receiver, PlayerTaupe addedPlayer) {
+		Map<String, String> params = new HashMap<>();
+		params.put("playerName", "§e§l" + addedPlayer.getName() + "§a§r");
+		String isAddingMessage = TextInterpreter.textInterpretation("§a" + LanguageBuilder.getContent("TEAM", "isAdding", true), params);
+
+		Title.sendActionBar(receiver, isAddingMessage);
 	}
 
 }

@@ -1,12 +1,14 @@
 package fr.thedarven.scenarios.teams.element;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.ColorEnum;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
-import fr.thedarven.utils.messages.MessagesEventClass;
+import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -161,7 +163,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 			PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
 			if (Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == teamLeave) {
 				teamLeave.leaveTeam(playerTaupe.getUuid());
-				MessagesEventClass.TeamDeletePlayerMessage(e);
+				sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
 				reloadInventory();
 				InventoryTeamsPlayers.reloadInventories();
 				return;
@@ -169,6 +171,14 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 		}
 
 		openChildInventory(item, player, pl);
+	}
+
+	public void sendRemovePlayerTeamMessage(Player receiver, String target) {
+		Map<String, String> params = new HashMap<>();
+		params.put("playerName", "§e§l" + target + "§f§r");
+		String isRemovingMessage = TextInterpreter.textInterpretation("§f"+ LanguageBuilder.getContent("TEAM", "isDeleting", true), params);
+
+		Title.sendActionBar(receiver, isRemovingMessage);
 	}
 
 	/**

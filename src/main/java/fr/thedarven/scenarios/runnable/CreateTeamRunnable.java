@@ -2,11 +2,10 @@ package fr.thedarven.scenarios.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.players.runnable.PlayerRunnable;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.entity.Player;
 
 import java.util.List;

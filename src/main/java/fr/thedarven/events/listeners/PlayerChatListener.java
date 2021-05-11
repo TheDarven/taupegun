@@ -4,7 +4,6 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,9 +45,9 @@ public class PlayerChatListener implements Listener {
 					Bukkit.broadcastMessage(getTeamColor(pl)+player.getName() + ": §7" + e.getMessage().substring(1));
 				} else {
 					if (pl.isTaupe() && pl.getTeam() == pl.getTaupeTeam()) {
-						MessagesClass.CommandTaupeMessageMessage(player, e.getMessage().split(" "), pl.getTeam());
+						this.main.getMessageManager().moleSendsMoleMessage(player, pl, e.getMessage().split(" "));
 					} else if (pl.isSuperTaupe() && pl.getTaupeTeam() == pl.getSuperTaupeTeam()) {
-						MessagesClass.CommandSupertaupeMessageMessage(player, e.getMessage().split(" "), pl.getTeam());
+						this.main.getMessageManager().superMoleSendsSuperMoleMessage(player, pl, e.getMessage().split(" "));
 					} else {
 						String teamMessage = "§e" + LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true)+"§7" + player.getName() + ": " + e.getMessage();
 						pl.getTeam().getAlivesPlayers().forEach(playerTaupe -> playerTaupe.getPlayer().sendMessage(teamMessage));

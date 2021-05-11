@@ -1,15 +1,14 @@
 package fr.thedarven.scenarios.teams;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.ColorEnum;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.messages.MessagesClass;
-import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
