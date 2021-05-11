@@ -12,10 +12,7 @@ import fr.thedarven.utils.api.Title;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CreateKitRunnable extends BukkitRunnable {
 
@@ -49,7 +46,7 @@ public class CreateKitRunnable extends BukkitRunnable {
             return;
         }
 
-        Kit kit = kitManager.createKit(this.kitName, new ArrayList<>());
+        Kit kit = kitManager.createKit(this.kitName, new ArrayList<>(Collections.nCopies(9, null)));
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + this.kitName + "§r§a");
         Title.sendActionBar(this.player, TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params));
