@@ -2,6 +2,7 @@ package fr.thedarven.scenarios;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kits.Kit;
+import fr.thedarven.kits.KitManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
@@ -250,7 +251,9 @@ public class ScenariosManager {
 				.filter(inventory -> inventory instanceof StorablePreset)
 				.forEach(inventory -> values.put(inventory.getTranslationName(), ((StorablePreset) inventory).getPresetValue()));
 
-		values.put("KITS_OBJ", this.main.getKitManager().getCopyOfAllKits());
+		KitManager kitManager = this.main.getKitManager();
+		kitManager.updateKitsItems();
+		values.put("KITS_OBJ", kitManager.getCopyOfAllKits());
 
 		return values;
 	}

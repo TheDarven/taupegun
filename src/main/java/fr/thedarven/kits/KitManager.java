@@ -134,7 +134,7 @@ public class KitManager extends Manager {
 
             Inventory inventory = configurationInventory.getInventory();
             ItemManager itemManager = this.main.getItemManager();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 9; i++) {
                 ItemStack item = inventory.getItem(i);
                 if (Objects.nonNull(item) && item.getType() != Material.AIR) {
                     items.set(i, itemManager.toBase64(item));
@@ -151,7 +151,8 @@ public class KitManager extends Manager {
      * @param newKits
      */
     public void loadKits(List<Kit> newKits) {
-        this.kits.forEach(this::removeKit);
+        List<Kit> copyKits = new ArrayList<>(this.kits);
+        copyKits.forEach(this::removeKit);
         newKits.forEach(kit -> loadKit(kit.getName(), new ArrayList<>(kit.getItems())));
     }
 

@@ -111,9 +111,8 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @param reload Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
 	 */
 	final public void removeChild(InventoryGUI inventoryGUI, boolean reload) {
-		inventoryGUI.getChilds()
-				.values()
-				.forEach(child -> {
+		List<InventoryGUI> children = getChildsValue();
+		children.forEach(child -> {
 					inventoryGUI.removeChild(child, false);
 				});
 
@@ -124,7 +123,8 @@ public class InventoryGUI extends InventoryBuilder {
 		}
 
 		if (Objects.nonNull(inventoryGUI.getInventory())) {
-			inventoryGUI.getInventory().getViewers().forEach(HumanEntity::closeInventory);
+			List<HumanEntity> viewers = new ArrayList<>(inventoryGUI.getInventory().getViewers());
+			viewers.forEach(HumanEntity::closeInventory);
 		}
 	}
 
