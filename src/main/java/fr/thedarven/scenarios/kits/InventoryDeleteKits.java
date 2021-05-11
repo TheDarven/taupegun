@@ -8,9 +8,9 @@ import fr.thedarven.kits.Kit;
 import fr.thedarven.scenarios.builders.InventoryDelete;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 
@@ -49,7 +49,7 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
 	protected void deleteElement(Player player) {
 		Map<String, String> params = new HashMap<>();
 		params.put("kitName", "§e§l" + getParent().getName() + "§r§c");
-		Title.sendActionBar(player, TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params));
+		new ActionBar(TextInterpreter.textInterpretation("§c" + DELETE_KIT_FORMAT, params)).sendActionBar(player);
 
 		this.main.getKitManager().removeKit(this.kit);
 		player.openInventory(this.main.getScenariosManager().kitsMenu.getInventory());

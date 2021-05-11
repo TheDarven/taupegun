@@ -8,11 +8,11 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryDelete;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 
@@ -54,7 +54,7 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("teamName", "§e§l" + team.getName() + "§r§a");
-		Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params));
+		new ActionBar(TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params)).sendActionBar(player);
 		
 		TeamCustom teamDelete = TeamCustom.getTeamCustomByName(team.getName());
 		if (Objects.nonNull(teamDelete)) {

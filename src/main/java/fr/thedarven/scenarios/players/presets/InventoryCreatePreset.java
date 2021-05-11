@@ -7,7 +7,7 @@ import fr.thedarven.scenarios.builders.InventoryAction;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.runnable.CreatePresetRunnable;
 import fr.thedarven.utils.api.AnvilGUI;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -58,7 +58,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     @Override
     protected void action(Player player, PlayerTaupe pl) {
         if (playerConfiguration.isPresetAmountLimit()) {
-            Title.sendActionBar(player, ChatColor.RED + TOO_MANY_PRESET);
+            new ActionBar(ChatColor.RED + TOO_MANY_PRESET).sendActionBar(player);
             player.closeInventory();
         } else {
             createPresetAction(player, pl);

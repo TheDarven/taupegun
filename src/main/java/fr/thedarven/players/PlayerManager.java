@@ -3,7 +3,8 @@ package fr.thedarven.players;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
 import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.api.titles.Title;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,7 +41,7 @@ public class PlayerManager extends Manager {
     public void sendPlaySoundAndTitle(Sound sound, Title title) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), sound, 1, 1);
-            title.send(player);
+            title.sendTitle(player);
         }
     }
 
@@ -103,7 +104,7 @@ public class PlayerManager extends Manager {
                 }
             }
         }
-        Title.sendActionBar(player, message.toString());
+        new ActionBar(message.toString()).sendActionBar(player);
     }
 
     public static String getOrientation(Player p, PlayerTaupe matePl){

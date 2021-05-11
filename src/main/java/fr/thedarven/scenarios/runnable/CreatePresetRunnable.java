@@ -7,7 +7,7 @@ import fr.thedarven.scenarios.PlayerConfiguration;
 import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.players.presets.InventoryCreatePreset;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class CreatePresetRunnable extends PlayerRunnable {
     protected void operate() {
         if (this.presetName.length() > 16) {
             this.player.closeInventory();
-            Title.sendActionBar(this.player, "§c" + InventoryCreatePreset.TOO_LONG_NAME_FORMAT);
+            new ActionBar("§c" + InventoryCreatePreset.TOO_LONG_NAME_FORMAT).sendActionBar(this.player);
             return;
         }
 
@@ -38,14 +38,15 @@ public class CreatePresetRunnable extends PlayerRunnable {
 
         if (this.playerConfiguration.isUsedPresetName(this.presetName)) {
             scenariosManager.saveConfigurationMenu.openInventoryOfPlayer(this.player);
-            Title.sendActionBar(this.player, "§c" + InventoryCreatePreset.NAME_ALREADY_USED_FORMAT);
+            new ActionBar("§c" + InventoryCreatePreset.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
             return;
         }
 
         if (scenariosManager.createPreset(this.presetName, playerConfiguration)) {
             Map<String, String> params = new HashMap<>();
             params.put("presetName", "§e§l" + this.presetName + "§r§a");
-            Title.sendActionBar(this.player, TextInterpreter.textInterpretation("§a" + InventoryCreatePreset.PRESET_CREATE, params));
+            new ActionBar(TextInterpreter.textInterpretation("§a" + InventoryCreatePreset.PRESET_CREATE, params)).sendActionBar(this.player);
+
             scenariosManager.saveConfigurationMenu.openInventoryOfPlayer(this.player);
         }
     }

@@ -7,7 +7,7 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -102,7 +102,7 @@ public class InventoryTeamsColor extends InventoryGUI implements AdminConfigurat
 		params.put("teamName", "§e§l"+pl.getCreateTeamName() + "§r§a");
 		String successTeamCreateMessage = TextInterpreter.textInterpretation("§a" + SUCCESS_TEAM_CREATE_FORMAT, params);
 
-		Title.sendActionBar(player, successTeamCreateMessage);
+		new ActionBar(successTeamCreateMessage).sendActionBar(player);
 
 		pl.setCreateTeamName(null);
 		player.openInventory(this.main.getScenariosManager().teamsMenu.getLastChild().getInventory());

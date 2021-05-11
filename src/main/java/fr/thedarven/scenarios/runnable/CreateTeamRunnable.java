@@ -4,7 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.players.runnable.PlayerRunnable;
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.entity.Player;
 
@@ -33,7 +33,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
 
         if (this.pl.getCreateTeamName().length() > 16){
             this.player.closeInventory();
-            Title.sendActionBar(this.player, "§c" + LanguageBuilder.getContent("TEAM", "nameTooLong", true));
+            new ActionBar("§c" + LanguageBuilder.getContent("TEAM", "nameTooLong", true)).sendActionBar(this.player);
             pl.setCreateTeamName(null);
             return;
         }

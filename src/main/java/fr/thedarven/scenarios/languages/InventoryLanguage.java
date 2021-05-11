@@ -6,8 +6,8 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.children.ScenariosVisible;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
 import fr.thedarven.utils.api.skull.Skull;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -133,7 +133,7 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 		params.put("languageName", "§6" + this.selectedLanguage.getName() + "§e");
 		String selectingLanguageMessage = TextInterpreter.textInterpretation("§e" + SELECTING_LANGUAGE, params);
 		
-		Title.sendActionBar(player, selectingLanguageMessage);
+		new ActionBar(selectingLanguageMessage).sendActionBar(player);
 	}
 
 }

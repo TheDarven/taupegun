@@ -1,22 +1,24 @@
 package fr.thedarven.events.listeners;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
-import org.bukkit.*;
+import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
+import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.api.titles.Title;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
-import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.DisableF3;
-import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import net.md_5.bungee.api.ChatColor;
 
 import java.util.Objects;
 
@@ -38,11 +40,9 @@ public class PlayerJoinQuitListener implements Listener {
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			InventoryTeamsPlayers.reloadInventories();
 			if (this.main.development) {
-				Title.title(player,
-					ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
-					LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
-					40
-				);
+				new Title(ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
+						LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
+						40).sendTitle(player);
 			}
 		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {

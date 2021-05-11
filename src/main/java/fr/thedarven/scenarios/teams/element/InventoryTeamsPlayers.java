@@ -2,12 +2,12 @@ package fr.thedarven.scenarios.teams.element;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
-import fr.thedarven.utils.api.Title;
-import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -88,7 +88,7 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 			} else {
 				Map<String, String> params = new HashMap<>();
 				params.put("teamName", "§e§l" + teamJoin.getName() + "§r§c");
-				Title.sendActionBar(player, TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params));
+				new ActionBar(TextInterpreter.textInterpretation("§c"+TEAM_FULL_FORMAT, params)).sendActionBar(player);
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public class InventoryTeamsPlayers extends InventoryGUI implements AdminConfigur
 		params.put("playerName", "§e§l" + addedPlayer.getName() + "§a§r");
 		String isAddingMessage = TextInterpreter.textInterpretation("§a" + LanguageBuilder.getContent("TEAM", "isAdding", true), params);
 
-		Title.sendActionBar(receiver, isAddingMessage);
+		new ActionBar(isAddingMessage).sendActionBar(receiver);
 	}
 
 }

@@ -5,7 +5,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.scenarios.builders.InventoryAction;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -95,6 +95,6 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
 				teamIndex = 0;
 			}
 		}
-		Title.sendActionBar(player, "§a" + PLAYER_REPARTITION);
+		new ActionBar("§a" + PLAYER_REPARTITION).sendActionBar(player);
 	}
 }

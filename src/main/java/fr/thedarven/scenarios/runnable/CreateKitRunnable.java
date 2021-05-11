@@ -4,15 +4,16 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.kits.Kit;
 import fr.thedarven.kits.KitManager;
 import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKits;
-import fr.thedarven.scenarios.kits.InventoryKitsElement;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateKitRunnable extends BukkitRunnable {
 
@@ -34,7 +35,7 @@ public class CreateKitRunnable extends BukkitRunnable {
     public void run() {
         if (this.kitName.length() > 16) {
             this.player.closeInventory();
-            Title.sendActionBar(this.player, "§c" + InventoryKits.TOO_LONG_NAME_FORMAT);
+            new ActionBar("§c" + InventoryKits.TOO_LONG_NAME_FORMAT).sendActionBar(this.player);
             return;
         }
 
@@ -42,14 +43,16 @@ public class CreateKitRunnable extends BukkitRunnable {
 
         if (kitManager.isUsedKitName(this.kitName)) {
             this.player.openInventory(this.kitsMenu.getInventory());
-            Title.sendActionBar(this.player, "§c" + InventoryKits.NAME_ALREADY_USED_FORMAT);
+            new ActionBar("§c" + InventoryKits.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
             return;
         }
 
         Kit kit = kitManager.createKit(this.kitName, new ArrayList<>(Collections.nCopies(9, null)));
+
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + this.kitName + "§r§a");
-        Title.sendActionBar(this.player, TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params));
+        new ActionBar(TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params)).sendActionBar(this.player);
+
         this.player.openInventory(kit.getConfigurationInventory().getInventory());
     }
 

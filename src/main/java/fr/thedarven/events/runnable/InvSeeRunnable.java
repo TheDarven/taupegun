@@ -4,7 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumInventory;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.players.runnable.PlayerInventoryRunnable;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -169,7 +169,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         params.put("kill", "§e" + this.viewedPl.getKill() + "§6");
         String killMessage = TextInterpreter.textInterpretation("§6" + LanguageBuilder.getContent("INVSEE", "kill", true), params);
 
-        Title.sendActionBar(playerWhoWatched, killMessage);
+        new ActionBar(killMessage).sendActionBar(playerWhoWatched);
         return inv;
     }
 }

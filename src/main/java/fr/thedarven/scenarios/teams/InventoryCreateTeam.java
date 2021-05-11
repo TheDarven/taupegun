@@ -8,7 +8,7 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.runnable.CreateTeamRunnable;
 import fr.thedarven.utils.api.AnvilGUI;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -48,7 +48,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
         if (TeamCustom.board.getTeams().size() < 36) {
             addTeamAction(player, pl);
         } else {
-            Title.sendActionBar(player, ChatColor.RED + TOO_MANY_TEAM);
+            new ActionBar(ChatColor.RED + TOO_MANY_TEAM).sendActionBar(player);
             player.closeInventory();
         }
     }

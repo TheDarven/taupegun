@@ -7,7 +7,7 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -178,7 +178,7 @@ public class InventoryTeamsElement extends InventoryGUI implements AdminConfigur
 		params.put("playerName", "§e§l" + target + "§f§r");
 		String isRemovingMessage = TextInterpreter.textInterpretation("§f"+ LanguageBuilder.getContent("TEAM", "isDeleting", true), params);
 
-		Title.sendActionBar(receiver, isRemovingMessage);
+		new ActionBar(isRemovingMessage).sendActionBar(receiver);
 	}
 
 	/**

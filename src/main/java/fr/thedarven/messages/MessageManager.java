@@ -4,7 +4,8 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.api.titles.TabMessage;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,7 +36,7 @@ public class MessageManager extends Manager {
      */
     public void updateTabContent(Player receiver) {
         String authorMessage = LanguageBuilder.getContent("SCOREBOARD", "author", true);
-        Title.sendTabHF(receiver, "§6------------------\nTaupeGun\n------------------\n", "\n§2" + authorMessage + "\n§adiscord.gg/HZyS5T7");
+        new TabMessage("§6------------------\nTaupeGun\n------------------\n", "\n§2" + authorMessage + "\n§adiscord.gg/HZyS5T7").sendTabTitle(receiver);
     }
 
     /**
@@ -45,7 +46,7 @@ public class MessageManager extends Manager {
      */
     public void sendTeamNameAlreadyUsedMessage(Player receiver) {
         String nameAlreadyUsedMessage = "§c" + LanguageBuilder.getContent("TEAM", "nameAlreadyUsed", true);
-        Title.sendActionBar(receiver, nameAlreadyUsedMessage);
+        new ActionBar(nameAlreadyUsedMessage).sendActionBar(receiver);
     }
 
     /**

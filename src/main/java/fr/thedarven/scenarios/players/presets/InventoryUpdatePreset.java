@@ -5,7 +5,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.Preset;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.Title;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -45,7 +45,7 @@ public class InventoryUpdatePreset extends InventoryPresetAction implements Admi
     protected void action(Player player, PlayerTaupe pl) {
         Map<String, String> params = new HashMap<>();
         params.put("presetName", "§e§l" + this.preset.getName() + "§r§a");
-        Title.sendActionBar(player, TextInterpreter.textInterpretation("§a" + UPDATE_PRESET, params));
+        new ActionBar(TextInterpreter.textInterpretation("§a" + UPDATE_PRESET, params)).sendActionBar(player);
 
         this.preset.setValues(this.main.getScenariosManager().getCurrentConfiguration());
     }
