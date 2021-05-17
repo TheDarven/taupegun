@@ -7,6 +7,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
+import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,24 +16,22 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class InventoryKitsElement extends InventoryGUI implements InventoryGiveItem, AdminConfiguration {
 	
-	// protected static Map<String, InventoryKitsElement> kits = new LinkedHashMap<>();
 	protected final Kit kit;
 
 	public InventoryKitsElement(TaupeGun main, InventoryKits parent, Kit kit) {
-		super(main, kit.getName(), "", "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
+		super(main, kit.getName(), null, "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
 		this.kit = kit;
-		// kits.put(name, this);
 		initItem();
-		reloadItem();
-		parent.reloadInventory();
+		setName(kit.getName());
+		this.getParent().reloadInventory();
 	}
-
-
 
 	@Override
 	public void updateLanguage(String language) {
@@ -46,9 +45,14 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 	@Override
 	protected String getFormattedItemName() {
-		return this.name;
+		String name = getName();
+		if (Objects.nonNull(this.kit)) {
+			name = this.kit.getName();
+		}
+		Map<String, String> params = new HashMap<>();
+		params.put("name", name);
+		return TextInterpreter.textInterpretation(ELEMENT_ITEM_NAME_FORMAT, params);
 	}
-	
 	
 	
 	/**

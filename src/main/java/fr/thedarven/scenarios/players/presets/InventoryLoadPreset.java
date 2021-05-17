@@ -18,7 +18,6 @@ import java.util.Objects;
 
 public class InventoryLoadPreset extends InventoryPresetAction implements AdminConfiguration {
 
-    private static final String ITEM_NAME_FORMAT = "§d{name}";
     private static String LOAD_PRESET = "Le preset {presetName} a été chargé avec succès.";
 
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
@@ -43,9 +42,13 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
     }
 
     protected String getFormattedItemName() {
+        String name = getName();
+        if (Objects.nonNull(this.preset)) {
+            name = this.preset.getName();
+        }
         Map<String, String> params = new HashMap<>();
-        params.put("name", getName());
-        return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
+        params.put("name", name);
+        return TextInterpreter.textInterpretation(ELEMENT_ITEM_NAME_FORMAT, params);
     }
 
     /**

@@ -206,7 +206,7 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration, S
 
 	@Override
 	protected String getFormattedItemName() {
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<>();
 		params.put("name", this.name);
 		if (value == 0 && showDisabled) {
 			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", getLanguage(), true));

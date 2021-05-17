@@ -16,8 +16,9 @@ import org.bukkit.plugin.PluginManager;
 import java.util.*;
 
 public abstract class InventoryBuilder implements Listener {
-	
+
 	private static final String ITEM_NAME_FORMAT = "§e{name}";
+	protected static final String ELEMENT_ITEM_NAME_FORMAT = "§d{name}";
 	private static final String INVENTORY_NAME_FORMAT = "{name}";
 	private static final String DESCRIPTION_COLOR = "§7";
 
