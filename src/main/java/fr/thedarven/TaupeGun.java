@@ -12,6 +12,7 @@ import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.teams.TeamManager;
+import fr.thedarven.utils.Metrics;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.utils.languages.LanguageManager;
@@ -29,6 +30,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public boolean development = false;
 
+	private Metrics metrics;
 	private LanguageManager languageManager;
 	private MessageManager messageManager;
 	private ScoreboardManager scoreboardManager;
@@ -52,6 +54,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable(){
 		instance = this;
+
+		this.metrics = new Metrics(this, 11400);
 
 		this.languageManager = new LanguageManager(this);
 		this.languageManager.loadAllTranslations(this);
