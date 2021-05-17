@@ -9,7 +9,7 @@ import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.children.*;
 import fr.thedarven.scenarios.helper.NumericHelper;
 import fr.thedarven.scenarios.helper.StorablePreset;
-import fr.thedarven.scenarios.kits.*;
+import fr.thedarven.scenarios.kits.InventoryKits;
 import fr.thedarven.scenarios.languages.InventoryLanguage;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
 import fr.thedarven.scenarios.players.presets.*;
@@ -43,14 +43,6 @@ public class ScenariosManager {
 	public InventoryLanguageElement en_US;
 
 	public InventoryGUI addKit;
-	public InventoryKitsTNT tntKit;
-	public InventoryKitsBlaze blazeKit;
-	public InventoryKitsAerien aerienKit;
-	public InventoryKitsPotion potionKit;
-	public InventoryDeleteKits tntKitDelete;
-	public InventoryDeleteKits blazeKitDelete;
-	public InventoryDeleteKits aerienKitDelete;
-	public InventoryDeleteKits potionKitDelete;
 
 	public InventoryCreateTeam addTeam;
 	public InventoryTeamsRandom randomizeTeams;
@@ -126,14 +118,6 @@ public class ScenariosManager {
 		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
 
 		this.addKit = new InventoryGUI(this.main, "✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
-		/* this.tntKit = new InventoryKitsTNT(this.main, "TNT", kitsMenu);
-		this.blazeKit = new InventoryKitsBlaze(this.main, "Blaze", kitsMenu);
-		this.aerienKit = new InventoryKitsAerien(this.main, "Aérien", kitsMenu);
-		this.potionKit = new InventoryKitsPotion(this.main, "Potion", kitsMenu);
-		this.tntKitDelete = new InventoryDeleteKits(this.main, tntKit);
-		this.blazeKitDelete = new InventoryDeleteKits(this.main, blazeKit);
-		this.aerienKitDelete = new InventoryDeleteKits(this.main, aerienKit);
-		this.potionKitDelete = new InventoryDeleteKits(this.main, potionKit); */
 
 		this.addTeam = new InventoryCreateTeam(this.main, teamsMenu);
 		this.randomizeTeams = new InventoryTeamsRandom(this.main, teamsMenu);
