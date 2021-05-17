@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'fr.thedarven'
+version '2.8.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    implementation 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
+}
+
+compileJava.options.encoding = 'UTF-8'

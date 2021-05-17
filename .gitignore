@@ -30,3 +30,12 @@ local.properties
 target/*
 .idea_modules/
 /out/
+
+### GRADLE ###
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+src/main/resources/config.properties

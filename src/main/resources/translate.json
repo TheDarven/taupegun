@@ -1,0 +1,1268 @@
+[
+	{
+		"title": "CONTENT",
+		"translations": {
+			"fr_FR": {
+				"enable": "Activer",
+				"enabled": "Activé",
+				"disable": "Désactiver",
+				"disabled": "Désactivé",
+				"confirm": "✔ Confirmer",
+				"cancel": "✘ Annuler",
+				"clickToConfigure": "Cliquez pour configurer",
+				"back": "Retour",
+				"info": "[Info]",
+
+				"moleMessageInfo": " Vous êtes une taupe, trahissez votre équipe et remportez la partie avec votre équipe de taupes !",
+				"moleMessageT": " Tapez /t pour envoyer un message à votre équipe de taupes.",
+				"moleMessageReveal": " Tapez /reveal pour vous révéler aux yeux de tous et gagner une pomme d'or.",
+				"moleMessageClaim": " Tapez /claim pour recevoir votre kit {kitName}. Attention, les items peuvent dropper au sol !",
+				"superMoleMessageInfo": " Vous êtes une super taupe, trahissez votre équipe de taupe et remportez la partie avec votre équipe de super taupes !",
+				"superMoleMessageT": " Tapez /supert pour envoyer un message à votre équipe de super taupes.",
+				"superMoleMessageReveal": " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.",
+				"killList": "======== Liste des kills ========",
+				"selected": "Sélectionné",
+				"statsLink": "Les statistiques de votre partie sont disponibles ici : {link}"
+			},
+			"en_US": {
+				"enable": "Enable",
+				"enabled": "Enabled",
+				"disable": "Disable",
+				"disabled": "Disabled",
+				"confirm": "✔ Confirm",
+				"cancel": "✘ Cancel",
+				"clickToConfigure": "Click here to configure",
+				"back": "Back",
+				"info": "[Info]",
+
+				"moleMessageInfo": " You are a mole, betray your team and win the game along your mole team !",
+				"moleMessageT": " Type /t to send a message to your mole team.",
+				"moleMessageReveal": " Type /reveal to reveal yourself to everyone and get a golden apple.",
+				"moleMessageClaim": " Type /claim to get your {kitName} kit. Beware, items can be dropped on the ground.",
+				"superMoleMessageInfo": " You are a super mole, betray your mole team and win the game along your super mole team !",
+				"superMoleMessageT": " Type /supert to send a message to your super mole team.",
+				"superMoleMessageReveal": " Type /superreveal to reveal yourself to everyone and get a golden apple.",
+				"killList": "======== Kills list ========",
+				"selected": "Selected",
+				"statsLink": "Your game stats are available here: {link}"
+			}
+		}
+	},
+	{
+		"title": "KIT",
+		"translations": {
+			"fr_FR": {
+				"delete": "Le kit {kitName} a été supprimé avec succès.",
+				"nameTooLong": "Le nom du kit ne doit pas dépasser 16 caractères.",
+				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre kit.",
+				"create": "Le kit {kitName} a été créé avec succès.",
+				"createNameMessage": "Nom du kit"
+			},
+			"en_US": {
+				"delete": "The {kitName} kit has been successfully deleted.",
+				"nameTooLong": "The kit's name cannot exceed 16 characters.",
+				"nameAlreadyUsed": "The name has already been used for another kit.",
+				"create": "The {kitName} kit has been successfully created.",
+				"createNameMessage": "Kit's name"
+			}
+		}
+	},
+	{
+		"title": "COMMAND",
+		"translations": {
+			"fr_FR": {
+				"heal": "Vous venez d'être soigné.",
+				"playerList": "Liste des joueurs : ",
+				"revive": "{playerName} a été réssuscité.",
+				"cannotRevive": "Il est impossible de réanimer quelqu'un à ce stade de la partie.",
+				"cannotReviveWorldNotFound": "Aucun monde n'a été trouvé pour réanimer ce joueur.",
+				"molesNotAnnounced": "Les taupes ne sont pas encore annoncées.",
+				"invalidNumber": "Nombre incorrect.",
+
+				"reveal": "{playerName} se révèle être une taupe !",
+				"superReveal": "{playerName} se révèle être une supertaupe !",
+				"cannotSuperReveal": "Vous devez d'abord vous révéler en tant que taupe grâce à la commande /reveal.",
+
+				"operator": "Vous n'avez pas les permissions pour utiliser cette commande.",
+				"disabledCommand": "La commande est désactivée.",
+
+				"coordinates": "Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]"
+			},
+			"en_US": {
+				"heal": "You've been healed.",
+				"playerList": "List of players",
+				"revive": "{playerName} has been revived.",
+				"cannotRevive": "You cannot revive anyone at this stage in the game.",
+				"cannotReviveWorldNotFound": "No world has been found to respawn this player.",
+				"molesNotAnnounced": "The moles haven't been announced yet.",
+				"invalidNumber": "Invalid number.",
+
+				"reveal": "{playerName} has been revealed as a mole.",
+				"superReveal": "{playerName} has been revealed as a supermole.",
+				"cannotSuperReveal": "You have to reveal yourself as a mole first using the command /reveal",
+
+				"operator": "You do not have the necessary permissions to use this command.",
+				"disabledCommand": "The command is disabled.",
+
+				"coordinates": "Coordinates of {playerName} : [x={x}, y={y}, z={z}]"
+			}
+		}
+	},
+	{
+		"title": "START_COMMAND",
+		"translations": {
+			"fr_FR": {
+				"gameAlreadyStarted": "La partie a déjà commencé !",
+				"needTwoTeams": "Il faut au minimum deux équipes.",
+				"needThreez": "Il faut au minimum trois équipes pour avoir une supertaupe.",
+				"notEnoughKits": "Il n'y a pas assez de kits.",
+				"notEnoughPlayersPerTeam": "Il n'y a pas assez de joueurs par équipe.",
+				"disconnectedPlayer": "Les joueurs ne sont pas tous connectés.",
+				"incorrectMoleNumber": "Nombre de taupes par équipe de taupe incorrect.",
+				"gameCanStart": "La partie peut commencer !",
+				"gameIsStarting": "Go !",
+				"gameStartingCancelled": "Lancement annulé",
+				"worldNotExist": "Aucun monde n'a été trouvé pour téléporter les équipes."
+			},
+			"en_US": {
+				"gameAlreadyStarted": "The game has already started !",
+				"needTwoTeams": "You need at least two teams.",
+				"needThreeTeams": "You need at least three teams to have a supermole.",
+				"notEnoughKits": "There aren't enough kits.",
+				"notEnoughPlayersPerTeam": "There aren't enough players in each team.",
+				"disconnectedPlayer": "The players are not all connected.",
+				"incorrectMoleNumber": "Incorrect number of mole per team.",
+				"gameCanStart": "The game can start !",
+				"gameIsStarting": "Go !",
+				"gameStartingCancelled": "Launch canceled",
+				"worldNotExist": "No world has been found to teleport players from the nether."
+			}
+		}
+	},
+	{
+		"title": "TEAM",
+		"translations": {
+			"fr_FR": {
+				"nameChoice": "Choix du nom",
+				"nameTooLong": "Le nom de l'équipe ne doit pas dépasser 16 caractères.",
+				"tooManyTeams": "Vous ne pouvez pas créer plus de 36 équipes.",
+				"create": "L'équipe {teamName} a été créée avec succès.",
+				"delete": "L'équipe {teamName} a été supprimée avec succès.",
+				"full": "L'équipe {teamName} est déjà complète.",
+				"playersDistributed": "Les joueurs ont été répartis dans les équipes.",
+				"empty": "Aucun joueur",
+				"leave": "Quitter l'équipe",
+				"isLeaving": "Vous avez quitté la team {teamName}",
+				"isJoining": "Vous avez rejoint la team {teamName}",
+				"isDeleting": "Le joueur {playerName} a été supprimé de l'équipe.",
+				"isAdding": "Le joueur {playerName} a été ajouté à l'équipe.",
+				"nameAlreadyUsed": "Ce nom d'équipe est déjà pris !",
+				"teamRenamed": "L'équipe a été renommée en {teamName} avec succès.",
+				"teamChoiceTitle": "Menu des équipes",
+				"spectatorTeamName": "Spectateurs",
+				"moleTeamName": "Taupes",
+				"superMoleTeamName": "SuperTaupe"
+			},
+			"en_US": {
+				"nameChoice": "Name choice",
+				"nameTooLong": "The team's name cannot exceed 16 characters.",
+				"tooManyTeams": "You cannot create more than 36 teams.",
+				"create": "The {teamName} team has been successfully created.",
+				"delete": "The {teamName} team has been successfully deleted.",
+				"full": "The {teamName} team is already full.",
+				"playersDistributed": "The players have been divided into teams.",
+				"empty": "No players",
+				"leave": "Leave team",
+				"isLeaving": "You just left the {teamName} team",
+				"isJoining": "You just joined the {teamName} team",
+				"isDeleting": "{playerName} has been removed from the team.",
+				"isAdding": "{playerName} has been added to the team.",
+				"nameAlreadyUsed": "This team's name is already taken.",
+				"teamRenamed": "The team has been successfully renamed {teamName}.",
+				"teamChoiceTitle": "Team menu",
+				"spectatorTeamName": "Spectators",
+				"moleTeamName": "Moles",
+				"superMoleTeamName": "SuperMole"
+			}
+		}
+	},
+	{
+		"title": "ITEM",
+		"translations": {
+			"fr_FR": {
+				"head": "Tête de {playerName}",
+				"configuration": "Configuration"
+			},
+			"en_US": {
+				"head": "{playerName}'s head",
+				"configuration": "Configuration"
+			}
+		}
+	},
+	{
+		"title": "GAME",
+		"translations": {
+			"fr_FR": {
+				"moleAnnouncement": "Annonce des taupes dans 5 secondes.",
+				"superMoleAnnouncement": "Annonce des supertaupes dans 5 secondes.",
+				"wallShrinking3Minutes": "Le mur va commencer à se réduire dans 3 minutes !",
+				"wallShrinking": "Le mur commence à se réduire !",
+				"teamWin": "L'équipe {teamName} a gagné !",
+				"nobodyWin": "Personne n'a gagné !",
+				"episodeIsStarting": "===== Début de l'épisode {episodeNumber} =====",
+				"pvpIsStarting": "[PvP] Le PvP est désormais activé !",
+				"cannotTeleportWorldNotFound": "Aucun monde n'a été trouvé pour téléporter les joueurs qui sont dans le nether."
+			},
+			"en_US": {
+				"moleAnnouncement": "Mole will be announced in 5 seconds",
+				"superMoleAnnouncement": "Supermole will be announced in 5 seconds.",
+				"wallShrinking3Minutes": "The wall will begin shrinking in 3 minutes !",
+				"wallShrinking": "The wall is starting to shrink !",
+				"teamWin": "The {teamName} have won !",
+				"nobodyWin": "Nobody has won !",
+				"episodeIsStarting": "===== Start of episode {episodeNumber} =====",
+				"pvpIsStarting": "[PvP] PvP is now enabled",
+				"cannotTeleportWorldNotFound": "No world has been found to teleport players from the nether."
+			}
+		}
+	},
+	{
+		"title": "INVSEE",
+		"translations": {
+			"fr_FR": {
+				"inventoryTitle": "Inventaire de {playerName}",
+				"level": "Niveaux : {level}",
+				"effect": "Effets",
+				"heart": "Coeurs : {valueColor}{heart}/{heartMax}{endValueColor}",
+				"mole": "Taupe : {teamName}",
+				"notMole": "Taupe : {valueColor}Non{endValueColor}",
+				"unknownMole": "Taupe: {valueColor}Inconnu{endValueColor}",
+				"superMole": "SuperTaupe : {teamName}",
+				"notSuperMole": "SuperTaupe : {valueColor}Non{endValueColor}",
+				"unknownSuperMole": "SuperTaupe: {valueColor}Inconnu{endValueColor}",
+				"information": "Informations",
+				"kill": "Nombre de kills : {kill}"
+			},
+			"en_US": {
+				"inventoryTitle": "{playerName}'s inventory",
+				"level": "Levels : {level}",
+				"effect": "Effects",
+				"heart": "Hearts : {valueColor}{heart}/{heartMax}{endValueColor}",
+				"mole": "Mole : {teamName}",
+				"notMole": "Mole : {valueColor}No{endValueColor}",
+				"unknownMole": "Mole: {valueColor}Unknown{endValueColor}",
+				"superMole": "Supermole : {teamName}",
+				"notSuperMole": "SuperMole : {valueColor}No{endValueColor}",
+				"unknownSuperMole": "SuperMole: {valueColor}Unknown{endValueColor}",
+				"information": "Information",
+				"kill": "Number of kills : {kill}"
+			}
+		}
+	},
+	{
+		"title": "SCOREBOARD",
+		"translations": {
+			"fr_FR": {
+				"author": "Plugin par TheDarven",
+				"connectedPlayer": "Joueurs: {valueColor}{playerCounter} ({teamCounter}){endValueColor}",
+				"portal": "Portail: {valueColor}{distance}{endValueColor}",
+				"center": "Centre: {valueColor}{distance}{endValueColor}",
+				"kill": "Kills: {valueColor}{kill}{endValueColor}",
+				"wall": "Mur: {valueColor}{timer}{endValueColor}",
+				"timer": "Chrono: {valueColor}{timer}{endValueColor}",
+				"border": "Bordure: {valueColor}{border}{endValueColor}",
+				"episode": "Épisode {episodeNumber}"
+			},
+			"en_US": {
+				"author": "Plugin by TheDarven",
+				"connectedPlayer": "Players: {valueColor}{playerCounter} ({teamCounter}){endValueColor}",
+				"portal": "Portal: {valueColor}{distance}{endValueColor}",
+				"center": "Center: {valueColor}{distance}{endValueColor}",
+				"kill": "Kills: {valueColor}{kill}{endValueColor}",
+				"wall": "Wall: {valueColor}{timer}{endValueColor}",
+				"timer": "Timer: {valueColor}{timer}{endValueColor}",
+				"border": "Border: {valueColor}{border}{endValueColor}",
+				"episode": "Episode {episodeNumber}"
+			}
+		}
+	},
+	{
+		"title": "PRESET",
+		"translations": {
+			"fr_FR": {
+				"tooManyPresets": "Vous ne pouvez pas avoir plus de 9 presets.",
+				"createPresetDefaultName": "Nom du preset",
+				"nameTooLong": "Le nom du preset ne doit pas dépasser 16 caractères.",
+				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre preset.",
+				"create": "Le preset {presetName} a été créé avec succès.",
+				"delete": "Votre preset {presetName} a été supprimé avec succès.",
+				"load": "Le preset {presetName} a été chargé avec succès.",
+				"update": "Le preset {presetName} a été modifié avec succès."
+			},
+			"en_US": {
+				"tooManyPresets": "You cannot create more than 9 presets.",
+				"createPresetDefaultName": "Preset's name",
+				"nameTooLong": "The preset's name cannot exceed 16 characters.",
+				"nameAlreadyUsed": "The name has already been used for another preset.",
+				"create": "The {presetName} preset has been successfully created.",
+				"delete": "The {presetName} preset has been successfully deleted.",
+				"load": "The preset {presetName} has been successfully loaded.",
+				"update": "The preset {presetName} has been successfully modified."
+			}
+		}
+	},
+
+
+
+	{
+		"title": "EVENT_DEATH",
+		"translations": {
+			"fr_FR": {
+				"deathAll": "{playerName} est mort.",
+				"deathMumble": "Vous êtes à présent mort. Merci de vous muter ou de changer de channel mumble.",
+				"deathInfo": "Vous pouvez connaître la liste des taupes en faisant /taupelist."
+			},
+			"en_US": {
+				"deathAll": "{playerName} died.",
+				"deathMumble": "You just died. Please mute yourself or change mumble channel.",
+				"deathInfo": "You can find out the moles' list by typing /taupelist."
+			}
+		}
+	},
+	{
+		"title": "EVENT_LOGIN",
+		"translations": {
+			"fr_FR": {
+				"developerModeTitle": "Mode développement : ON",
+				"developerModeSubtitle": "Prévenez TheDarven (il doit être désactivé)"
+			},
+			"en_US": {
+				"developerModeTitle": "Developer mode: ON",
+				"developerModeSubtitle": "Please let TheDarven know (it should be deactivated)"
+			}
+		}
+	},
+	{
+		"title": "EVENT_TCHAT",
+		"translations": {
+			"fr_FR": {
+				"teamMessage": "[Equipe] ",
+				"spectatorMessage": "[Spec] ",
+				"cannotPrivateMessage": "Vous ne pouvez pas envoyer de messages privés."
+			},
+			"en_US": {
+				"teamMessage": "[Team] ",
+				"spectatorMessage": "[Spec] ",
+				"cannotPrivateMessage": "You cannot send private messages."
+			}
+		}
+	},
+
+
+
+
+
+
+
+
+
+
+
+	{
+		"title": "MENU_MAIN_MENU",
+		"translations": {
+			"fr_FR": {
+				"name": "Menu",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Menu",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_LANGUAGE",
+		"translations": {
+			"fr_FR": {
+				"name": "Langue",
+				"description": "Changer de langue.",
+				"selectingMessage": "Vous avez sélectionné la langue {languageName}"
+			},
+			"en_US": {
+				"name": "Language",
+				"description": "Switch language.",
+				"selectingMessage": "You just selected {languageName}"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION",
+		"translations": {
+			"fr_FR": {
+				"name": "Configuration",
+				"description": "Menu de configuration"
+			},
+			"en_US": {
+				"name": "Configuration",
+				"description": "Configuration menu"
+			}
+		}
+	},
+	{
+		"title": "MENU_STARTER_KIT",
+		"translations": {
+			"fr_FR": {
+				"name": "Stuff de départ",
+				"description": "Configuration du stuff de départ."
+			},
+			"en_US": {
+				"name": "Starter kit",
+				"description": "Starter kit configuration."
+			}
+		}
+	},
+
+	{
+		"title": "MENU_PRESET",
+		"translations": {
+			"fr_FR": {
+				"name": "Configurations sauvegardées",
+				"description": "Pour sauvegarder et charger ses configurations personnelles."
+			},
+			"en_US": {
+				"name": "Saved presets",
+				"description": "Save and load your own custom presets."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ADD",
+		"translations": {
+			"fr_FR": {
+				"name": "Ajouter un preset",
+				"description": "Sauvegarder la configuration actuelle. Elle sera réutilisable après redémarrage du serveur."
+			},
+			"en_US": {
+				"name": "Create a preset",
+				"description": "Save current configuration. It will be reusable after a server restart."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ITEM",
+		"translations": {
+			"fr_FR": {
+				"description": "Charger le preset."
+			},
+			"en_US": {
+				"description": "Load preset."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_ITEM_DELETE",
+		"translations": {
+			"fr_FR": {
+				"title": "Supprimer le preset"
+			},
+			"en_US": {
+				"title": "Delete the preset"
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_RENAME",
+		"translations": {
+			"fr_FR": {
+				"title": "Renommer le preset",
+				"description": "En développement."
+			},
+			"en_US": {
+				"title": "Delete the preset",
+				"description": "Under development."
+			}
+		}
+	},
+	{
+		"title": "MENU_PRESET_UPDATE",
+		"translations": {
+			"fr_FR": {
+				"title": "Modifier le preset",
+				"description": "Permet de remplacer le preset sauvegardé par la configuration actuelle."
+			},
+			"en_US": {
+				"title": "Modify preset",
+				"description": "Replace saved preset with your current configuration."
+			}
+		}
+	},
+
+
+
+	{
+		"title": "MENU_TEAM",
+		"translations": {
+			"fr_FR": {
+				"name": "Équipes",
+				"description": "Menu des équipes."
+			},
+			"en_US": {
+				"name": "Teams",
+				"description": "Teams menu"
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ADD",
+		"translations": {
+			"fr_FR": {
+				"name": "✚ Ajouter une équipe",
+				"description": ""
+			},
+			"en_US": {
+				"name": "✚ Add a team",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ADD_COLOR",
+		"translations": {
+			"fr_FR": {
+				"name": "Choix de la couleur",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Color choice",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_RANDOM",
+		"translations": {
+			"fr_FR": {
+				"name": "Équipes randoms",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Random teams",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ITEM_DELETE",
+		"translations": {
+			"fr_FR": {
+				"name": "Supprimer l'équipe",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Delete the team",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ITEM_PARAMETER",
+		"translations": {
+			"fr_FR": {
+				"name": "Paramètres",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Parameters",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ITEM_PARAMETER_COLOR",
+		"translations": {
+			"fr_FR": {
+				"name": "Changer la couleur",
+				"description": "En développement."
+			},
+			"en_US": {
+				"name": "Change color",
+				"description": "Under development."
+			}
+		}
+	},
+	{
+		"title": "MENU_TEAM_ITEM_PARAMETER_RENAME",
+		"translations": {
+			"fr_FR": {
+				"name": "Changer le nom",
+				"description": "En développement."
+			},
+			"en_US": {
+				"name": "Change the name",
+				"description": "Under development."
+			}
+		}
+	},
+
+
+	{
+		"title": "MENU_TEAM_ITEM_ADD_PLAYER",
+		"translations": {
+			"fr_FR": {
+				"name": "Ajouter un joueur",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Add a player",
+				"description": ""
+			}
+		}
+	},
+
+
+
+
+	{
+		"title": "MENU_KIT",
+		"translations": {
+			"fr_FR": {
+				"name": "Kits",
+				"description": "Menu des kits."
+			},
+			"en_US": {
+				"name": "Kits",
+				"description": "Kits menu"
+			}
+		}
+	},
+	{
+		"title": "MENU_KIT_ADD",
+		"translations": {
+			"fr_FR": {
+				"name": "✚ Ajouter un kit",
+				"description": ""
+			},
+			"en_US": {
+				"name": "✚ Add a kit",
+				"description": ""
+			}
+		}
+	},
+	{
+		"title": "MENU_KIT_ITEM_DELETE",
+		"translations": {
+			"fr_FR": {
+				"name": "Supprimer le kit",
+				"description": ""
+			},
+			"en_US": {
+				"name": "Delete the kit",
+				"description": ""
+			}
+		}
+	},
+
+
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_TIMER",
+		"translations": {
+			"fr_FR": {
+				"name": "Timers",
+				"description": "Menu des timers."
+			},
+			"en_US": {
+				"name": "Timers",
+				"description": "Timers menu"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_TIMER_PVP",
+		"translations": {
+			"fr_FR": {
+				"name": "PvP",
+				"description": "La minute à laquelle le PvP s'active.",
+				"afterName": "min"
+			},
+			"en_US": {
+				"name": "PvP",
+				"description": "The minute at which PvP is enabled.",
+				"afterName": "min"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_TIMER_MOLES",
+		"translations": {
+			"fr_FR": {
+				"name": "Annonces taupes",
+				"description": "La minute à laquelle les taupes sont annoncées.",
+				"afterName": "min"
+			},
+			"en_US": {
+				"name": "Moles reveal",
+				"description": "The minute at which moles are announced.",
+				"afterName": "min"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_TIMER_SHRINK",
+		"translations": {
+			"fr_FR": {
+				"name": "Début de la réduction",
+				"description": "Minute à laquelle le mur commence à se réduire.",
+				"afterName": "min"
+			},
+			"en_US": {
+				"name": "Wall shrink time",
+				"description": "The minute at which the wall begins to shrink.",
+				"afterName": "min"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_TIMER_EPISODE",
+		"translations": {
+			"fr_FR": {
+				"name": "Durée d'un épisode",
+				"description": "La durée d'une épisode.",
+				"afterName": "min"
+			},
+			"en_US": {
+				"name": "Episode length",
+				"description": "The episode's length.",
+				"afterName": "min"
+			}
+		}
+	},
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_WALL",
+		"translations": {
+			"fr_FR": {
+				"name": "Mur",
+				"description": "Menu du mur."
+			},
+			"en_US": {
+				"name": "Wall",
+				"description": "Wall menu."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_WALL_BEFORE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taille avant la réduction",
+				"description": "La taille du mur avant le début de la réduction.",
+				"afterName": " blocs +/-"
+			},
+			"en_US": {
+				"name": "Size before shrink",
+				"description": "The map size before the wall begins to shrink.",
+				"afterName": " blocks +/-"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_WALL_AFTER",
+		"translations": {
+			"fr_FR": {
+				"name": "Taille après la réduction",
+				"description": "La taille du mur à la fin de la réduction.",
+				"afterName": " blocs +/-"
+			},
+			"en_US": {
+				"name": "Size after shrink",
+				"description": "The map size after the wall shrank.",
+				"afterName": " blocks +/-"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_WALL_SPEED",
+		"translations": {
+			"fr_FR": {
+				"name": "Vitesse de la réduction",
+				"description": "La vitesse à laquelle le mur se réduit.",
+				"afterName": " blocs/seconde"
+			},
+			"en_US": {
+				"name": "Shrinking speed",
+				"description": "The wall shrinking speed.",
+				"afterName": " blocks/second"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_WALL_DAMAGE",
+		"translations": {
+			"fr_FR": {
+				"name": "Dégâts du mur",
+				"description": "Les dégâts infligés par le mur.",
+				"afterName": " dégâts"
+			},
+			"en_US": {
+				"name": "Wall damage",
+				"description": "The amount of damage inflicted by the wall.",
+				"afterName": " damage"
+			}
+		}
+	},
+
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO",
+		"translations": {
+			"fr_FR": {
+				"name": "Scénarios",
+				"description": "Menu des scénarios."
+			},
+			"en_US": {
+				"name": "Scenarios",
+				"description": "Scenarios menu."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_CUTCLEAN",
+		"translations": {
+			"fr_FR": {
+				"name": "CutClean",
+				"description": "Aucun cuisson n'est nécessaire avec ce scénario."
+			},
+			"en_US": {
+				"name": "CutClean",
+				"description": "No smelting or cooking necessary in this scenario."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
+		"translations": {
+			"fr_FR": {
+				"name": "Blood Diamond",
+				"description": "Les diamants infligent des dégâts lorsqu'ils sont minés.",
+				"afterName": "❤"
+			},
+			"en_US": {
+				"name": "Blood Diamond",
+				"description": "Diamonds inflict damage when mined.",
+				"afterName": "❤"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
+		"translations": {
+			"fr_FR": {
+				"name": "Diamond Limit",
+				"description": "Limite le nombre de diamant que chaque joueur peut miner dans la partie.",
+				"exceededLimit": "Vous avez dépassé la limite de diamant."
+			},
+			"en_US": {
+				"name": "Diamond Limit",
+				"description": "Limits the maximum amount of diamonds a player can mine in a game.",
+				"exceededLimit": "You've exceed your diamond limit."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_LAVALIMITER",
+		"translations": {
+			"fr_FR": {
+				"name": "Lava Limiter",
+				"description": "Désactive le placement de lave proche des autres joueurs.",
+				"cannotPlace": "Vous ne pouvez pas placer de la lave proche d'un joueur."
+			},
+			"en_US": {
+				"name": "Lava Limiter",
+				"description": "Disables placement of lava close to other players.",
+				"cannotPlace": "You cannot place lava close to another player."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_PEARLDAMAGE",
+		"translations": {
+			"fr_FR": {
+				"name": "No Enderpearl Damage",
+				"description": "Désactive les dégâts causés par les enderpearl."
+			},
+			"en_US": {
+				"name": "No Enderpearl Damage",
+				"description": "Disables ender pearl fall damage."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_NETHER",
+		"translations": {
+			"fr_FR": {
+				"name": "Nether",
+				"description": "Active ou non le nether."
+			},
+			"en_US": {
+				"name": "Nether",
+				"description": "Enables or not the nether."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_TIMBER",
+		"translations": {
+			"fr_FR": {
+				"name": "Timber",
+				"description": "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche."
+			},
+			"en_US": {
+				"name": "Timber",
+				"description": "Trees fully break whenever a player breaks one log off of it."
+			}
+		}
+	},
+
+
+
+
+
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_DROPS",
+		"translations": {
+			"fr_FR": {
+				"name": "Drops",
+				"description": "Menu des drops."
+			},
+			"en_US": {
+				"name": "Drops",
+				"description": "Drops menu"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_DROPS_APPLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Pommes",
+				"description": "Pourcentage de drop des pommes.",
+				"afterName": "%"
+			},
+			"en_US": {
+				"name": "Apples",
+				"description": "Apples loot rate.",
+				"afterName": "%"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_DROPS_FLINT",
+		"translations": {
+			"fr_FR": {
+				"name": "Silexs",
+				"description": "Pourcentage de drop des silex.",
+				"afterName": "%"
+			},
+			"en_US": {
+				"name": "Flints",
+				"description": "Flints loot rate.",
+				"afterName": "%"
+			}
+		}
+	},
+
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_OTHER",
+		"translations": {
+			"fr_FR": {
+				"name": "Autres",
+				"description": "Autres paramètres."
+			},
+			"en_US": {
+				"name": "Others",
+				"description": "Other parameters."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_SHOWCONFIG",
+		"translations": {
+			"fr_FR": {
+				"name": "Scénarios visibles",
+				"description": "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios."
+			},
+			"en_US": {
+				"name": "Visible scenarios",
+				"description": "Enables or not to make all the scenarios visible to the players."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_SHOWCOORDS",
+		"translations": {
+			"fr_FR": {
+				"name": "Coordonnées visibles",
+				"description": "Active ou non les coordonnées au cours de la partie. Si désactivé, un message au dessus de l'inventaire indiquera une distance approximative au centre."
+			},
+			"en_US": {
+				"name": "Visible coordinates",
+				"description": "Enables or not the coordinates during a game. If disabled, a message displayed above the player's inventory will indicate an approximate distance to the center."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_GOLDENHEAD",
+		"translations": {
+			"fr_FR": {
+				"name": "Golden Head",
+				"description": "Nombre de coeurs régénérés par les Golden Head.",
+				"afterName": "❤"
+			},
+			"en_US": {
+				"name": "Golden Head",
+				"description": "Number of hearts regenerated by Golden Heads.",
+				"afterName": "❤"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Pommes d'or à la mort",
+				"description": "Détermine le nombre de pommes dorées drop à la mort d'un joueur.",
+				"afterName": " pomme(s)"
+			},
+			"en_US": {
+				"name": "Golden apples at death",
+				"description": "Sets the number of golden apples dropped when a player dies.",
+				"afterName": " apple(s)"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_TEAM",
+		"translations": {
+			"fr_FR": {
+				"name": "Choisir son équipe",
+				"description": "Donne la possibilité aux joueurs de rejoindre eux-mêmes les équipes.",
+				"teamChoice": "Choix de l'équipe"
+			},
+			"en_US": {
+				"name": "Choose your team",
+				"description": "Allows players to join the teams themselves.",
+				"teamChoice": "Team choice"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_TCHAT",
+		"translations": {
+			"fr_FR": {
+				"name": "Tchat équipe",
+				"description": "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs."
+			},
+			"en_US": {
+				"name": "Team chat",
+				"description": "Enables or not team chats. If activated, you'll need to prefix ! at the beginning of the message in order to send it into the general channel."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_POTION2",
+		"translations": {
+			"fr_FR": {
+				"name": "Potion II",
+				"description": "Active ou non les potions de niveau 2.",
+				"transformPotion": "Poufff ! Votre potion est passée au niveau 1."
+			},
+			"en_US": {
+				"name": "Potion II",
+				"description": "Enables or not level 2 potions.",
+				"transformPotion": "Poofff ! Your potion turned back to level 1."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_WEATHER",
+		"translations": {
+			"fr_FR": {
+				"name": "Météo",
+				"description": "Active ou non les changements météorologiques."
+			},
+			"en_US": {
+				"name": "Weather",
+				"description": "Toggles weather changes."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Cycle jour/nuit",
+				"description": "Active ou non le cycle jour/nuit."
+			},
+			"en_US": {
+				"name": "Day/night cycle",
+				"description": "Toggles the day/night cycle."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL",
+		"translations": {
+			"fr_FR": {
+				"name": "Potion de force",
+				"description": "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%)."
+			},
+			"en_US": {
+				"name": "Strength potion",
+				"description": "Sets the percentage of additional damage per strength potion level (default: +130% per level)"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_CREEPER",
+		"translations": {
+			"fr_FR": {
+				"name": "Mort par creeper",
+				"description": "Active ou non la mort par les explosions de creeper."
+			},
+			"en_US": {
+				"name": "Death by creeper",
+				"description": "Toggles death by creeper explosion."
+			}
+		}
+	},
+
+
+
+	{
+		"title": "MENU_CONFIGURATION_MOLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taupes",
+				"description": "Tous les paramètres des taupes."
+			},
+			"en_US": {
+				"name": "Moles",
+				"description": "The entire moles configuration."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_MOLE_SUPERMOLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Supertaupes",
+				"description": "Active ou non les supertaupes."
+			},
+			"en_US": {
+				"name": "Supermoles",
+				"description": "Enables or not supermoles."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_MOLE_NUMBEROF",
+		"translations": {
+			"fr_FR": {
+				"name": "Nombre de taupes",
+				"description": "Détermine le nombre de taupes par équipe de départ.",
+				"afterName": " taupe(s)"
+			},
+			"en_US": {
+				"name": "Number of moles",
+				"description": "Chooses the number of moles per starting team.",
+				"afterName": " mole(s)"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_MOLE_TEAMSIZE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taille des équipes",
+				"description": "Détermine la taille des équipes de taupes.",
+				"afterName": " taupe(s)"
+			},
+			"en_US": {
+				"name": "Team size",
+				"description": "Chooses the moles' team size.",
+				"afterName": " mole(s)"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_MOLE_SUPERMOLE_TEAMSIZE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taille des équipes supertaupes",
+				"description": "Détermine la taille des équipes de supertaupes.",
+				"afterName": " supertaupe(s)"
+			},
+			"en_US": {
+				"name": "Supermoles team size",
+				"description": "Defines the size of the supermoles teams.",
+				"afterName": " supermole(s)"
+			}
+		}
+	},
+	
+	
+	
+	{
+		"title": "MENU_CONFIGURATION_COMMAND",
+		"translations": {
+			"fr_FR": {
+				"name": "Commandes",
+				"description": "Activation des commandes."
+			},
+			"en_US": {
+				"name": "Commands",
+				"description": "Enable commands"
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_COMMAND_TAUPELIST",
+		"translations": {
+			"fr_FR": {
+				"name": "/taupelist",
+				"description": "Active ou non la possibilité pour les spectateurs de voir la liste des taupes."
+			},
+			"en_US": {
+				"name": "/taupelist",
+				"description": "Toggles mole list display for spectators."
+			}
+		}
+	},
+	{
+		"title": "MENU_CONFIGURATION_COMMAND_COORDS",
+		"translations": {
+			"fr_FR": {
+				"name": "/coords",
+				"description": "Active ou non la possibilité d'envoyer rapidement ses coordonées à ses coéquipiers."
+			},
+			"en_US": {
+				"name": "/coords",
+				"description": "Toggles the possibility to send quickly his coordinates to his teammates."
+			}
+		}
+	}
+]
