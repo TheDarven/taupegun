@@ -1,10 +1,11 @@
 package fr.thedarven.scenarios.builders;
 
-import java.util.*;
-
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.EnumConfiguration;
+import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
@@ -12,11 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 
-import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumConfiguration;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.TextInterpreter;
+import java.util.*;
 
 public abstract class InventoryBuilder implements Listener {
 	

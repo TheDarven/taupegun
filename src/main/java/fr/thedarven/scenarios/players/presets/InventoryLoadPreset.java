@@ -18,6 +18,7 @@ import java.util.Objects;
 
 public class InventoryLoadPreset extends InventoryPresetAction implements AdminConfiguration {
 
+    private static final String ITEM_NAME_FORMAT = "§d{name}";
     private static String LOAD_PRESET = "Le preset {presetName} a été chargé avec succès.";
 
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
@@ -35,12 +36,16 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
-        LanguageBuilder languageElement = super.initDefaultTranslation();
-
         LanguageBuilder languagePreset = LanguageBuilder.getLanguageBuilder("PRESET");
         languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "load", LOAD_PRESET);
 
-        return languageElement;
+        return LanguageBuilder.getLanguageBuilder(getTranslationName());
+    }
+
+    protected String getFormattedItemName() {
+        Map<String, String> params = new HashMap<>();
+        params.put("name", getName());
+        return TextInterpreter.textInterpretation(ITEM_NAME_FORMAT, params);
     }
 
     /**
