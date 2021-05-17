@@ -37,7 +37,7 @@ public class StartCommand extends OperatorCommand {
 
 			if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 1)) {
 				moles.add(playerList.get(r.nextInt(team.getSize())));
-				graph.addEquipes(moles);
+				graph.addTeams(moles);
 			} else if (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 2) {
 				int taupeInt1 = r.nextInt(team.getSize());
 				int taupeInt2 = r.nextInt(team.getSize());
@@ -46,11 +46,11 @@ public class StartCommand extends OperatorCommand {
 				}
 				moles.add(playerList.get(taupeInt1));
 				moles.add(playerList.get(taupeInt2));
-				graph.addEquipes(moles);
+				graph.addTeams(moles);
 			}
 		}
 
-		boolean successTeamCreation = graph.creationEquipes();
+		boolean successTeamCreation = graph.createTeams();
 		if (!successTeamCreation) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", true));
 			TeamCustom.deleteTeamTaupe();

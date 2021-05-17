@@ -24,11 +24,11 @@ public class TeamGraph {
 		moleTeam = new ArrayList<>();
 	}
 	
-	public void addEquipes(List<PlayerTaupe> pAddEquipes) {
+	public void addTeams(List<PlayerTaupe> pAddEquipes) {
 		molesOfTeam.add(pAddEquipes);
 	}
 	
-	public boolean creationEquipes() {
+	public boolean createTeams() {
 		if (/*pNbrTaupes > molesOfTeam.size() ||*/ molesOfTeam.size() == 0) {
 			return false;
 		} else {
