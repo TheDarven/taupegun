@@ -12,7 +12,7 @@ import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.teams.TeamManager;
-import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.utils.languages.LanguageManager;
 import fr.thedarven.utils.manager.CraftManager;
@@ -90,9 +90,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		for (Player p: Bukkit.getOnlinePlayers()) {
-			if (!scenariosManager.coordonneesVisibles.getValue()) {
-				DisableF3.enableF3(p);
-			}
+			DisableF3.enableF3(p);
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
 

@@ -7,7 +7,7 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.*;

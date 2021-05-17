@@ -6,7 +6,7 @@ import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
 import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.utils.DisableF3;
+import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.titles.Title;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
