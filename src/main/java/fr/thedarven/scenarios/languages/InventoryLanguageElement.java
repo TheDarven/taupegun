@@ -3,9 +3,9 @@ package fr.thedarven.scenarios.languages;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,13 +17,13 @@ import java.util.Objects;
 
 public class InventoryLanguageElement extends InventoryGUI implements AdminConfiguration {
 
-	private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+	private static final String SUB_DESCRIPTION_FORMAT = "§a► {description}";
 	
 	private final String languageShortName;
 	private final String link;
 	
 	public InventoryLanguageElement(TaupeGun main, String name, String description, InventoryGUI parent, String languageShortName, String link) {
-		super(main, name, description, null, 1, Material.SKULL_ITEM, parent, 0);
+		super(main, name, description, null, 1, Material.SKULL_ITEM, parent, 0, (byte) 3);
 		this.languageShortName = languageShortName;
 		this.link = link;
 
@@ -76,7 +76,7 @@ public class InventoryLanguageElement extends InventoryGUI implements AdminConfi
 	final public void reloadItem() {
 		int exItem = getItem().hashCode();
 
-		ItemStack head = Skull.getCustomSkull(link, getItem());
+		ItemStack head = Skull.getCustomSkull(this.link, getItem());
 		ItemMeta headM = head.getItemMeta();
 		headM.setDisplayName(getFormattedItemName());
 		headM.setLore(getFormattedDescription());

@@ -208,7 +208,7 @@ public class GameRunnable extends BukkitRunnable {
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
             if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
-                DisableF3.disableF3(player);
+                new DisableF3().disableF3(player);
             }
             this.main.getPlayerManager().clearPlayer(player);
 

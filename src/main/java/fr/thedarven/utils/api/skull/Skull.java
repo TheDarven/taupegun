@@ -42,7 +42,7 @@ public class Skull {
         PropertyMap propertyMap = profile.getProperties();
 
         Base64 base64 = new Base64();
-        byte[] encodedData = base64.encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+        byte[] encodedData = base64.encode(String.format("{textures: {SKIN: {url: \"%s\"}}}", url).getBytes());
         propertyMap.put("textures", new Property("textures", new String(encodedData)));
 
         ItemMeta headMeta = head.getItemMeta();

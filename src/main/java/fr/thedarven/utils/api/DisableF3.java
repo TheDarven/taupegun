@@ -14,12 +14,14 @@ public class DisableF3 {
 	private static final byte DISABLE_BYTE = 22;
 	private static final byte ENABLE_BYTE = 23;
 
+	public DisableF3() { }
+
 	/**
 	 * Hides the coordinates on player's F3 panel
 	 *
 	 * @param player
 	 */
-	public static void disableF3(Player player) {
+	public void disableF3(Player player) {
 		PacketPlayOutEntityStatus statusPacket = new PacketPlayOutEntityStatus(Reflection.getEntityPlayer(player), DISABLE_BYTE);
 		Reflection.sendPackets(player, statusPacket);
 	}
@@ -29,7 +31,7 @@ public class DisableF3 {
 	 *
 	 * @param player
 	 */
-	public static void enableF3(Player player) {
+	public void enableF3(Player player) {
 		PacketPlayOutEntityStatus statusPacket = new PacketPlayOutEntityStatus(Reflection.getEntityPlayer(player), ENABLE_BYTE);
 		Reflection.sendPackets(player, statusPacket);
 	}

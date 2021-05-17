@@ -5,6 +5,7 @@ import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.ScenariosManager;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
+import fr.thedarven.scenarios.languages.InventoryLanguageElement;
 import fr.thedarven.scenarios.players.InventoryPlayers;
 import fr.thedarven.scenarios.runnable.DelayClickRunnable;
 import fr.thedarven.utils.languages.LanguageBuilder;

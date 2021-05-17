@@ -46,7 +46,7 @@ public class PlayerJoinQuitListener implements Listener {
 			}
 		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
-				DisableF3.disableF3(player);
+				new DisableF3().disableF3(player);
 			}
 
 			if (!pl.isAlive() || Objects.isNull(pl.getTeam())) {

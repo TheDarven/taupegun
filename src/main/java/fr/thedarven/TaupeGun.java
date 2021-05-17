@@ -90,7 +90,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable(){
 		for (Player p: Bukkit.getOnlinePlayers()) {
-			DisableF3.enableF3(p);
+			if (!scenariosManager.coordonneesVisibles.getValue()) {
+				new DisableF3().enableF3(p);
+			}
 
 			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
 
