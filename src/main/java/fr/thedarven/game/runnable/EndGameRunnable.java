@@ -1,6 +1,7 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.messages.MessageManager;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
@@ -14,6 +15,9 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EndGameRunnable extends BukkitRunnable {
 
@@ -70,8 +74,10 @@ public class EndGameRunnable extends BukkitRunnable {
     private void sendKillRankingMessage() {
         String killListMessage = "§l§6" + LanguageBuilder.getContent("CONTENT", "killList", true);
         Bukkit.broadcastMessage(killListMessage);
-        PlayerTaupe.getAllPlayerManager().stream()
+        List<PlayerTaupe> kills = PlayerTaupe.getAllPlayerManager().stream()
                 .filter(pc -> pc.getKill() > 0)
-                .forEach(pc -> Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.GREEN + pc.getName() + ": " + ChatColor.RESET + " " + pc.getKill()));
+                .sorted(new SortPlayerKill())
+                .collect(Collectors.toList());
+        kills.forEach(pc -> Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.GREEN + pc.getName() + ": " + ChatColor.RESET + " " + pc.getKill()));
     }
 }
