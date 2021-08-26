@@ -13,7 +13,8 @@ public abstract class InventoryPlayers extends InventoryGUI {
 
     protected final Map<UUID, InventoryPlayersElement> players = new HashMap<>();
 
-    public InventoryPlayers(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, int pPosition) {
+    public InventoryPlayers(TaupeGun main, String pName, String pDescription, String pTranslationName,
+                            int pLines, Material pMaterial, InventoryGUI pParent, int pPosition) {
         super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition);
     }
 

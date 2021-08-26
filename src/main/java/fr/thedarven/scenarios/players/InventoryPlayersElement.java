@@ -2,7 +2,6 @@ package fr.thedarven.scenarios.players;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.scenarios.players.presets.InventoryPlayersPreset;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -12,13 +11,18 @@ import java.util.UUID;
 public abstract class InventoryPlayersElement extends InventoryGUI {
 
     protected final UUID owner;
-    protected final InventoryPlayersPreset clusterParent;
+    protected final InventoryPlayers clusterParent;
 
-    public InventoryPlayersElement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, InventoryGUI pParent, UUID owner, InventoryPlayersPreset clusterParent) {
+    public InventoryPlayersElement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines,
+                                   Material pMaterial, InventoryGUI pParent, UUID owner, InventoryPlayers clusterParent) {
         super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent);
         this.owner = owner;
         this.clusterParent = clusterParent;
         this.clusterParent.addElement(this, owner);
+    }
+
+    public UUID getOwner() {
+        return owner;
     }
 
     public void onReturnClick(Player player) {
