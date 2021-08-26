@@ -32,6 +32,7 @@ public class ListenerManager extends Manager {
 		pm.registerEvents(new WeatherChangeListener(), this.main);
 		
 		pm.registerEvents(new PlayerDropListener(), this.main);
+		pm.registerEvents(new InventoryOpenListener(this.main), this.main);
 		pm.registerEvents(new InventoryClickListener(this.main), this.main);
 		pm.registerEvents(new TeamsInventoryClickListener(), this.main);
 		
