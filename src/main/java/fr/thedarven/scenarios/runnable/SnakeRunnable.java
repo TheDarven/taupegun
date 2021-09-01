@@ -3,8 +3,11 @@ package fr.thedarven.scenarios.runnable;
 import fr.thedarven.models.enums.CreditPlayerTypeEnum;
 import fr.thedarven.models.enums.DirectionEnum;
 import fr.thedarven.scenarios.players.credits.CreditPlayer;
+import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -112,8 +115,10 @@ public class SnakeRunnable extends BukkitRunnable {
             // LOOSE
             Player player = Bukkit.getPlayer(this.inventoryCreditElement.getOwner());
             if (Objects.nonNull(player)) {
-                // TODO Message traduction + score
-                new ActionBar("§cVous avez perdu avec un score de §6" + this.score + "§c !").sendActionBar(player);
+                String loseGameMessage = "§c" + InventoryCredit.LOSE_GAME;
+                Map<String, String> params = new HashMap<>();
+                params.put("score", "§6" + this.score + "§c");
+                new ActionBar(TextInterpreter.textInterpretation(loseGameMessage, params)).sendActionBar(player);
             }
             this.inventoryCreditElement.startGame();
             return;
@@ -126,8 +131,10 @@ public class SnakeRunnable extends BukkitRunnable {
             if (this.body.size() == inventory.getSize()) {
                 Player player = Bukkit.getPlayer(this.inventoryCreditElement.getOwner());
                 if (Objects.nonNull(player)) {
-                    // TODO Message traduction + score
-                    new ActionBar("§aVous avec terminé la partie avec un score de §2" + this.score + "§a, félicitations !").sendActionBar(player);
+                    String winGameMessage = "§a" + InventoryCredit.WIN_GAME;
+                    Map<String, String> params = new HashMap<>();
+                    params.put("score", "§2" + this.score + "§a");
+                    new ActionBar(TextInterpreter.textInterpretation(winGameMessage, params)).sendActionBar(player);
                 }
                 this.inventoryCreditElement.startGame();
                 return;

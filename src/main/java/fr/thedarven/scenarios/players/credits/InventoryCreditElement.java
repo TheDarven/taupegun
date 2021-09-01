@@ -15,7 +15,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 
 public class InventoryCreditElement extends InventoryPlayersElement {
 
@@ -71,7 +72,7 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         for (int index: indexes) {
             ItemStack item = playerInventory.getItem(index);
             if (Objects.nonNull(item) && item.getType() != Material.AIR) {
-                // TODO Message vous n'avez pas la place dans votre inventaire
+                player.sendMessage(InventoryCredit.NOT_ENOUGH_SLOT);
                 player.closeInventory();
                 return;
             }
