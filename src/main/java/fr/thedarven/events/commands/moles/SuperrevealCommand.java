@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class SuperrevealCommand extends GenericRevealCommand {
 
 	public SuperrevealCommand(TaupeGun main){
-		super(main, "cannotSuperReveal", ChatColor.DARK_RED);
+		super(main, "superReveal", ChatColor.DARK_RED);
 	}
 
 	@Override
