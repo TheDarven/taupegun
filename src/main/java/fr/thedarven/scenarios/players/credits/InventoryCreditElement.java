@@ -90,6 +90,13 @@ public class InventoryCreditElement extends InventoryPlayersElement {
     }
 
     @Override
+    public void onPlayerDisconnect(Player player) {
+        removeDirectionalArrow(player);
+        endGame();
+    }
+
+
+    @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         e.setCancelled(true);
         ItemStack clickedItem = e.getCurrentItem();

@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
@@ -119,5 +120,12 @@ public class PlayerJoinQuitListener implements Listener {
 		
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 		pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
+
+		if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
+			InventoryGUI openedInventory = InventoryGUI.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
+			if (!Objects.isNull(openedInventory)) {
+				openedInventory.onPlayerDisconnect(player);
+			}
+		}
 	}
 }

@@ -16,6 +16,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -348,6 +349,13 @@ public class InventoryGUI extends InventoryBuilder {
 	 * @param event L'évènement de fermeture.
 	 */
 	public void onInventoryClose(InventoryCloseEvent event) { }
+
+	/**
+	 * Lorsqu'un joueur se trouvant dans l'inventaire est déconnecté .
+	 *
+	 * @param player Le joueur qui va être déconnecté.
+	 */
+	public void onPlayerDisconnect(Player player) { }
 
 	/**
 	 * Permet de valider l'action de clic dans l'inventaire
