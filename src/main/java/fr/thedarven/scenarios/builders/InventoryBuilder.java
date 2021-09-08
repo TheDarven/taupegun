@@ -69,7 +69,11 @@ public abstract class InventoryBuilder implements Listener {
 		PluginManager pm = this.main.getServer().getPluginManager();
 		pm.registerEvents(this, this.main);
 	}
-	
+
+	public TaupeGun getMain() {
+		return this.main;
+	}
+
 	/**
 	 * Pour avoir le nom sans formatage
 	 * 

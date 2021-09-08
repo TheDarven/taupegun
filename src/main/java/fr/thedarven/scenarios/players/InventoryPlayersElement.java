@@ -1,6 +1,7 @@
 package fr.thedarven.scenarios.players;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,6 +24,10 @@ public abstract class InventoryPlayersElement extends InventoryGUI {
 
     public UUID getOwner() {
         return owner;
+    }
+
+    public PlayerTaupe getPlayerTaupeOwner() {
+        return PlayerTaupe.getPlayerManager(this.owner);
     }
 
     public void onReturnClick(Player player) {
