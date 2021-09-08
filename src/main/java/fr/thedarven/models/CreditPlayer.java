@@ -1,4 +1,4 @@
-package fr.thedarven.scenarios.players.credits;
+package fr.thedarven.models;
 
 import fr.thedarven.models.enums.CreditPlayerTypeEnum;
 import fr.thedarven.utils.api.skull.Skull;

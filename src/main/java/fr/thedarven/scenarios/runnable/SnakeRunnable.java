@@ -2,7 +2,7 @@ package fr.thedarven.scenarios.runnable;
 
 import fr.thedarven.models.enums.CreditPlayerTypeEnum;
 import fr.thedarven.models.enums.DirectionEnum;
-import fr.thedarven.scenarios.players.credits.CreditPlayer;
+import fr.thedarven.models.CreditPlayer;
 import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
 import fr.thedarven.utils.TextInterpreter;
