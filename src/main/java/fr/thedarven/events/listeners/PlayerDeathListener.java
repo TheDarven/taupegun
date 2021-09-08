@@ -66,46 +66,49 @@ public class PlayerDeathListener implements Listener {
 			Bukkit.broadcastMessage(deathAllMessage);
 		}
 
-		Player deadPlayer = pl.getPlayer();
-		if (EnumGameState.isCurrentState(EnumGameState.GAME)){
-			pl.setAlive(false);
-			
-			/* ON S'OCCUPE DU JOUEUR */
-			TeamCustom team = pl.getTeam();
-			this.main.getPlayerManager().sendPlaySound(Sound.WITHER_SPAWN);
-
-			if (this.main.getGameManager().molesEnabled() && pl.isOnline()){
-				Map<String, String> params = new HashMap<>();
-				params.put("playerName", pl.getName());
-				String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
-
-				if (Objects.nonNull(deadPlayer)) {
-					if (this.main.getScenariosManager().goldenHead.getValue() > 0) {
-						deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
-					}
-
-					int nbGoldenApple = this.main.getScenariosManager().deathGoldenApple.getIntValue();
-					if (nbGoldenApple > 0) {
-						deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), new ItemStack(Material.GOLDEN_APPLE, nbGoldenApple));
-					}
-				}
-			}
-
-			if (Objects.nonNull(deadPlayer)){
-				deadPlayer.setGameMode(GameMode.SPECTATOR);
-				World world = this.main.getWorldManager().getWorld();
-				if (Objects.nonNull(world)) {
-					deadPlayer.teleport(new Location(world,0,200,0));
-				}
-				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
-				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
-			}
-			
-			this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);
-			if (Objects.nonNull(team)) {
-				team.leaveTeam(pl.getUuid());
-			}
-			TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
+		if (!EnumGameState.isCurrentState(EnumGameState.GAME)) {
+			return;
 		}
+
+		pl.setAlive(false);
+
+		/* ON S'OCCUPE DU JOUEUR */
+		Player deadPlayer = pl.getPlayer();
+		TeamCustom team = pl.getTeam();
+		this.main.getPlayerManager().sendPlaySound(Sound.WITHER_SPAWN);
+
+		if (Objects.nonNull(deadPlayer)){
+			if (this.main.getGameManager().molesEnabled() && pl.isOnline()) {
+				if (this.main.getScenariosManager().goldenHead.getValue() > 0) {
+					dropHeadItem(pl, deadPlayer);
+				}
+
+				int nbGoldenApple = this.main.getScenariosManager().deathGoldenApple.getIntValue();
+				if (nbGoldenApple > 0) {
+					deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), new ItemStack(Material.GOLDEN_APPLE, nbGoldenApple));
+				}
+			}
+
+			deadPlayer.setGameMode(GameMode.SPECTATOR);
+			World world = this.main.getWorldManager().getWorld();
+			if (Objects.nonNull(world)) {
+				deadPlayer.teleport(new Location(world,0,200,0));
+			}
+			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
+		}
+
+		this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);
+		if (Objects.nonNull(team)) {
+			team.leaveTeam(pl.getUuid());
+		}
+		TeamCustom.getSpectatorTeam().joinTeam(pl);
+	}
+
+	private void dropHeadItem(PlayerTaupe pl, Player deadPlayer) {
+		Map<String, String> params = new HashMap<>();
+		params.put("playerName", pl.getName());
+		String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
+		deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
 	}
 }
