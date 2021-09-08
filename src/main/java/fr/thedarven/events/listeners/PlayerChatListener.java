@@ -2,6 +2,7 @@ package fr.thedarven.events.listeners;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.players.PlayerCustom;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
@@ -50,7 +51,12 @@ public class PlayerChatListener implements Listener {
 						this.main.getMessageManager().superMoleSendsSuperMoleMessage(player, pl, e.getMessage().split(" "));
 					} else {
 						String teamMessage = "§e" + LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true)+"§7" + player.getName() + ": " + e.getMessage();
-						pl.getTeam().getAlivesPlayers().forEach(playerTaupe -> playerTaupe.getPlayer().sendMessage(teamMessage));
+						if (Objects.nonNull(pl.getTeam())) {
+							pl.getTeam().getAlivesPlayers()
+									.stream()
+									.filter(PlayerCustom::isOnline)
+									.forEach(playerTaupe -> playerTaupe.getPlayer().sendMessage(teamMessage));
+						}
 					}
 				}
 			} else {
