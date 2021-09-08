@@ -60,6 +60,10 @@ public class SnakeRunnable extends BukkitRunnable {
         generateFood();
     }
 
+    public Inventory getInventory() {
+        return this.inventoryCreditElement.getInventory();
+    }
+
     public void setDirection(DirectionEnum direction) {
         if (this.direction.xTranslate == direction.xTranslate * -1 && this.direction.yTranslate == direction.yTranslate * -1) {
             return;
@@ -81,7 +85,7 @@ public class SnakeRunnable extends BukkitRunnable {
     }
 
     private void initInventory() {
-        Inventory inventory = inventoryCreditElement.getInventory();
+        Inventory inventory = getInventory();
         if (Objects.isNull(inventory)) {
             return;
         }
@@ -105,7 +109,7 @@ public class SnakeRunnable extends BukkitRunnable {
             return;
         }
 
-        Inventory inventory = this.inventoryCreditElement.getInventory();
+        Inventory inventory = getInventory();
 
         int headIndex = this.body.getLast();
         inventory.setItem(headIndex, this.bodyItem);
