@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,7 +47,16 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         }
     }
 
-    private void giveDirectionalArrow(Player player) {
+    public void endGameAndRemoveArrow(Player player) {
+        removeDirectionalArrow(player);
+        endGame();
+    }
+
+    private void giveDirectionalArrow(@Nullable Player player) {
+        if (Objects.isNull(player)) {
+            return;
+        }
+
         Inventory playerInventory = player.getInventory();
         playerInventory.setItem(13, TOP_HEAD);
         playerInventory.setItem(21, LEFT_HEAD);
@@ -54,7 +64,11 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         playerInventory.setItem(23, RIGHT_HEAD);
     }
 
-    private void removeDirectionalArrow(Player player) {
+    private void removeDirectionalArrow(@Nullable Player player) {
+        if (Objects.isNull(player)) {
+            return;
+        }
+
         Inventory playerInventory = player.getInventory();
         playerInventory.setItem(13, null);
         playerInventory.setItem(21, null);
@@ -85,14 +99,12 @@ public class InventoryCreditElement extends InventoryPlayersElement {
 
     @Override
     public void onInventoryClose(InventoryCloseEvent event) {
-        removeDirectionalArrow((Player) event.getPlayer());
-        endGame();
+        endGameAndRemoveArrow((Player) event.getPlayer());
     }
 
     @Override
     public void onPlayerDisconnect(Player player) {
-        removeDirectionalArrow(player);
-        endGame();
+        endGameAndRemoveArrow(player);
     }
 
 

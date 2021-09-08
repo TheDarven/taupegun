@@ -3,11 +3,11 @@ package fr.thedarven.scenarios.runnable;
 import fr.thedarven.models.enums.CreditPlayerTypeEnum;
 import fr.thedarven.models.enums.DirectionEnum;
 import fr.thedarven.models.CreditPlayer;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
-import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -105,6 +105,11 @@ public class SnakeRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
+        PlayerTaupe playerTaupe = this.inventoryCreditElement.getPlayerTaupeOwner();
+        if (!playerTaupe.isOnline() || !Objects.equals(playerTaupe.getPlayer().getOpenInventory().getTopInventory(), getInventory())) {
+            this.inventoryCreditElement.endGameAndRemoveArrow(playerTaupe.getPlayer());
+        }
+
         if (direction == DirectionEnum.NONE) {
             return;
         }
