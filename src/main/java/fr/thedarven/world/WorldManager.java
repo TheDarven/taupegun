@@ -20,11 +20,15 @@ public class WorldManager extends Manager {
     }
 
     public World getWorldNether() {
-        return Bukkit.getWorlds().get(1);
+        return Bukkit.getWorlds().size() >= 2
+                ? Bukkit.getWorlds().get(1)
+                : null;
     }
 
     public World getWorldEnd() {
-        return Bukkit.getWorlds().get(2);
+        return Bukkit.getWorlds().size() >= 3
+                ? Bukkit.getWorlds().get(2)
+                : null;
     }
 
     public void initWorldsRules(){
