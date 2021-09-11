@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlayerTaupe extends PlayerCustom {
 
@@ -252,14 +253,15 @@ public class PlayerTaupe extends PlayerCustom {
 	}
 
 	public static PlayerTaupe getPlayerTaupeByName(String name) {
-		if (Objects.isNull(name))
+		if (Objects.isNull(name)) {
 			return null;
+		}
 
-		Optional<PlayerTaupe> playerTaupeOptional = playerManagerHashMap.values()
+		return playerManagerHashMap.values()
 				.stream()
-				.filter(pl -> pl.getName().equals(name))
-				.findFirst();
-		return playerTaupeOptional.orElse(null);
+				.filter(pl -> pl.getName().equalsIgnoreCase(name))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public static PlayerTaupe getPlayerManager(UUID playerUuid) {
@@ -270,28 +272,21 @@ public class PlayerTaupe extends PlayerCustom {
 	}
 
 	public static List<PlayerTaupe> getAlivePlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<>();
-		for(PlayerTaupe pc : playerManagerHashMap.values()){
-			if(pc.isAlive()){
-				list.add(pc);
-			}
-		}
-		return list;
+		return playerManagerHashMap.values()
+				.stream()
+				.filter(PlayerTaupe::isAlive)
+				.collect(Collectors.toList());
 	}
 
 	public static List<PlayerTaupe> getDeathPlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<>();
-		for(PlayerTaupe pc : playerManagerHashMap.values()){
-			if(!pc.isAlive()){
-				list.add(pc);
-			}
-		}
-		return list;
+		return playerManagerHashMap.values()
+				.stream()
+				.filter(pl -> !pl.isAlive())
+				.collect(Collectors.toList());
 	}
 
 	public static List<PlayerTaupe> getAllPlayerManager(){
-		List<PlayerTaupe> list = new ArrayList<>(playerManagerHashMap.values());
-		return list;
+		return new ArrayList<>(playerManagerHashMap.values());
 	}
 
 }

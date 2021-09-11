@@ -34,6 +34,14 @@ public class ItemManager extends Manager {
         return item;
     }
 
+    public ItemStack addTagOnItemStack(ItemStack item) {
+        net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+        NBTTagCompound tag = nmsItem.getTag();
+        tag.setString("uuid", UUID.randomUUID().toString());
+        nmsItem.setTag(tag);
+        return CraftItemStack.asBukkitCopy(nmsItem);
+    }
+
     /**
      * @author https://www.spigotmc.org/threads/how-to-serialize-itemstack-inventory-with-attributestorage.152931/#post-1625561
      *

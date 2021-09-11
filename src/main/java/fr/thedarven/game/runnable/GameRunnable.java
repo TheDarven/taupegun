@@ -212,7 +212,7 @@ public class GameRunnable extends BukkitRunnable {
             }
             this.main.getPlayerManager().clearPlayer(player);
 
-            if (playerTaupe.getTeam() == null) {
+            if (Objects.isNull(playerTaupe.getTeam())) {
                 playerTaupe.setAlive(false);
             } else {
                 this.main.getScenariosManager().startItem.giveItems(player);

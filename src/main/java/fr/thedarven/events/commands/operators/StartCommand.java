@@ -69,8 +69,9 @@ public class StartCommand extends OperatorCommand {
 	}
 
 	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (!super.validateCommand(sender, pl, cmd, alias, args))
+		if (!super.validateCommand(sender, pl, cmd, alias, args)) {
 			return false;
+		}
 
 		if (!EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "gameAlreadyStarted", true));

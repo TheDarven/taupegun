@@ -46,11 +46,17 @@ public class ScenariosVisible extends OptionBoolean {
      * @param name L'ancien nom de l'item
      */
     final public void giveScenariosItem(Player player, String name) {
-        ItemStack banner = new ItemStack(Material.BEACON, 1, (byte) 15);
-        ItemMeta bannerM = banner.getItemMeta();
-        bannerM.setDisplayName(name);
-        banner.setItemMeta(bannerM);
-        player.getInventory().setItem(4, banner);
+        ItemStack beacon = new ItemStack(Material.BEACON, 1);
+        ItemMeta beaconM = beacon.getItemMeta();
+        beaconM.setDisplayName(name);
+        beacon.setItemMeta(beaconM);
+        player.getInventory().setItem(4, beacon);
+
+        /* ItemStack credit = new ItemStack(Material.PAPER, 1);
+        ItemMeta creditM = credit.getItemMeta();
+        creditM.setDisplayName(this.main.getScenariosManager().credits.getName());
+        credit.setItemMeta(creditM);
+        player.getInventory().setItem(0, credit); */
     }
 
     /**

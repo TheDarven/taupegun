@@ -15,9 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -336,6 +335,27 @@ public class InventoryGUI extends InventoryBuilder {
 		}
 	}
 
+
+	/**
+	 * Lorsque l'inventaire est ouvert.
+	 *
+	 * @param event L'évènement d'ouverture.
+	 */
+	public void onInventoryOpen(InventoryOpenEvent event) { }
+
+	/**
+	 * Lorsque l'inventaire est fermé.
+	 *
+	 * @param event L'évènement de fermeture.
+	 */
+	public void onInventoryClose(InventoryCloseEvent event) { }
+
+	/**
+	 * Lorsqu'un joueur se trouvant dans l'inventaire est déconnecté .
+	 *
+	 * @param player Le joueur qui va être déconnecté.
+	 */
+	public void onPlayerDisconnect(Player player) { }
 
 	/**
 	 * Permet de valider l'action de clic dans l'inventaire

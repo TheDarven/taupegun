@@ -19,8 +19,9 @@ public class PlayerkillCommand extends OperatorCommand {
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		PlayerTaupe targetedPl = PlayerTaupe.getPlayerTaupeByName(args[0]);
-		if (Objects.isNull(targetedPl) || !targetedPl.isAlive())
+		if (Objects.isNull(targetedPl) || !targetedPl.isAlive()) {
 			return;
+		}
 
 		Player targetedPlayer = pl.getPlayer();
 		if (Objects.nonNull(targetedPlayer)) {
