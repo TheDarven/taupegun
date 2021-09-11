@@ -52,11 +52,11 @@ public class ScenariosVisible extends OptionBoolean {
         beacon.setItemMeta(beaconM);
         player.getInventory().setItem(4, beacon);
 
-        ItemStack credit = new ItemStack(Material.PAPER, 1);
+        /* ItemStack credit = new ItemStack(Material.PAPER, 1);
         ItemMeta creditM = credit.getItemMeta();
-        creditM.setDisplayName("Crédits");
+        creditM.setDisplayName(this.main.getScenariosManager().credits.getName());
         credit.setItemMeta(creditM);
-        player.getInventory().setItem(0, credit);
+        player.getInventory().setItem(0, credit); */
     }
 
     /**

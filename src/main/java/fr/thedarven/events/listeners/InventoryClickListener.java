@@ -96,7 +96,7 @@ public class InventoryClickListener implements Listener {
 
 			if (clickItem.getType() == Material.PAPER && clickItem.getItemMeta().getDisplayName().equals("Crédits")) {
 				if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-					this.main.getScenariosManager().inventoryCredit.openInventoryOfPlayer(player);
+					this.main.getScenariosManager().credits.openInventoryOfPlayer(player);
 				}
 				e.setCancelled(true);
 				return;
