@@ -5,6 +5,7 @@ import fr.thedarven.items.ItemManager;
 import fr.thedarven.models.Manager;
 import fr.thedarven.scenarios.kits.InventoryDeleteKits;
 import fr.thedarven.scenarios.kits.InventoryKitsElement;
+import fr.thedarven.utils.ItemHelper;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -136,7 +137,7 @@ public class KitManager extends Manager {
             ItemManager itemManager = this.main.getItemManager();
             for (int i = 0; i < 9; i++) {
                 ItemStack item = inventory.getItem(i);
-                if (Objects.nonNull(item) && item.getType() != Material.AIR) {
+                if (!ItemHelper.isNullOrAir(item)) {
                     items.set(i, itemManager.toBase64(item));
                 } else {
                     items.set(i, null);

@@ -7,6 +7,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
+import fr.thedarven.utils.ItemHelper;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -108,7 +109,7 @@ public class InventoryKitsElement extends InventoryGUI implements InventoryGiveI
 
 		for(int i = 0; i < 9; i++) {
 			item = this.inventory.getItem(i);
-			if (Objects.nonNull(item) && item.getType() != Material.AIR) {
+			if (!ItemHelper.isNullOrAir(item)) {
 				player.getWorld().dropItem(playerLocation, item);
 			}
 		}

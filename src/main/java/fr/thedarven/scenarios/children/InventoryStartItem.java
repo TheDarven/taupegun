@@ -7,6 +7,7 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.helper.InventoryGiveItem;
 import fr.thedarven.scenarios.helper.StorablePreset;
+import fr.thedarven.utils.ItemHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -77,7 +78,8 @@ public class InventoryStartItem extends InventoryGUI implements AdminConfigurati
 		ItemManager itemManager = this.main.getItemManager();
 
 		for (int i = 0; i < 45; i++) {
-			if ((i > 9 || i < 4) && Objects.nonNull(currentInventory.getItem(i)) && currentInventory.getItem(i).getType() != Material.AIR) {
+			ItemStack currentItem = currentInventory.getItem(i);
+			if ((i > 9 || i < 4) && !ItemHelper.isNullOrAir(currentItem)) {
 				items.add(itemManager.toBase64(currentInventory.getItem(i)));
 			} else {
 				items.add(null);

@@ -8,6 +8,7 @@ import fr.thedarven.scenarios.helper.AdminConfiguration;
 import fr.thedarven.scenarios.languages.InventoryLanguageElement;
 import fr.thedarven.scenarios.players.InventoryPlayers;
 import fr.thedarven.scenarios.runnable.DelayClickRunnable;
+import fr.thedarven.utils.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -241,7 +242,7 @@ public class InventoryGUI extends InventoryBuilder {
 			return;
 
 		ItemStack redstone = this.inventory.getItem(this.getLines() * 9 - 1);
-		if (Objects.nonNull(redstone) && redstone.getType() != Material.AIR) {
+		if (!ItemHelper.isNullOrAir(redstone)) {
 			ItemMeta redstoneM = redstone.getItemMeta();
 			redstoneM.setDisplayName(ChatColor.RED + BACK_STRING);
 			redstone.setItemMeta(redstoneM);

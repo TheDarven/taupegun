@@ -6,6 +6,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.players.InventoryPlayersElement;
 import fr.thedarven.scenarios.runnable.SnakeRunnable;
+import fr.thedarven.utils.ItemHelper;
 import fr.thedarven.utils.api.skull.Skull;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -85,7 +86,7 @@ public class InventoryCreditElement extends InventoryPlayersElement {
 
         for (int index: indexes) {
             ItemStack item = playerInventory.getItem(index);
-            if (Objects.nonNull(item) && item.getType() != Material.AIR) {
+            if (!ItemHelper.isNullOrAir(item)) {
                 player.sendMessage(InventoryCredit.NOT_ENOUGH_SLOT);
                 player.closeInventory();
                 return;
