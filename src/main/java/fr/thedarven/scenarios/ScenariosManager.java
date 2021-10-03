@@ -87,6 +87,7 @@ public class ScenariosManager {
 	public OptionBoolean daylightCycle;
 	public PotionII potionLevel2;
 	public StrengthNerf strengthPercentage;
+	public OptionBoolean kickOnDeath;
 
 	public InventoryGUI molesMenu;
 	public OptionBoolean superMoles;
@@ -164,6 +165,7 @@ public class ScenariosManager {
 		this.daylightCycle = new OptionBoolean(this.main, "Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
 		this.potionLevel2 = new PotionII(this.main, othersMenu);
 		this.strengthPercentage = new StrengthNerf(this.main, othersMenu);
+		this.kickOnDeath = new OptionBoolean(this.main, "Kick à la mort", "Exclut les joueurs à leur mort.", "MENU_CONFIGURATION_OTHER_DEATH_KICK", Material.REDSTONE_BLOCK, othersMenu, 15, false);
 
 		this.molesMenu = new InventoryGUI(this.main, "Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configurationMenu, 10);
 		this.superMoles = new OptionBoolean(this.main, "Supertaupes", "Active ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, molesMenu, false);

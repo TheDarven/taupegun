@@ -1170,6 +1170,19 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_DEATH_KICK",
+		"translations": {
+			"fr_FR": {
+				"name": "Kick à la mort",
+				"description": "Exclut les joueurs à leur mort."
+			},
+			"en_US": {
+				"name": "Kick on death",
+				"description": "Kicks players once they die."
+			}
+		}
+	},
 
 
 

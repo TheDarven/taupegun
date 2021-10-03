@@ -94,8 +94,13 @@ public class PlayerDeathListener implements Listener {
 			if (Objects.nonNull(world)) {
 				deadPlayer.teleport(new Location(world,0,200,0));
 			}
-			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
-			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
+
+			if (this.main.getScenariosManager().kickOnDeath.getValue()) {
+				deadPlayer.kickPlayer( LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+			} else {
+				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
+			}
 		}
 
 		this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);
