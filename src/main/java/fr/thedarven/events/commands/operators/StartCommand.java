@@ -5,16 +5,15 @@ import fr.thedarven.events.runnable.StartRunnable;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.teams.graph.MoleCreationGraph;
+import fr.thedarven.teams.graph.MoleCreationSuccessEnum;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import fr.thedarven.utils.TeamGraph;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class StartCommand extends OperatorCommand {
 
@@ -26,32 +25,10 @@ public class StartCommand extends OperatorCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		TeamGraph graph = new TeamGraph(this.main);
+		MoleCreationGraph graph = this.main.getScenariosManager().moleTeamMate.getMoleCreationGraph();
 
-		Random r = new Random();
-
-		List<TeamCustom> teams = TeamCustom.getAllStartTeams();
-		for (TeamCustom team: teams) {
-			List<PlayerTaupe> moles = new ArrayList<>();
-			List<PlayerTaupe> playerList = new ArrayList<>(team.getPlayers());
-
-			if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 1)) {
-				moles.add(playerList.get(r.nextInt(team.getSize())));
-				graph.addTeams(moles);
-			} else if (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 2) {
-				int taupeInt1 = r.nextInt(team.getSize());
-				int taupeInt2 = r.nextInt(team.getSize());
-				while (taupeInt1 == taupeInt2) {
-					taupeInt2 = r.nextInt(team.getSize());
-				}
-				moles.add(playerList.get(taupeInt1));
-				moles.add(playerList.get(taupeInt2));
-				graph.addTeams(moles);
-			}
-		}
-
-		boolean successTeamCreation = graph.createTeams();
-		if (!successTeamCreation) {
+		MoleCreationSuccessEnum moleTeamCreationSuccess = graph.createTeams();
+		if (moleTeamCreationSuccess == MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", true));
 			TeamCustom.deleteTeamTaupe();
 			for(PlayerTaupe playerTaupe : PlayerTaupe.getAllPlayerManager()) {

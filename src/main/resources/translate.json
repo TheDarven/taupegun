@@ -1244,9 +1244,22 @@
 			}
 		}
 	},
-	
-	
-	
+	{
+		"title": "MENU_CONFIGURATION_MOLE_SUPERMOLE_MATE",
+		"translations": {
+			"fr_FR": {
+				"name": "Avec coéquipiers",
+				"description": "Active la possibilité d'être dans la même équipe de taupe que des coéquipiers."
+			},
+			"en_US": {
+				"name": "With teammates",
+				"description": "Allows to be in the same mole team as a teammate."
+			}
+		}
+	},
+
+
+
 	{
 		"title": "MENU_CONFIGURATION_COMMAND",
 		"translations": {

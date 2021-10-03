@@ -11,7 +11,8 @@ import org.bukkit.Material;
 public class MoleTeamMate extends OptionBoolean {
 
     public MoleTeamMate(TaupeGun main, InventoryGUI pParent) {
-        super(main, "pName", "pDescription", "pTranslationName", Material.POTATO, pParent, false);
+        super(main, "Avec coéquipiers", "Active la possibilité d'être dans la même équipe de taupe que des coéquipiers.",
+                "MENU_CONFIGURATION_MOLE_MATE", Material.POTATO, pParent, false);
     }
 
     public MoleCreationGraph getMoleCreationGraph() {
