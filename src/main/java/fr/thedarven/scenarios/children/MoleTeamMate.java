@@ -1,0 +1,22 @@
+package fr.thedarven.scenarios.children;
+
+import fr.thedarven.TaupeGun;
+import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.builders.OptionBoolean;
+import fr.thedarven.teams.graph.MoleCreationGraph;
+import fr.thedarven.teams.graph.MoleCreationNoMateGraph;
+import fr.thedarven.teams.graph.MoleCreationWithMateGraph;
+import org.bukkit.Material;
+
+public class MoleTeamMate extends OptionBoolean {
+
+    public MoleTeamMate(TaupeGun main, InventoryGUI pParent) {
+        super(main, "pName", "pDescription", "pTranslationName", Material.POTATO, pParent, false);
+    }
+
+    public MoleCreationGraph getMoleCreationGraph() {
+        return this.value
+                ? new MoleCreationWithMateGraph(this.main)
+                : new MoleCreationNoMateGraph(this.main);
+    }
+}
