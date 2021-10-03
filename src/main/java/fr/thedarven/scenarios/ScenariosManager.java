@@ -3,6 +3,7 @@ package fr.thedarven.scenarios;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kits.Kit;
 import fr.thedarven.kits.KitManager;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
@@ -20,6 +21,8 @@ import fr.thedarven.scenarios.teams.InventoryTeamsColor;
 import fr.thedarven.scenarios.teams.InventoryTeamsRandom;
 import fr.thedarven.utils.FileHelper;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -286,5 +289,49 @@ public class ScenariosManager {
 	public void savePlayersConfiguration() {
 		FileHelper<Map<UUID, PlayerConfiguration>> fileConfiguration = new FileHelper<>(this.main, PLAYER_CONFIGURATION_FILE);
 		fileConfiguration.writeFile(this.playersConfigurations);
+	}
+
+	/**
+	 * Met à jour les items des configurations dans l'inventaire courant d'un joueur
+	 *
+	 * @param player Le joueur auquel les items doivent être mis à jour.
+	 */
+	public final void reloadPlayerItemOfPlayer(Player player) {
+		InventoryGUI.getInventoriesGUI().forEach(inventoryGUI -> {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
+				inventoryGUI.getConfigurationPlayerItem().reloadPlayerItem(player);
+			}
+		});
+	}
+
+	/**
+	 * Supprime les items des configurations dans l'inventaire courant d'un joueur
+	 *
+	 * @param player Le joueur auquel les items doivent être retiré.
+	 */
+	public final void removePlayerItem(Player player) {
+		InventoryGUI.getInventoriesGUI().forEach(inventoryGUI -> {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
+				inventoryGUI.getConfigurationPlayerItem().removePlayerItem(player);
+			}
+		});
+	}
+
+	/**
+	 * Détecte et réalise l'action d'un clique sur un ConfigurationPlayerItem.
+	 *
+	 * @param item L'item sur lequel l'utilisateur a cliqué.
+	 * @param pl Le PlayerTaupe qui a cliqué.
+	 * @return <b>true</b> si le clique a eu lieu sur un ConfigurationPlayerItem, <b>false</b> sinon.
+	 */
+	public final boolean onPlayerItemClick(ItemStack item, PlayerTaupe pl) {
+		for (InventoryGUI inventoryGUI: InventoryGUI.getInventoriesGUI()) {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())
+					&& inventoryGUI.getConfigurationPlayerItem().getItem().hashCode() == item.hashCode()) {
+				inventoryGUI.onPlayerItemClick(pl);
+				return true;
+			}
+		}
+		return false;
 	}
 }

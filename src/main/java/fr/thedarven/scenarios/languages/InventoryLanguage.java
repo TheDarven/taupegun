@@ -114,12 +114,8 @@ public class InventoryLanguage extends InventoryGUI implements AdminConfiguratio
 			return;
 
 		InventoryLanguageElement exSelectedLanguage = this.selectedLanguage;
-
-		ScenariosVisible scenariosVisible = this.main.getScenariosManager().scenariosVisible;
-		String exName =  scenariosVisible.getFormattedScenariosItemName();
 		
 		setSelectedLanguage(selectedInventoryLanguage);
-		Bukkit.getOnlinePlayers().forEach(p -> scenariosVisible.reloadScenariosItem(p, exName));
 		
 		if (Objects.nonNull(exSelectedLanguage)) {
 			exSelectedLanguage.reloadItem();
