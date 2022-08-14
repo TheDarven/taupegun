@@ -2,11 +2,11 @@ package fr.thedarven.world;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
+import fr.thedarven.utils.RandomHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class WorldManager extends Manager {
 
@@ -78,8 +78,7 @@ public class WorldManager extends Manager {
         for (int x = -15; x < 16; x++){
             for (int z = -15; z < 16; z++){
 
-                Random r = new Random();
-                byte data = (byte) r.nextInt(15);
+                byte data = (byte) RandomHelper.generate(15);
 
                 Block block = world.getBlockAt(x, 200, z);
                 block.setType(Material.STAINED_GLASS);

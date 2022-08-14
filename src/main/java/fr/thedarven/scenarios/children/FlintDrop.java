@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionNumeric;
 import fr.thedarven.scenarios.helper.NumericHelper;
+import fr.thedarven.utils.RandomHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Random;
 
 public class FlintDrop extends OptionNumeric {
 
@@ -36,10 +35,10 @@ public class FlintDrop extends OptionNumeric {
 		super(main, "Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT,
 				parent, new NumericHelper(1, 200, 20, 1, 3, "%", 2, false, 2));
 	}
-	
+
 	/**
 	 * Réarrange le taux de drop du flint quand un gravier est cassé à la main
-	 * 
+	 *
 	 * @param e L'évènement d'explosion d'un bloc
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -60,8 +59,9 @@ public class FlintDrop extends OptionNumeric {
 				continue;
 
 			int number = item.getEnchantmentLevel(Enchantment.DURABILITY);
-			if ((int) (Math.random() * number) != 0)
+			if (RandomHelper.generate(number + 1) != 0) {
 				continue;
+			}
 
 			for (int i = 0; i < 5; i++) {
 				if (item.getType().toString().startsWith((String) TOOLS_DURABILITY[0][i])) {
@@ -77,10 +77,10 @@ public class FlintDrop extends OptionNumeric {
 			}
 		}
 	}
-	
+
 	/**
 	 * Réarrange le taux de drop du flint quand un gravier explose
-	 * 
+	 *
 	 * @param e L'évènement d'explosion d'un bloc
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -90,28 +90,27 @@ public class FlintDrop extends OptionNumeric {
 			dropFlint(e.getBlock().getLocation());
 		}
 	}
-	
+
 	/**
 	 * S'arrange du taux de drop du flint
-	 * 
+	 *
 	 * @param loc La localisation à laquelle l'item doit drop
 	 */
 	final public void dropFlint(Location loc){
 		loc.getBlock().getWorld().getBlockAt(loc).setType(Material.AIR);
-		Random r = new Random();
-		int randomValue = r.nextInt(200);
+		int randomValue = RandomHelper.generate(200);
 
 		loc.setX(loc.getX() + 0.5);
 		loc.setY(loc.getY() + 0.5);
 		loc.setZ(loc.getZ() + 0.5);
-		
+
 		if (randomValue <=  this.getValue()){
 			ItemStack item = new ItemStack(Material.FLINT, 1);
 			loc.getWorld().dropItemNaturally(loc, item);
 		} else {
 			ItemStack item = new ItemStack(Material.GRAVEL, 1);
 			loc.getWorld().dropItemNaturally(loc, item);
-		}		
+		}
 	}
-	
+
 }
