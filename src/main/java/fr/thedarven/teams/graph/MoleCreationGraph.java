@@ -4,15 +4,13 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.RandomHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public abstract class MoleCreationGraph {
-
-    protected static final Random random = new Random();
 
     protected final TaupeGun main;
     protected final List<TeamCustom> moleTeams;
@@ -69,6 +67,21 @@ public abstract class MoleCreationGraph {
                 players.get(0).setSuperTaupeTeam(superMoleTeam);
             }
         }
+    }
+
+    protected int getAmountOfMoles(TeamCustom team) {
+        int amount = 0;
+        if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 1)) {
+            amount = 1;
+        } else if (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 2) {
+            amount = 2;
+        }
+
+        if (this.main.getScenariosManager().potentialMole.getValue()) {
+            amount = RandomHelper.generate(0, amount + 1);
+        }
+
+        return amount;
     }
 
 }

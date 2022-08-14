@@ -5,6 +5,7 @@ import fr.thedarven.kits.Kit;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.RandomHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,13 +28,14 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
         for (TeamCustom team : teams) {
             List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
 
-            if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 1)) {
-                this.players.add(playerOfTeam.get(random.nextInt(team.getSize())));
-            } else if (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 2) {
-                int taupeInt1 = random.nextInt(team.getSize());
-                int taupeInt2 = random.nextInt(team.getSize());
+            int amountOfMoles = getAmountOfMoles(team);
+            if (amountOfMoles == 1) {
+                this.players.add(playerOfTeam.get(RandomHelper.generate(team.getSize())));
+            } else if (amountOfMoles == 2) {
+                int taupeInt1 = RandomHelper.generate(team.getSize());
+                int taupeInt2 = RandomHelper.generate(team.getSize());
                 while (taupeInt1 == taupeInt2) {
-                    taupeInt2 = random.nextInt(team.getSize());
+                    taupeInt2 = RandomHelper.generate(team.getSize());
                 }
                 this.players.add(playerOfTeam.get(taupeInt1));
                 this.players.add(playerOfTeam.get(taupeInt2));
@@ -72,7 +74,7 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
         for (int i = 0; i < nbPlayers; i++) {
             PlayerTaupe mole = players.get(i);
             mole.setTaupeTeam(this.moleTeams.get(i % nbTeams));
-            mole.setMoleKit(kits.get(random.nextInt(kits.size())));
+            mole.setMoleKit(kits.get(RandomHelper.generate(kits.size())));
         }
 
         return MoleCreationSuccessEnum.CREATED;

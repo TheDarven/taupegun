@@ -72,6 +72,7 @@ public class ScenariosManager {
 	public LavaLimiter lavaLimiter;
 	public NoEnderPearlDamage noEnderPearlDamage;
 	public Nether nether;
+	public OptionBoolean potentialMole;
 	// public Timber timber;
 
 	public InventoryGUI dropMenu;
@@ -150,6 +151,7 @@ public class ScenariosManager {
 		this.lavaLimiter = new LavaLimiter(this.main, scenariosMenu);
 		this.noEnderPearlDamage = new NoEnderPearlDamage(this.main, scenariosMenu);
 		this.nether = new Nether(this.main, scenariosMenu);
+		this.potentialMole = new OptionBoolean(this.main, "Taupes potencielles", "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré).", "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE", Material.ICE, this.scenariosMenu, false);
 		// this.timber = new Timber(scenariosMenu);
 
 		this.dropMenu = new InventoryGUI(this.main, "Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);

@@ -951,6 +951,19 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taupes potencielles",
+				"description": "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré)."
+			},
+			"en_US": {
+				"name": "Potencial moles",
+				"description": "The number of moles within each team is chosen randomly (between 0 and set configuration number)."
+			}
+		}
+	},
 
 
 
