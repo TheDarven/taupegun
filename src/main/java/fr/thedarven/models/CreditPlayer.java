@@ -31,7 +31,7 @@ public class CreditPlayer {
         ItemStack head = Skull.getPlayerHead(this.pseudo);
         ItemMeta headM = head.getItemMeta();
         headM.setDisplayName("§6" + this.pseudo);
-        headM.setLore(Collections.singletonList("§e" + this.type.getDescription()));
+        headM.setLore(this.type.getDescription());
         head.setItemMeta(headM);
         return head;
     }
