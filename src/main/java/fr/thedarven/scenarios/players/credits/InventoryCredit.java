@@ -1,15 +1,22 @@
 package fr.thedarven.scenarios.players.credits;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
+import fr.thedarven.scenarios.helper.ConfigurationPlayerItem;
+import fr.thedarven.scenarios.helper.ConfigurationPlayerItemConditional;
 import fr.thedarven.scenarios.players.InventoryPlayers;
 import fr.thedarven.scenarios.players.InventoryPlayersElement;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 
-public class InventoryCredit extends InventoryPlayers {
+public class InventoryCredit extends InventoryPlayers implements ConfigurationPlayerItemConditional {
 
     public static String NOT_ENOUGH_SLOT = "Vous n'avez pas suffisement de place dans votre inventaire pour accéder à ce menu.";
     public static String LOSE_GAME = "Vous avez perdu avec un score de {score} !";
@@ -21,6 +28,8 @@ public class InventoryCredit extends InventoryPlayers {
 
     public InventoryCredit(TaupeGun main, Material pMaterial, InventoryGUI pParent, int pPosition) {
         super(main, "Crédits", "Les crédits du plugin.", "MENU_CREDIT", 6, pMaterial, pParent, pPosition);
+
+        this.configurationPlayerItem = new ConfigurationPlayerItem(this, 0, getPlayerItemItem());
     }
 
     @Override
@@ -55,4 +64,24 @@ public class InventoryCredit extends InventoryPlayers {
         return new InventoryCreditElement(this.main, this.getLines(), Material.PAPER, this, uuid, this);
     }
 
+    @Override
+    public boolean isPlayerItemEnable(Player player) {
+        return EnumGameState.isCurrentState(EnumGameState.LOBBY);
+    }
+
+    @Override
+    public final ItemStack getPlayerItemItem() {
+        ItemStack paper = new ItemStack(Material.PAPER, 1);
+        ItemMeta paperM = paper.getItemMeta();
+        paperM.setDisplayName("§e" + getName());
+        paper.setItemMeta(paperM);
+        return paper;
+    }
+
+    @Override
+    public final void onPlayerItemClick(PlayerTaupe pl) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            openInventoryOfPlayer(pl.getPlayer());
+        }
+    }
 }
