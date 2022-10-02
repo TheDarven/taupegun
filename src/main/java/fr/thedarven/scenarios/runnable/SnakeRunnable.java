@@ -8,7 +8,6 @@ import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
 import fr.thedarven.utils.RandomHelper;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,7 +36,7 @@ public class SnakeRunnable extends BukkitRunnable {
     private final ItemStack bodyItem;
     private final ItemStack headItem;
 
-    private Deque<Integer> body = new LinkedList<>();
+    private final Deque<Integer> body = new LinkedList<>();
     private DirectionEnum direction = DirectionEnum.NONE;
     private int foodIndex;
     private int score = 0;
@@ -128,7 +127,7 @@ public class SnakeRunnable extends BukkitRunnable {
                 String loseGameMessage = "§c" + InventoryCredit.LOSE_GAME;
                 Map<String, String> params = new HashMap<>();
                 params.put("score", "§6" + this.score + "§c");
-                new ActionBar(TextInterpreter.textInterpretation(loseGameMessage, params)).sendActionBar(player);
+                player.sendMessage(TextInterpreter.textInterpretation(loseGameMessage, params));
             }
             this.inventoryCreditElement.startGame();
             return;
@@ -144,7 +143,7 @@ public class SnakeRunnable extends BukkitRunnable {
                     String winGameMessage = "§a" + InventoryCredit.WIN_GAME;
                     Map<String, String> params = new HashMap<>();
                     params.put("score", "§2" + this.score + "§a");
-                    new ActionBar(TextInterpreter.textInterpretation(winGameMessage, params)).sendActionBar(player);
+                    player.sendMessage(TextInterpreter.textInterpretation(winGameMessage, params));
                 }
                 this.inventoryCreditElement.startGame();
                 return;
