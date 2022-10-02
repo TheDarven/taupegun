@@ -152,7 +152,7 @@ public class ScenariosManager {
 		this.lavaLimiter = new LavaLimiter(this.main, scenariosMenu);
 		this.noEnderPearlDamage = new NoEnderPearlDamage(this.main, scenariosMenu);
 		this.nether = new Nether(this.main, scenariosMenu);
-		this.potentialMole = new OptionBoolean(this.main, "Taupes potencielles", "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré).", "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE", Material.ICE, this.scenariosMenu, false);
+		this.potentialMole = new OptionBoolean(this.main, "Taupes potentielles", "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré).", "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE", Material.ICE, this.scenariosMenu, false);
 		this.hasteyBoys = new HasteyBoys(this.main, scenariosMenu);
 		// this.timber = new Timber(scenariosMenu);
 
