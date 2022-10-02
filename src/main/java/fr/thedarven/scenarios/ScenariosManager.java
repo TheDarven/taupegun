@@ -73,6 +73,7 @@ public class ScenariosManager {
 	public NoEnderPearlDamage noEnderPearlDamage;
 	public Nether nether;
 	public OptionBoolean potentialMole;
+	public HasteyBoys hasteyBoys;
 	// public Timber timber;
 
 	public InventoryGUI dropMenu;
@@ -144,7 +145,7 @@ public class ScenariosManager {
 		this.wallSpeed = new OptionNumeric(this.main, "Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", "MENU_CONFIGURATION_WALL_SPEED", Material.DIAMOND_BARDING, wallMenu, new NumericHelper(20, 200, 100, 10, 2, " blocs/seconde", 100, false, SECONDS_PER_MS));
 		this.wallDamage = new OptionNumeric(this.main, "Dégâts du mur", "Les dégâts infligés par le mur.", "MENU_CONFIGURATION_WALL_DAMAGE", Material.TNT, wallMenu, new NumericHelper(10, 200, 100, 10, 2, " dégâts", 100, false, SECONDS_PER_MS));
 
-		this.scenariosMenu = new InventoryGUI(this.main, "Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 1, Material.PAPER, configurationMenu, 4);
+		this.scenariosMenu = new InventoryGUI(this.main, "Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 2, Material.PAPER, configurationMenu, 4);
 		this.cutClean = new CutClean(this.main, scenariosMenu);
 		this.bloodDiamond = new BloodDiamond(this.main, scenariosMenu);
 		this.diamondLimit = new DiamondLimit(this.main, scenariosMenu);
@@ -152,6 +153,7 @@ public class ScenariosManager {
 		this.noEnderPearlDamage = new NoEnderPearlDamage(this.main, scenariosMenu);
 		this.nether = new Nether(this.main, scenariosMenu);
 		this.potentialMole = new OptionBoolean(this.main, "Taupes potencielles", "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré).", "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE", Material.ICE, this.scenariosMenu, false);
+		this.hasteyBoys = new HasteyBoys(this.main, scenariosMenu);
 		// this.timber = new Timber(scenariosMenu);
 
 		this.dropMenu = new InventoryGUI(this.main, "Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);
