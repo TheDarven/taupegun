@@ -10,6 +10,7 @@ import fr.thedarven.scenarios.helper.ConfigurationPlayerItem;
 import fr.thedarven.scenarios.helper.ConfigurationPlayerItemConditional;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -72,7 +73,7 @@ public class OwnTeam extends OptionBoolean implements ConfigurationPlayerItemCon
     }
 
     @Override
-    public boolean isPlayerItemEnable() {
+    public boolean isPlayerItemEnable(Player player) {
         return EnumGameState.isCurrentState(EnumGameState.LOBBY) && this.value;
     }
 }

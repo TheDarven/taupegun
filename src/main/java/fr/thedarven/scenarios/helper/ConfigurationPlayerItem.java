@@ -64,7 +64,7 @@ public class ConfigurationPlayerItem {
     }
 
     public void givePlayerItem(Player player) {
-        if (!(this.configuration instanceof ConfigurationPlayerItemConditional) || ((ConfigurationPlayerItemConditional) this.configuration).isPlayerItemEnable()) {
+        if (!(this.configuration instanceof ConfigurationPlayerItemConditional) || ((ConfigurationPlayerItemConditional) this.configuration).isPlayerItemEnable(player)) {
             player.getInventory().setItem(this.position, this.item);
         }
     }

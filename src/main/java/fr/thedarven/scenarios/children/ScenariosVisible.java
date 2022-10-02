@@ -7,8 +7,10 @@ import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.helper.ConfigurationPlayerItem;
 import fr.thedarven.scenarios.helper.ConfigurationPlayerItemConditional;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -40,8 +42,8 @@ public class ScenariosVisible extends OptionBoolean implements ConfigurationPlay
     }
 
     @Override
-    public boolean isPlayerItemEnable() {
-        return EnumGameState.isCurrentState(EnumGameState.LOBBY) && this.value;
+    public boolean isPlayerItemEnable(Player player) {
+        return EnumGameState.isCurrentState(EnumGameState.LOBBY) && (this.value || PermissionHelper.canPlayerEditConfiguration(player));
     }
 
     public final void onPlayerItemClick(PlayerTaupe pl) {
