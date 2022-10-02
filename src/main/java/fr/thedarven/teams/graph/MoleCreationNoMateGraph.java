@@ -5,6 +5,7 @@ import fr.thedarven.kits.Kit;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.RandomHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +28,15 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
             List<PlayerTaupe> selectedPlayers = new ArrayList<>();
             List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
 
-            if (team.getSize() == 1 || team.getSize() == 3 || (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 1)) {
-                selectedPlayers.add(playerOfTeam.get(random.nextInt(team.getSize())));
+            int amountOfMoles = getAmountOfMoles(team);
+            if (amountOfMoles == 1) {
+                selectedPlayers.add(playerOfTeam.get(RandomHelper.generate(team.getSize())));
                 players.add(selectedPlayers);
-            } else if (team.getSize() > 3 && this.main.getScenariosManager().numberOfMole.getValue() == 2) {
-                int taupeInt1 = random.nextInt(team.getSize());
-                int taupeInt2 = random.nextInt(team.getSize());
+            } else if (amountOfMoles == 2) {
+                int taupeInt1 = RandomHelper.generate(team.getSize());
+                int taupeInt2 = RandomHelper.generate(team.getSize());
                 while (taupeInt1 == taupeInt2) {
-                    taupeInt2 = random.nextInt(team.getSize());
+                    taupeInt2 = RandomHelper.generate(team.getSize());
                 }
                 selectedPlayers.add(playerOfTeam.get(taupeInt1));
                 selectedPlayers.add(playerOfTeam.get(taupeInt2));
@@ -74,7 +76,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
             for (int i = 0; i < moles.size(); i++) {
                 PlayerTaupe mole = moles.get(i);
                 mole.setTaupeTeam(this.moleTeams.get(i));
-                mole.setMoleKit(kits.get(random.nextInt(kits.size())));
+                mole.setMoleKit(kits.get(RandomHelper.generate(kits.size())));
             }
         }
 
@@ -95,7 +97,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
         for (int i = 0; i < nbTeam - 1; i++) {
             if (this.moleTeams.get(i).getTaupeTeamSize() == this.moleTeams.get(i + 1).getTaupeTeamSize()) {
-                int randomValue = random.nextInt(3);
+                int randomValue = RandomHelper.generate(3);
                 if (randomValue >= 1) {
                     TeamCustom temp = this.moleTeams.get(i);
                     this.moleTeams.set(i, this.moleTeams.get(i + 1));
@@ -122,7 +124,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
         for(int i=0; i<players.size()-1; i++) {
             if(players.get(i).size() == players.get(i+1).size()) {
-                int randomValue = random.nextInt(3);
+                int randomValue = RandomHelper.generate(3);
                 if(randomValue >= 1) {
                     List<PlayerTaupe> temp = players.get(i+1);
                     players.set(i+1, players.get(i));

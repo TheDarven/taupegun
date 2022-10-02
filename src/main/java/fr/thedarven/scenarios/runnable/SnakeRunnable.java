@@ -6,6 +6,7 @@ import fr.thedarven.models.CreditPlayer;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
+import fr.thedarven.utils.RandomHelper;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.Bukkit;
@@ -74,13 +75,12 @@ public class SnakeRunnable extends BukkitRunnable {
     private void generateFood() {
         int nbSlots = this.inventoryCreditElement.getLines() * 9;
         int index = this.body.getLast();
-        Random random = new Random();
         while (this.body.contains(index)) {
-            index = random.nextInt(nbSlots);
+            index = RandomHelper.generate(nbSlots);
         }
         this.foodIndex = index;
 
-        CreditPlayer randomPlayer = creditPlayers.get(random.nextInt(creditPlayers.size()));
+        CreditPlayer randomPlayer = creditPlayers.get(RandomHelper.generate(creditPlayers.size()));
         this.inventoryCreditElement.getInventory().setItem(this.foodIndex, randomPlayer.getHead());
     }
 
