@@ -3,6 +3,7 @@ package fr.thedarven.players;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
 import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.api.titles.Title;
 import net.md_5.bungee.api.ChatColor;
@@ -87,7 +88,7 @@ public class PlayerManager extends Manager {
     }
 
     public void openConfigInventory(Player p) {
-        if ((p.isOp() || p.hasPermission("taupegun.scenarios")) && EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+        if (PermissionHelper.canPlayerEditConfiguration(p) && EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             p.openInventory(this.main.getScenariosManager().menu.getInventory());
         } else if (this.main.getScenariosManager().scenariosVisible.getValue()) {
             p.openInventory(this.main.getScenariosManager().configurationMenu.getInventory());

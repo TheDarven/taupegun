@@ -3,6 +3,7 @@ package fr.thedarven.scenarios;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kits.Kit;
 import fr.thedarven.kits.KitManager;
+import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.builders.InventoryGUI;
 import fr.thedarven.scenarios.builders.OptionBoolean;
 import fr.thedarven.scenarios.builders.OptionNumeric;
@@ -20,6 +21,8 @@ import fr.thedarven.scenarios.teams.InventoryTeamsColor;
 import fr.thedarven.scenarios.teams.InventoryTeamsRandom;
 import fr.thedarven.utils.FileHelper;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -69,6 +72,8 @@ public class ScenariosManager {
 	public LavaLimiter lavaLimiter;
 	public NoEnderPearlDamage noEnderPearlDamage;
 	public Nether nether;
+	public OptionBoolean potentialMole;
+	public HasteyBoys hasteyBoys;
 	// public Timber timber;
 
 	public InventoryGUI dropMenu;
@@ -87,12 +92,14 @@ public class ScenariosManager {
 	public OptionBoolean daylightCycle;
 	public PotionII potionLevel2;
 	public StrengthNerf strengthPercentage;
+	public OptionBoolean kickOnDeath;
 
 	public InventoryGUI molesMenu;
 	public OptionBoolean superMoles;
 	public OptionNumeric numberOfMole;
 	public OptionNumeric molesTeamSize;
 	public OptionNumeric superMolesTeamSize;
+	public MoleTeamMate moleTeamMate;
 
 	public InventoryGUI commandsMenu;
 	public OptionBoolean taupelistCommand;
@@ -138,13 +145,15 @@ public class ScenariosManager {
 		this.wallSpeed = new OptionNumeric(this.main, "Vitesse de la réduction", "La vitesse à laquelle le mur se réduit.", "MENU_CONFIGURATION_WALL_SPEED", Material.DIAMOND_BARDING, wallMenu, new NumericHelper(20, 200, 100, 10, 2, " blocs/seconde", 100, false, SECONDS_PER_MS));
 		this.wallDamage = new OptionNumeric(this.main, "Dégâts du mur", "Les dégâts infligés par le mur.", "MENU_CONFIGURATION_WALL_DAMAGE", Material.TNT, wallMenu, new NumericHelper(10, 200, 100, 10, 2, " dégâts", 100, false, SECONDS_PER_MS));
 
-		this.scenariosMenu = new InventoryGUI(this.main, "Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 1, Material.PAPER, configurationMenu, 4);
+		this.scenariosMenu = new InventoryGUI(this.main, "Scénarios", "Menu des scénarios.", "MENU_CONFIGURATION_SCENARIO", 2, Material.PAPER, configurationMenu, 4);
 		this.cutClean = new CutClean(this.main, scenariosMenu);
 		this.bloodDiamond = new BloodDiamond(this.main, scenariosMenu);
 		this.diamondLimit = new DiamondLimit(this.main, scenariosMenu);
 		this.lavaLimiter = new LavaLimiter(this.main, scenariosMenu);
 		this.noEnderPearlDamage = new NoEnderPearlDamage(this.main, scenariosMenu);
 		this.nether = new Nether(this.main, scenariosMenu);
+		this.potentialMole = new OptionBoolean(this.main, "Taupes potencielles", "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré).", "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE", Material.ICE, this.scenariosMenu, false);
+		this.hasteyBoys = new HasteyBoys(this.main, scenariosMenu);
 		// this.timber = new Timber(scenariosMenu);
 
 		this.dropMenu = new InventoryGUI(this.main, "Drops", "Menu des drops.", "MENU_CONFIGURATION_DROPS", 1, Material.NETHER_STAR, configurationMenu, 6);
@@ -163,12 +172,14 @@ public class ScenariosManager {
 		this.daylightCycle = new OptionBoolean(this.main, "Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
 		this.potionLevel2 = new PotionII(this.main, othersMenu);
 		this.strengthPercentage = new StrengthNerf(this.main, othersMenu);
+		this.kickOnDeath = new OptionBoolean(this.main, "Kick à la mort", "Exclut les joueurs à leur mort.", "MENU_CONFIGURATION_OTHER_DEATH_KICK", Material.REDSTONE_BLOCK, othersMenu, 15, false);
 
 		this.molesMenu = new InventoryGUI(this.main, "Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configurationMenu, 10);
 		this.superMoles = new OptionBoolean(this.main, "Supertaupes", "Active ou non les supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE", Material.ENCHANTMENT_TABLE, molesMenu, false);
 		this.numberOfMole = new OptionNumeric(this.main, "Nombre de taupes", "Détermine le nombre de taupes par équipe de départ.", "MENU_CONFIGURATION_MOLE_NUMBEROF", Material.ARMOR_STAND, molesMenu, new NumericHelper(1, 2, 1, 1, 1, " taupe(s)", 1, false, 1));
 		this.molesTeamSize = new OptionNumeric(this.main, "Taille des équipes", "Détermine la taille des équipes de taupes.", "MENU_CONFIGURATION_MOLE_TEAMSIZE", Material.BRICK, molesMenu, new NumericHelper(1, 5, 3, 1, 1, " taupe(s)", 1, false, 1));
 		this.superMolesTeamSize = new OptionNumeric(this.main, "Taille des équipes supertaupes", "Détermine la taille des équipes de supertaupes.", "MENU_CONFIGURATION_MOLE_SUPERMOLE_TEAMSIZE", Material.NETHER_BRICK, molesMenu, new NumericHelper(1, 10, 1, 1, 1, " supertaupe(s)", 1, false, 1));
+		this.moleTeamMate = new MoleTeamMate(this.main, this.molesMenu);
 
 		this.commandsMenu = new InventoryGUI(this.main, "Commandes", "Activation des commandes.", "MENU_CONFIGURATION_COMMAND", 1, Material.SIGN, configurationMenu, 12);
 		this.taupelistCommand = new OptionBoolean(this.main, "/taupelist", "Active ou non la possibilité pour les spectateurs de voir la liste des taupes.", "MENU_CONFIGURATION_COMMAND_TAUPELIST", Material.BOOK, commandsMenu, true);
@@ -282,5 +293,49 @@ public class ScenariosManager {
 	public void savePlayersConfiguration() {
 		FileHelper<Map<UUID, PlayerConfiguration>> fileConfiguration = new FileHelper<>(this.main, PLAYER_CONFIGURATION_FILE);
 		fileConfiguration.writeFile(this.playersConfigurations);
+	}
+
+	/**
+	 * Met à jour les items des configurations dans l'inventaire courant d'un joueur
+	 *
+	 * @param player Le joueur auquel les items doivent être mis à jour.
+	 */
+	public final void reloadPlayerItemOfPlayer(Player player) {
+		InventoryGUI.getInventoriesGUI().forEach(inventoryGUI -> {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
+				inventoryGUI.getConfigurationPlayerItem().reloadPlayerItem(player);
+			}
+		});
+	}
+
+	/**
+	 * Supprime les items des configurations dans l'inventaire courant d'un joueur
+	 *
+	 * @param player Le joueur auquel les items doivent être retiré.
+	 */
+	public final void removePlayerItem(Player player) {
+		InventoryGUI.getInventoriesGUI().forEach(inventoryGUI -> {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
+				inventoryGUI.getConfigurationPlayerItem().removePlayerItem(player);
+			}
+		});
+	}
+
+	/**
+	 * Détecte et réalise l'action d'un clique sur un ConfigurationPlayerItem.
+	 *
+	 * @param item L'item sur lequel l'utilisateur a cliqué.
+	 * @param pl Le PlayerTaupe qui a cliqué.
+	 * @return <b>true</b> si le clique a eu lieu sur un ConfigurationPlayerItem, <b>false</b> sinon.
+	 */
+	public final boolean onPlayerItemClick(ItemStack item, PlayerTaupe pl) {
+		for (InventoryGUI inventoryGUI: InventoryGUI.getInventoriesGUI()) {
+			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())
+					&& inventoryGUI.getConfigurationPlayerItem().getItem().hashCode() == item.hashCode()) {
+				inventoryGUI.onPlayerItemClick(pl);
+				return true;
+			}
+		}
+		return false;
 	}
 }

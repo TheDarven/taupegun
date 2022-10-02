@@ -2,6 +2,7 @@ package fr.thedarven.events.commands;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.scenarios.builders.InventoryGUI;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -15,8 +16,7 @@ public class ItemCommand extends PlayerCommand {
 
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		this.main.getScenariosManager().scenariosVisible.reloadScenariosItem(sender);
-		this.main.getScenariosManager().ownTeam.actionBanner(sender);
+		this.main.getScenariosManager().reloadPlayerItemOfPlayer(sender);
 	}
 
 }

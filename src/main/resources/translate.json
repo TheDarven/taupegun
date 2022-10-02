@@ -21,6 +21,7 @@
 				"superMoleMessageT": " Tapez /supert pour envoyer un message à votre équipe de super taupes.",
 				"superMoleMessageReveal": " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.",
 				"killList": "======== Liste des kills ========",
+				"killPve": "PVE : {amount}",
 				"selected": "Sélectionné",
 				"statsLink": "Les statistiques de votre partie sont disponibles ici : {link}"
 			},
@@ -43,6 +44,7 @@
 				"superMoleMessageT": " Type /supert to send a message to your super mole team.",
 				"superMoleMessageReveal": " Type /superreveal to reveal yourself to everyone and get a golden apple.",
 				"killList": "======== Kills list ========",
+				"killPve": "PVE : {amount}",
 				"selected": "Selected",
 				"statsLink": "Your game stats are available here: {link}"
 			}
@@ -671,14 +673,30 @@
 				"description": "Les crédits du plugin.",
 				"notEnoughSlot": "Vous n'avez pas suffisement de place dans votre inventaire pour accéder à ce menu.",
 				"loseGame": "Vous avez perdu avec un score de {score} !",
-				"winGame": "Vous avec terminé la partie avec un score de {score}, félicitations !"
+				"winGame": "Vous avec terminé la partie avec un score de {score}, félicitations !",
+				"playerDeveloper": "Développeur",
+				"playerContributor": "Contributeur",
+				"playerTranslator": "Traducteur",
+				"playerTester": "Testeur",
+				"arrowLeft": "Gauche",
+				"arrowRight": "Droite",
+				"arrowUp": "Haut",
+				"arrowDown": "Bas"
 			},
 			"en_US": {
 				"name": "Credits",
 				"description": "Plugin credits",
 				"notEnoughSlot": "You don't have enough space in your inventory to access this menu.",
 				"loseGame": "You lost with a score of {score} !",
-				"winGame": "You finished the game with a score of {score}, congratulations !"
+				"winGame": "You finished the game with a score of {score}, congratulations !",
+				"playerDeveloper": "Developer",
+				"playerContributor": "Contributor",
+				"playerTranslator": "Translator",
+				"playerTester": "Tester",
+				"arrowLeft": "Left",
+				"arrowRight": "Right",
+				"arrowUp": "Up",
+				"arrowDown": "Down"
 			}
 		}
 	},
@@ -951,6 +969,19 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_POTENTIAL_MOLE",
+		"translations": {
+			"fr_FR": {
+				"name": "Taupes potencielles",
+				"description": "Le nombre de taupe de chaque équipe est aléatoire (entre 0 et le nombre de taupes configuré)."
+			},
+			"en_US": {
+				"name": "Potencial moles",
+				"description": "The number of moles within each team is chosen randomly (between 0 and set configuration number)."
+			}
+		}
+	},
 
 
 
@@ -1170,6 +1201,19 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_OTHER_DEATH_KICK",
+		"translations": {
+			"fr_FR": {
+				"name": "Kick à la mort",
+				"description": "Exclut les joueurs à leur mort."
+			},
+			"en_US": {
+				"name": "Kick on death",
+				"description": "Kicks players once they die."
+			}
+		}
+	},
 
 
 
@@ -1244,9 +1288,22 @@
 			}
 		}
 	},
-	
-	
-	
+	{
+		"title": "MENU_CONFIGURATION_MOLE_SUPERMOLE_MATE",
+		"translations": {
+			"fr_FR": {
+				"name": "Avec coéquipiers",
+				"description": "Active la possibilité d'être dans la même équipe de taupe que des coéquipiers."
+			},
+			"en_US": {
+				"name": "With teammates",
+				"description": "Allows to be in the same mole team as a teammate."
+			}
+		}
+	},
+
+
+
 	{
 		"title": "MENU_CONFIGURATION_COMMAND",
 		"translations": {

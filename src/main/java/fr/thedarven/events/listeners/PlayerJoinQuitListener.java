@@ -25,107 +25,107 @@ import java.util.Objects;
 
 public class PlayerJoinQuitListener implements Listener {
 
-	private TaupeGun main;
-	
-	public PlayerJoinQuitListener(TaupeGun main) {
-		this.main = main;
-	}
-	
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		
-		e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
-		
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			InventoryTeamsPlayers.reloadInventories();
-			if (this.main.development) {
-				new Title(ChatColor.GOLD+LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
-						LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
-						40).sendTitle(player);
-			}
-		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
-			if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
-				new DisableF3().disableF3(player);
-			}
+    private TaupeGun main;
 
-			if (!pl.isAlive() || Objects.isNull(pl.getTeam())) {
-				player.setGameMode(GameMode.SPECTATOR);
-				World world = this.main.getWorldManager().getWorld();
-				if (Objects.nonNull(world)) {
-					player.teleport(new Location(world,0,200,0));
-				}
-				TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
-				
-				this.main.getPlayerManager().clearPlayer(player);
-			}
-		}
-		loginAction(player);
-	}
-	
-	@EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e){
-		Player player = e.getPlayer();
-		e.setQuitMessage("§8(§c-§8) §7" + e.getPlayer().getName());
-		
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			new CloseInventoryRunnable().runTaskTimer(this.main,0, 20);
-		} else if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
-			this.main.getCommandManager().getStartCommand().stopStartRunnable();
-			this.main.getGameManager().setCooldownTimer(10);
+    public PlayerJoinQuitListener(TaupeGun main) {
+        this.main = main;
+    }
 
-			EnumGameState.setState(EnumGameState.LOBBY);
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
+        e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
 
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            InventoryTeamsPlayers.reloadInventories();
+            if (this.main.development) {
+                new Title(ChatColor.GOLD + LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
+                        LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
+                        40).sendTitle(player);
+            }
+        } else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
+            if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
+                new DisableF3().disableF3(player);
+            }
 
-			this.main.getPlayerManager().sendPlaySoundAndTitle(
-					Sound.WITHER_HURT,
-					new Title("§c" + LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", true), "", 10)
-			);
+            if (!pl.isAlive() || Objects.isNull(pl.getTeam())) {
+                player.setGameMode(GameMode.SPECTATOR);
+                World world = this.main.getWorldManager().getWorld();
+                if (Objects.nonNull(world)) {
+                    player.teleport(new Location(world, 0, 200, 0));
+                }
+                TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
+
+                this.main.getPlayerManager().clearPlayer(player);
+            }
+        }
+        loginAction(player);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        e.setQuitMessage("§8(§c-§8) §7" + e.getPlayer().getName());
+
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            new CloseInventoryRunnable().runTaskTimer(this.main, 0, 20);
+        } else if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
+            this.main.getCommandManager().getStartCommand().stopStartRunnable();
+            this.main.getGameManager().setCooldownTimer(10);
+
+            EnumGameState.setState(EnumGameState.LOBBY);
 
 
+            this.main.getPlayerManager().sendPlaySoundAndTitle(
+                    Sound.WITHER_HURT,
+                    new Title("§c" + LanguageBuilder.getContent("START_COMMAND", "gameStartingCancelled", true), "", 10)
+            );
 
-			for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
-				pl.setTaupeTeam(null);
-				pl.setSuperTaupeTeam(null);
-			}
-			
-			TeamCustom.deleteTeamTaupe();
-		}
-		leaveAction(player);
-	}
-	
-	public void loginAction(Player player) {
-		player.setScoreboard(TeamCustom.board);
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
-		this.main.getMessageManager().updateTabContent(player);
-		this.main.getScoreboardManager().onLogin(player);
-		this.main.getDatabaseManager().updatePlayerLast(player);
-		
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			this.main.getScenariosManager().scenariosVisible.reloadScenariosItem(player);
-		}
+            for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+                pl.setTaupeTeam(null);
+                pl.setSuperTaupeTeam(null);
+            }
 
-		pl.setCustomName(player.getName());
-		pl.setLastConnection();
-	}
-	
-	public void leaveAction(Player player) {
-		this.main.getScoreboardManager().onLogout(player);
-		this.main.getDatabaseManager().updatePlayerTimePlayed(player);
-		this.main.getDatabaseManager().updatePlayerLast(player);
-		this.main.getScenariosManager().scenariosVisible.removeScenariosItem(player);
-		
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
+            TeamCustom.deleteTeamTaupe();
+        }
+        leaveAction(player);
+    }
 
-		if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-			InventoryGUI openedInventory = InventoryGUI.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
-			if (!Objects.isNull(openedInventory)) {
-				openedInventory.onPlayerDisconnect(player);
-			}
-		}
-	}
+    public void loginAction(Player player) {
+        player.setScoreboard(TeamCustom.board);
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+
+        this.main.getMessageManager().updateTabContent(player);
+        this.main.getScoreboardManager().onLogin(player);
+        this.main.getDatabaseManager().updatePlayerLast(player);
+
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            this.main.getScenariosManager().reloadPlayerItemOfPlayer(player);
+        }
+
+        pl.setCustomName(player.getName());
+        pl.setLastConnection();
+    }
+
+    public void leaveAction(Player player) {
+        this.main.getScoreboardManager().onLogout(player);
+        this.main.getDatabaseManager().updatePlayerTimePlayed(player);
+        this.main.getDatabaseManager().updatePlayerLast(player);
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            this.main.getScenariosManager().removePlayerItem(player);
+        }
+
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+        pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
+
+        if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
+            InventoryGUI openedInventory = InventoryGUI.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
+            if (!Objects.isNull(openedInventory)) {
+                openedInventory.onPlayerDisconnect(player);
+            }
+        }
+    }
 }

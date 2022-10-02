@@ -6,8 +6,8 @@ import fr.thedarven.models.CreditPlayer;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
+import fr.thedarven.utils.RandomHelper;
 import fr.thedarven.utils.TextInterpreter;
-import fr.thedarven.utils.api.titles.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,13 +21,14 @@ import java.util.*;
 public class SnakeRunnable extends BukkitRunnable {
 
     private final static List<CreditPlayer> creditPlayers = Arrays.asList(
-            new CreditPlayer("bbba5cc1-60a6-4861-91e9-f09daf4ccf36", "ANerdUnicorn", CreditPlayerTypeEnum.GRAPHISM),
+            new CreditPlayer("bbba5cc1-60a6-4861-91e9-f09daf4ccf36", "ANerdUnicorn", CreditPlayerTypeEnum.CONTRIBUTOR),
             new CreditPlayer("f6db5dee-4d9c-41dd-bc26-867dd5094ddf", "CocaHynn_", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("6548f76e-4f3d-4cea-b321-6d5f3340eada", "imercogo", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("bf2c7402-4bc8-4a04-8a53-f3380f878d6d", "Morelsky", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("0f306b83-f997-4f6c-a5d7-c1249c190aaa", "Infernaton", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("2ffa1f03-30ef-4b9a-b480-38a36b3f4ffc", "yukimoki", CreditPlayerTypeEnum.CONTRIBUTOR),
-            new CreditPlayer("e05403a3-dd1b-45b7-9e25-f2ac8be6da83", "JANEO", CreditPlayerTypeEnum.TRANSLATION)
+            new CreditPlayer("e05403a3-dd1b-45b7-9e25-f2ac8be6da83", "JANEO", CreditPlayerTypeEnum.TRANSLATOR),
+            new CreditPlayer("913198b3-dd6b-47f9-b5eb-6ea2aea0044d", "TheDarven", CreditPlayerTypeEnum.DEVELOPER)
     );
 
     private final InventoryCreditElement inventoryCreditElement;
@@ -35,7 +36,7 @@ public class SnakeRunnable extends BukkitRunnable {
     private final ItemStack bodyItem;
     private final ItemStack headItem;
 
-    private Deque<Integer> body = new LinkedList<>();
+    private final Deque<Integer> body = new LinkedList<>();
     private DirectionEnum direction = DirectionEnum.NONE;
     private int foodIndex;
     private int score = 0;
@@ -74,13 +75,12 @@ public class SnakeRunnable extends BukkitRunnable {
     private void generateFood() {
         int nbSlots = this.inventoryCreditElement.getLines() * 9;
         int index = this.body.getLast();
-        Random random = new Random();
         while (this.body.contains(index)) {
-            index = random.nextInt(nbSlots);
+            index = RandomHelper.generate(nbSlots);
         }
         this.foodIndex = index;
 
-        CreditPlayer randomPlayer = creditPlayers.get(random.nextInt(creditPlayers.size()));
+        CreditPlayer randomPlayer = creditPlayers.get(RandomHelper.generate(creditPlayers.size()));
         this.inventoryCreditElement.getInventory().setItem(this.foodIndex, randomPlayer.getHead());
     }
 
@@ -127,7 +127,7 @@ public class SnakeRunnable extends BukkitRunnable {
                 String loseGameMessage = "§c" + InventoryCredit.LOSE_GAME;
                 Map<String, String> params = new HashMap<>();
                 params.put("score", "§6" + this.score + "§c");
-                new ActionBar(TextInterpreter.textInterpretation(loseGameMessage, params)).sendActionBar(player);
+                player.sendMessage(TextInterpreter.textInterpretation(loseGameMessage, params));
             }
             this.inventoryCreditElement.startGame();
             return;
@@ -143,7 +143,7 @@ public class SnakeRunnable extends BukkitRunnable {
                     String winGameMessage = "§a" + InventoryCredit.WIN_GAME;
                     Map<String, String> params = new HashMap<>();
                     params.put("score", "§2" + this.score + "§a");
-                    new ActionBar(TextInterpreter.textInterpretation(winGameMessage, params)).sendActionBar(player);
+                    player.sendMessage(TextInterpreter.textInterpretation(winGameMessage, params));
                 }
                 this.inventoryCreditElement.startGame();
                 return;

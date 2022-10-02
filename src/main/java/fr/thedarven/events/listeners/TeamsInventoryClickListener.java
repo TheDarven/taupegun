@@ -4,6 +4,7 @@ import fr.thedarven.events.events.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.utils.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Material;
@@ -22,8 +23,9 @@ public class TeamsInventoryClickListener implements Listener {
     public void onTeamsInventoryClick(TeamsInventoryClickEvent e) {
         ItemStack clickItem = e.getItem();
 
-        if (Objects.isNull(clickItem) || clickItem.getType() == Material.AIR)
+        if (ItemHelper.isNullOrAir(clickItem)) {
             return;
+        }
 
         Player player = e.getPlayer();
         PlayerTaupe pl = e.getPl();

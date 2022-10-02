@@ -50,8 +50,6 @@ public class GameRunnable extends BukkitRunnable {
 
         this.processNotAlivePlayers();
 
-        main.getTeamDeletionManager().start();
-
         if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
             this.main.getTeamDeletionManager().start();
         } else if (EnumGameState.isCurrentState(EnumGameState.END_FIREWORK)){
@@ -316,7 +314,7 @@ public class GameRunnable extends BukkitRunnable {
     public void sendMoleInfoMessage(Player receiver, PlayerTaupe receiverTaupe) {
         String moleMessageInfo = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageInfo", true);
         String moleMessageT = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageT", true);
-        String moleMessageReveal = "§6"+LanguageBuilder.getContent("CONTENT", "s", true);
+        String moleMessageReveal = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageReveal", true);
 
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + receiverTaupe.getMoleKit().getName() + "§r§6");

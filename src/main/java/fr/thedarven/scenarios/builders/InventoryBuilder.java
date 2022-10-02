@@ -3,6 +3,7 @@ package fr.thedarven.scenarios.builders;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumConfiguration;
 import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
@@ -370,8 +371,8 @@ public abstract class InventoryBuilder implements Listener {
 		// all --> lobby non
 		//     --> pas lobby INVENTAIRE
 		
-		if ((player.isOp() || player.hasPermission("taupegun.scenarios")) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || enumConfiguration.equals(EnumConfiguration.INVENTORY))) {
+		if (PermissionHelper.canPlayerEditConfiguration(player) && (EnumGameState.isCurrentState(EnumGameState.LOBBY) || enumConfiguration.equals(EnumConfiguration.INVENTORY))) {
 			return true;
-		} else return !player.isOp() && !player.hasPermission("taupegun.scenarios") && enumConfiguration.equals(EnumConfiguration.INVENTORY) && this.main.getScenariosManager().scenariosVisible.getValue();
+		} else return !PermissionHelper.canPlayerEditConfiguration(player) && enumConfiguration.equals(EnumConfiguration.INVENTORY) && this.main.getScenariosManager().scenariosVisible.getValue();
 	}
 }

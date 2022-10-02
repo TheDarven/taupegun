@@ -1,6 +1,7 @@
 package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.utils.PermissionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +27,7 @@ public class SayCommand implements CommandExecutor {
 		if (sender instanceof Player){
 			Player player = (Player) sender;
 
-			if (!player.isOp() && !player.hasPermission("taupegun.say")){
+			if (!PermissionHelper.canPlayerUseSayCommand(player)){
 				this.main.getMessageManager().sendNotOperatorMessage(player);
 				return true;
 			}

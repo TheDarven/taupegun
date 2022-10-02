@@ -55,6 +55,7 @@ public class TeamDeletionManager {
 
 			Bukkit.broadcastMessage(" ");
 			Bukkit.broadcastMessage(teamWinMessage);
+			Bukkit.broadcastMessage(" ");
 			this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 
 			EnumGameState.setState(EnumGameState.END_FIREWORK);
@@ -63,6 +64,7 @@ public class TeamDeletionManager {
 
 			Bukkit.broadcastMessage(" ");
 			Bukkit.broadcastMessage(nobodyWinMessage);
+			Bukkit.broadcastMessage(" ");
 			this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 
 			EnumGameState.setState(EnumGameState.END_FIREWORK);

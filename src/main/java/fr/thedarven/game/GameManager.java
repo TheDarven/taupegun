@@ -14,7 +14,9 @@ import java.util.Objects;
 public class GameManager extends Manager {
 
 	private int timer = 0;
-	private int cooldownTimer = 0;
+	private int cooldownTimer = 10;
+	private int pveKills = 0;
+
 	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
@@ -39,6 +41,14 @@ public class GameManager extends Manager {
 
 	public void decreaseCooldownTimer(){
 		this.cooldownTimer--;
+	}
+
+	public int getPveKills() {
+		return this.pveKills;
+	}
+
+	public void incrementPveKills() {
+		this.pveKills++;
 	}
 
 	public void startGame() {
@@ -80,14 +90,5 @@ public class GameManager extends Manager {
 	public boolean superMolesEnabled() {
 		return this.main.getScenariosManager().superMoles.getValue() && this.main.getScenariosManager().molesActivation.getValue() + 1200 <= this.main.getGameManager().getTimer();
 	}
-	
-	/* private static void damagesEnabling() {
-		if(TaupeGun.timer == 60) {
-			for(Player player : Bukkit.getOnlinePlayers())
-				player.playSound(player.getLocation(), Sound.WOLF_GROWL, 1, 1);
 
-			String pvpMessage = "§e"+LanguageBuilder.getContent("GAME", "pvpIsStarting", InventoryRegister.language.getSelectedLanguage(), true);
-			Bukkit.broadcastMessage(pvpMessage);
-		}
-	} */
 }

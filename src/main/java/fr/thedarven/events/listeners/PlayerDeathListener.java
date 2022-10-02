@@ -44,6 +44,8 @@ public class PlayerDeathListener implements Listener {
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
+		} else {
+			this.main.getGameManager().incrementPveKills();
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
@@ -94,8 +96,13 @@ public class PlayerDeathListener implements Listener {
 			if (Objects.nonNull(world)) {
 				deadPlayer.teleport(new Location(world,0,200,0));
 			}
-			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
-			deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
+
+			if (this.main.getScenariosManager().kickOnDeath.getValue()) {
+				deadPlayer.kickPlayer( LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+			} else {
+				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
+				deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
+			}
 		}
 
 		this.main.getDatabaseManager().updateMoleDeath(pl.getUuid().toString(), 1);

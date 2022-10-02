@@ -3,6 +3,7 @@ package fr.thedarven.events.commands.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.utils.PermissionHelper;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class PlayerkillCommand extends OperatorCommand {
 
 	public PlayerkillCommand(TaupeGun main){
-		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{ "taupegun.playerkill" });
+		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{PermissionHelper.PLAYER_KILL_COMMAND});
 	}
 
 	@Override

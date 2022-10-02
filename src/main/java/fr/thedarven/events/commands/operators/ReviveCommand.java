@@ -6,6 +6,7 @@ import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.statsgame.RestGame;
 import fr.thedarven.statsgame.RestPlayerDeath;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.*;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class ReviveCommand extends OperatorCommand {
 
 	public ReviveCommand(TaupeGun main){
-		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{ "taupegun.revive" });
+		super(main, new EnumGameState[] { EnumGameState.GAME }, new String[]{PermissionHelper.REVIVE_COMMAND });
 	}
 
 	@Override
