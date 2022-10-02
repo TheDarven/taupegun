@@ -176,6 +176,7 @@ public class LanguageManager extends Manager {
 		contentElement.addTranslation("fr_FR", "superMoleMessageT", " Tapez /supert pour envoyer un message à votre équipe.");
 		contentElement.addTranslation("fr_FR", "superMoleMessageReveal", " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.");
 		contentElement.addTranslation("fr_FR", "killList", "======== Liste des kills ========");
+		contentElement.addTranslation("fr_FR", "killPve", "PVE : {amount}");
 		contentElement.addTranslation("fr_FR", "selected", "Sélectionné");
 		contentElement.addTranslation("fr_FR", "info", "[Info]");
 		contentElement.addTranslation("fr_FR", "statsLink", "Les statistiques de votre partie sont disponibles ici : {link}");

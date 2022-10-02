@@ -44,6 +44,8 @@ public class PlayerDeathListener implements Listener {
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
+		} else {
+			this.main.getGameManager().incrementPveKills();
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
