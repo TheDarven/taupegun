@@ -3,6 +3,7 @@ package fr.thedarven.events.commands.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.enums.EnumGameState;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 public class HealCommand extends OperatorCommand {
 
 	public HealCommand(TaupeGun main) {
-		super(main, new EnumGameState[]{ EnumGameState.GAME }, new String[]{ "taupegun.heal" });
+		super(main, new EnumGameState[]{ EnumGameState.GAME }, new String[]{PermissionHelper.HEAL_COMMAND});
 	}
 
 	@Override

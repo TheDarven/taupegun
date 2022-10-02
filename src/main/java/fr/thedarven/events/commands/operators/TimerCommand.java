@@ -2,6 +2,7 @@ package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -9,7 +10,7 @@ import org.bukkit.entity.Player;
 public class TimerCommand extends OperatorCommand {
 
 	public TimerCommand(TaupeGun main){
-		super(main, new String[]{ "taupegun.timer" });
+		super(main, new String[]{PermissionHelper.TIMER_COMMAND});
 	}
 
 	@Override

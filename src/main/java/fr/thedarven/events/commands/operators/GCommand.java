@@ -2,6 +2,7 @@ package fr.thedarven.events.commands.operators;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 public class GCommand extends OperatorCommand {
 
 	public GCommand(TaupeGun main){
-		super(main, new String[]{ "taupegun.g" });
+		super(main, new String[]{PermissionHelper.G_COMMAND});
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
 import fr.thedarven.teams.graph.MoleCreationGraph;
 import fr.thedarven.teams.graph.MoleCreationSuccessEnum;
+import fr.thedarven.utils.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,7 +21,7 @@ public class StartCommand extends OperatorCommand {
 	private StartRunnable startRunnable;
 
 	public StartCommand(TaupeGun main){
-		super(main, new String[]{ "taupegun.start" });
+		super(main, new String[]{PermissionHelper.START_COMMAND});
 	}
 
 	@Override
