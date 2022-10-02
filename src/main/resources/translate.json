@@ -982,6 +982,19 @@
 			}
 		}
 	},
+	{
+		"title": "MENU_CONFIGURATION_SCENARIO_HASTEY_BOYS",
+		"translations": {
+			"fr_FR": {
+				"name": "Hastey Boys",
+				"description": "Les outils possèdent automatiquement l'enchantement Efficacité III."
+			},
+			"en_US": {
+				"name": "Hastey Boys",
+				"description": "All tools are auto enchant with Efficiency III."
+			}
+		}
+	},
 
 
 
