@@ -14,7 +14,7 @@ import java.util.Objects;
 public class GameManager extends Manager {
 
 	private int timer = 0;
-	private int cooldownTimer = 0;
+	private int cooldownTimer = 10;
 	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
