@@ -26,7 +26,7 @@ public class HasteyBoys extends OptionBoolean {
                 main,
                 "Hastey Boys",
                 "Les outils possèdent automatiquement l'enchantement Efficacité III.",
-                "MENU_CONFIGURATION_SCENARIO_HASTEYBOYS",
+                "MENU_CONFIGURATION_SCENARIO_HASTEY_BOYS",
                 Material.ENCHANTED_BOOK,
                 parent,
                 false);
