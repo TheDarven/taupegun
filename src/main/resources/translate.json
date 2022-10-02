@@ -671,14 +671,30 @@
 				"description": "Les crédits du plugin.",
 				"notEnoughSlot": "Vous n'avez pas suffisement de place dans votre inventaire pour accéder à ce menu.",
 				"loseGame": "Vous avez perdu avec un score de {score} !",
-				"winGame": "Vous avec terminé la partie avec un score de {score}, félicitations !"
+				"winGame": "Vous avec terminé la partie avec un score de {score}, félicitations !",
+				"playerDeveloper": "Développeur",
+				"playerContributor": "Contributeur",
+				"playerTranslator": "Traducteur",
+				"playerTester": "Testeur",
+				"arrowLeft": "Gauche",
+				"arrowRight": "Droite",
+				"arrowUp": "Haut",
+				"arrowDown": "Bas"
 			},
 			"en_US": {
 				"name": "Credits",
 				"description": "Plugin credits",
 				"notEnoughSlot": "You don't have enough space in your inventory to access this menu.",
 				"loseGame": "You lost with a score of {score} !",
-				"winGame": "You finished the game with a score of {score}, congratulations !"
+				"winGame": "You finished the game with a score of {score}, congratulations !",
+				"playerDeveloper": "Developer",
+				"playerContributor": "Contributor",
+				"playerTranslator": "Translator",
+				"playerTester": "Tester",
+				"arrowLeft": "Left",
+				"arrowRight": "Right",
+				"arrowUp": "Up",
+				"arrowDown": "Down"
 			}
 		}
 	},

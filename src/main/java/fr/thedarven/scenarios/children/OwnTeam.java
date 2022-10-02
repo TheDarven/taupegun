@@ -57,6 +57,7 @@ public class OwnTeam extends OptionBoolean implements ConfigurationPlayerItemCon
         return banner;
     }
 
+    @Override
     public final void onPlayerItemClick(PlayerTaupe pl) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             createAndOpenTeamsInventory(pl);
