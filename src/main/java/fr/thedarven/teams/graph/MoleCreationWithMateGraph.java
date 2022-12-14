@@ -1,7 +1,6 @@
 package fr.thedarven.teams.graph;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.kits.Kit;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
@@ -65,8 +64,6 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
             return MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT;
         }
 
-        List<Kit> kits = this.main.getKitManager().getAllKits();
-
         Collections.shuffle(this.players);
 
         int nbTeams = this.moleTeams.size();
@@ -74,7 +71,6 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
         for (int i = 0; i < nbPlayers; i++) {
             PlayerTaupe mole = players.get(i);
             mole.setTaupeTeam(this.moleTeams.get(i % nbTeams));
-            mole.setMoleKit(kits.get(RandomHelper.generate(kits.size())));
         }
 
         return MoleCreationSuccessEnum.CREATED;
