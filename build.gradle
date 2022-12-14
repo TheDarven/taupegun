@@ -3,9 +3,11 @@ plugins {
 }
 
 group 'fr.thedarven'
-version '2.9.1'
+version '2.9.2'
 
-sourceCompatibility = 1.8
+java {
+    sourceCompatibility = "VERSION_1_8"
+}
 
 repositories {
     mavenLocal()
