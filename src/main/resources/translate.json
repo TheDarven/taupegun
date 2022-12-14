@@ -769,7 +769,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Durée d'un épisode",
-				"description": "La durée d'une épisode.",
+				"description": "La durée d'un épisode.",
 				"afterName": "min"
 			},
 			"en_US": {
@@ -825,6 +825,7 @@
 			}
 		}
 	},
+    
 	{
 		"title": "MENU_CONFIGURATION_WALL_SPEED",
 		"translations": {
@@ -1035,7 +1036,7 @@
 		"title": "MENU_CONFIGURATION_DROPS_FLINT",
 		"translations": {
 			"fr_FR": {
-				"name": "Silexs",
+				"name": "Silex",
 				"description": "Pourcentage de drop des silex.",
 				"afterName": "%"
 			},
@@ -1139,7 +1140,7 @@
 		"translations": {
 			"fr_FR": {
 				"name": "Tchat équipe",
-				"description": "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs."
+				"description": "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tous les joueurs."
 			},
 			"en_US": {
 				"name": "Team chat",

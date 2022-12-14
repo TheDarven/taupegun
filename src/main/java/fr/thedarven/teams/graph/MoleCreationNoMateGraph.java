@@ -1,7 +1,6 @@
 package fr.thedarven.teams.graph;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.kits.Kit;
 import fr.thedarven.models.enums.ColorEnum;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.teams.TeamCustom;
@@ -49,8 +48,8 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
     protected void createMoleTeams() {
         double nbPlayers = this.players.stream().mapToInt(List::size).sum();
         double nbTaupes = this.main.getScenariosManager().molesTeamSize.getIntValue();
+        // Nombre joueurs de la même équipe devenant taupe
         int maxTeamSize = this.players.stream().mapToInt(List::size).max().getAsInt();
-
         int nbTeams = Math.max((int) Math.ceil(nbPlayers / nbTaupes), maxTeamSize);
 
         String moleTeamName = this.main.getTeamManager().getMoleTeamName();
@@ -68,15 +67,12 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
             return MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT;
         }
 
-        List<Kit> kits = this.main.getKitManager().getAllKits();
-
         sortByNumberPlayerInTeam();
         for (List<PlayerTaupe> moles: this.players) {
             sortMoleTeamsByNbPlayers();
             for (int i = 0; i < moles.size(); i++) {
                 PlayerTaupe mole = moles.get(i);
                 mole.setTaupeTeam(this.moleTeams.get(i));
-                mole.setMoleKit(kits.get(RandomHelper.generate(kits.size())));
             }
         }
 

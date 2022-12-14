@@ -242,8 +242,10 @@ public class GameRunnable extends BukkitRunnable {
                 this.main.getDatabaseManager().createMole(player, teamId);
                 Location spawnTeam = new Location(world,
                         (int) (rayon * Math.cos(X)),
-                        world.getHighestBlockYAt((int) (rayon * Math.cos(X)),
-                        (int) (rayon * Math.sin(X)))+2, (int) (rayon * Math.sin(X)));
+                        world.getHighestBlockYAt(
+                                (int) (rayon * Math.cos(X)),
+                                (int) (rayon * Math.sin(X))) + 2,
+                        (int) (rayon * Math.sin(X)));
                 player.teleport(spawnTeam);
             }
         }
@@ -292,7 +294,7 @@ public class GameRunnable extends BukkitRunnable {
             } else {
                 X = Z * Math.PI * 2 / nbTeam;
                 Location teleportPoint = new Location(world, (int) (radius * Math.cos(X)), 250, (int) (radius * Math.sin(X)));
-                teleportPoint.setY(world.getHighestBlockYAt(teleportPoint));
+                teleportPoint.setY(world.getHighestBlockYAt(teleportPoint) + 2);
                 team.getPlayersInWorldEnvironment(World.Environment.NETHER).forEach(player -> {
                     player.teleport(teleportPoint);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));

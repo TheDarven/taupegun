@@ -50,7 +50,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public static TaupeGun getInstance(){
 		return instance;
 	}
-	
+
 	@Override
 	public void onEnable(){
 		instance = this;

@@ -19,34 +19,33 @@ import fr.thedarven.utils.TextInterpreter;
 
 public class PersonalScoreboard {
 
-	private TaupeGun main;
-	private Player p;
+	private final TaupeGun main;
+	private final Player player;
 	private final UUID uuid;
 	private final ObjectiveSign objectiveSign;
 
 	PersonalScoreboard(Player player, TaupeGun main){
 		this.main = main;
-		this.p = player;
-		uuid = player.getUniqueId();
-		objectiveSign = new ObjectiveSign("sidebar", "TaupeGun");
+		this.player = player;
+		this.uuid = player.getUniqueId();
+		this.objectiveSign = new ObjectiveSign("sidebar", "TaupeGun");
 
 		reloadData();
-		objectiveSign.addReceiver(player);
+		this.objectiveSign.addReceiver(player);
 	}
 
-	public void reloadData(){}
+	public void reloadData(){
+		if (this.main.getGameManager() == null) {
+			return;
+		}
 
-	public void setLines(String ip){
 		int timer = this.main.getGameManager().getTimer();
 
-		PlayerTaupe pc = PlayerTaupe.getPlayerManager(p.getUniqueId());
+		PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
 		int i = 0;
-		Location loc = p.getLocation();
+		Location loc = player.getLocation();
 		int distance;
-		int playerTeam = 0;
-		for(TeamCustom team : TeamCustom.getAllStartAliveTeams())
-			playerTeam += team.getTeam().getEntries().size();
-		
+
 		objectiveSign.removeAllLine(this.main.getScenariosManager().wallShrinkingTime.getValue() - timer > 0 ? 9 : 8);
 		
 		objectiveSign.setDisplayName("§6TaupeGun");
@@ -67,9 +66,9 @@ public class PersonalScoreboard {
 		Map<String, String> params = new HashMap<>();
 		if (this.main.getScenariosManager().wallShrinkingTime.getValue() - timer > 0) {
 			if (this.main.getScenariosManager().wallShrinkingTime.getValue() - timer >= 6000){
-				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000, "mmm:ss");
+				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000L, "mmm:ss");
 			} else {
-				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000, "mm:ss");
+				timerS = DurationFormatUtils.formatDuration((this.main.getScenariosManager().wallShrinkingTime.getIntValue() - timer) * 1000L, "mm:ss");
 			}
 			params.put("valueColor", "§e");
 			params.put("endValueColor", "§f");
@@ -80,9 +79,9 @@ public class PersonalScoreboard {
 		
 		// TIMER
 		if (timer >= 6000){
-			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mmm:ss");
+			timerS = DurationFormatUtils.formatDuration(timer * 1000L, "mmm:ss");
 		} else {
-			timerS = DurationFormatUtils.formatDuration(timer * 1000, "mm:ss");
+			timerS = DurationFormatUtils.formatDuration(timer * 1000L, "mm:ss");
 		}
 		params.clear();
 		params.put("valueColor", "§e");
@@ -96,11 +95,10 @@ public class PersonalScoreboard {
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
-		params.put("playerCounter", playerTeam+"");
-		params.put("teamCounter", TeamCustom.getAllStartAliveTeams().size()+"");
+		params.put("playerCounter", String.valueOf(PlayerTaupe.getAlivePlayerManager().size()));
+		params.put("teamCounter", String.valueOf(TeamCustom.getAllStartAliveTeams().size()));
 		String connectedPlayerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "connectedPlayer",true), params);
 		objectiveSign.setLine(i++, connectedPlayerMessage);
-		// objectiveSign.setLine(i++, "Joueurs:§e "+playerTeam+" ("+TeamCustom.getAllStartAliveTeams().size()+")");
 
 		
 		
@@ -114,9 +112,8 @@ public class PersonalScoreboard {
 		objectiveSign.setLine(i++, "§3");
 		
 		// DISTANCE
-		if (p.getWorld() == this.main.getWorldManager().getWorldNether()){
-			Location portailLocation = PlayerTaupe.getPlayerManager(p.getUniqueId()).getNetherPortal();
-			// distance = (int) Math.sqrt((portailLocation.getX() - loc.getBlockX())*(portailLocation.getX() - loc.getBlockX()) + (portailLocation.getZ() - loc.getBlockZ())*(portailLocation.getZ() - loc.getBlockZ()) + (portailLocation.getY() - loc.getBlockY())*(portailLocation.getY() - loc.getBlockY()));
+		if (this.player.getWorld() == this.main.getWorldManager().getWorldNether()){
+			Location portailLocation = PlayerTaupe.getPlayerManager(player.getUniqueId()).getNetherPortal();
 			distance = (int) portailLocation.distance(loc);
 			params.clear();
 			params.put("valueColor", "§e");
@@ -124,7 +121,7 @@ public class PersonalScoreboard {
 			params.put("distance", distance+"");
 			String portalMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "portal", true), params);
 			objectiveSign.setLine(i++, portalMessage);
-		}else {
+		} else {
 			distance = (int) Math.sqrt(loc.getX() * loc.getX() + loc.getZ()* loc.getZ());
 			params.clear();
 			params.put("valueColor", "§e");

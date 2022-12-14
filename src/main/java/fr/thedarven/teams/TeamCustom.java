@@ -186,7 +186,7 @@ public class TeamCustom {
 			if (pl.getTeam() == this)
 				pl.setTeam(null);
 			if (pl.getStartTeam() == this)
-				pl.setTeam(null);
+				pl.setStartTeam(null);
 			if (pl.getTaupeTeam() == this)
 				pl.setTaupeTeam(null);
 			if (pl.getSuperTaupeTeam() == this)
