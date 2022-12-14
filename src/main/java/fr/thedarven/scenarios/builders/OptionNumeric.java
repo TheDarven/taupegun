@@ -292,7 +292,7 @@ public class OptionNumeric extends InventoryGUI implements AdminConfiguration, S
 		if (this.divider == 1) {
 			decrementM.setDisplayName(nameColor + "-" + this.pas * factor + this.afterName);
 		} else {
-			decrementM.setDisplayName(nameColor + "-" + ((double) this.pas * 10.0 / (double) this.divider) + this.afterName);
+			decrementM.setDisplayName(nameColor + "-" + ((double) this.pas * factor / (double) this.divider) + this.afterName);
 		}
 		decrement.setItemMeta(decrementM);
 		return decrement;
