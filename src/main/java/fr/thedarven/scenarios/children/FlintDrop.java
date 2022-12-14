@@ -33,7 +33,7 @@ public class FlintDrop extends OptionNumeric {
 	};
 
 	public FlintDrop(TaupeGun main, InventoryGUI parent) {
-		super(main, "Silexs", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT,
+		super(main, "Silex", "Pourcentage de drop des silex.", "MENU_CONFIGURATION_DROPS_FLINT", Material.FLINT,
 				parent, new NumericHelper(1, 200, 20, 1, 3, "%", 2, false, 2));
 	}
 

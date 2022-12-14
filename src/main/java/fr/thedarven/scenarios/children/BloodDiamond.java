@@ -13,7 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 public class BloodDiamond extends OptionNumeric {
 
 	public BloodDiamond(TaupeGun main, InventoryGUI parent) {
-		super(main, "Blood Diamond", "Les diamants infliges des dégâts lorsqu'ils sont minés.", "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
+		super(main, "Blood Diamond", "Les diamants infligent des dégâts lorsqu'ils sont minés.", "MENU_CONFIGURATION_SCENARIO_BLOODDIAMOND",
 				Material.TNT, parent, new NumericHelper(0, 4, 0, 1, 1, "❤", 2, true, 1));
 	}
 	

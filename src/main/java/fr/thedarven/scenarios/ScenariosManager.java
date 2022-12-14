@@ -137,7 +137,7 @@ public class ScenariosManager {
 		this.pvp = new Pvp(this.main, timersMenu);
 		this.molesActivation = new OptionNumeric(this.main, "Annonces taupes", "La minute à laquelle les taupes sont annoncées.", "MENU_CONFIGURATION_TIMER_MOLES", Material.PAPER, timersMenu, new NumericHelper(1, 70, 30, 1, 2, "min", 1, false, SECONDS_PER_MINUTE));
 		this.wallShrinkingTime = new OptionNumeric(this.main, "Début de la réduction", "Minute à laquelle le mur commence à se réduire.", "MENU_CONFIGURATION_TIMER_SHRINK", Material.BARRIER, timersMenu, new NumericHelper(1, 180, 80, 1, 3, "min", 1, false, SECONDS_PER_MINUTE));
-		this.episode = new OptionNumeric(this.main, "Durée d'un épisode", "La durée d'une épisode.", "MENU_CONFIGURATION_TIMER_EPISODE", Material.PAINTING, timersMenu, new NumericHelper(0, 60, 0, 5, 1, "min", 1, true, SECONDS_PER_MINUTE));
+		this.episode = new OptionNumeric(this.main, "Durée d'un épisode", "La durée d'un épisode.", "MENU_CONFIGURATION_TIMER_EPISODE", Material.PAINTING, timersMenu, new NumericHelper(0, 60, 0, 5, 1, "min", 1, true, SECONDS_PER_MINUTE));
 
 		this.wallMenu = new InventoryGUI(this.main, "Mur", "Menu du mur.", "MENU_CONFIGURATION_WALL", 1, Material.BARRIER, configurationMenu, 2);
 		this.wallSizeBefore = new WallSizeBefore(this.main, wallMenu);
@@ -167,7 +167,7 @@ public class ScenariosManager {
 		this.goldenHead = new GoldenHead(this.main, othersMenu);
 		this.deathGoldenApple = new OptionNumeric(this.main, "Pommes dorées à la mort", "Détermine le nombre de pommes d'or drop à la mort d'un joueur.", "MENU_CONFIGURATION_OTHER_GOLDEN_APPLE", Material.GOLDEN_APPLE, othersMenu, 5, new NumericHelper(0, 5, 0, 1, 0, " pomme(s)", 1, false, 1));
 		this.ownTeam = new OwnTeam(this.main, othersMenu);
-		this.teamTchat = new OptionBoolean(this.main, "Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tout les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
+		this.teamTchat = new OptionBoolean(this.main, "Tchat équipe", "Active ou non les tchats privés des équipes. Si activé, il faut mettre un ! au début du message pour l'envoyer à tous les joueurs.", "MENU_CONFIGURATION_OTHER_TCHAT", Material.PAPER, othersMenu, 8, true);
 		this.weather = new Weather(this.main, othersMenu);
 		this.daylightCycle = new OptionBoolean(this.main, "Cycle jour/nuit", "Active ou non le cycle jour/nuit.", "MENU_CONFIGURATION_OTHER_DAYLIGHT_CYCLE", Material.WATCH, othersMenu, 10, true);
 		this.potionLevel2 = new PotionII(this.main, othersMenu);
