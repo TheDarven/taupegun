@@ -30,7 +30,7 @@ public class TaupelistCommand extends PlayerCommand {
 				return false;
 			}
 
-			if (!this.main.getGameManager().molesEnabled()) {
+			if (!this.main.getGameManager().areMolesRevealed()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "molesNotAnnounced", true));
 				return false;
 			}

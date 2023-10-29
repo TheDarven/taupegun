@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 
 public class RegeneratesHealthListener implements Listener {

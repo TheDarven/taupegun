@@ -1,6 +1,6 @@
 package fr.thedarven.kit.model;
 
-import fr.thedarven.scenario.kits.InventoryKitsElement;
+import fr.thedarven.scenario.kit.InventoryKitsElement;
 
 import java.io.Serializable;
 import java.util.ArrayList;

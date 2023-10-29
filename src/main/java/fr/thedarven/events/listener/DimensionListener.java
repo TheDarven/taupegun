@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 
 public class DimensionListener implements Listener {

@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 
 public class WeatherChangeListener implements Listener {
 

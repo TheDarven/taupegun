@@ -2,7 +2,7 @@ package fr.thedarven.events.command.moles;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.team.model.TeamCustom;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;

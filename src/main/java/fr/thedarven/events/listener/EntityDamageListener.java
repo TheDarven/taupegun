@@ -1,7 +1,7 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

@@ -2,7 +2,7 @@ package fr.thedarven.events.command.moles;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.command.PlayerCommand;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public abstract class MoleCommand extends PlayerCommand {
     }
 
     public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
-        if (pl.isTaupe() && pl.isAlive() && this.main.getGameManager().molesEnabled()) {
+        if (pl.isTaupe() && pl.isAlive() && this.main.getGameManager().areMolesRevealed()) {
             return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
         }
         return false;

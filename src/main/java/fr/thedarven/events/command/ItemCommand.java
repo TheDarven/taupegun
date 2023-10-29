@@ -5,7 +5,7 @@ import fr.thedarven.player.model.StatsPlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 
 public class ItemCommand extends PlayerCommand {
 

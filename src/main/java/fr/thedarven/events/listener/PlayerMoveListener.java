@@ -2,7 +2,7 @@ package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import org.bukkit.Location;
@@ -46,7 +46,7 @@ public class PlayerMoveListener implements Listener {
 
     	if (EnumGameState.isCurrentState(EnumGameState.GAME)){
     		// AFFICHE L'ORIENTATION DES TEAMMATES
-			if (!this.main.getGameManager().molesEnabled()){
+			if (!this.main.getGameManager().areMolesRevealed()){
 				this.main.getPlayerManager().sendOrientationMessage(player, pl);
 			}
 			return;

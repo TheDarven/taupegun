@@ -3,7 +3,7 @@ package fr.thedarven.events.command;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Location;

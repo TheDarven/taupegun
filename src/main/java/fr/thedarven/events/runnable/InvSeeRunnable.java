@@ -115,7 +115,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
         // MOLE
         lores.clear();
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -135,7 +135,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         }
 
         // SUPERMOLE
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");

@@ -9,7 +9,7 @@ import fr.thedarven.kit.KitManager;
 import fr.thedarven.utils.manager.MessageManager;
 import fr.thedarven.player.PlayerManager;
 import fr.thedarven.scenario.ScenariosManager;
-import fr.thedarven.scenario.builders.InventoryGUI;
+import fr.thedarven.scenario.builder.CustomInventory;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.team.TeamManager;
 import fr.thedarven.utils.Metrics;
@@ -59,7 +59,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 		this.languageManager = new LanguageManager(this);
 		this.languageManager.loadAllTranslations(this);
-		InventoryGUI.setLanguage();
+		CustomInventory.setLanguage();
 
 		this.messageManager = new MessageManager(this);
 

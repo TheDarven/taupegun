@@ -2,7 +2,7 @@ package fr.thedarven.player.model;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.team.model.TeamCustom;

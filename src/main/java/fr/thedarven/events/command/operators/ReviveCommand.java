@@ -3,7 +3,7 @@ package fr.thedarven.events.command.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.stats.model.dto.PlayerDeathDto;
 import fr.thedarven.utils.helpers.PermissionHelper;
@@ -39,7 +39,7 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (args.length > 0 && !this.main.getGameManager().molesEnabled() && TeamCustom.getAllAliveTeams().size() > 1) {
+		if (args.length > 0 && !this.main.getGameManager().areMolesRevealed() && TeamCustom.getAllAliveTeams().size() > 1) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		} else {
 			sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotRevive", true));

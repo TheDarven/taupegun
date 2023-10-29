@@ -5,7 +5,7 @@ import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.model.Manager;
 
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 
@@ -83,11 +83,11 @@ public class GameManager extends Manager {
 		}
 	}
 
-	public boolean molesEnabled() {
+	public boolean areMolesRevealed() {
 		return this.main.getScenariosManager().molesActivation.getValue() <= this.main.getGameManager().getTimer();
 	}
 
-	public boolean superMolesEnabled() {
+	public boolean areSuperMolesRevealed() {
 		return this.main.getScenariosManager().superMoles.getValue() && this.main.getScenariosManager().molesActivation.getValue() + 1200 <= this.main.getGameManager().getTimer();
 	}
 

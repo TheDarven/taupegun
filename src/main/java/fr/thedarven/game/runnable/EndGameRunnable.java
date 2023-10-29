@@ -3,7 +3,7 @@ package fr.thedarven.game.runnable;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.utils.manager.MessageManager;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;

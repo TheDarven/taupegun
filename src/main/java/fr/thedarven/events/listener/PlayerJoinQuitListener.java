@@ -2,10 +2,10 @@ package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builders.InventoryGUI;
-import fr.thedarven.scenario.teams.element.InventoryTeamsPlayers;
+import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.titles.Title;
@@ -122,7 +122,7 @@ public class PlayerJoinQuitListener implements Listener {
         pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
 
         if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-            InventoryGUI openedInventory = InventoryGUI.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
+            CustomInventory openedInventory = CustomInventory.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
             if (!Objects.isNull(openedInventory)) {
                 openedInventory.onPlayerDisconnect(player);
             }

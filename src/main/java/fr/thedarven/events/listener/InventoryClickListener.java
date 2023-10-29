@@ -2,10 +2,10 @@ package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.EnumInventory;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builders.InventoryGUI;
+import fr.thedarven.scenario.builder.CustomInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,7 +34,7 @@ public class InventoryClickListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player))
             return;
 
-        InventoryGUI clickedInventory = InventoryGUI.getInventoryGUIByInventory(e.getInventory());
+        CustomInventory clickedInventory = CustomInventory.getInventoryGUIByInventory(e.getInventory());
         if (!Objects.isNull(clickedInventory)) {
             e.setCancelled(true);
             clickedInventory.onInventoryPreClick(e);

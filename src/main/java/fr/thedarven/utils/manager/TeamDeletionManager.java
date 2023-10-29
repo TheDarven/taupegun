@@ -3,7 +3,7 @@ package fr.thedarven.utils.manager;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;
@@ -31,13 +31,9 @@ public class TeamDeletionManager {
 					alive = StatsPlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getTaupeTeam() == team && !player.isSuperReveal());
 				} else if (team.isSuperTaupeTeam()) {
 					alive = StatsPlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getSuperTaupeTeam() == team);
-				} else if (!team.isSpectator() && team.getTeam().getEntries().size() == 0) {
+				} else if (!team.isSpectator() && team.getTeam().getEntries().isEmpty()) {
 					this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), true);
 					alive = false;
-					/* Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");
-					for(Player playerOnline : Bukkit.getOnlinePlayers()) {
-						playerOnline.playSound(playerOnline.getLocation(), Sound.ENTITY_GHAST_HURT, 1, 1);
-					} */
 				}
 				team.setAlive(alive);
 			}
@@ -59,7 +55,7 @@ public class TeamDeletionManager {
 			this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 
 			EnumGameState.setState(EnumGameState.END_FIREWORK);
-		} else if (aliveTeams.size() == 0) {
+		} else if (aliveTeams.isEmpty()) {
 			String nobodyWinMessage = "§a" + LanguageBuilder.getContent("GAME", "nobodyWin", true);
 
 			Bukkit.broadcastMessage(" ");

@@ -63,7 +63,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
     @Override
     protected MoleCreationSuccessEnum fillMoleTeams() {
-        if (this.players.size() == 0) {
+        if (this.players.isEmpty()) {
             return MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT;
         }
 

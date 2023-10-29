@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.stats.model.dto.GameDto;
@@ -80,7 +80,7 @@ public class PlayerDeathListener implements Listener {
 		this.main.getPlayerManager().sendPlaySound(Sound.WITHER_SPAWN);
 
 		if (Objects.nonNull(deadPlayer)){
-			if (this.main.getGameManager().molesEnabled() && pl.isOnline()) {
+			if (this.main.getGameManager().areMolesRevealed() && pl.isOnline()) {
 				if (this.main.getScenariosManager().goldenHead.getValue() > 0) {
 					dropHeadItem(pl, deadPlayer);
 				}

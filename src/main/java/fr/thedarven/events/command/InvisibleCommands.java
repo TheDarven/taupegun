@@ -1,7 +1,7 @@
 package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.utils.GlobalVariable;

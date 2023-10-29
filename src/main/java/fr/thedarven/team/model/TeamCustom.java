@@ -2,10 +2,10 @@ package fr.thedarven.team.model;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.scenario.team.element.*;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.teams.element.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

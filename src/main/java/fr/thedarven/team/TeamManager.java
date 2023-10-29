@@ -2,7 +2,7 @@ package fr.thedarven.team;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.Manager;
-import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 import java.util.Objects;
