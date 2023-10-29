@@ -4,8 +4,6 @@ author: TheDarven
 description: Plugin TaupeGun UHC
 main: fr.thedarven.TaupeGun
 commands:
-  timer:
-    description: Pour changer le chronometre en periode de test.
   revive:
     description: Pour reanimer un joueur.
   heal:
@@ -39,7 +37,5 @@ commands:
     description: Pour envoyer une annonce avec le pseudonyme de l'auteur.
   start:
     description: Pour lancer la partie.
-  debug:
-    description: Debug pour le developpement.
   coords:
     description: Pour envoyer ses coordonnees a son equipe

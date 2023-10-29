@@ -6,7 +6,6 @@ public class PermissionHelper {
 
     public static final String EDIT_CONFIGURATION = "taupegun.scenarios";
     public static final String SAY_COMMAND = "taupegun.say";
-    public static final String TIMER_COMMAND = "taupegun.timer";
     public static final String START_COMMAND = "taupegun.start";
     public static final String REVIVE_COMMAND = "taupegun.revive";
     public static final String PLAYER_KILL_COMMAND = "taupegun.playerkill";

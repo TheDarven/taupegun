@@ -4,6 +4,8 @@ import fr.thedarven.events.commands.moles.*;
 import fr.thedarven.events.commands.operators.*;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.models.Manager;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 
 public class CommandManager extends Manager {
 
@@ -21,7 +23,6 @@ public class CommandManager extends Manager {
         main.getCommand("g").setExecutor(new GCommand(this.main));
         main.getCommand("say").setExecutor(new SayCommand(this.main));
         main.getCommand("playerkill").setExecutor(new PlayerkillCommand(this.main));
-        main.getCommand("timer").setExecutor(new TimerCommand(this.main));
         main.getCommand("rules").setExecutor(new ScenariosCommand(this.main));
         main.getCommand("scenarios").setExecutor(new ScenariosCommand(this.main));
         this.startCommand = new StartCommand(this.main);
@@ -42,7 +43,9 @@ public class CommandManager extends Manager {
         main.getCommand("superreveal").setExecutor(new SuperrevealCommand(this.main));
         main.getCommand("supert").setExecutor(new SupertCommand(this.main));
 
-        main.getCommand("debug").setExecutor(new DebugCommand(this.main));
+        // Invisible commands
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new InvisibleCommands(this.main), main);
     }
 
     public StartCommand getStartCommand() {

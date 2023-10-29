@@ -10,13 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.Objects;
 
 public class PlayerChatListener implements Listener {
 
-	private TaupeGun main;
+	private final TaupeGun main;
 
 	public PlayerChatListener(TaupeGun main) {
 		this.main = main;
@@ -61,21 +60,6 @@ public class PlayerChatListener implements Listener {
 				}
 			} else {
 				Bukkit.broadcastMessage(getTeamColor(pl) + player.getName() + ": §7" + e.getMessage());
-			}
-		}
-	}
-
-	@EventHandler
-	public void onPlayerSendCommand(PlayerCommandPreprocessEvent e){
-		Player player = e.getPlayer();
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
-			if (e.getMessage().startsWith("/me") && !pl.isAlive()){
-				e.setCancelled(true);
-			} else if ((e.getMessage().startsWith("/tell") || e.getMessage().startsWith("/msg")) && !pl.isAlive()) {
-				e.setCancelled(true);
-				String cannotPrivateMessage = "§a[TaupeGun]§c "+LanguageBuilder.getContent("EVENT_TCHAT", "cannotPrivateMessage", true);
-				player.sendMessage(cannotPrivateMessage);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import fr.thedarven.models.CreditPlayer;
 import fr.thedarven.players.PlayerTaupe;
 import fr.thedarven.scenarios.players.credits.InventoryCredit;
 import fr.thedarven.scenarios.players.credits.InventoryCreditElement;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.RandomHelper;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;
@@ -28,7 +29,7 @@ public class SnakeRunnable extends BukkitRunnable {
             new CreditPlayer("0f306b83-f997-4f6c-a5d7-c1249c190aaa", "Infernaton", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("2ffa1f03-30ef-4b9a-b480-38a36b3f4ffc", "yukimoki", CreditPlayerTypeEnum.CONTRIBUTOR),
             new CreditPlayer("e05403a3-dd1b-45b7-9e25-f2ac8be6da83", "JANEO", CreditPlayerTypeEnum.TRANSLATOR),
-            new CreditPlayer("913198b3-dd6b-47f9-b5eb-6ea2aea0044d", "TheDarven", CreditPlayerTypeEnum.DEVELOPER)
+            new CreditPlayer(GlobalVariable.THEDARVEN_UUID, "TheDarven", CreditPlayerTypeEnum.DEVELOPER)
     );
 
     private final InventoryCreditElement inventoryCreditElement;

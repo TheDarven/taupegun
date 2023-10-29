@@ -56,7 +56,7 @@ public abstract class PlayerCommand implements CommandExecutor {
                 player.sendMessage(gameStateMessage);
             }
         }
-        return false;
+        return true;
     }
 
     /**
