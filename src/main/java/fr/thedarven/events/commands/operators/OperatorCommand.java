@@ -44,9 +44,9 @@ public abstract class OperatorCommand extends PlayerCommand {
         this.permissions = permissions;
     }
 
-    public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         if (sender.isOp() || hasPermission(sender)) {
-            return super.validateCommand(sender, pl, cmd, alias, args);
+            return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
         } else {
             this.main.getMessageManager().sendNotOperatorMessage(sender);
         }

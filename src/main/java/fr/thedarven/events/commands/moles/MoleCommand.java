@@ -21,9 +21,9 @@ public abstract class MoleCommand extends PlayerCommand {
         super(main, states, gameStateMessage);
     }
 
-    public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         if (pl.isTaupe() && pl.isAlive() && this.main.getGameManager().molesEnabled()) {
-            return super.validateCommand(sender, pl, cmd, alias, args);
+            return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
         }
         return false;
     }

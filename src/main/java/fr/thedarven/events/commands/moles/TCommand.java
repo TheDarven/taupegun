@@ -16,8 +16,8 @@ public class TCommand extends MoleCommand {
 		this.main.getMessageManager().moleSendsMoleMessage(sender, pl, args);
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (super.validateCommand(sender, pl, cmd, alias, args)) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
 			return args.length > 0;
 		}
 		return false;

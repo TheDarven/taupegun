@@ -46,8 +46,8 @@ public class StartCommand extends OperatorCommand {
 		this.startRunnable.runTaskTimer(this.main,20,20);
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (!super.validateCommand(sender, pl, cmd, alias, args)) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (!super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
 			return false;
 		}
 

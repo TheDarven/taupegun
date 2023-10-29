@@ -16,8 +16,8 @@ public class SupertCommand extends MoleCommand {
 		this.main.getMessageManager().superMoleSendsSuperMoleMessage(sender, pl, args);
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		return args.length > 0 && super.validateCommand(sender, pl, cmd, alias, args) && this.main.getGameManager().superMolesEnabled() && pl.isSuperTaupe();
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		return args.length > 0 && super.canPlayerExecuteCommand(sender, pl, cmd, alias, args) && this.main.getGameManager().superMolesEnabled() && pl.isSuperTaupe();
 	}
 
 }

@@ -49,7 +49,7 @@ public abstract class PlayerCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (Objects.isNull(this.states) || EnumGameState.isCurrentState(this.states)) {
                 PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-                if (validateCommand(player, pl, cmd, alias, args)) {
+                if (canPlayerExecuteCommand(player, pl, cmd, alias, args)) {
                     executeCommand(player, pl, cmd, alias, args);
                 }
             } else if (Objects.nonNull(gameStateMessage)) {
@@ -69,7 +69,7 @@ public abstract class PlayerCommand implements CommandExecutor {
      * @param args Les arguments de la commande
      * @return true si la commande peut être exécutée, false sinon
      */
-    public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         return true;
     }
 

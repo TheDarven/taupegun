@@ -23,7 +23,7 @@ public class TimerCommand extends OperatorCommand {
 	}
 
 	@Override
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		return this.main.development && super.validateCommand(sender, pl, cmd, alias, args);
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		return this.main.development && super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 	}
 }

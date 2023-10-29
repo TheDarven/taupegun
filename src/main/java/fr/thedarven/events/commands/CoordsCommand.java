@@ -41,8 +41,8 @@ public class CoordsCommand extends PlayerCommand {
         }
     }
 
-    public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-        if (super.validateCommand(sender, pl, cmd, alias, args)) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+        if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
             if (!this.main.getScenariosManager().coordsCommand.getValue()) {
                 sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "disabledCommand", true));
                 return false;

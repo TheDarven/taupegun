@@ -21,8 +21,8 @@ public class ClaimCommand extends MoleCommand {
 		pl.setMoleKit(null);
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (super.validateCommand(sender, pl, cmd, alias, args)) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
 			return Objects.nonNull(pl.getMoleKit()) && Objects.nonNull(pl.getMoleKit().getConfigurationInventory());
 		}
 		return false;

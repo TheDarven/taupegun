@@ -18,8 +18,8 @@ public class SuperrevealCommand extends GenericRevealCommand {
 		this.reveal(sender, pl.getSuperTaupeTeam());
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (super.validateCommand(sender, pl, cmd, alias, args) && this.main.getGameManager().superMolesEnabled() && pl.isSuperTaupe()) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args) && this.main.getGameManager().superMolesEnabled() && pl.isSuperTaupe()) {
 			if (!pl.isReveal()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", true));
 				return false;

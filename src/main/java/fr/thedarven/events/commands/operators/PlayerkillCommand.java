@@ -32,9 +32,9 @@ public class PlayerkillCommand extends OperatorCommand {
 		}
 	}
 
-	public boolean validateCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (args.length > 0) {
-			return super.validateCommand(sender, pl, cmd, alias, args);
+			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		}
 		return false;
 	}
