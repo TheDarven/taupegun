@@ -28,7 +28,7 @@ public class ScoreboardManager extends Manager {
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             for (PersonalScoreboard scoreboard : scoreboards.values())
                 this.executorMonoThread.execute(scoreboard::reloadData);
-        }, 20, 20, TimeUnit.MILLISECONDS);
+        }, 100, 100, TimeUnit.MILLISECONDS);
     }
 
     public void onLogin(Player player) {
