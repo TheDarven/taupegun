@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.Objects;
@@ -21,9 +21,9 @@ public class PlayerChatListener implements Listener {
 	public PlayerChatListener(TaupeGun main) {
 		this.main = main;
 	}
-	
+
 	@EventHandler
-	public void onPlayerChat(PlayerChatEvent e){
+	public void onPlayerChat(AsyncPlayerChatEvent e){
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
 		Player player = e.getPlayer();
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
@@ -64,9 +64,9 @@ public class PlayerChatListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void writeCommand(PlayerCommandPreprocessEvent e){
+	public void onPlayerSendCommand(PlayerCommandPreprocessEvent e){
 		Player player = e.getPlayer();
 		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
@@ -79,7 +79,7 @@ public class PlayerChatListener implements Listener {
 			}
 		}
 	}
-	
+
 	private String getTeamColor(PlayerTaupe pl) {
 		String color = "";
 		if (Objects.nonNull(pl.getTeam()) && Objects.nonNull(pl.getTeam().getTeam())) {
