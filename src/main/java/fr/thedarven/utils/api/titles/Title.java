@@ -1,6 +1,6 @@
 package fr.thedarven.utils.api.titles;
 
-import fr.thedarven.utils.api.thedarven.Reflection;
+import fr.thedarven.utils.api.Reflection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.Player;

@@ -3,11 +3,11 @@ package fr.thedarven.game;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
-import fr.thedarven.models.Manager;
+import fr.thedarven.model.Manager;
 
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.statsgame.RestGame;
+import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.stats.model.dto.GameDto;
 
 import java.util.Objects;
 
@@ -63,13 +63,13 @@ public class GameManager extends Manager {
 		}
 		main.getDatabaseManager().updateGameDuration();
 
-		RestGame.endGames();
+		GameDto.endGames();
 		EndGameRunnable endGameRunnable = new EndGameRunnable(this.main);
 		endGameRunnable.runTaskTimer(this.main,5,5);
 	}
 
 	public void setMolesInDb() {
-		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+		for (StatsPlayerTaupe pl : StatsPlayerTaupe.getAllPlayerManager()) {
 			if (!pl.isTaupe())
 				continue;
 

@@ -1,7 +1,7 @@
 package fr.thedarven.utils.languages;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.Manager;
+import fr.thedarven.model.Manager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

@@ -2,11 +2,11 @@ package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.GameManager;
-import fr.thedarven.models.enums.ColorEnum;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.scenarios.builders.OptionNumeric;
-import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.model.enums.ColorEnum;
+import fr.thedarven.model.enums.EnumGameState;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.scenario.builders.OptionNumeric;
+import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -136,7 +136,7 @@ public class GameRunnable extends BukkitRunnable {
         if (molesAnnouncing.isValueEquals(timer + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-                PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
+                StatsPlayerTaupe playerTaupe = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
                 if (playerTaupe.isTaupe()) {
                     sendMoleInfoMessage(player, playerTaupe);
                 }
@@ -161,7 +161,7 @@ public class GameRunnable extends BukkitRunnable {
         if (molesAnnouncing.isValueEquals(timer - SECONDS_BEFORE_SUPERMOLE_ANNOUNCING + 1)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
-                if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()) {
+                if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).isSuperTaupe()) {
                     sendSuperMoleInfoMessage(player);
                 }
             }
@@ -203,7 +203,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     private void initGamePlayers() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
+            StatsPlayerTaupe playerTaupe = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
 
             if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
                 new DisableF3().disableF3(player);
@@ -234,7 +234,7 @@ public class GameRunnable extends BukkitRunnable {
             int teamId = this.main.getDatabaseManager().createTeam(team.getTeam().getName(), team.getTeam().getPrefix());
             Z++;
             X = Z * radius;
-            for (PlayerTaupe pl: team.getPlayers()) {
+            for (StatsPlayerTaupe pl: team.getPlayers()) {
                 Player player = pl.getPlayer();
                 if (Objects.isNull(player))
                     continue;
@@ -256,7 +256,7 @@ public class GameRunnable extends BukkitRunnable {
      */
     private void processNotAlivePlayers() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
+            StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
             if (!pl.isAlive() && Objects.isNull(pl.getTeam())) {
                 TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId());
                 player.setGameMode(GameMode.SPECTATOR);
@@ -313,7 +313,7 @@ public class GameRunnable extends BukkitRunnable {
      * @param receiver
      * @param receiverTaupe
      */
-    public void sendMoleInfoMessage(Player receiver, PlayerTaupe receiverTaupe) {
+    public void sendMoleInfoMessage(Player receiver, StatsPlayerTaupe receiverTaupe) {
         String moleMessageInfo = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageInfo", true);
         String moleMessageT = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageT", true);
         String moleMessageReveal = "§6"+LanguageBuilder.getContent("CONTENT", "moleMessageReveal", true);

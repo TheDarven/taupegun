@@ -12,8 +12,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 
@@ -41,7 +41,7 @@ public class PersonalScoreboard {
 
 		int timer = this.main.getGameManager().getTimer();
 
-		PlayerTaupe pc = PlayerTaupe.getPlayerManager(player.getUniqueId());
+		StatsPlayerTaupe pc = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
 		int i = 0;
 		Location loc = player.getLocation();
 		int distance;
@@ -95,7 +95,7 @@ public class PersonalScoreboard {
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
-		params.put("playerCounter", String.valueOf(PlayerTaupe.getAlivePlayerManager().size()));
+		params.put("playerCounter", String.valueOf(StatsPlayerTaupe.getAlivePlayerManager().size()));
 		params.put("teamCounter", String.valueOf(TeamCustom.getAllStartAliveTeams().size()));
 		String connectedPlayerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "connectedPlayer",true), params);
 		objectiveSign.setLine(i++, connectedPlayerMessage);
@@ -113,7 +113,7 @@ public class PersonalScoreboard {
 		
 		// DISTANCE
 		if (this.player.getWorld() == this.main.getWorldManager().getWorldNether()){
-			Location portailLocation = PlayerTaupe.getPlayerManager(player.getUniqueId()).getNetherPortal();
+			Location portailLocation = StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getNetherPortal();
 			distance = (int) portailLocation.distance(loc);
 			params.clear();
 			params.put("valueColor", "§e");

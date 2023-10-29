@@ -3,7 +3,7 @@ package fr.thedarven.utils.api.skull;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import fr.thedarven.utils.api.thedarven.Reflection;
+import fr.thedarven.utils.api.Reflection;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
