@@ -54,8 +54,8 @@ public abstract class MoleCreationGraph {
             List<Kit> kits = this.main.getKitManager().getAllKits();
 
             for (PlayerTaupe mole: moleTeam.getTaupeTeamPlayers()) {
-                if (kits.size() == 0) {
-                    kits = this.main.getKitManager().getAllKits();;
+                if (kits.isEmpty()) {
+                    kits = this.main.getKitManager().getAllKits();
                 }
 
                 int kitIndex = RandomHelper.generate(kits.size());

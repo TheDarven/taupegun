@@ -85,7 +85,11 @@ public class KitManager extends Manager {
     }
 
     public List<Kit> getAllKits() {
-        return this.kits;
+        return new ArrayList<>(this.kits);
+    }
+
+    public int countKits() {
+        return this.kits.size();
     }
 
     public List<Kit> getCopyOfAllKits() {
