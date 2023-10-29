@@ -22,7 +22,7 @@ public class SnakeRunnable extends BukkitRunnable {
 
     private final static List<CreditPlayer> creditPlayers = Arrays.asList(
             new CreditPlayer("bbba5cc1-60a6-4861-91e9-f09daf4ccf36", "ANerdUnicorn", CreditPlayerTypeEnum.CONTRIBUTOR),
-            new CreditPlayer("f6db5dee-4d9c-41dd-bc26-867dd5094ddf", "CocaHynn_", CreditPlayerTypeEnum.TESTER),
+            new CreditPlayer("f6db5dee-4d9c-41dd-bc26-867dd5094ddf", "Treyyyl_", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("6548f76e-4f3d-4cea-b321-6d5f3340eada", "imercogo", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("bf2c7402-4bc8-4a04-8a53-f3380f878d6d", "Morelsky", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("0f306b83-f997-4f6c-a5d7-c1249c190aaa", "Infernaton", CreditPlayerTypeEnum.TESTER),
