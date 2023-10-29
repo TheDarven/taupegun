@@ -6,7 +6,9 @@ group 'fr.thedarven'
 version '2.9.3'
 
 java {
-    sourceCompatibility = "VERSION_1_8"
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
 
 repositories {
