@@ -308,15 +308,6 @@ public class CustomInventory extends InventoryBuilder {
         }
     }
 
-    /**
-     * Pour changer la langue de tous les inventaires
-     */
-    public static void setLanguage() {
-        // TODO Retirer cette méthode
-        List<CustomInventory> elementsValues = new ArrayList<>(elements.values());
-        elementsValues.forEach(CustomInventory::loadTranslation);
-    }
-
     @Nullable
     public static CustomInventory getCustomInventoryByInventory(Inventory inventory) {
         return elements.get(inventory);

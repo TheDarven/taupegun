@@ -8,7 +8,6 @@ import fr.thedarven.utils.manager.*;
 import fr.thedarven.kit.KitManager;
 import fr.thedarven.player.PlayerManager;
 import fr.thedarven.scenario.ScenariosManager;
-import fr.thedarven.scenario.builder.CustomInventory;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.team.TeamManager;
 import fr.thedarven.utils.Metrics;
@@ -64,7 +63,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.itemManager = new ItemManager(this);
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.scenariosManager = new ScenariosManager(this);
-		CustomInventory.setLanguage();
 		this.kitManager = new KitManager(this);
 		this.listenerManager = new ListenerManager(this);
 		this.commandManager = new CommandManager(this);
