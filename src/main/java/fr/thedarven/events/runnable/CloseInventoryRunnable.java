@@ -1,6 +1,6 @@
 package fr.thedarven.events.runnable;
 
-import fr.thedarven.scenarios.teams.element.InventoryTeamsPlayers;
+import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CloseInventoryRunnable extends BukkitRunnable {

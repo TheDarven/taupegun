@@ -1,7 +1,7 @@
 package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.Manager;
+import fr.thedarven.model.Manager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;

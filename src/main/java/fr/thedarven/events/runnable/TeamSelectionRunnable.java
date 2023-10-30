@@ -1,11 +1,11 @@
 package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.players.runnable.PlayerInventoryRunnable;
-import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.model.enums.EnumInventory;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.runnable.PlayerInventoryRunnable;
+import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class TeamSelectionRunnable extends PlayerInventoryRunnable {
 
-    public TeamSelectionRunnable(TaupeGun main, PlayerTaupe pl) {
+    public TeamSelectionRunnable(TaupeGun main, StatsPlayerTaupe pl) {
         super(main, pl, EnumInventory.TEAM);
     }
 
@@ -48,7 +48,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
         String teamChoiceTitle = "§7" + LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);
 
         Inventory teamMenu = Bukkit.createInventory(null, 45, teamChoiceTitle);
-        TeamCustom playerTeam = PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam();
+        TeamCustom playerTeam = StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam();
 
         TeamCustom.getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
 

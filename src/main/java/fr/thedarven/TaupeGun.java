@@ -1,24 +1,24 @@
 package fr.thedarven;
 
 import fr.thedarven.database.DatabaseManager;
-import fr.thedarven.events.commands.CommandManager;
-import fr.thedarven.events.listeners.ListenerManager;
+import fr.thedarven.events.command.CommandManager;
+import fr.thedarven.events.listener.ListenerManager;
 import fr.thedarven.game.GameManager;
-import fr.thedarven.items.ItemManager;
-import fr.thedarven.kits.KitManager;
-import fr.thedarven.messages.MessageManager;
-import fr.thedarven.players.PlayerManager;
-import fr.thedarven.scenarios.ScenariosManager;
-import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.statsgame.RestGame;
-import fr.thedarven.teams.TeamManager;
+import fr.thedarven.utils.manager.ItemManager;
+import fr.thedarven.kit.KitManager;
+import fr.thedarven.utils.manager.MessageManager;
+import fr.thedarven.player.PlayerManager;
+import fr.thedarven.scenario.ScenariosManager;
+import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.stats.model.dto.GameDto;
+import fr.thedarven.team.TeamManager;
 import fr.thedarven.utils.Metrics;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
 import fr.thedarven.utils.languages.LanguageManager;
 import fr.thedarven.utils.manager.CraftManager;
 import fr.thedarven.utils.manager.TeamDeletionManager;
-import fr.thedarven.world.WorldManager;
+import fr.thedarven.utils.manager.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -59,7 +59,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 		this.languageManager = new LanguageManager(this);
 		this.languageManager.loadAllTranslations(this);
-		InventoryGUI.setLanguage();
+		CustomInventory.setLanguage();
 
 		this.messageManager = new MessageManager(this);
 
@@ -85,7 +85,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 		Bukkit.getOnlinePlayers().forEach(player -> this.playerManager.resetPlayerData(player));
 
-		new RestGame(this);
+		new GameDto(this);
 
 		this.gameManager = new GameManager(this);
 		this.teamDeletionManager = new TeamDeletionManager(this);

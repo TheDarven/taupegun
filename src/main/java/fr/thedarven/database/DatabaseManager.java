@@ -1,13 +1,12 @@
 package fr.thedarven.database;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.Manager;
-import fr.thedarven.utils.api.SqlConnection;
+import fr.thedarven.database.utils.SqlConnection;
+import fr.thedarven.model.Manager;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.Date;
-import java.util.Objects;
 
 public class DatabaseManager extends Manager {
 

@@ -1,9 +1,9 @@
 package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.players.runnable.PlayerInventoryRunnable;
+import fr.thedarven.model.enums.EnumInventory;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
@@ -21,9 +21,9 @@ import java.util.*;
 
 public class InvSeeRunnable extends PlayerInventoryRunnable {
 
-    private final PlayerTaupe viewedPl;
+    private final StatsPlayerTaupe viewedPl;
 
-    public InvSeeRunnable(TaupeGun main, PlayerTaupe pl, PlayerTaupe viewedPl) {
+    public InvSeeRunnable(TaupeGun main, StatsPlayerTaupe pl, StatsPlayerTaupe viewedPl) {
         super(main, pl, EnumInventory.INVSEE);
         this.viewedPl = viewedPl;
     }
@@ -115,7 +115,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
         // MOLE
         lores.clear();
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -135,7 +135,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         }
 
         // SUPERMOLE
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");

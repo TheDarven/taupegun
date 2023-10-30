@@ -1,6 +1,6 @@
 package fr.thedarven.utils.api.titles;
 
-import fr.thedarven.utils.api.thedarven.Reflection;
+import fr.thedarven.utils.api.Reflection;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.entity.Player;
