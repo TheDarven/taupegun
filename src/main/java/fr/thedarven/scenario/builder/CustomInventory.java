@@ -3,7 +3,6 @@ package fr.thedarven.scenario.builder;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.EnumConfiguration;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.ScenariosManager;
 import fr.thedarven.scenario.player.InventoryPlayers;
 import fr.thedarven.scenario.runnable.DelayClickRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -31,6 +30,7 @@ public class CustomInventory extends InventoryBuilder {
 
     protected Inventory inventory;
     protected Map<Integer, CustomInventory> children = new LinkedHashMap<>();
+
     protected ConfigurationPlayerItem configurationPlayerItem;
 
     public CustomInventory(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory pParent, int pPosition, byte pData) {
@@ -58,6 +58,51 @@ public class CustomInventory extends InventoryBuilder {
         elements.put(this.inventory, this);
     }
 
+    public final ConfigurationPlayerItem getConfigurationPlayerItem() {
+        return this.configurationPlayerItem;
+    }
+
+    /**
+     * Pour avoir l'inventaire
+     *
+     * @return L'inventaire du CustomInventory
+     */
+    final public Inventory getInventory() {
+        return this.inventory;
+    }
+
+    /**
+     * Pour avoir le nom de l'item de retour
+     *
+     * @return Le nom de l'item de retour
+     */
+    final public String getBackName() {
+        return "§c" + BACK_STRING;
+    }
+
+    /**
+     * Compte le nombre d'enfants
+     *
+     * @return Le nombre d'enfants
+     */
+    final public int countChildren() {
+        return this.children.size();
+    }
+
+    /**
+     * Pour avoir une liste copie des enfants
+     *
+     * @return Liste copie des enfannts
+     */
+    final public List<CustomInventory> getChildren() {
+        return new ArrayList<>(this.children.values());
+    }
+
+
+    public final void loadTranslation() {
+        this.updateLanguage(this.main.getLanguageManager().getLanguage());
+    }
+
 
     /**
      * Pour mettre à jours les traductions de l'inventaire
@@ -74,7 +119,7 @@ public class CustomInventory extends InventoryBuilder {
      * @param language   La langue
      * @param reloadName Pour savoir si on doit mettre à jour le nom et la description
      */
-    final public void updateLanguage(String language, boolean reloadName) {
+    protected final void updateLanguage(String language, boolean reloadName) {
         BACK_STRING = LanguageBuilder.getContent("CONTENT", "back", language, true);
         if (Objects.nonNull(getTranslationName()) && reloadName) {
             this.setName(LanguageBuilder.getContent(getTranslationName(), "name", language, true));
@@ -107,29 +152,6 @@ public class CustomInventory extends InventoryBuilder {
      */
     public void onPlayerItemClick(StatsPlayerTaupe pl) { }
 
-    public final ConfigurationPlayerItem getConfigurationPlayerItem() {
-        return this.configurationPlayerItem;
-    }
-
-
-    /**
-     * Pour avoir l'inventaire
-     *
-     * @return L'inventaire de l'InventoryGUI
-     */
-    final public Inventory getInventory() {
-        return this.inventory;
-    }
-
-    /**
-     * Pour avoir les enfants
-     *
-     * @return Les enfants
-     */
-    final public Map<Integer, CustomInventory> getChildren() {
-        return this.children;
-    }
-
     /**
      * Pour supprimer un enfant
      *
@@ -137,7 +159,7 @@ public class CustomInventory extends InventoryBuilder {
      * @param reload       Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
      */
     final public void removeChild(CustomInventory customInventory, boolean reload) {
-        List<CustomInventory> children = getChildrenValue();
+        List<CustomInventory> children = getChildren();
         children.forEach(child -> {
             customInventory.removeChild(child, false);
         });
@@ -155,28 +177,10 @@ public class CustomInventory extends InventoryBuilder {
     }
 
     /**
-     * Pour avoir une liste copie des enfants
-     *
-     * @return Liste copie des enfannts
-     */
-    final public List<CustomInventory> getChildrenValue() {
-        return new ArrayList<>(this.children.values());
-    }
-
-    /**
-     * Pour avoir le nom de l'item de retour
-     *
-     * @return Le nom de l'item de retour
-     */
-    final public String getBackName() {
-        return "§c" + BACK_STRING;
-    }
-
-    /**
      * Pour supprimer l'item des enfants de l'inventaire
      */
     final protected void clearChildrenItems() {
-        this.getChildrenValue().forEach(this::removeItem);
+        this.getChildren().forEach(this::removeItem);
     }
 
 
@@ -293,16 +297,6 @@ public class CustomInventory extends InventoryBuilder {
 
     @Override
     final public void updateChildItem(int hashCode, ItemStack newItem, InventoryBuilder child) {
-		/* InventoryGUI inventoryGUI = (InventoryGUI) child;
-
-		ItemStack item = this.inventory.getItem(inventoryGUI.getPosition());
-		if (item == null )
-			return;
-
-		this.children.remove(hashCode);
-		this.children.put(pNewItem.hashCode(), inventoryGUI);
-		this.inventory.setItem(inventoryGUI.getPosition(), pNewItem); */
-
         for (int i = 0; i < this.inventory.getSize(); i++) {
             ItemStack item = this.inventory.getItem(i);
             if (Objects.nonNull(item) && item.hashCode() == hashCode) {
@@ -315,26 +309,16 @@ public class CustomInventory extends InventoryBuilder {
     }
 
     /**
-     * Pour obtenir la langue actuellement selectionnées
-     */
-    public static String getLanguage() {
-        ScenariosManager inventoryRegister = TaupeGun.getInstance().getScenariosManager();
-        if (Objects.nonNull(inventoryRegister) && Objects.nonNull(inventoryRegister.language)) {
-            return inventoryRegister.language.getSelectedLanguage();
-        }
-        return "fr_FR";
-    }
-
-    /**
      * Pour changer la langue de tous les inventaires
      */
     public static void setLanguage() {
+        // TODO Retirer cette méthode
         List<CustomInventory> elementsValues = new ArrayList<>(elements.values());
-        elementsValues.forEach(inv -> inv.updateLanguage(getLanguage()));
+        elementsValues.forEach(CustomInventory::loadTranslation);
     }
 
     @Nullable
-    public static CustomInventory getInventoryGUIByInventory(Inventory inventory) {
+    public static CustomInventory getCustomInventoryByInventory(Inventory inventory) {
         return elements.get(inventory);
     }
 
@@ -487,9 +471,9 @@ public class CustomInventory extends InventoryBuilder {
     }
 
     /**
-     * Permet de savoir si le Player peut ouvrir l'InventoryGUI
+     * Permet de savoir si le Player peut ouvrir le CustomInventory
      *
-     * @param customInventory L'InventoryGUI à ouvrir
+     * @param customInventory Le CustomInventory à ouvrir
      * @param player       Le Player à tester
      * @return <b>true</b> si le Player peut l'ouvrir, <b>false</b> sinon
      */
@@ -497,7 +481,7 @@ public class CustomInventory extends InventoryBuilder {
         return !(customInventory instanceof AdminConfiguration) || customInventory.click(player, EnumConfiguration.OPTION);
     }
 
-    public static List<CustomInventory> getInventoriesGUI() {
+    public static List<CustomInventory> getAll() {
         return new ArrayList<>(elements.values());
     }
 

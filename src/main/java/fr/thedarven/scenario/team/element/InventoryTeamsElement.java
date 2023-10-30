@@ -88,7 +88,7 @@ public class InventoryTeamsElement extends CustomInventory implements AdminConfi
 			getInventory().setItem(pos.getAndIncrement(), this.main.getPlayerManager().getHeadOfPlayer(entry, entry));
 		});
 
-		getChildrenValue().forEach(inv -> {
+		getChildren().forEach(inv -> {
 			if (inv instanceof InventoryTeamsPlayers) {
 				getInventory().setItem(pos.get(), inv.getItem());
 				getInventory().setItem(pos.incrementAndGet(), new ItemStack(Material.AIR, 1));
@@ -138,7 +138,7 @@ public class InventoryTeamsElement extends CustomInventory implements AdminConfi
 			return;
 		}
 
-		inv.getChildrenValue()
+		inv.getChildren()
 			.forEach(child -> {
 				if(child instanceof InventoryTeamsPlayers) {
 					InventoryTeamsPlayers.inventories.remove(child);

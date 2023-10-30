@@ -20,14 +20,14 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
 		clearChildrenItems();
 
 		AtomicInteger pos = new AtomicInteger(0);
-		getChildrenValue()
+		getChildren()
 			.forEach(inv -> {
 				if (inv instanceof InventoryTeamsRandom) {
 					modifiyPosition(inv, inv.getPosition());
 				} else if (inv instanceof InventoryTeamsElement) {
 					modifiyPosition(inv, pos.getAndIncrement());
 				} else {
-					modifiyPosition(inv, getChildren().size() - 2);
+					modifiyPosition(inv, countChildren() - 2);
 				}
 			});
 	}

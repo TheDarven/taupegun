@@ -19,7 +19,7 @@ public class LavaLimiter extends OptionBoolean {
 	
 	public LavaLimiter(TaupeGun main, CustomInventory parent) {
 		super(main, "Lava Limiter", "Désactive le placement de lave proche des autres joueurs.", "MENU_CONFIGURATION_SCENARIO_LAVALIMITER", Material.LAVA_BUCKET, parent, false);
-		updateLanguage(getLanguage());
+		loadTranslation();
 	}
 
 

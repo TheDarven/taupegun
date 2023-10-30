@@ -23,7 +23,7 @@ public class InventoryOpenListener implements Listener {
         if (!(event.getPlayer() instanceof Player))
             return;
 
-        CustomInventory openedInventory = CustomInventory.getInventoryGUIByInventory(event.getInventory());
+        CustomInventory openedInventory = CustomInventory.getCustomInventoryByInventory(event.getInventory());
         if (!Objects.isNull(openedInventory)) {
             openedInventory.onInventoryOpen(event);
             return;
@@ -35,10 +35,9 @@ public class InventoryOpenListener implements Listener {
         if (!(event.getPlayer() instanceof Player))
             return;
 
-        CustomInventory closedInventory = CustomInventory.getInventoryGUIByInventory(event.getInventory());
+        CustomInventory closedInventory = CustomInventory.getCustomInventoryByInventory(event.getInventory());
         if (!Objects.isNull(closedInventory)) {
             closedInventory.onInventoryClose(event);
-            return;
         }
     }
 

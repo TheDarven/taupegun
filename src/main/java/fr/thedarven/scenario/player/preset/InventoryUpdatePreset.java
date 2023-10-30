@@ -20,7 +20,7 @@ public class InventoryUpdatePreset extends InventoryPresetAction implements Admi
     public InventoryUpdatePreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, "Modifier le preset", "Permet de remplacer le preset sauvegardé par la configuration actuelle.",
                 "MENU_PRESET_UPDATE", Material.ANVIL, preset, parent);
-        updateLanguage(getLanguage());
+        loadTranslation();
         this.getParent().reloadInventory();
     }
 

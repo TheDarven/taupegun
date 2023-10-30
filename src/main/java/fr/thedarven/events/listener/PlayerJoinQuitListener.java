@@ -122,7 +122,7 @@ public class PlayerJoinQuitListener implements Listener {
         pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
 
         if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-            CustomInventory openedInventory = CustomInventory.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
+            CustomInventory openedInventory = CustomInventory.getCustomInventoryByInventory(player.getOpenInventory().getTopInventory());
             if (!Objects.isNull(openedInventory)) {
                 openedInventory.onPlayerDisconnect(player);
             }

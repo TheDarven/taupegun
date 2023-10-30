@@ -20,6 +20,6 @@ public abstract class InventoryIncrement extends CustomInventory implements Admi
 	 * @return Le dernier enfant
 	 */
 	final public CustomInventory getLastChild() {
-		return getChildrenValue().get(this.children.size() - 1);
+		return getChildren().get(this.children.size() - 1);
 	}
 }

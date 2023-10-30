@@ -21,7 +21,7 @@ public class ScenariosVisible extends OptionBoolean implements ConfigurationPlay
     public ScenariosVisible(TaupeGun main, CustomInventory parent) {
         super(main, "Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.",
                 "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE, parent, true);
-        updateLanguage(getLanguage());
+        loadTranslation();
         this.configurationPlayerItem = new ConfigurationPlayerItem(this, 4, this.getPlayerItemItem());
     }
 

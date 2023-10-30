@@ -26,11 +26,8 @@ public class InventoryTeamsPlayers extends CustomInventory implements AdminConfi
 		inventories.add(this);
 		reloadInventory();
 		
-		updateLanguage(getLanguage());
+		this.loadTranslation();
 	}
-
-
-
 
 	@Override
 	public void updateLanguage(String language) {

@@ -23,7 +23,7 @@ public class PotionII extends OptionBoolean{
 	public PotionII(TaupeGun main, CustomInventory parent) {
 		super(main, "Potion II", "Active ou non les potions de niveau 2.", "MENU_CONFIGURATION_OTHER_POTION2", Material.POTION, parent,
 				12, true, (byte) 8254);
-		updateLanguage(getLanguage());
+		loadTranslation();
 	}
 
 

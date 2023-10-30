@@ -26,12 +26,8 @@ public class DiamondLimit extends OptionNumeric {
 	public DiamondLimit(TaupeGun main, CustomInventory parent) {
 		super(main, "Diamond Limit", "Limite le nombre de diamant que chaque joueur peut miner dans la partie.", "MENU_CONFIGURATION_SCENARIO_DIAMONDLIMIT",
 				Material.DIAMOND, parent, new NumericHelper(0, 50, 0, 1, 2, "", 1, true, 1));
-		updateLanguage(getLanguage());
+		loadTranslation();
 	}
-
-
-
-
 
 	@Override
 	public void updateLanguage(String language) {

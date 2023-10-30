@@ -29,8 +29,8 @@ public class InventoryLanguageElement extends CustomInventory implements AdminCo
 
 		if (parent instanceof InventoryLanguage) {
 			InventoryLanguage inventoryParent = (InventoryLanguage) getParent();
-			if (inventoryParent.getSelectedLanguage().equals(this.languageShortName)) {
-				inventoryParent.setSelectedLanguage(this);
+			if (this.main.getLanguageManager().getLanguage().equals(this.languageShortName)) {
+				inventoryParent.setSelectedLanguageInventory(this);
 			}
 		}
 		reloadItem();
@@ -40,11 +40,10 @@ public class InventoryLanguageElement extends CustomInventory implements AdminCo
 	protected List<String> getFormattedDescription() {
 		List<String> returnArray = super.getFormattedDescription();
 		if (getParent() instanceof InventoryLanguage) {
-			InventoryLanguage parent = (InventoryLanguage) getParent();
-			if (parent.getSelectedLanguage().equals(languageShortName)) {
+			if (this.main.getLanguageManager().getLanguage().equals(languageShortName)) {
 				returnArray.add("");
 				Map<String, String> params = new HashMap<>();
-				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", ((InventoryLanguage) getParent()).getSelectedLanguage(), true));
+				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", this.main.getLanguageManager().getLanguage(), true));
 				returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 			}
 		}

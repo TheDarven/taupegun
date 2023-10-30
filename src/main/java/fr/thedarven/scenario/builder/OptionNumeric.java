@@ -209,7 +209,7 @@ public class OptionNumeric extends CustomInventory implements AdminConfiguration
 		Map<String, String> params = new HashMap<>();
 		params.put("name", this.name);
 		if (value == 0 && showDisabled) {
-			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", getLanguage(), true));
+			params.put("value", LanguageBuilder.getContent("CONTENT", "disabled", this.main.getLanguageManager().getLanguage(), true));
 			params.put("afterName", "");
 		} else {
 			if (divider == 1) {
@@ -234,7 +234,7 @@ public class OptionNumeric extends CustomInventory implements AdminConfiguration
 		returnArray.add("");
 		
 		Map<String, String> params = new HashMap<>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", getLanguage(), true));
+		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", this.main.getLanguageManager().getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;

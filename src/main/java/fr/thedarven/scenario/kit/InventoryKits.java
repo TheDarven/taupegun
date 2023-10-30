@@ -58,15 +58,15 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 
 	@Override
 	public void reloadInventory() {
-		this.getChildrenValue().forEach(this::removeItem);
+		this.getChildren().forEach(this::removeItem);
 
 		int i = 0;
-		for (CustomInventory inv : getChildrenValue()) {
+		for (CustomInventory inv : getChildren()) {
 			if (inv instanceof InventoryKitsElement) {
 				modifiyPosition(inv, i);
 				i++;
-			} else if (getChildren().size() < 10){
-				modifiyPosition(inv, getChildren().size() - 1);
+			} else if (countChildren() < 10){
+				modifiyPosition(inv, countChildren() - 1);
 			}
 		}
 	}

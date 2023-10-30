@@ -34,7 +34,7 @@ public class InventoryClickListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player))
             return;
 
-        CustomInventory clickedInventory = CustomInventory.getInventoryGUIByInventory(e.getInventory());
+        CustomInventory clickedInventory = CustomInventory.getCustomInventoryByInventory(e.getInventory());
         if (!Objects.isNull(clickedInventory)) {
             e.setCancelled(true);
             clickedInventory.onInventoryPreClick(e);

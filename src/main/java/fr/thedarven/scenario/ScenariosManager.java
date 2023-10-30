@@ -1,26 +1,27 @@
 package fr.thedarven.scenario;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.kit.model.Kit;
 import fr.thedarven.kit.KitManager;
+import fr.thedarven.kit.model.Kit;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.scenario.builder.CustomInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.builder.OptionNumeric;
 import fr.thedarven.scenario.configuration.*;
-import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
-import fr.thedarven.scenario.player.preset.model.Preset;
-import fr.thedarven.scenario.player.preset.*;
-import fr.thedarven.scenario.utils.NumericHelper;
-import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.scenario.language.InventoryLanguage;
 import fr.thedarven.scenario.language.InventoryLanguageElement;
 import fr.thedarven.scenario.player.credit.InventoryCredit;
+import fr.thedarven.scenario.player.preset.*;
+import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
+import fr.thedarven.scenario.player.preset.model.Preset;
+import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.team.InventoryCreateTeam;
 import fr.thedarven.scenario.team.InventoryTeams;
 import fr.thedarven.scenario.team.InventoryTeamsColor;
 import fr.thedarven.scenario.team.InventoryTeamsRandom;
+import fr.thedarven.scenario.utils.NumericHelper;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.helpers.FileHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -126,8 +127,8 @@ public class ScenariosManager {
 		this.saveConfigurationMenu = new InventoryPlayersPreset(this.main, 5, Material.PISTON_BASE, menu, 8);
 		this.credits = new InventoryCredit(this.main, Material.PAPER, null, 8);
 
-		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, "fr_FR", "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
-		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, "en_US", "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
+		this.fr_FR = new InventoryLanguageElement(this.main, "Français FR", null, language, GlobalVariable.FR_LANGUAGE, "http://textures.minecraft.net/texture/51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc");
+		this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, GlobalVariable.EN_LANGUAGE, "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
 
 		this.addKit = new CustomInventory(this.main, "✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
 
@@ -246,8 +247,8 @@ public class ScenariosManager {
 	public Map<String, Object> getCurrentConfiguration() {
 		Map<String, Object> values = new HashMap<>();
 
-		List<CustomInventory> inventoriesGUI = CustomInventory.getInventoriesGUI();
-		inventoriesGUI.stream()
+		List<CustomInventory> customInventories = CustomInventory.getAll();
+		customInventories.stream()
 				.filter(inventory -> inventory instanceof StorablePreset)
 				.forEach(inventory -> values.put(inventory.getTranslationName(), ((StorablePreset) inventory).getPresetValue()));
 
@@ -261,8 +262,8 @@ public class ScenariosManager {
 	public void setCurrentConfiguration(Preset preset) {
 		Map<String, Object> values = preset.getValues();
 
-		List<CustomInventory> inventoriesGUI = CustomInventory.getInventoriesGUI();
-		inventoriesGUI.stream()
+		List<CustomInventory> customInventories = CustomInventory.getAll();
+		customInventories.stream()
 				.filter(inventory -> inventory instanceof StorablePreset)
 				.forEach(inventory -> {
 					if (values.containsKey(inventory.getTranslationName())) {
@@ -303,11 +304,11 @@ public class ScenariosManager {
 	 * @param player Le joueur auquel les items doivent être mis à jour.
 	 */
 	public final void reloadPlayerItemOfPlayer(Player player) {
-		CustomInventory.getInventoriesGUI().forEach(inventoryGUI -> {
-			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
-				inventoryGUI.getConfigurationPlayerItem().reloadPlayerItem(player);
+		for (CustomInventory customInventory : CustomInventory.getAll()) {
+			if (Objects.nonNull(customInventory.getConfigurationPlayerItem())) {
+				customInventory.getConfigurationPlayerItem().reloadPlayerItem(player);
 			}
-		});
+		}
 	}
 
 	/**
@@ -316,11 +317,11 @@ public class ScenariosManager {
 	 * @param player Le joueur auquel les items doivent être retiré.
 	 */
 	public final void removePlayerItem(Player player) {
-		CustomInventory.getInventoriesGUI().forEach(inventoryGUI -> {
-			if (Objects.nonNull(inventoryGUI.getConfigurationPlayerItem())) {
-				inventoryGUI.getConfigurationPlayerItem().removePlayerItem(player);
+		for (CustomInventory customInventory : CustomInventory.getAll()) {
+			if (Objects.nonNull(customInventory.getConfigurationPlayerItem())) {
+				customInventory.getConfigurationPlayerItem().removePlayerItem(player);
 			}
-		});
+		}
 	}
 
 	/**
@@ -331,7 +332,7 @@ public class ScenariosManager {
 	 * @return <b>true</b> si le clique a eu lieu sur un ConfigurationPlayerItem, <b>false</b> sinon.
 	 */
 	public final boolean onPlayerItemClick(ItemStack item, StatsPlayerTaupe pl) {
-		for (CustomInventory customInventory : CustomInventory.getInventoriesGUI()) {
+		for (CustomInventory customInventory : CustomInventory.getAll()) {
 			if (Objects.nonNull(customInventory.getConfigurationPlayerItem())
 					&& customInventory.getConfigurationPlayerItem().getItem().hashCode() == item.hashCode()) {
 				customInventory.onPlayerItemClick(pl);

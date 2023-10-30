@@ -133,7 +133,7 @@ public class OptionBoolean extends CustomInventory implements AdminConfiguration
 		returnArray.add("");
 		
 		Map<String, String> params = new HashMap<>();
-		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", getLanguage(), true));
+		params.put("description", LanguageBuilder.getContent("CONTENT", "clickToConfigure", this.main.getLanguageManager().getLanguage(), true));
 		returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
 		
 		return returnArray;
@@ -197,7 +197,7 @@ public class OptionBoolean extends CustomInventory implements AdminConfiguration
 			return;
 
 		Map<String, String> params = new HashMap<>();
-		params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", getLanguage(), true));
+		params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", this.main.getLanguageManager().getLanguage(), true));
 		String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
 
 		ItemStack moins = inventory.getItem(3);
@@ -206,7 +206,7 @@ public class OptionBoolean extends CustomInventory implements AdminConfiguration
 		moins.setItemMeta(moinsM);
 
 		params.clear();
-		params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", getLanguage(), true));
+		params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", this.main.getLanguageManager().getLanguage(), true));
 		enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
 
 		ItemStack plus = inventory.getItem(5);

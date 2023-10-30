@@ -23,7 +23,7 @@ public abstract class InventoryDelete extends CustomInventory {
 		super(main, pName, "", pTranslationName, 1, Material.STAINED_CLAY, parent, pPosition, (byte) 14);
 		
 		initItem();
-		updateLanguage(getLanguage());
+		loadTranslation();
 		reloadItem();
 	}
 
@@ -54,13 +54,11 @@ public abstract class InventoryDelete extends CustomInventory {
 		clearChildrenItems();
 
 		AtomicInteger counter = new AtomicInteger(0);
-		final int childrenSize = getChildren().size();
-
-		getChildrenValue().forEach(child -> {
+		getChildren().forEach(child -> {
 			if (child instanceof InventoryKitsElement) {
 				modifiyPosition(child, counter.getAndIncrement());
-			} else if (childrenSize < 10){
-				modifiyPosition(child,childrenSize - 1);
+			} else if (countChildren() < 10){
+				modifiyPosition(child,countChildren() - 1);
 			}
 		});
 	}
