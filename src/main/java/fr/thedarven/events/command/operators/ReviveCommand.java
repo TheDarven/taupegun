@@ -1,6 +1,7 @@
 package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.ReviveHistory;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
@@ -28,12 +29,14 @@ public class ReviveCommand extends OperatorCommand {
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		PlayerTaupe targetedPl = PlayerTaupe.getPlayerTaupeByName(args[0]);
-		if (Objects.isNull(targetedPl) || targetedPl.isAlive())
+		if (Objects.isNull(targetedPl) || targetedPl.isAlive()) {
 			return;
+		}
 
 		Player targetedPlayer = targetedPl.getPlayer();
-		if (Objects.isNull(targetedPlayer))
+		if (Objects.isNull(targetedPlayer)) {
 			return;
+		}
 
 		respawnPlayer(sender, targetedPl, targetedPlayer);
 	}
@@ -87,6 +90,8 @@ public class ReviveCommand extends OperatorCommand {
 				playerDeath.setRevived(true);
 			}
 		}
+
+		this.main.getGameManager().addToHistory(new ReviveHistory(targetedPl));
 
 		announceRespawn(targetedPlayer.getName());
 	}

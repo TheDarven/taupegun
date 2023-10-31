@@ -86,7 +86,7 @@ public class EndGameRunnable extends BukkitRunnable {
 
         String killPveMessage = "§2" + LanguageBuilder.getContent("CONTENT", "killPve", true);
         Map<String, String> params = new HashMap<>();
-        params.put("amount", String.valueOf(this.main.getGameManager().getPveKills()));
+        params.put("amount", String.valueOf(this.main.getGameManager().countPveDeath()));
         Bukkit.broadcastMessage(TextInterpreter.textInterpretation(killPveMessage, params));
     }
 }

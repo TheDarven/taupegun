@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.PveDeathHistory;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +46,7 @@ public class PlayerDeathListener implements Listener {
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
 		} else {
-			this.main.getGameManager().incrementPveKills();
+			this.main.getGameManager().addToHistory(new PveDeathHistory(PlayerTaupe.getPlayerManager(victim.getUniqueId())));
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
