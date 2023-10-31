@@ -1,10 +1,9 @@
 package fr.thedarven.scenario.configuration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.OptionNumeric;
+import fr.thedarven.scenario.utils.NumericParams;
 import fr.thedarven.utils.helpers.RandomHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,118 +17,119 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.inventory.ItemStack;
 
-import fr.thedarven.scenario.builder.OptionNumeric;
-import fr.thedarven.scenario.utils.NumericHelper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class AppleDrop extends OptionNumeric {
 
-	private final static int PERCENTAGE_DROP_SAPLING = 5;
+    private final static int PERCENTAGE_DROP_SAPLING = 5;
 
-	static List<Integer> leaves = new ArrayList<>(Arrays.asList(0,1,4,5,8,9,12,13));
+    static List<Integer> leaves = new ArrayList<>(Arrays.asList(0, 1, 4, 5, 8, 9, 12, 13));
 
-	public AppleDrop(TaupeGun main, CustomInventory parent) {
-		super(main, "Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, parent,
-				new NumericHelper(1, 200, 1, 1, 3, "%", 2, false, 2));
-	}
+    public AppleDrop(TaupeGun main, ConfigurationInventory parent) {
+        super(main, "Pommes", "Pourcentage de drop des pommes.", "MENU_CONFIGURATION_DROPS_APPLE", Material.APPLE, parent,
+                new NumericParams(1, 200, 1, 1, 3, "%", 2, false, 2));
+    }
 
-	/**
-	 * Réarrange le taux de drop des pommes quand une feuille est cassée à la main
-	 *
-	 * @param e L'évènement de cassage de bloc
-	 */
-	@EventHandler
-	final public void breakBlock(BlockBreakEvent e){
-		if (e.isCancelled())
-			return;
+    /**
+     * Réarrange le taux de drop des pommes quand une feuille est cassée à la main
+     *
+     * @param e L'évènement de cassage de bloc
+     */
+    @EventHandler
+    final public void breakBlock(BlockBreakEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
 
-		Player player = e.getPlayer();
+        Player player = e.getPlayer();
+        if (player.getGameMode() == GameMode.CREATIVE || this.value <= this.min) {
+            return;
+        }
 
-		if (player.getGameMode() == GameMode.CREATIVE || this.value <= this.min)
-			return;
+        Block block = e.getBlock();
+        if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData()) && player.getItemInHand().getType() != Material.SHEARS) {
+            e.setCancelled(true);
+            dropApple(block.getLocation());
+        }
+    }
 
-		Block block = e.getBlock();
+    /**
+     * Réarrange le taux de drop des pommes quand une feuille est explosée
+     *
+     * @param e L'évènement d'explosion d'un bloc
+     */
+    @EventHandler
+    final public void explodeBlock(BlockExplodeEvent e) {
+        if (this.value <= this.min || e.isCancelled()) {
+            return;
+        }
 
-		if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData()) && player.getItemInHand().getType() != Material.SHEARS){
-			e.setCancelled(true);
-			dropApple(block.getLocation());
-		}
-	}
+        Block block = e.getBlock();
+        if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())) {
+            e.setCancelled(true);
+            dropApple(block.getLocation());
+        }
+    }
 
-	/**
-	 * Réarrange le taux de drop des pommes quand une feuille est explosée
-	 *
-	 * @param e L'évènement d'explosion d'un bloc
-	 */
-	@EventHandler
-	final public void explodeBlock(BlockExplodeEvent e){
-		if (this.value <= this.min)
-			return;
+    /**
+     * Réarrange le taux de drop des pommes quand une feuille disparaît
+     *
+     * @param e L'évènement de disparition d'une feuille
+     */
+    @EventHandler
+    final public void leavesBlock(LeavesDecayEvent e) {
+        if (this.value <= this.min || e.isCancelled()) {
+            return;
+        }
 
-		Block block = e.getBlock();
+        Block block = e.getBlock();
+        if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())) {
+            e.setCancelled(true);
+            dropApple(block.getLocation());
+        }
+    }
 
-		if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())){
-			e.setCancelled(true);
-			dropApple(block.getLocation());
-		}
-	}
+    /**
+     * Réarrange le taux de drop des pommes quand une feuille brûle
+     *
+     * @param e L'évènement de cassage d'un bloc par le feu
+     */
+    @EventHandler
+    public void burnBlock(BlockBurnEvent e) {
+        if (this.value <= this.min || e.isCancelled()) {
+            return;
+        }
 
-	/**
-	 * Réarrange le taux de drop des pommes quand une feuille disparaît
-	 *
-	 * @param e L'évènement de disparition d'une feuille
-	 */
-	@EventHandler
-	final public void leavesBlock(LeavesDecayEvent e){
-		if (this.value <= this.min)
-			return;
+        Block block = e.getBlock();
+        if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())) {
+            e.setCancelled(true);
+            dropApple(block.getLocation());
+        }
+    }
 
-		Block block = e.getBlock();
+    /**
+     * S'arrange du taux de drop des items
+     *
+     * @param location La localisation à laquelle l'item doit drop
+     */
+    public void dropApple(Location location) {
+        location.getBlock().getWorld().getBlockAt(location).setType(Material.AIR);
+        int randomValue = RandomHelper.generate(200);
 
-		if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())){
-			e.setCancelled(true);
-			dropApple(block.getLocation());
-		}
-	}
+        location.setX(location.getX() + 0.5);
+        location.setY(location.getY() + 0.5);
+        location.setZ(location.getZ() + 0.5);
 
-	/**
-	 * Réarrange le taux de drop des pommes quand une feuille brûle
-	 *
-	 * @param e L'évènement de cassage d'un bloc par le feu
-	 */
-	@EventHandler
-	public void burnBlock(BlockBurnEvent e){
-		if (this.value <= this.min)
-			return;
-
-		Block block = e.getBlock();
-
-		if (block.getType() == Material.LEAVES && leaves.contains((int) block.getData())){
-			e.setCancelled(true);
-			dropApple(block.getLocation());
-		}
-	}
-
-	/**
-	 * S'arrange du taux de drop des items
-	 *
-	 * @param location La localisation à laquelle l'item doit drop
-	 */
-	public void dropApple(Location location){
-		location.getBlock().getWorld().getBlockAt(location).setType(Material.AIR);
-		int valeur = RandomHelper.generate(200);
-
-		location.setX(location.getX() + 0.5);
-		location.setY(location.getY() + 0.5);
-		location.setZ(location.getZ() + 0.5);
-
-		if (valeur <= this.getValue()){
-			ItemStack item = new ItemStack(Material.APPLE, 1);
-			location.getWorld().dropItemNaturally(location, item);
-		} else if (valeur <= this.getValue() + PERCENTAGE_DROP_SAPLING * 2){
-			ItemStack item = new ItemStack(Material.SAPLING, 1);
-			location.getWorld().dropItemNaturally(location, item);
-		}
-	}
+        if (randomValue <= this.getValue()) {
+            ItemStack item = new ItemStack(Material.APPLE, 1);
+            location.getWorld().dropItemNaturally(location, item);
+        } else if (randomValue <= this.getValue() + PERCENTAGE_DROP_SAPLING * 2) {
+            ItemStack item = new ItemStack(Material.SAPLING, 1);
+            location.getWorld().dropItemNaturally(location, item);
+        }
+    }
 
 }

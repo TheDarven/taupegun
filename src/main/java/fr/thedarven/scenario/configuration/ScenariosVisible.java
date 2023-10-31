@@ -3,7 +3,7 @@ package fr.thedarven.scenario.configuration;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItem;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItemConditional;
@@ -18,22 +18,21 @@ public class ScenariosVisible extends OptionBoolean implements ConfigurationPlay
 
     private String SCENARIOS_ITEM_NAME = "Configuration";
 
-    public ScenariosVisible(TaupeGun main, CustomInventory parent) {
+    public ScenariosVisible(TaupeGun main, ConfigurationInventory parent) {
         super(main, "Scénarios visibles", "Permet de rendre ou non visible aux joueurs l'ensemble des scénarios.",
                 "MENU_CONFIGURATION_OTHER_SHOWCONFIG", Material.STAINED_GLASS_PANE, parent, true);
-        loadTranslation();
-        this.configurationPlayerItem = new ConfigurationPlayerItem(this, 4, this.getPlayerItemItem());
+        this.configurationPlayerItem = new ConfigurationPlayerItem(this, 4, this.getItemForPlayer());
     }
 
     @Override
-    public void updateLanguage(String language) {
+    public void loadLanguage(String language) {
         SCENARIOS_ITEM_NAME = LanguageBuilder.getContent("ITEM", "configuration", language, true);
 
-        super.updateLanguage(language);
+        super.loadLanguage(language);
     }
 
     @Override
-    public ItemStack getPlayerItemItem() {
+    public ItemStack getItemForPlayer() {
         ItemStack beacon = new ItemStack(Material.BEACON, 1);
         ItemMeta beaconM = beacon.getItemMeta();
         beaconM.setDisplayName(getFormattedScenariosItemName());

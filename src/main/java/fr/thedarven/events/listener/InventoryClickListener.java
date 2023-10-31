@@ -5,7 +5,7 @@ import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.EnumInventory;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class InventoryClickListener implements Listener {
 
@@ -34,10 +35,10 @@ public class InventoryClickListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player))
             return;
 
-        CustomInventory clickedInventory = CustomInventory.getCustomInventoryByInventory(e.getInventory());
-        if (!Objects.isNull(clickedInventory)) {
+        Optional<ConfigurationInventory> oClickedInventory = ConfigurationInventory.getByInventory(e.getInventory());
+        if (oClickedInventory.isPresent()) {
             e.setCancelled(true);
-            clickedInventory.onInventoryPreClick(e);
+            oClickedInventory.get().onInventoryPreClick(e);
             return;
         }
 
@@ -77,19 +78,22 @@ public class InventoryClickListener implements Listener {
 
             if (this.main.getScenariosManager().onPlayerItemClick(clickItem, pl)) {
                 e.setCancelled(true);
-                return;
             }
         }
     }
 
     @EventHandler
     public void inventoryDrag(InventoryDragEvent e) {
-        if (!EnumGameState.isCurrentState(EnumGameState.LOBBY) || !(e.getWhoClicked() instanceof Player))
+        if (!EnumGameState.isCurrentState(EnumGameState.LOBBY) || !(e.getWhoClicked() instanceof Player)) {
             return;
+        }
 
         Player player = (Player) e.getWhoClicked();
         if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumInventory.TEAM)) {
             e.setCancelled(true);
         }
+
+        Optional<ConfigurationInventory> oClickedInventory = ConfigurationInventory.getByInventory(e.getInventory());
+        oClickedInventory.ifPresent(configurationInventory -> configurationInventory.onInventoryDrag(e));
     }
 }

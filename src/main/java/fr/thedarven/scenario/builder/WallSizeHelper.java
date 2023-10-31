@@ -1,25 +1,13 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.utils.NumericHelper;
+import fr.thedarven.scenario.utils.NumericParams;
 import org.bukkit.Material;
 
 public abstract class WallSizeHelper extends OptionNumeric {
 
-    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, CustomInventory pParent, int pPosition, NumericHelper infos, byte pData) {
-        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos, pData);
-    }
-
-    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, CustomInventory pParent, NumericHelper infos, byte pData) {
-        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, infos, pData);
-    }
-
-    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, CustomInventory pParent, int pPosition, NumericHelper infos) {
-        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, pPosition, infos);
-    }
-
-    public WallSizeHelper(TaupeGun main, String pName, String pDescription, String pTranslationName, Material pMaterial, CustomInventory pParent, NumericHelper infos) {
-        super(main, pName, pDescription, pTranslationName, pMaterial, pParent, infos);
+    public WallSizeHelper(TaupeGun main, String name, String description, String translationName, Material material, ConfigurationInventory parent, NumericParams infos) {
+        super(main, name, description, translationName, material, parent, infos);
     }
 
     /**

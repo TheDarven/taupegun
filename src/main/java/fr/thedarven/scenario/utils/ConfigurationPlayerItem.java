@@ -1,7 +1,8 @@
 package fr.thedarven.scenario.utils;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,11 +13,11 @@ import java.util.Objects;
 
 public class ConfigurationPlayerItem {
 
-    private final CustomInventory configuration;
+    private final ConfigurationInventory configuration;
     private final int position;
     private ItemStack item;
 
-    public ConfigurationPlayerItem(CustomInventory configuration, int position, ItemStack item) {
+    public ConfigurationPlayerItem(ConfigurationInventory configuration, int position, ItemStack item) {
         this.configuration = configuration;
         this.position = position;
         this.setItem(item);
@@ -27,7 +28,7 @@ public class ConfigurationPlayerItem {
     }
 
     private void setItem(ItemStack item) {
-        this.item = this.configuration.getMain().getItemManager().addTagOnItemStack(item);
+        this.item = ItemHelper.addTagOnItemStack(item);
     }
 
     /**

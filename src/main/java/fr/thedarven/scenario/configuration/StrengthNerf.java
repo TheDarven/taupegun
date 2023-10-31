@@ -1,9 +1,9 @@
 package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionNumeric;
-import fr.thedarven.scenario.utils.NumericHelper;
+import fr.thedarven.scenario.utils.NumericParams;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +13,10 @@ import org.bukkit.potion.PotionEffectType;
 
 public class StrengthNerf extends OptionNumeric {
 
-    public StrengthNerf(TaupeGun main, CustomInventory parent) {
+    public StrengthNerf(TaupeGun main, ConfigurationInventory parent) {
         super(main, "Potion de force", "Détermine le pourcentage de dégâts supplémentaire par palier des potions de force (par défaut 130%).",
                 "MENU_CONFIGURATION_OTHER_STRENGTH_LEVEL", Material.POTION, parent, 13,
-                new NumericHelper(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
+                new NumericParams(0, 130, 80, 1, 2, "%", 1, false, 0.01), (byte) 8201);
     }
 
     /**
@@ -25,12 +25,12 @@ public class StrengthNerf extends OptionNumeric {
      * @param e L'évènement de dégâts infligés
      */
     @EventHandler
-    final public void onDamage(EntityDamageByEntityEvent e){
-        if (!(e.getDamager() instanceof Player))
+    final public void onDamage(EntityDamageByEntityEvent e) {
+        if (e.isCancelled() || !(e.getDamager() instanceof Player)) {
             return;
+        }
 
         Player player = (Player) e.getDamager();
-
         for (PotionEffect potion : player.getActivePotionEffects()) {
             if (potion.getType() == PotionEffectType.INCREASE_DAMAGE) {
                 double originalDamages = e.getDamage() / (1 + (1 + potion.getAmplifier()) * 1.3);

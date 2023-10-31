@@ -2,7 +2,7 @@ package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.Manager;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.utils.GlobalVariable;
 import org.bukkit.Bukkit;
 
@@ -31,8 +31,8 @@ public class LanguageManager extends Manager {
     public final void setLanguage(String language) {
         this.language = language;
 
-        List<CustomInventory> inventories = new ArrayList<>(CustomInventory.getAll());
-        inventories.forEach(CustomInventory::loadTranslation);
+        List<ConfigurationInventory> inventories = new ArrayList<>(ConfigurationInventory.getAll());
+        inventories.forEach(configurationInventory -> configurationInventory.loadLanguage(this.language));
 
         Bukkit.getOnlinePlayers().forEach(receiver -> this.main.getMessageManager().updateTabContent(receiver));
     }

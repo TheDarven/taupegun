@@ -3,11 +3,12 @@ package fr.thedarven.scenario.player.credit;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.DirectionEnum;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
 import fr.thedarven.scenario.player.credit.runnable.SnakeRunnable;
-import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.api.skull.Skull;
+import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -30,9 +31,15 @@ public class InventoryCreditElement extends InventoryPlayersElement {
 
     private SnakeRunnable snakeRunnable;
 
-    public InventoryCreditElement(TaupeGun main, int pLines, Material pMaterial, CustomInventory pParent, UUID owner, InventoryCredit clusterParent) {
+    public InventoryCreditElement(TaupeGun main, int pLines, Material pMaterial, ConfigurationInventory pParent, UUID owner, InventoryCredit clusterParent) {
         super(main, "Crédits", "Les crédits du plugin.", "MENU_CREDIT", pLines, pMaterial, pParent, owner, clusterParent);
-        reloadItems();
+    }
+
+    @Override
+    public TreeInventory build() {
+        super.build();
+        refreshInventoryItems();
+        return this;
     }
 
     public void startGame() {
@@ -45,7 +52,8 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         if (Objects.nonNull(this.snakeRunnable)) {
             try {
                 this.snakeRunnable.cancel();
-            } catch (IllegalStateException ignored) { }
+            } catch (IllegalStateException ignored) {
+            }
         }
     }
 
@@ -98,9 +106,9 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         Player player = (Player) event.getPlayer();
         Inventory playerInventory = player.getInventory();
 
-        int indexes[] = { 13, 21, 22, 23 };
+        int[] indexes = {13, 21, 22, 23};
 
-        for (int index: indexes) {
+        for (int index : indexes) {
             ItemStack item = playerInventory.getItem(index);
             if (!ItemHelper.isNullOrAir(item)) {
                 player.sendMessage(InventoryCredit.NOT_ENOUGH_SLOT);

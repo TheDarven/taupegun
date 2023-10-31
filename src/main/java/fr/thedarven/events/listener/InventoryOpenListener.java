@@ -1,14 +1,14 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 
-import java.util.Objects;
+import java.util.Optional;
 
 public class InventoryOpenListener implements Listener {
 
@@ -23,11 +23,8 @@ public class InventoryOpenListener implements Listener {
         if (!(event.getPlayer() instanceof Player))
             return;
 
-        CustomInventory openedInventory = CustomInventory.getCustomInventoryByInventory(event.getInventory());
-        if (!Objects.isNull(openedInventory)) {
-            openedInventory.onInventoryOpen(event);
-            return;
-        }
+        Optional<ConfigurationInventory> oOpenedInventory = ConfigurationInventory.getByInventory(event.getInventory());
+        oOpenedInventory.ifPresent(openedInventory -> openedInventory.onInventoryOpen(event));
     }
 
     @EventHandler
@@ -35,10 +32,8 @@ public class InventoryOpenListener implements Listener {
         if (!(event.getPlayer() instanceof Player))
             return;
 
-        CustomInventory closedInventory = CustomInventory.getCustomInventoryByInventory(event.getInventory());
-        if (!Objects.isNull(closedInventory)) {
-            closedInventory.onInventoryClose(event);
-        }
+        Optional<ConfigurationInventory> oClosedInventory = ConfigurationInventory.getByInventory(event.getInventory());
+        oClosedInventory.ifPresent(closedInventory -> closedInventory.onInventoryClose(event));
     }
 
 }

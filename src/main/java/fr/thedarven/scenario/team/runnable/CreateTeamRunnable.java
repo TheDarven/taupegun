@@ -31,14 +31,14 @@ public class CreateTeamRunnable extends PlayerRunnable {
             return;
         }
 
-        if (this.pl.getCreateTeamName().length() > 16){
+        if (this.pl.getCreateTeamName().length() > 16) {
             this.player.closeInventory();
             new ActionBar("§c" + LanguageBuilder.getContent("TEAM", "nameTooLong", true)).sendActionBar(this.player);
             pl.setCreateTeamName(null);
             return;
         }
 
-        if (isUnavailableTeamName(pl.getCreateTeamName())){
+        if (isUnavailableTeamName(pl.getCreateTeamName())) {
             this.player.closeInventory();
             this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
             this.pl.setCreateTeamName(null);
@@ -49,7 +49,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
                 .stream()
                 .filter(team -> this.pl.getCreateTeamName().equals(team.getName()))
                 .findFirst()
-                .ifPresent(team-> {
+                .ifPresent(team -> {
                     this.player.closeInventory();
                     this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
                     this.pl.setCreateTeamName(null);
@@ -78,7 +78,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
     /**
      * Permet de savoir si au moins un String d'une liste est contenu dans un String
      *
-     * @param matcher Le String a matcher
+     * @param matcher  Le String a matcher
      * @param elements La liste des String à vérifier
      * @return <b>true</b> si un String est contenu dans le matcher, <b>false</b> sinon
      */

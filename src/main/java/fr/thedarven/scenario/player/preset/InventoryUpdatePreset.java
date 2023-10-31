@@ -2,8 +2,10 @@ package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -20,24 +22,26 @@ public class InventoryUpdatePreset extends InventoryPresetAction implements Admi
     public InventoryUpdatePreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, "Modifier le preset", "Permet de remplacer le preset sauvegardé par la configuration actuelle.",
                 "MENU_PRESET_UPDATE", Material.ANVIL, preset, parent);
-        loadTranslation();
-        this.getParent().reloadInventory();
     }
 
     @Override
-    public void updateLanguage(String language) {
-        UPDATE_PRESET = LanguageBuilder.getContent("PRESET", "update", language, true);
+    public TreeInventory build() {
+        super.build();
+        this.getParent().reloadInventory();
+        return this;
+    }
 
-        super.updateLanguage(language);
+    @Override
+    public void loadLanguage(String language) {
+        UPDATE_PRESET = LanguageBuilder.getContent("PRESET", "update", language, true);
+        super.loadLanguage(language);
     }
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
-
         LanguageBuilder languagePreset = LanguageBuilder.getLanguageBuilder("PRESET");
-        languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "update", UPDATE_PRESET);
-
+        languagePreset.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "update", UPDATE_PRESET);
         return languageElement;
     }
 

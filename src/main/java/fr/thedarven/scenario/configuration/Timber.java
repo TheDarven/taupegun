@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,55 +16,56 @@ import java.util.List;
 import java.util.Objects;
 
 public class Timber extends OptionBoolean {
-	
-	public Timber(TaupeGun main, CustomInventory parent) {
-		super(main, "Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",
-			Material.LOG, parent, false);
-		loadTranslation();
-	}
-	
-	/**
-	 * Casse l'entièreté des bûches d'un arbre
-	 * 
-	 * @param e L'évènement de cassage d'un bloc
-	 */
-	@EventHandler
-	final public void onPlayerBreakBlock(BlockBreakEvent e) {
-		/* if(e.isCancelled() || !this.value)
-			return; */
 
-		Player p = e.getPlayer();
-		if (Objects.isNull(p) || !isLog(e.getBlock()))
-			return;
-			
-		World world = p.getWorld();
-		
-		List<Location> woods = new ArrayList<>();
-		woods.add(e.getBlock().getLocation());
-		
-		while (woods.size() > 0) {
-			Location loc = woods.get(0);
-			Block block = world.getBlockAt(loc);
-			
-			if (isLog(block) || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2) {
-				for (int x=-1; x<=1; x++) {
-					for (int y=-1; y<=1; y++) {
-						for (int z=-1; z<=1; z++) {
-							if (x == 0 && y == 0 && z == 0)
-								continue;
-							
-							Location newLocation = new Location(world, loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
-							Block newBlock = world.getBlockAt(newLocation);
-							
-							if (newBlock.getType() == block.getType() || isLog(block))
-								woods.add(newLocation);
-						}
-					}
-				}
-				block.breakNaturally();
-			}
-			
-			woods.remove(0);
+    public Timber(TaupeGun main, ConfigurationInventory parent) {
+        super(main, "Timber", "Les arbres se cassent entièrement lorsqu'un joueur casse une bûche.", "MENU_CONFIGURATION_SCENARIO_TIMBER",
+                Material.LOG, parent, false);
+    }
+
+    /**
+     * Casse l'entièreté des bûches d'un arbre
+     *
+     * @param e L'évènement de cassage d'un bloc
+     */
+    @EventHandler
+    final public void onPlayerBreakBlock(BlockBreakEvent e) {
+        if (e.isCancelled() || !this.value) {
+            return;
+        }
+
+        Player p = e.getPlayer();
+        if (Objects.isNull(p) || !isLog(e.getBlock())) {
+            return;
+        }
+
+        World world = p.getWorld();
+
+        List<Location> woods = new ArrayList<>();
+        woods.add(e.getBlock().getLocation());
+
+        while (woods.size() > 0) {
+            Location loc = woods.get(0);
+            Block block = world.getBlockAt(loc);
+
+            if (isLog(block) || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2) {
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = -1; y <= 1; y++) {
+                        for (int z = -1; z <= 1; z++) {
+                            if (x == 0 && y == 0 && z == 0)
+                                continue;
+
+                            Location newLocation = new Location(world, loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
+                            Block newBlock = world.getBlockAt(newLocation);
+
+                            if (newBlock.getType() == block.getType() || isLog(block))
+                                woods.add(newLocation);
+                        }
+                    }
+                }
+                block.breakNaturally();
+            }
+
+            woods.remove(0);
 			
 			/* 
 			switch(block.getType()) {
@@ -100,18 +101,18 @@ public class Timber extends OptionBoolean {
 			default:
 				break;
 			} */
-		}
-	}
+        }
+    }
 
-	/**
-	 * Permet de savoir si un bloc est une bûche
-	 *
-	 * @param block Le bloc à regarder
-	 * @return <b>true</b> si le bloc est une bûche, <b>fales</b> sinon
-	 */
-	private boolean isLog(Block block) {
-		return block.getType() == Material.LOG || block.getType() == Material.LOG_2;
-	}
-	
-	
+    /**
+     * Permet de savoir si un bloc est une bûche
+     *
+     * @param block Le bloc à regarder
+     * @return <b>true</b> si le bloc est une bûche, <b>fales</b> sinon
+     */
+    private boolean isLog(Block block) {
+        return block.getType() == Material.LOG || block.getType() == Material.LOG_2;
+    }
+
+
 }

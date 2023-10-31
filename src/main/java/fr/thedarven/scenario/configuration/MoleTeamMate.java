@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.team.graph.MoleCreationGraph;
 import fr.thedarven.team.graph.MoleCreationNoMateGraph;
@@ -10,7 +10,7 @@ import org.bukkit.Material;
 
 public class MoleTeamMate extends OptionBoolean {
 
-    public MoleTeamMate(TaupeGun main, CustomInventory pParent) {
+    public MoleTeamMate(TaupeGun main, ConfigurationInventory pParent) {
         super(main, "Avec coéquipiers", "Active la possibilité d'être dans la même équipe de taupe que des coéquipiers.",
                 "MENU_CONFIGURATION_MOLE_MATE", Material.POTATO_ITEM, pParent, false);
     }

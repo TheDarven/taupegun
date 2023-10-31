@@ -1,7 +1,8 @@
 package fr.thedarven.scenario.language;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.skull.Skull;
@@ -13,77 +14,78 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class InventoryLanguageElement extends CustomInventory implements AdminConfiguration {
+public class InventoryLanguageElement extends ConfigurationInventory implements AdminConfiguration {
 
-	private static final String SUB_DESCRIPTION_FORMAT = "§a► {description}";
-	
-	private final String languageShortName;
-	private final String link;
-	
-	public InventoryLanguageElement(TaupeGun main, String name, String description, CustomInventory parent, String languageShortName, String link) {
-		super(main, name, description, null, 1, Material.SKULL_ITEM, parent, 0, (byte) 3);
-		this.languageShortName = languageShortName;
-		this.link = link;
+    private static final String SUB_DESCRIPTION_FORMAT = "§a► {description}";
 
-		if (parent instanceof InventoryLanguage) {
-			InventoryLanguage inventoryParent = (InventoryLanguage) getParent();
-			if (this.main.getLanguageManager().getLanguage().equals(this.languageShortName)) {
-				inventoryParent.setSelectedLanguageInventory(this);
-			}
-		}
-		reloadItem();
-	}
+    private final String languageShortName;
+    private final String link;
 
-	@Override
-	protected List<String> getFormattedDescription() {
-		List<String> returnArray = super.getFormattedDescription();
-		if (getParent() instanceof InventoryLanguage) {
-			if (this.main.getLanguageManager().getLanguage().equals(languageShortName)) {
-				returnArray.add("");
-				Map<String, String> params = new HashMap<>();
-				params.put("description", LanguageBuilder.getContent("CONTENT", "selected", this.main.getLanguageManager().getLanguage(), true));
-				returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
-			}
-		}
-		
-		return returnArray;
-	}
-	
-	/**
-	 * Pour avoir le nom court
-	 * 
-	 * @return Le nom court
-	 */
-	final public String getLanguageShortName() {
-		return this.languageShortName;
-	}
-	
-	/**
-	 * Pour avoir le lien
-	 * 
-	 * @return Le lien
-	 */
-	final public String getLink() {
-		return this.link;
-	}
+    public InventoryLanguageElement(TaupeGun main, String name, String description, ConfigurationInventory parent, String languageShortName, String link) {
+        super(main, name, description, null, 1, Material.SKULL_ITEM, parent, 0, (byte) 3);
+        this.languageShortName = languageShortName;
+        this.link = link;
+    }
 
-	/**
-	 * Pour recharger les items dans l'inventaire
-	 */
-	final public void reloadItem() {
-		int exItem = getItem().hashCode();
+    @Override
+    public TreeInventory build() {
+        super.build();
+        if (getParent() instanceof InventoryLanguage) {
+            InventoryLanguage inventoryParent = (InventoryLanguage) getParent();
+            if (this.main.getLanguageManager().getLanguage().equals(this.languageShortName)) {
+                inventoryParent.setSelectedLanguageInventory(this);
+            }
+        }
+        return this;
+    }
 
-		ItemStack head = Skull.getCustomSkull(this.link, getItem());
-		ItemMeta headM = head.getItemMeta();
-		headM.setDisplayName(getFormattedItemName());
-		headM.setLore(getFormattedDescription());
-		head.setItemMeta(headM);
+    @Override
+    protected List<String> getItemDescription() {
+        List<String> returnArray = super.getItemDescription();
+        if (getParent() instanceof InventoryLanguage) {
+            if (this.main.getLanguageManager().getLanguage().equals(languageShortName)) {
+                returnArray.add("");
+                Map<String, String> params = new HashMap<>();
+                params.put("description", LanguageBuilder.getContent("CONTENT", "selected", this.main.getLanguageManager().getLanguage(), true));
+                returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
+            }
+        }
 
-		if (Objects.nonNull(this.getParent())) {
-			this.getParent().updateChildItem(exItem, head, this);
-		}
-	}
-	
+        return returnArray;
+    }
+
+    /**
+     * Pour avoir le nom court
+     *
+     * @return Le nom court
+     */
+    final public String getLanguageShortName() {
+        return this.languageShortName;
+    }
+
+    /**
+     * Pour avoir le lien
+     *
+     * @return Le lien
+     */
+    final public String getLink() {
+        return this.link;
+    }
+
+    @Override
+    protected ItemStack buildItem(Material material, byte data) {
+        ItemStack head = Skull.getCustomSkull(this.link, super.buildItem(material, data));
+        ItemMeta headM = head.getItemMeta();
+        headM.setDisplayName(getItemName());
+        headM.setLore(this.getItemDescription());
+        head.setItemMeta(headM);
+
+        return head;
+    }
+
+    public void refreshItemDescription() {
+        this.updateItemDescription();
+    }
+
 }

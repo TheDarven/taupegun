@@ -2,7 +2,6 @@ package fr.thedarven.kit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.utils.manager.ItemManager;
 import fr.thedarven.model.Manager;
 import fr.thedarven.scenario.kit.InventoryDeleteKits;
 import fr.thedarven.scenario.kit.InventoryKitsElement;
@@ -108,14 +107,15 @@ public class KitManager extends Manager {
 
     public Kit createKit(String name, List<ItemStack> items) {
         List<String> itemStacks = items.stream()
-                .map(item -> Objects.nonNull(item) ? main.getItemManager().toBase64(item) : null)
+                .map(item -> Objects.nonNull(item) ? ItemHelper.toBase64(item) : null)
                 .collect(Collectors.toList());
         return loadKit(name, itemStacks);
     }
 
     public void createInventoriesOfKit(Kit kit) {
         InventoryKitsElement kitInventory = new InventoryKitsElement(this.main, this.main.getScenariosManager().kitsMenu, kit);
-        new InventoryDeleteKits(this.main, kitInventory, kit);
+        kitInventory.build();
+        new InventoryDeleteKits(this.main, kitInventory, kit).build();
 
         kit.setConfigurationInventory(kitInventory);
     }
@@ -139,11 +139,10 @@ public class KitManager extends Manager {
             }
 
             Inventory inventory = configurationInventory.getInventory();
-            ItemManager itemManager = this.main.getItemManager();
             for (int i = 0; i < 9; i++) {
                 ItemStack item = inventory.getItem(i);
                 if (!ItemHelper.isNullOrAir(item)) {
-                    items.set(i, itemManager.toBase64(item));
+                    items.set(i, ItemHelper.toBase64(item));
                 } else {
                     items.set(i, null);
                 }
