@@ -466,10 +466,10 @@
 		"title": "MENU_PRESET_ITEM_DELETE",
 		"translations": {
 			"fr_FR": {
-				"title": "Supprimer le preset"
+				"name": "Supprimer le preset"
 			},
 			"en_US": {
-				"title": "Delete the preset"
+				"name": "Delete the preset"
 			}
 		}
 	},
@@ -477,11 +477,11 @@
 		"title": "MENU_PRESET_RENAME",
 		"translations": {
 			"fr_FR": {
-				"title": "Renommer le preset",
+				"name": "Renommer le preset",
 				"description": "En développement."
 			},
 			"en_US": {
-				"title": "Delete the preset",
+				"name": "Rename the preset",
 				"description": "Under development."
 			}
 		}
@@ -490,11 +490,11 @@
 		"title": "MENU_PRESET_UPDATE",
 		"translations": {
 			"fr_FR": {
-				"title": "Modifier le preset",
+				"name": "Modifier le preset",
 				"description": "Permet de remplacer le preset sauvegardé par la configuration actuelle."
 			},
 			"en_US": {
-				"title": "Modify preset",
+				"name": "Modify preset",
 				"description": "Replace saved preset with your current configuration."
 			}
 		}
