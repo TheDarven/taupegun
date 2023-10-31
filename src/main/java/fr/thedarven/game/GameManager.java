@@ -1,8 +1,8 @@
 package fr.thedarven.game;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.game.model.GameHistory;
-import fr.thedarven.game.model.PveDeathHistory;
+import fr.thedarven.game.model.GameRecap;
+import fr.thedarven.game.model.PveDeathRecap;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.model.Manager;
@@ -19,7 +19,7 @@ public class GameManager extends Manager {
 
 	private int timer = 0;
 	private int cooldownTimer = 10;
-	private final List<GameHistory> gameHistories = new ArrayList<>();
+	private final List<GameRecap> gameRecaps = new ArrayList<>();
 	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
@@ -47,13 +47,13 @@ public class GameManager extends Manager {
 	}
 
 	public long countPveDeath() {
-		return this.gameHistories.stream()
-				.filter(history -> history instanceof PveDeathHistory)
+		return this.gameRecaps.stream()
+				.filter(recap -> recap instanceof PveDeathRecap)
 				.count();
 	}
 
-	public void addToHistory(GameHistory history) {
-		this.gameHistories.add(history);
+	public void addToRecap(GameRecap recap) {
+		this.gameRecaps.add(recap);
 	}
 
 	public void startGame() {

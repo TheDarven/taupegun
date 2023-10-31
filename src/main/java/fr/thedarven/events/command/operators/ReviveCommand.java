@@ -1,7 +1,7 @@
 package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.game.model.ReviveHistory;
+import fr.thedarven.game.model.ReviveRecap;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
@@ -91,7 +91,7 @@ public class ReviveCommand extends OperatorCommand {
 			}
 		}
 
-		this.main.getGameManager().addToHistory(new ReviveHistory(targetedPl));
+		this.main.getGameManager().addToRecap(new ReviveRecap(targetedPl));
 
 		announceRespawn(targetedPlayer.getName());
 	}

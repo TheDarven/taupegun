@@ -1,5 +1,5 @@
 package fr.thedarven.game.model;
 
-public interface GameHistory {
+public interface GameRecap {
     String getMessage();
 }

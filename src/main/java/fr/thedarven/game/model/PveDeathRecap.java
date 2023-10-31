@@ -3,11 +3,11 @@ package fr.thedarven.game.model;
 import fr.thedarven.player.model.PlayerTaupe;
 import net.md_5.bungee.api.ChatColor;
 
-public class PveDeathHistory implements GameHistory {
+public class PveDeathRecap implements GameRecap {
 
     private final PlayerTaupe victim;
 
-    public PveDeathHistory(PlayerTaupe victim) {
+    public PveDeathRecap(PlayerTaupe victim) {
         this.victim = victim;
     }
 

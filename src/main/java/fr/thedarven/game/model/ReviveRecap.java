@@ -3,11 +3,11 @@ package fr.thedarven.game.model;
 import fr.thedarven.player.model.PlayerTaupe;
 import net.md_5.bungee.api.ChatColor;
 
-public class ReviveHistory implements GameHistory {
+public class ReviveRecap implements GameRecap {
 
     private final PlayerTaupe revivedPlayer;
 
-    public ReviveHistory(PlayerTaupe revivedPlayer) {
+    public ReviveRecap(PlayerTaupe revivedPlayer) {
         this.revivedPlayer = revivedPlayer;
     }
 
