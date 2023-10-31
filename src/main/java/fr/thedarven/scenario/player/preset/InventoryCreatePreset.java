@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.InventoryAction;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
 import fr.thedarven.scenario.player.preset.runnable.CreatePresetRunnable;
@@ -54,7 +54,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     }
 
     @Override
-    protected void action(Player player, StatsPlayerTaupe pl) {
+    protected void action(Player player, PlayerTaupe pl) {
         if (playerConfiguration.isPresetAmountLimit()) {
             new ActionBar(ChatColor.RED + TOO_MANY_PRESET).sendActionBar(player);
             player.closeInventory();
@@ -69,7 +69,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
      * @param player Le Player qui souhaite créer un preset
      * @param pl     Le PlayerTaupe du joueur
      */
-    private void createPresetAction(Player player, StatsPlayerTaupe pl) {
+    private void createPresetAction(Player player, PlayerTaupe pl) {
         new AnvilGUI(this.main, player, (menu, text) -> {
             new CreatePresetRunnable(this.main, pl, player, this.playerConfiguration, text).runTask(this.main);
             return true;

@@ -3,7 +3,7 @@ package fr.thedarven.team.graph;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
@@ -53,7 +53,7 @@ public abstract class MoleCreationGraph {
         for (TeamCustom moleTeam: this.moleTeams) {
             List<Kit> kits = this.main.getKitManager().getAllKits();
 
-            for (StatsPlayerTaupe mole: moleTeam.getTaupeTeamPlayers()) {
+            for (PlayerTaupe mole: moleTeam.getTaupeTeamPlayers()) {
                 if (kits.isEmpty()) {
                     kits = this.main.getKitManager().getAllKits();
                 }
@@ -81,7 +81,7 @@ public abstract class MoleCreationGraph {
                 superMoleTeam = new TeamCustom(this.main, this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber,
                         ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
             }
-            List<StatsPlayerTaupe> players = team.getTaupeTeamPlayers();
+            List<PlayerTaupe> players = team.getTaupeTeamPlayers();
             if (players.size() > 0) {
                 Collections.shuffle(players);
                 players.get(0).setSuperTaupeTeam(superMoleTeam);

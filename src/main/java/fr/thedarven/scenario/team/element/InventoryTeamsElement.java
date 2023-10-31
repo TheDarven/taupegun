@@ -2,7 +2,7 @@ package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -176,14 +176,14 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         ItemStack item = e.getCurrentItem();
         if (item.getType() == Material.SKULL_ITEM) {
             TeamCustom teamLeave = TeamCustom.getTeamCustomByName(getName());
             if (Objects.isNull(teamLeave))
                 return;
 
-            StatsPlayerTaupe playerTaupe = StatsPlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
+            PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
             if (Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == teamLeave) {
                 teamLeave.leaveTeam(playerTaupe.getUuid());
                 sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());

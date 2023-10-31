@@ -3,7 +3,7 @@ package fr.thedarven.events.command.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.command.PlayerCommand;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -44,7 +44,7 @@ public abstract class OperatorCommand extends PlayerCommand {
         this.permissions = permissions;
     }
 
-    public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         if (sender.isOp() || hasPermission(sender)) {
             return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
         } else {

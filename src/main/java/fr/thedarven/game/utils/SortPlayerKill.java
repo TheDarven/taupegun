@@ -1,13 +1,13 @@
 package fr.thedarven.game.utils;
 
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 
 import java.util.Comparator;
 
-public class SortPlayerKill implements Comparator<StatsPlayerTaupe> {
+public class SortPlayerKill implements Comparator<PlayerTaupe> {
 
     @Override
-    public int compare(StatsPlayerTaupe o1, StatsPlayerTaupe o2) {
+    public int compare(PlayerTaupe o1, PlayerTaupe o2) {
         return o2.getKill() - o1.getKill();
     }
 

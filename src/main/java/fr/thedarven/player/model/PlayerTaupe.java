@@ -16,9 +16,9 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StatsPlayerTaupe extends StatsPlayer {
+public class PlayerTaupe extends StatsPlayer {
 
-	private static final Map<UUID, StatsPlayerTaupe> playerManagerHashMap = new HashMap<>();
+	private static final Map<UUID, PlayerTaupe> playerManagerHashMap = new HashMap<>();
 
 	private String name;
 	private boolean alive;
@@ -38,7 +38,7 @@ public class StatsPlayerTaupe extends StatsPlayer {
 	private boolean canClick;
 	private String createTeamName;
 
-	public StatsPlayerTaupe(UUID playerUuid) {
+	public PlayerTaupe(UUID playerUuid) {
 		super(playerUuid);
 
 		Player player = getPlayer();
@@ -253,7 +253,7 @@ public class StatsPlayerTaupe extends StatsPlayer {
 		createTeamName = pName;
 	}
 
-	public static StatsPlayerTaupe getPlayerTaupeByName(String name) {
+	public static PlayerTaupe getPlayerTaupeByName(String name) {
 		if (Objects.isNull(name)) {
 			return null;
 		}
@@ -265,28 +265,28 @@ public class StatsPlayerTaupe extends StatsPlayer {
 				.orElse(null);
 	}
 
-	public static StatsPlayerTaupe getPlayerManager(UUID playerUuid) {
+	public static PlayerTaupe getPlayerManager(UUID playerUuid) {
 		if(playerManagerHashMap.containsKey(playerUuid)) {
 			return playerManagerHashMap.get(playerUuid);
 		}
-		return new StatsPlayerTaupe(playerUuid);
+		return new PlayerTaupe(playerUuid);
 	}
 
-	public static List<StatsPlayerTaupe> getAlivePlayerManager(){
+	public static List<PlayerTaupe> getAlivePlayerManager(){
 		return playerManagerHashMap.values()
 				.stream()
-				.filter(StatsPlayerTaupe::isAlive)
+				.filter(PlayerTaupe::isAlive)
 				.collect(Collectors.toList());
 	}
 
-	public static List<StatsPlayerTaupe> getDeathPlayerManager(){
+	public static List<PlayerTaupe> getDeathPlayerManager(){
 		return playerManagerHashMap.values()
 				.stream()
 				.filter(pl -> !pl.isAlive())
 				.collect(Collectors.toList());
 	}
 
-	public static List<StatsPlayerTaupe> getAllPlayerManager(){
+	public static List<PlayerTaupe> getAllPlayerManager(){
 		return new ArrayList<>(playerManagerHashMap.values());
 	}
 

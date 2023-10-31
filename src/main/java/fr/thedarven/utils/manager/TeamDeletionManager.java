@@ -1,7 +1,7 @@
 package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -28,9 +28,9 @@ public class TeamDeletionManager {
 			for (TeamCustom team : aliveTeams) {
 				boolean alive = team.isAlive();
 				if (team.isTaupeTeam()) {
-					alive = StatsPlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getTaupeTeam() == team && !player.isSuperReveal());
+					alive = PlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getTaupeTeam() == team && !player.isSuperReveal());
 				} else if (team.isSuperTaupeTeam()) {
-					alive = StatsPlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getSuperTaupeTeam() == team);
+					alive = PlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getSuperTaupeTeam() == team);
 				} else if (!team.isSpectator() && team.getTeam().getEntries().isEmpty()) {
 					this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), true);
 					alive = false;

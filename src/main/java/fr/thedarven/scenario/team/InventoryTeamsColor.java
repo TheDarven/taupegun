@@ -2,7 +2,7 @@ package fr.thedarven.scenario.team;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
@@ -70,7 +70,7 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (e.getCurrentItem().getType() == Material.BANNER) {
             choiceTeamColor(player, pl, e.getCurrentItem());
         }
@@ -83,7 +83,7 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
      * @param pl        Le PlayerTaupe du Player
      * @param itemStack L'item selectionné par le joueur
      */
-    private void choiceTeamColor(Player player, StatsPlayerTaupe pl, ItemStack itemStack) {
+    private void choiceTeamColor(Player player, PlayerTaupe pl, ItemStack itemStack) {
         TeamCustom teamCustom = TeamCustom.getTeamCustomByName(pl.getCreateTeamName());
         if (Objects.nonNull(teamCustom)) {
             player.closeInventory();

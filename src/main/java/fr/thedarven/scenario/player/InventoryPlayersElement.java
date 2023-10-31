@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import org.bukkit.Material;
@@ -27,8 +27,8 @@ public abstract class InventoryPlayersElement extends ConfigurationInventory {
         return owner;
     }
 
-    public StatsPlayerTaupe getPlayerTaupeOwner() {
-        return StatsPlayerTaupe.getPlayerManager(this.owner);
+    public PlayerTaupe getPlayerTaupeOwner() {
+        return PlayerTaupe.getPlayerManager(this.owner);
     }
 
     public void onReturnClick(Player player) {

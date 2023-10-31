@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 
 public class GameDto {
@@ -133,7 +133,7 @@ public class GameDto {
 			if(Bukkit.getServer().getOnlineMode()) {
 				this.duration = this.main.getGameManager().getTimer();
 
-				for(StatsPlayerTaupe pt: StatsPlayerTaupe.getAllPlayerManager()) {
+				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {
 					TeamCustom team = pt.getStartTeam();
 					if(team == null)
 						team = TeamCustom.getSpectatorTeam();

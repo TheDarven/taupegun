@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 
 public class DimensionListener implements Listener {
 
@@ -25,7 +25,7 @@ public class DimensionListener implements Listener {
 			if (e.getCause().equals(TeleportCause.NETHER_PORTAL)) {
 				Player p = e.getPlayer();
 				if (p.getWorld() == this.main.getWorldManager().getWorld()) {
-					StatsPlayerTaupe.getPlayerManager(p.getUniqueId()).setNetherPortal(e.getTo());
+					PlayerTaupe.getPlayerManager(p.getUniqueId()).setNetherPortal(e.getTo());
 				}
 			}	
 		}

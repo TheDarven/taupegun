@@ -3,7 +3,7 @@ package fr.thedarven.scenario.builder;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.scenario.model.enums.EnumConfiguration;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.player.InventoryPlayers;
 import fr.thedarven.scenario.runnable.DelayClickRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -362,7 +362,7 @@ public abstract class TreeInventory implements Listener {
         }
 
         Player player = (Player) e.getWhoClicked();
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
         if (!canPlayerInteract(player, EnumConfiguration.INVENTORY) || Objects.isNull(e.getCurrentItem()) || !pl.getCanClick()) {
             return;
@@ -399,7 +399,7 @@ public abstract class TreeInventory implements Listener {
      * @param player Le Player qui clic
      * @param pl     Le PlayerTaupe du Player qui clic
      */
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         openChildInventory(e.getCurrentItem(), player, pl);
     }
 
@@ -411,7 +411,7 @@ public abstract class TreeInventory implements Listener {
      * @param pl     Le PlayerTaupe du Player
      * @return <b>true</b> si l'item cliqué est celui d'un inventaire enfant, <b>false</b> sinon
      */
-    final protected boolean openChildInventory(ItemStack item, Player player, StatsPlayerTaupe pl) {
+    final protected boolean openChildInventory(ItemStack item, Player player, PlayerTaupe pl) {
         TreeInventory treeInventory = this.children.get(item.hashCode());
         if (Objects.isNull(treeInventory))
             return false;
@@ -450,7 +450,7 @@ public abstract class TreeInventory implements Listener {
      *
      * @param pl Le joueur
      */
-    final public void delayClick(final StatsPlayerTaupe pl) {
+    final public void delayClick(final PlayerTaupe pl) {
         pl.setCanClick(false);
         new DelayClickRunnable(pl).runTaskTimer(TaupeGun.instance, 3, 20);
     }

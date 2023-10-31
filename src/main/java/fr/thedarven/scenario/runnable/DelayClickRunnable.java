@@ -1,13 +1,13 @@
 package fr.thedarven.scenario.runnable;
 
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DelayClickRunnable extends BukkitRunnable {
 
-    private final StatsPlayerTaupe playerTaupe;
+    private final PlayerTaupe playerTaupe;
 
-    public DelayClickRunnable(StatsPlayerTaupe playerTaupe) {
+    public DelayClickRunnable(PlayerTaupe playerTaupe) {
         this.playerTaupe = playerTaupe;
     }
 

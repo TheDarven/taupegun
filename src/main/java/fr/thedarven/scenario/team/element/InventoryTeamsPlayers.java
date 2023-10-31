@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -53,7 +53,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
     public void reloadInventory() {
         int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+            PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
             if (Objects.isNull(pl.getTeam())) {
                 getInventory().setItem(i, this.main.getPlayerManager().getHeadOfPlayer(player.getName(), player.getName()));
                 i++;
@@ -71,7 +71,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         ItemStack item = e.getCurrentItem();
         if (item.getType() != Material.SKULL_ITEM) {
             return;
@@ -83,7 +83,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
         }
 
         if (teamJoin.getSize() < 9) {
-            StatsPlayerTaupe playerTaupe = StatsPlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
+            PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
             if (Objects.nonNull(playerTaupe)) {
                 teamJoin.joinTeam(playerTaupe);
                 sendAddPlayerTeamMessage(player, playerTaupe);
@@ -96,7 +96,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
         }
     }
 
-    public void sendAddPlayerTeamMessage(Player receiver, StatsPlayerTaupe addedPlayer) {
+    public void sendAddPlayerTeamMessage(Player receiver, PlayerTaupe addedPlayer) {
         Map<String, String> params = new HashMap<>();
         params.put("playerName", "§e§l" + addedPlayer.getName() + "§a§r");
         String isAddingMessage = TextInterpreter.textInterpretation("§a" + LanguageBuilder.getContent("TEAM", "isAdding", true), params);

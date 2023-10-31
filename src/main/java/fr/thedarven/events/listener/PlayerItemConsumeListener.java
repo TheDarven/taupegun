@@ -1,7 +1,7 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -38,7 +38,7 @@ public class PlayerItemConsumeListener implements Listener {
 			}
 
 			if (EnumGameState.isCurrentState(EnumGameState.GAME) && player.getGameMode().equals(GameMode.SURVIVAL)) {
-				StatsPlayerTaupe ps = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+				PlayerTaupe ps = PlayerTaupe.getPlayerManager(player.getUniqueId());
 				if (ps.isAlive()) {
 					ps.addAteGoldenApple(1);
 				}

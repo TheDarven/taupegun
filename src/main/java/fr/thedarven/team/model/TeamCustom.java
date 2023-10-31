@@ -5,7 +5,7 @@ import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.scenario.team.element.*;
 import fr.thedarven.stats.model.StatsPlayer;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class TeamCustom {
 	private int taupeTeam;
 	private int superTaupeTeam;
 	private boolean spectator;
-	private List<StatsPlayerTaupe> players;
+	private List<PlayerTaupe> players;
 	private boolean alive;
 	
 	public TeamCustom(TaupeGun main, String name, ColorEnum colorEnum, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
@@ -97,35 +97,35 @@ public class TeamCustom {
 		return spectator;
 	}
 
-	public List<StatsPlayerTaupe> getTaupeTeamPlayers() {
+	public List<PlayerTaupe> getTaupeTeamPlayers() {
 		if (this.taupeTeam == 0) {
 			return new ArrayList<>();
 		}
 
-		return StatsPlayerTaupe.getAllPlayerManager()
+		return PlayerTaupe.getAllPlayerManager()
 				.stream()
 				.filter(p -> p.getTaupeTeam() == this)
 				.collect(Collectors.toList());
 	}
 
-	public List<StatsPlayerTaupe> getSuperTaupeTeamPlayers() {
+	public List<PlayerTaupe> getSuperTaupeTeamPlayers() {
 		if (this.superTaupeTeam == 0) {
 			return new ArrayList<>();
 		}
 
-		return StatsPlayerTaupe.getAllPlayerManager()
+		return PlayerTaupe.getAllPlayerManager()
 				.stream()
 				.filter(p -> p.getSuperTaupeTeam() == this)
 				.collect(Collectors.toList());
 	}
 
-	public List<StatsPlayerTaupe> getPlayers(){
+	public List<PlayerTaupe> getPlayers(){
 		return players;
 	}
 
-	public List<StatsPlayerTaupe> getAlivesPlayers() {
+	public List<PlayerTaupe> getAlivesPlayers() {
 		return players.stream()
-				.filter(StatsPlayerTaupe::isAlive)
+				.filter(PlayerTaupe::isAlive)
 				.collect(Collectors.toList());
 	}
 	
@@ -148,7 +148,7 @@ public class TeamCustom {
 			return 0;
 		}
 
-		return StatsPlayerTaupe.getAllPlayerManager()
+		return PlayerTaupe.getAllPlayerManager()
 				.stream()
 				.filter(p -> p.getTaupeTeam() == this)
 				.count();
@@ -159,7 +159,7 @@ public class TeamCustom {
 			return 0;
 		}
 
-		return StatsPlayerTaupe.getAllPlayerManager()
+		return PlayerTaupe.getAllPlayerManager()
 				.stream()
 				.filter(p -> p.getSuperTaupeTeam() == this)
 				.count();
@@ -184,7 +184,7 @@ public class TeamCustom {
 
 
 	public void deleteTeam() {
-		for (StatsPlayerTaupe pl : StatsPlayerTaupe.getAllPlayerManager()) {
+		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if (pl.getTeam() == this)
 				pl.setTeam(null);
 			if (pl.getStartTeam() == this)
@@ -199,7 +199,7 @@ public class TeamCustom {
 		team.unregister();
 	}
 
-	public void joinTeam(StatsPlayerTaupe pl) {
+	public void joinTeam(PlayerTaupe pl) {
 		if ((!alive || team.getEntries().size() >= MAX_PLAYER_PER_TEAM) && !this.spectator)
 			return;
 
@@ -223,11 +223,11 @@ public class TeamCustom {
 	}
 	
 	public void joinTeam(UUID uuid) {
-		StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(uuid);
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 		joinTeam(pl);
 	}
 
-	private void joinScoreboardTeam(String name, StatsPlayerTaupe pl, Player player) {
+	private void joinScoreboardTeam(String name, PlayerTaupe pl, Player player) {
 		team.addEntry(name);
 		objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
@@ -243,7 +243,7 @@ public class TeamCustom {
 	}
 
 	public void leaveTeam(UUID uuid){
-		StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(uuid);
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
 		Player player = Bukkit.getPlayer(uuid);
 		
 		team.removeEntry(pl.getName());

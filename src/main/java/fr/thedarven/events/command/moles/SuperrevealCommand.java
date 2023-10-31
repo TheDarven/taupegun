@@ -1,7 +1,7 @@
 package fr.thedarven.events.command.moles;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,11 +14,11 @@ public class SuperrevealCommand extends GenericRevealCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		this.reveal(sender, pl.getSuperTaupeTeam());
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args) && this.main.getGameManager().areSuperMolesRevealed() && pl.isSuperTaupe()) {
 			if (!pl.isReveal()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "cannotSuperReveal", true));

@@ -1,7 +1,7 @@
 package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.stats.model.dto.GameDto;
@@ -26,8 +26,8 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
-		StatsPlayerTaupe targetedPl = StatsPlayerTaupe.getPlayerTaupeByName(args[0]);
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		PlayerTaupe targetedPl = PlayerTaupe.getPlayerTaupeByName(args[0]);
 		if (Objects.isNull(targetedPl) || targetedPl.isAlive())
 			return;
 
@@ -38,7 +38,7 @@ public class ReviveCommand extends OperatorCommand {
 		respawnPlayer(sender, targetedPl, targetedPlayer);
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (args.length > 0 && !this.main.getGameManager().areMolesRevealed() && TeamCustom.getAllAliveTeams().size() > 1) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		} else {
@@ -47,7 +47,7 @@ public class ReviveCommand extends OperatorCommand {
 		return false;
 	}
 
-	private void respawnPlayer(Player sender, StatsPlayerTaupe targetedPl, Player targetedPlayer) {
+	private void respawnPlayer(Player sender, PlayerTaupe targetedPl, Player targetedPlayer) {
 		TeamCustom team = targetedPl.getStartTeam();
 		if (Objects.isNull(team) || team.isSpectator())
 			return;
@@ -58,7 +58,7 @@ public class ReviveCommand extends OperatorCommand {
 		}
 
 		Location respawnLocation = null;
-		for (StatsPlayerTaupe mate: team.getAlivesPlayers()) {
+		for (PlayerTaupe mate: team.getAlivesPlayers()) {
 			Player matePlayer = mate.getPlayer();
 			if (Objects.nonNull(matePlayer) && matePlayer != sender) {
 				respawnLocation = matePlayer.getLocation();

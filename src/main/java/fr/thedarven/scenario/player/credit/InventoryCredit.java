@@ -2,7 +2,7 @@ package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.player.InventoryPlayers;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
@@ -82,7 +82,7 @@ public class InventoryCredit extends InventoryPlayers implements ConfigurationPl
     }
 
     @Override
-    public final void onPlayerItemClick(StatsPlayerTaupe pl) {
+    public final void onPlayerItemClick(PlayerTaupe pl) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             openInventoryOfPlayer(pl.getPlayer());
         }

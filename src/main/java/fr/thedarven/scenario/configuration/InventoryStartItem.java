@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -60,7 +60,7 @@ public class InventoryStartItem extends ConfigurationInventory implements AdminC
         }
     }
 
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (openChildInventory(e.getCurrentItem(), player, pl)
                 || isLockedCaseItem(e.getCurrentItem())) {
             return;

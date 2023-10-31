@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -16,7 +16,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
     private final TaupeGun main;
     private final Player player;
 
-    public CreateTeamRunnable(TaupeGun main, StatsPlayerTaupe pl, Player player) {
+    public CreateTeamRunnable(TaupeGun main, PlayerTaupe pl, Player player) {
         super(main, pl);
         this.main = main;
         this.player = player;

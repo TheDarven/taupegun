@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 
 public class ThrewArrowListener implements Listener {
 	
@@ -22,7 +22,7 @@ public class ThrewArrowListener implements Listener {
 		if (!EnumGameState.isCurrentState(EnumGameState.GAME) || player.getGameMode() != GameMode.SURVIVAL)
 			return;
 
-		StatsPlayerTaupe ps = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+		PlayerTaupe ps = PlayerTaupe.getPlayerManager(player.getUniqueId());
 		if (ps.isAlive()) {
 			ps.addBowForceCounter(e.getForce());
 			ps.addThrowedArrow(1);

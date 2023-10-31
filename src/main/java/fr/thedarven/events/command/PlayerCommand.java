@@ -2,7 +2,7 @@ package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,7 +48,7 @@ public abstract class PlayerCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (Objects.isNull(this.states) || EnumGameState.isCurrentState(this.states)) {
-                StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+                PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
                 if (canPlayerExecuteCommand(player, pl, cmd, alias, args)) {
                     executeCommand(player, pl, cmd, alias, args);
                 }
@@ -69,7 +69,7 @@ public abstract class PlayerCommand implements CommandExecutor {
      * @param args Les arguments de la commande
      * @return true si la commande peut être exécutée, false sinon
      */
-    public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         return true;
     }
 
@@ -82,6 +82,6 @@ public abstract class PlayerCommand implements CommandExecutor {
      * @param alias L'alias de la commande utilisée
      * @param args Les arguments de la commande
      */
-    public abstract void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args);
+    public abstract void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args);
 
 }

@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItem;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -119,7 +119,7 @@ public class ConfigurationInventory extends EditableTreeInventory implements Lis
      *
      * @param pl Le PlayerTaupe qui a cliqué.
      */
-    public void onPlayerItemClick(StatsPlayerTaupe pl) {
+    public void onPlayerItemClick(PlayerTaupe pl) {
     }
 
     protected String getNameOfLanguage(String language) {

@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
@@ -203,7 +203,7 @@ public class OptionBoolean extends ConfigurationInventory implements AdminConfig
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (e.getSlot() == 3 && this.value) {
             setValue(false);
         } else if (e.getSlot() == 5 && !this.value) {

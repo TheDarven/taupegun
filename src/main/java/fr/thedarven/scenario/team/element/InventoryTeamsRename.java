@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.InventoryAction;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -16,7 +16,7 @@ public class InventoryTeamsRename extends InventoryAction implements AdminConfig
     }
 
     @Override
-    protected void action(Player player, StatsPlayerTaupe pl) {
+    protected void action(Player player, PlayerTaupe pl) {
         // TODO Change name
     }
 

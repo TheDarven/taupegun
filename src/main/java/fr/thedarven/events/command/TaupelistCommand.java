@@ -2,7 +2,7 @@ package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.utils.manager.MessageManager;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ public class TaupelistCommand extends PlayerCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		MessageManager messageManager = this.main.getMessageManager();
 
 		messageManager.sendTaupeListMessage(sender);
@@ -23,7 +23,7 @@ public class TaupelistCommand extends PlayerCommand {
 		}
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
 			if (!this.main.getScenariosManager().taupelistCommand.getValue()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "disabledCommand", true));

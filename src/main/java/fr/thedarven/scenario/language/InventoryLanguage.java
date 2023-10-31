@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.language;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -93,7 +93,7 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         ItemStack item = e.getCurrentItem();
 
         Optional<TreeInventory> oTreeInventory = this.getChildByHash(item.hashCode());

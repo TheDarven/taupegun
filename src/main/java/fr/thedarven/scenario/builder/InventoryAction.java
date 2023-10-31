@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -25,6 +25,6 @@ public abstract class InventoryAction extends ConfigurationInventory {
      * @param player Le Player qui clic sur l'item
      * @param pl     Le PlayerTaupe du Player
      */
-    abstract protected void action(Player player, StatsPlayerTaupe pl);
+    abstract protected void action(Player player, PlayerTaupe pl);
 
 }

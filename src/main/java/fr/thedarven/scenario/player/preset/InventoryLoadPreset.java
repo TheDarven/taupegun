@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -55,7 +55,7 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
     }
 
     @Override
-    protected void action(Player player, StatsPlayerTaupe pl) {
+    protected void action(Player player, PlayerTaupe pl) {
         Map<String, String> params = new HashMap<>();
         params.put("presetName", "§e§l" + this.preset.getName() + "§r§a");
         new ActionBar(TextInterpreter.textInterpretation("§a" + LOAD_PRESET, params)).sendActionBar(player);

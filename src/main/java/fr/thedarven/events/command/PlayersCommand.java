@@ -2,7 +2,7 @@ package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -14,16 +14,16 @@ public class PlayersCommand extends PlayerCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		StringBuilder message = new StringBuilder("§e");
 		message.append(LanguageBuilder.getContent("COMMAND", "playerList", true));
 
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
-			for (StatsPlayerTaupe playerTaupe : StatsPlayerTaupe.getAllPlayerManager()) {
+			for (PlayerTaupe playerTaupe : PlayerTaupe.getAllPlayerManager()) {
 				message.append(playerTaupe.isOnline() ? "§a" : "§c").append(playerTaupe.getName()).append(" §l§f︱ §r");
 			}
 		} else {
-			for(StatsPlayerTaupe playerTaupe : StatsPlayerTaupe.getAlivePlayerManager()) {
+			for(PlayerTaupe playerTaupe : PlayerTaupe.getAlivePlayerManager()) {
 				message.append(playerTaupe.isOnline() ? "§a" : "§c").append(playerTaupe.getName()).append(" §l§f︱ §r");
 			}
 		}

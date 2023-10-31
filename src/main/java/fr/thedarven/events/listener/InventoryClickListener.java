@@ -4,7 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.EnumPlayerInventoryType;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -43,7 +43,7 @@ public class InventoryClickListener implements Listener {
         }
 
         Player player = (Player) e.getWhoClicked();
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
         Inventory clickInv = e.getClickedInventory();
         ItemStack clickItem = e.getCurrentItem();
 
@@ -69,7 +69,7 @@ public class InventoryClickListener implements Listener {
     public void onItemUse(PlayerInteractEvent e) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT) && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
             Player player = e.getPlayer();
-            StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+            PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
             ItemStack clickItem = player.getItemInHand();
 
             if (Objects.isNull(clickItem)) {
@@ -89,7 +89,7 @@ public class InventoryClickListener implements Listener {
         }
 
         Player player = (Player) e.getWhoClicked();
-        if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumPlayerInventoryType.TEAM)) {
+        if (PlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumPlayerInventoryType.TEAM)) {
             e.setCancelled(true);
         }
 

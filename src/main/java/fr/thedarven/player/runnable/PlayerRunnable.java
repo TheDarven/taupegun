@@ -1,15 +1,15 @@
 package fr.thedarven.player.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class PlayerRunnable extends BukkitRunnable {
 
     protected final TaupeGun main;
-    protected final StatsPlayerTaupe pl;
+    protected final PlayerTaupe pl;
 
-    public PlayerRunnable(TaupeGun main, StatsPlayerTaupe pl) {
+    public PlayerRunnable(TaupeGun main, PlayerTaupe pl) {
         this.main = main;
         this.pl = pl;
         this.pl.addRunnable(this);

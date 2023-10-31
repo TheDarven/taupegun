@@ -2,7 +2,7 @@ package fr.thedarven.team.graph;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MoleCreationWithMateGraph extends MoleCreationGraph {
 
-    private final List<StatsPlayerTaupe> players;
+    private final List<PlayerTaupe> players;
 
     public MoleCreationWithMateGraph(TaupeGun main) {
         super(main);
@@ -25,7 +25,7 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
 
         List<TeamCustom> teams = TeamCustom.getAllStartTeams();
         for (TeamCustom team : teams) {
-            List<StatsPlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
+            List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
 
             int amountOfMoles = getAmountOfMoles(team);
             if (amountOfMoles == 1) {
@@ -69,7 +69,7 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
         int nbTeams = this.moleTeams.size();
         int nbPlayers = this.players.size();
         for (int i = 0; i < nbPlayers; i++) {
-            StatsPlayerTaupe mole = players.get(i);
+            PlayerTaupe mole = players.get(i);
             mole.setTaupeTeam(this.moleTeams.get(i % nbTeams));
         }
 

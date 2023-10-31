@@ -1,7 +1,7 @@
 package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.TextInterpreter;
@@ -21,7 +21,7 @@ public class CoordsCommand extends PlayerCommand {
     }
 
     @Override
-    public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         Location senderLocation = sender.getLocation();
 
         Map<String, String> params = new HashMap<>();
@@ -41,7 +41,7 @@ public class CoordsCommand extends PlayerCommand {
         }
     }
 
-    public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+    public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
         if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
             if (!this.main.getScenariosManager().coordsCommand.getValue()) {
                 sender.sendMessage("§c" + LanguageBuilder.getContent("COMMAND", "disabledCommand", true));

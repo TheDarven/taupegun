@@ -3,7 +3,7 @@ package fr.thedarven.events.listener;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.InvSeeRunnable;
 import fr.thedarven.model.enums.EnumPlayerInventoryType;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,13 +28,13 @@ public class PlayerInvSeeListener implements Listener {
 
 		e.setCancelled(true);
 
-		StatsPlayerTaupe viewedPl = StatsPlayerTaupe.getPlayerManager(e.getRightClicked().getUniqueId());
-		StatsPlayerTaupe plWhoWatched = StatsPlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
+		PlayerTaupe viewedPl = PlayerTaupe.getPlayerManager(e.getRightClicked().getUniqueId());
+		PlayerTaupe plWhoWatched = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
 
 		createAndOpenInvSeeInventory(plWhoWatched, viewedPl);
 	}
 
-	private void createAndOpenInvSeeInventory(StatsPlayerTaupe plWhoWatched, StatsPlayerTaupe viewedPl) {
+	private void createAndOpenInvSeeInventory(PlayerTaupe plWhoWatched, PlayerTaupe viewedPl) {
 		InvSeeRunnable invSeeRunnable = (InvSeeRunnable) plWhoWatched.getRunnable(InvSeeRunnable.class);
 		if (Objects.isNull(invSeeRunnable)) {
 			invSeeRunnable = new InvSeeRunnable(this.main, plWhoWatched, viewedPl);
@@ -46,7 +46,7 @@ public class PlayerInvSeeListener implements Listener {
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent e) {
 		if (e.getPlayer() instanceof Player) {
-			StatsPlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpenedInventory().setInventory(null, EnumPlayerInventoryType.NONE);
+			PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId()).getOpenedInventory().setInventory(null, EnumPlayerInventoryType.NONE);
 		}
 	}
 }

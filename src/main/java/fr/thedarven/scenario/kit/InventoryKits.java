@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.InventoryIncrement;
 import fr.thedarven.scenario.builder.TreeInventory;
@@ -65,7 +65,7 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (Objects.equals(e.getCurrentItem(), this.main.getScenariosManager().addKit.getItem())) {
             final InventoryKits parent = this;
 

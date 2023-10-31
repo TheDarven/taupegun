@@ -3,7 +3,7 @@ package fr.thedarven.events.command.operators;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.StartRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.team.graph.MoleCreationGraph;
 import fr.thedarven.team.graph.MoleCreationSuccessEnum;
@@ -25,14 +25,14 @@ public class StartCommand extends OperatorCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		MoleCreationGraph graph = this.main.getScenariosManager().moleTeamMate.getMoleCreationGraph();
 
 		MoleCreationSuccessEnum moleTeamCreationSuccess = graph.createTeams();
 		if (moleTeamCreationSuccess == MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", true));
 			TeamCustom.deleteTeamTaupe();
-			for(StatsPlayerTaupe playerTaupe : StatsPlayerTaupe.getAllPlayerManager()) {
+			for(PlayerTaupe playerTaupe : PlayerTaupe.getAllPlayerManager()) {
 				playerTaupe.setTaupeTeam(null);
 				playerTaupe.setSuperTaupeTeam(null);
 			}
@@ -46,7 +46,7 @@ public class StartCommand extends OperatorCommand {
 		this.startRunnable.runTaskTimer(this.main,20,20);
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (!super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
 			return false;
 		}

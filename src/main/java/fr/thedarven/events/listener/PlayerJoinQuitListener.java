@@ -3,7 +3,7 @@ package fr.thedarven.events.listener;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import fr.thedarven.team.model.TeamCustom;
@@ -35,7 +35,7 @@ public class PlayerJoinQuitListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
         e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
 
@@ -85,7 +85,7 @@ public class PlayerJoinQuitListener implements Listener {
             );
 
 
-            for (StatsPlayerTaupe pl : StatsPlayerTaupe.getAllPlayerManager()) {
+            for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
                 pl.setTaupeTeam(null);
                 pl.setSuperTaupeTeam(null);
             }
@@ -97,7 +97,7 @@ public class PlayerJoinQuitListener implements Listener {
 
     public void loginAction(Player player) {
         player.setScoreboard(TeamCustom.board);
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
         this.main.getMessageManager().updateTabContent(player);
         this.main.getScoreboardManager().onLogin(player);
@@ -119,7 +119,7 @@ public class PlayerJoinQuitListener implements Listener {
             this.main.getScenariosManager().removePlayerItem(player);
         }
 
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
         pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
 
         if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {

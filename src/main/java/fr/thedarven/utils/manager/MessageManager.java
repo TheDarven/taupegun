@@ -2,7 +2,7 @@ package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.Manager;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.api.titles.TabMessage;
@@ -57,7 +57,7 @@ public class MessageManager extends Manager {
     public void sendTaupeListMessage(Player receiver) {
         for (TeamCustom team : TeamCustom.getTaupeTeams()) {
             StringBuilder listTaupe = new StringBuilder("§c" + ChatColor.BOLD + team.getTeam().getName() + ": " + ChatColor.RESET + "§c");
-            StatsPlayerTaupe.getAllPlayerManager().stream()
+            PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getTaupeTeam() == team)
                     .forEach(pc -> listTaupe.append(pc.getName()).append(" "));
 
@@ -77,7 +77,7 @@ public class MessageManager extends Manager {
     public void sendSuperTaupeListMessage(Player receiver) {
         for (TeamCustom team : TeamCustom.getSuperTaupeTeams()) {
             StringBuilder listTaupe = new StringBuilder(ChatColor.DARK_RED + "" + ChatColor.BOLD + team.getTeam().getName() + ": " + ChatColor.RESET + "" + ChatColor.DARK_RED);
-            StatsPlayerTaupe.getAllPlayerManager().stream()
+            PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getSuperTaupeTeam() == team)
                     .forEach(pc -> listTaupe.append(pc.getName()).append(" "));
 
@@ -96,7 +96,7 @@ public class MessageManager extends Manager {
      * @param senderTaupe PlayerMole of the sender
      * @param words an arrays of the message content
      */
-    public void moleSendsMoleMessage(Player sender, StatsPlayerTaupe senderTaupe, String[] words) {
+    public void moleSendsMoleMessage(Player sender, PlayerTaupe senderTaupe, String[] words) {
         if (senderTaupe.isSuperReveal()) {
             return;
         }
@@ -132,7 +132,7 @@ public class MessageManager extends Manager {
      * @param senderTaupe PlayerMole of the sender
      * @param words an arrays of the message content
      */
-    public void superMoleSendsSuperMoleMessage(Player sender, StatsPlayerTaupe senderTaupe, String[] words) {
+    public void superMoleSendsSuperMoleMessage(Player sender, PlayerTaupe senderTaupe, String[] words) {
         String content = getMessageOfArray(words);
 
         String revealSuperMolesMessage = "§e" + LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true) +

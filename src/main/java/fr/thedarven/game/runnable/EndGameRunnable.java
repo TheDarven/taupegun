@@ -4,7 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.utils.manager.MessageManager;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
@@ -34,7 +34,7 @@ public class EndGameRunnable extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).isAlive()) {
+            if (PlayerTaupe.getPlayerManager(player.getUniqueId()).isAlive()) {
                 Firework f = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
                 FireworkMeta fM = f.getFireworkMeta();
                 FireworkEffect effect = FireworkEffect.builder()
@@ -78,7 +78,7 @@ public class EndGameRunnable extends BukkitRunnable {
         String killListMessage = "§l§6" + LanguageBuilder.getContent("CONTENT", "killList", true);
         Bukkit.broadcastMessage(" ");
         Bukkit.broadcastMessage(killListMessage);
-        List<StatsPlayerTaupe> kills = StatsPlayerTaupe.getAllPlayerManager().stream()
+        List<PlayerTaupe> kills = PlayerTaupe.getAllPlayerManager().stream()
                 .filter(pc -> pc.getKill() > 0)
                 .sorted(new SortPlayerKill())
                 .collect(Collectors.toList());

@@ -3,7 +3,7 @@ package fr.thedarven.events.listener;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.stats.model.StatsPlayer;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ public class PlayerChatListener implements Listener {
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e){
-		StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(e.getPlayer().getUniqueId());
 		Player player = e.getPlayer();
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
 			e.setCancelled(true);
@@ -32,7 +32,7 @@ public class PlayerChatListener implements Listener {
 			e.setCancelled(true);
 			if (!pl.isAlive()) {
 				String spectatorMessage = "§7" + LanguageBuilder.getContent("EVENT_TCHAT", "spectatorMessage", true) + player.getName() + ": " + e.getMessage();
-				for (StatsPlayerTaupe playerTaupe : StatsPlayerTaupe.getAllPlayerManager()) {
+				for (PlayerTaupe playerTaupe : PlayerTaupe.getAllPlayerManager()) {
 					if (!playerTaupe.isAlive() && playerTaupe.isOnline()) {
 						playerTaupe.getPlayer().sendMessage(spectatorMessage);
 					}
@@ -64,7 +64,7 @@ public class PlayerChatListener implements Listener {
 		}
 	}
 
-	private String getTeamColor(StatsPlayerTaupe pl) {
+	private String getTeamColor(PlayerTaupe pl) {
 		String color = "";
 		if (Objects.nonNull(pl.getTeam()) && Objects.nonNull(pl.getTeam().getTeam())) {
 			color = pl.getTeam().getTeam().getPrefix();

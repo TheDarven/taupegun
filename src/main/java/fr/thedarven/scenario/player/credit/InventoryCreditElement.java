@@ -2,7 +2,7 @@ package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
@@ -134,7 +134,7 @@ public class InventoryCreditElement extends InventoryPlayersElement {
 
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         e.setCancelled(true);
         ItemStack clickedItem = e.getCurrentItem();
         if (Objects.isNull(clickedItem) || Objects.isNull(this.snakeRunnable)) {

@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player.preset.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.scenario.ScenariosManager;
 import fr.thedarven.scenario.player.preset.InventoryCreatePreset;
@@ -19,7 +19,7 @@ public class CreatePresetRunnable extends PlayerRunnable {
     private final PlayerConfiguration playerConfiguration;
     private final String presetName;
 
-    public CreatePresetRunnable(TaupeGun main, StatsPlayerTaupe pl, Player player, PlayerConfiguration playerConfiguration, String presetName) {
+    public CreatePresetRunnable(TaupeGun main, PlayerTaupe pl, Player player, PlayerConfiguration playerConfiguration, String presetName) {
         super(main, pl);
         this.player = player;
         this.playerConfiguration = playerConfiguration;

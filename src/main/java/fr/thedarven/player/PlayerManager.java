@@ -3,7 +3,7 @@ package fr.thedarven.player;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.Manager;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.helpers.PermissionHelper;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.api.titles.Title;
@@ -96,11 +96,11 @@ public class PlayerManager extends Manager {
         }
     }
 
-    public void sendOrientationMessage(Player player, StatsPlayerTaupe playerTaupe){
+    public void sendOrientationMessage(Player player, PlayerTaupe playerTaupe){
         StringBuilder message = new StringBuilder();
 
         if (Objects.nonNull(playerTaupe.getTeam())) {
-            for (StatsPlayerTaupe mate: playerTaupe.getTeam().getAlivesPlayers()) {
+            for (PlayerTaupe mate: playerTaupe.getTeam().getAlivesPlayers()) {
                 if (!Objects.equals(mate, playerTaupe)) {
                     message.append(getOrientation(player, mate));
                 }
@@ -109,7 +109,7 @@ public class PlayerManager extends Manager {
         new ActionBar(message.toString()).sendActionBar(player);
     }
 
-    public static String getOrientation(Player p, StatsPlayerTaupe matePl){
+    public static String getOrientation(Player p, PlayerTaupe matePl){
         StringBuilder orientation = new StringBuilder("§l");
 
         Player mate = matePl.getPlayer();

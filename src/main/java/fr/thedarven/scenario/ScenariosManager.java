@@ -3,7 +3,7 @@ package fr.thedarven.scenario;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.KitManager;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.builder.OptionNumeric;
@@ -390,7 +390,7 @@ public class ScenariosManager {
      * @param pl   Le PlayerTaupe qui a cliqué.
      * @return <b>true</b> si le clique a eu lieu sur un ConfigurationPlayerItem, <b>false</b> sinon.
      */
-    public final boolean onPlayerItemClick(ItemStack item, StatsPlayerTaupe pl) {
+    public final boolean onPlayerItemClick(ItemStack item, PlayerTaupe pl) {
         for (ConfigurationInventory configurationInventory : ConfigurationInventory.getAll()) {
             if (Objects.nonNull(configurationInventory.getConfigurationPlayerItem())
                     && configurationInventory.getConfigurationPlayerItem().getItem().hashCode() == item.hashCode()) {

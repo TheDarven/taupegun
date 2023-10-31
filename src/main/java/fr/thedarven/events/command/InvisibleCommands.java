@@ -2,7 +2,7 @@ package fr.thedarven.events.command;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -25,7 +25,7 @@ public class InvisibleCommands implements Listener {
     @EventHandler
     public void onPlayerSendCommand(PlayerCommandPreprocessEvent e){
         Player player = e.getPlayer();
-        StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
         String[] args = e.getMessage().split(" ");
         if (args.length == 0) {

@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.stats.model.dto.PlayerDeathDto;
@@ -39,9 +39,9 @@ public class PlayerDeathListener implements Listener {
 		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
 		
 		e.setDeathMessage(deathAllMessage);
-		killPlayer(StatsPlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
+		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
 		if (Objects.nonNull(killer)){
-			StatsPlayerTaupe pcKiller = StatsPlayerTaupe.getPlayerManager(killer.getUniqueId());
+			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
 		} else {
@@ -60,7 +60,7 @@ public class PlayerDeathListener implements Listener {
 		}
 	}
 	
-	public void killPlayer(StatsPlayerTaupe pl, boolean showMessage) {
+	public void killPlayer(PlayerTaupe pl, boolean showMessage) {
 		if (showMessage) {
 			Map<String, String> params = new HashMap<>();
 			params.put("playerName", "§6" + pl.getName() + "§r");
@@ -112,7 +112,7 @@ public class PlayerDeathListener implements Listener {
 		TeamCustom.getSpectatorTeam().joinTeam(pl);
 	}
 
-	private void dropHeadItem(StatsPlayerTaupe pl, Player deadPlayer) {
+	private void dropHeadItem(PlayerTaupe pl, Player deadPlayer) {
 		Map<String, String> params = new HashMap<>();
 		params.put("playerName", pl.getName());
 		String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);

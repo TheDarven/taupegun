@@ -3,7 +3,7 @@ package fr.thedarven.scenario.player.credit.runnable;
 import fr.thedarven.scenario.player.credit.model.CreditPlayer;
 import fr.thedarven.scenario.player.credit.model.enums.CreditPlayerTypeEnum;
 import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.player.credit.InventoryCredit;
 import fr.thedarven.scenario.player.credit.InventoryCreditElement;
 import fr.thedarven.utils.GlobalVariable;
@@ -106,7 +106,7 @@ public class SnakeRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
-        StatsPlayerTaupe playerTaupe = this.inventoryCreditElement.getPlayerTaupeOwner();
+        PlayerTaupe playerTaupe = this.inventoryCreditElement.getPlayerTaupeOwner();
         if (!playerTaupe.isOnline() || !Objects.equals(playerTaupe.getPlayer().getOpenInventory().getTopInventory(), getInventory())) {
             this.inventoryCreditElement.endGameAndRemoveArrow(playerTaupe.getPlayer());
         }

@@ -2,7 +2,7 @@ package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -73,8 +73,8 @@ public class EntityDamageListener implements Listener {
 		if (!EnumGameState.isCurrentState(EnumGameState.GAME) || sender.getGameMode() != GameMode.SURVIVAL || victim.getGameMode() != GameMode.SURVIVAL)
 			return;
 
-		StatsPlayerTaupe plSender = StatsPlayerTaupe.getPlayerManager(sender.getUniqueId());
-		StatsPlayerTaupe plVictim = StatsPlayerTaupe.getPlayerManager(victim.getUniqueId());
+		PlayerTaupe plSender = PlayerTaupe.getPlayerManager(sender.getUniqueId());
+		PlayerTaupe plVictim = PlayerTaupe.getPlayerManager(victim.getUniqueId());
 
 		if (!plSender.isAlive() || !plVictim.isAlive())
 			return;

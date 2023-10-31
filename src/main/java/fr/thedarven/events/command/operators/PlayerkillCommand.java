@@ -2,7 +2,7 @@ package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.helpers.PermissionHelper;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -18,8 +18,8 @@ public class PlayerkillCommand extends OperatorCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
-		StatsPlayerTaupe targetedPl = StatsPlayerTaupe.getPlayerTaupeByName(args[0]);
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
+		PlayerTaupe targetedPl = PlayerTaupe.getPlayerTaupeByName(args[0]);
 		if (Objects.isNull(targetedPl) || !targetedPl.isAlive()) {
 			return;
 		}
@@ -32,7 +32,7 @@ public class PlayerkillCommand extends OperatorCommand {
 		}
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (args.length > 0) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		}

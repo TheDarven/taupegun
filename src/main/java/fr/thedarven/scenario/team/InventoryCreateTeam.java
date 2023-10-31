@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.InventoryAction;
 import fr.thedarven.scenario.team.runnable.CreateTeamRunnable;
@@ -42,7 +42,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
     }
 
     @Override
-    protected void action(Player player, StatsPlayerTaupe pl) {
+    protected void action(Player player, PlayerTaupe pl) {
         if (TeamCustom.board.getTeams().size() < 36) {
             addTeamAction(player, pl);
         } else {
@@ -57,7 +57,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
      * @param player Le Player qui souhaite créer une équipe
      * @param pl     Le PlayerTaupe du joueur
      */
-    private void addTeamAction(Player player, StatsPlayerTaupe pl) {
+    private void addTeamAction(Player player, PlayerTaupe pl) {
         new AnvilGUI(this.main, player, (menu, text) -> {
             pl.setCreateTeamName(text);
             new CreateTeamRunnable(this.main, pl, player).runTask(this.main);

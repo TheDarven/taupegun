@@ -6,7 +6,7 @@ import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.model.Manager;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 
 import java.util.Objects;
@@ -69,7 +69,7 @@ public class GameManager extends Manager {
 	}
 
 	public void setMolesInDb() {
-		for (StatsPlayerTaupe pl : StatsPlayerTaupe.getAllPlayerManager()) {
+		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if (!pl.isTaupe())
 				continue;
 

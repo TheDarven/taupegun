@@ -2,7 +2,7 @@ package fr.thedarven.events.listener;
 
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -28,7 +28,7 @@ public class TeamsInventoryClickListener implements Listener {
         }
 
         Player player = e.getPlayer();
-        StatsPlayerTaupe pl = e.getPl();
+        PlayerTaupe pl = e.getPl();
         TeamCustom team = pl.getTeam();
 
         if (clickItem.getType() == Material.BARRIER) {
@@ -57,7 +57,7 @@ public class TeamsInventoryClickListener implements Listener {
         }
     }
 
-    private void openTeamsInventory(StatsPlayerTaupe pl) {
+    private void openTeamsInventory(PlayerTaupe pl) {
         TeamSelectionRunnable runnable = (TeamSelectionRunnable) pl.getRunnable(TeamSelectionRunnable.class);
         if (Objects.nonNull(runnable)) {
             runnable.openInventory();

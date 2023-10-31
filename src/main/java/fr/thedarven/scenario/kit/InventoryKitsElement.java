@@ -2,7 +2,7 @@ package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -110,7 +110,7 @@ public class InventoryKitsElement extends ConfigurationInventory implements Inve
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (openChildInventory(e.getCurrentItem(), player, pl))
             return;
 

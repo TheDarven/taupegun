@@ -2,7 +2,7 @@ package fr.thedarven.team.graph;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
-    private final List<List<StatsPlayerTaupe>> players;
+    private final List<List<PlayerTaupe>> players;
 
     public MoleCreationNoMateGraph(TaupeGun main) {
         super(main);
@@ -24,8 +24,8 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
         List<TeamCustom> teams = TeamCustom.getAllStartTeams();
         for (TeamCustom team: teams) {
-            List<StatsPlayerTaupe> selectedPlayers = new ArrayList<>();
-            List<StatsPlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
+            List<PlayerTaupe> selectedPlayers = new ArrayList<>();
+            List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
 
             int amountOfMoles = getAmountOfMoles(team);
             if (amountOfMoles == 1) {
@@ -68,10 +68,10 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
         }
 
         sortByNumberPlayerInTeam();
-        for (List<StatsPlayerTaupe> moles: this.players) {
+        for (List<PlayerTaupe> moles: this.players) {
             sortMoleTeamsByNbPlayers();
             for (int i = 0; i < moles.size(); i++) {
-                StatsPlayerTaupe mole = moles.get(i);
+                PlayerTaupe mole = moles.get(i);
                 mole.setTaupeTeam(this.moleTeams.get(i));
             }
         }
@@ -107,7 +107,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
         for(int i=0; i<players.size(); i++) {
             for(int j=i; j<players.size(); j++) {
                 if(players.get(i).size() < players.get(j).size()) {
-                    List<StatsPlayerTaupe> temp = players.get(j);
+                    List<PlayerTaupe> temp = players.get(j);
                     players.set(j, players.get(i));
                     players.set(i, temp);
                 }
@@ -122,7 +122,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
             if(players.get(i).size() == players.get(i+1).size()) {
                 int randomValue = RandomHelper.generate(3);
                 if(randomValue >= 1) {
-                    List<StatsPlayerTaupe> temp = players.get(i+1);
+                    List<PlayerTaupe> temp = players.get(i+1);
                     players.set(i+1, players.get(i));
                     players.set(i, temp);
                 }

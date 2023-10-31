@@ -1,7 +1,7 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ public class BreakBlockListener implements Listener {
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT) && player.getGameMode() != GameMode.CREATIVE) {
 			e.setCancelled(true);
 		} else if (EnumGameState.isCurrentState(EnumGameState.GAME) && player.getGameMode() == GameMode.SURVIVAL) {
-			StatsPlayerTaupe ps = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+			PlayerTaupe ps = PlayerTaupe.getPlayerManager(player.getUniqueId());
 			if (ps.isAlive()) {
 				switch(e.getBlock().getType()) {
 					case DIAMOND_ORE:

@@ -1,7 +1,7 @@
 package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.helpers.PermissionHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
@@ -15,7 +15,7 @@ public class GCommand extends OperatorCommand {
 	}
 
 	@Override
-	public void executeCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		StringBuilder message = new StringBuilder(" ");
 		for (String word: args) {
 			message.append(word).append(" ");
@@ -24,7 +24,7 @@ public class GCommand extends OperatorCommand {
 		Bukkit.broadcastMessage("§e" + infoMessage + "§a" + message);
 	}
 
-	public boolean canPlayerExecuteCommand(Player sender, StatsPlayerTaupe pl, Command cmd, String alias, String[] args) {
+	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (args.length > 0) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		}

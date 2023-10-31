@@ -3,7 +3,7 @@ package fr.thedarven.scenario.configuration;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItem;
@@ -59,13 +59,13 @@ public class OwnTeam extends OptionBoolean implements ConfigurationPlayerItemCon
     }
 
     @Override
-    public final void onPlayerItemClick(StatsPlayerTaupe pl) {
+    public final void onPlayerItemClick(PlayerTaupe pl) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             createAndOpenTeamsInventory(pl);
         }
     }
 
-    private void createAndOpenTeamsInventory(StatsPlayerTaupe pl) {
+    private void createAndOpenTeamsInventory(PlayerTaupe pl) {
         TeamSelectionRunnable teamSelectionRunnable = (TeamSelectionRunnable) pl.getRunnable(TeamSelectionRunnable.class);
         if (Objects.isNull(teamSelectionRunnable)) {
             teamSelectionRunnable = new TeamSelectionRunnable(this.main, pl);

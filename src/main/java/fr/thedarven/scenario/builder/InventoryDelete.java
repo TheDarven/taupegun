@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.kit.InventoryKitsElement;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -117,7 +117,7 @@ public abstract class InventoryDelete extends ConfigurationInventory {
     protected abstract void deleteElement(Player player);
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (e.getCurrentItem().getType() == Material.STAINED_CLAY) {
             if (e.getCurrentItem().getDurability() == 13) {
                 deleteElement(player);

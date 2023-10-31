@@ -3,7 +3,7 @@ package fr.thedarven.events.listener;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ public class PlayerMoveListener implements Listener {
     	Player player = e.getPlayer();
     	Location loc = player.getLocation();
     	Block block = loc.getBlock();
-		StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(player.getUniqueId());
+		PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
     	
     	if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
     		

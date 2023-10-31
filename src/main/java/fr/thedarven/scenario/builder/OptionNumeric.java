@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.NumericParams;
@@ -301,7 +301,7 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
 
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         updateValue(pl, e.getSlot());
     }
 
@@ -311,7 +311,7 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
      * @param pl   Le PlayerTaupe qui a cliqué
      * @param slot Le slot sur lequel le joueur à cliqué
      */
-    final protected void updateValue(StatsPlayerTaupe pl, int slot) {
+    final protected void updateValue(PlayerTaupe pl, int slot) {
         int operation = 0;
         int number = 0;
         if (slot == 1 && this.morePas > 2) {

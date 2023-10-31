@@ -2,7 +2,7 @@ package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.EnumPlayerInventoryType;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.player.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -21,9 +21,9 @@ import java.util.*;
 
 public class InvSeeRunnable extends PlayerInventoryRunnable {
 
-    private final StatsPlayerTaupe viewedPl;
+    private final PlayerTaupe viewedPl;
 
-    public InvSeeRunnable(TaupeGun main, StatsPlayerTaupe pl, StatsPlayerTaupe viewedPl) {
+    public InvSeeRunnable(TaupeGun main, PlayerTaupe pl, PlayerTaupe viewedPl) {
         super(main, pl, EnumPlayerInventoryType.INVSEE);
         this.viewedPl = viewedPl;
     }

@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.InventoryAction;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
@@ -40,7 +40,7 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
     }
 
     @Override
-    protected void action(Player player, StatsPlayerTaupe pl) {
+    protected void action(Player player, PlayerTaupe pl) {
         randomTeamAction(player);
     }
 
@@ -51,14 +51,14 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
      */
     private void randomTeamAction(Player player) {
         List<TeamCustom> teamList = new ArrayList<>();
-        List<StatsPlayerTaupe> playerList = new ArrayList<>();
+        List<PlayerTaupe> playerList = new ArrayList<>();
 
         TeamCustom.getAllTeams().stream()
                 .filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
                 .forEach(teamList::add);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            StatsPlayerTaupe pl = StatsPlayerTaupe.getPlayerManager(p.getUniqueId());
+            PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
             if (Objects.isNull(pl.getTeam())) {
                 playerList.add(pl);
             }

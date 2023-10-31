@@ -2,7 +2,7 @@ package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItem;
@@ -45,7 +45,7 @@ public class ScenariosVisible extends OptionBoolean implements ConfigurationPlay
         return EnumGameState.isCurrentState(EnumGameState.LOBBY) && (this.value || PermissionHelper.canPlayerEditConfiguration(player));
     }
 
-    public final void onPlayerItemClick(StatsPlayerTaupe pl) {
+    public final void onPlayerItemClick(PlayerTaupe pl) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             this.main.getPlayerManager().openConfigInventory(pl.getPlayer());
         }
