@@ -6,4 +6,10 @@ public class GlobalVariable {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[0;31m";
 
+    public static final String FR_LANGUAGE = "fr_FR";
+    public static final String EN_LANGUAGE = "en_US";
+    public static final String DEFAULT_LANGUAGE = FR_LANGUAGE;
+
+    public static final String ELEMENT_ITEM_NAME_FORMAT = "§d{name}";
+
 }

@@ -1,9 +1,8 @@
 package fr.thedarven.scenario.kit.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.kit.model.Kit;
 import fr.thedarven.kit.KitManager;
-import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.kit.model.Kit;
 import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -18,15 +17,13 @@ import java.util.Map;
 public class CreateKitRunnable extends BukkitRunnable {
 
     private final TaupeGun main;
-    private final StatsPlayerTaupe pl;
     private final Player player;
     private final InventoryKits kitsMenu;
     private final String kitName;
 
-    public CreateKitRunnable(TaupeGun main, Player player, StatsPlayerTaupe pl, InventoryKits kitsMenu, String kitName) {
+    public CreateKitRunnable(TaupeGun main, Player player, InventoryKits kitsMenu, String kitName) {
         this.main = main;
         this.player = player;
-        this.pl = pl;
         this.kitsMenu = kitsMenu;
         this.kitName = kitName;
     }

@@ -1,4 +1,4 @@
-package fr.thedarven.model.enums;
+package fr.thedarven.scenario.player.credit.model.enums;
 
 import fr.thedarven.utils.languages.LanguageBuilder;
 

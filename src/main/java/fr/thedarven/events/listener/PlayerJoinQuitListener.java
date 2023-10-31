@@ -4,7 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.CloseInventoryRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -122,10 +123,8 @@ public class PlayerJoinQuitListener implements Listener {
         pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
 
         if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-            CustomInventory openedInventory = CustomInventory.getInventoryGUIByInventory(player.getOpenInventory().getTopInventory());
-            if (!Objects.isNull(openedInventory)) {
-                openedInventory.onPlayerDisconnect(player);
-            }
+            Optional<ConfigurationInventory> oOpenedInventory = ConfigurationInventory.getByInventory(player.getOpenInventory().getTopInventory());
+            oOpenedInventory.ifPresent(openedInventory -> openedInventory.onPlayerDisconnect(player));
         }
     }
 }

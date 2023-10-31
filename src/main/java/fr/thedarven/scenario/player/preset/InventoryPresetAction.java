@@ -1,8 +1,8 @@
 package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.builder.InventoryAction;
+import fr.thedarven.scenario.player.preset.model.Preset;
 import org.bukkit.Material;
 
 public abstract class InventoryPresetAction extends InventoryAction {

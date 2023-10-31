@@ -2,12 +2,13 @@ package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.player.model.StatsPlayerTaupe;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.player.InventoryPlayers;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
-import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItem;
 import fr.thedarven.scenario.utils.ConfigurationPlayerItemConditional;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,42 +27,44 @@ public class InventoryCredit extends InventoryPlayers implements ConfigurationPl
     public static String ARROW_UP = "Haut";
     public static String ARROW_DOWN = "Bas";
 
-    public InventoryCredit(TaupeGun main, Material pMaterial, CustomInventory pParent, int pPosition) {
+    public InventoryCredit(TaupeGun main, Material pMaterial, ConfigurationInventory pParent, int pPosition) {
         super(main, "Crédits", "Les crédits du plugin.", "MENU_CREDIT", 6, pMaterial, pParent, pPosition);
 
-        this.configurationPlayerItem = new ConfigurationPlayerItem(this, 0, getPlayerItemItem());
+        this.configurationPlayerItem = new ConfigurationPlayerItem(this, 0, getItemForPlayer());
     }
 
     @Override
-    public void updateLanguage(String language) {
-        NOT_ENOUGH_SLOT = LanguageBuilder.getContent(getTranslationName(), "notEnoughSlot", language, true);
-        LOSE_GAME = LanguageBuilder.getContent(getTranslationName(), "loseGame", language, true);
-        WIN_GAME = LanguageBuilder.getContent(getTranslationName(), "winGame", language, true);
-        ARROW_LEFT = LanguageBuilder.getContent(getTranslationName(), "arrowLeft", language, true);
-        ARROW_RIGHT = LanguageBuilder.getContent(getTranslationName(), "arrowRight", language, true);
-        ARROW_UP = LanguageBuilder.getContent(getTranslationName(), "arrowUp", language, true);
-        ARROW_DOWN = LanguageBuilder.getContent(getTranslationName(), "arrowDown", language, true);
+    public void loadLanguage(String language) {
+        NOT_ENOUGH_SLOT = LanguageBuilder.getContent(this.translationName, "notEnoughSlot", language, true);
+        LOSE_GAME = LanguageBuilder.getContent(this.translationName, "loseGame", language, true);
+        WIN_GAME = LanguageBuilder.getContent(this.translationName, "winGame", language, true);
+        ARROW_LEFT = LanguageBuilder.getContent(this.translationName, "arrowLeft", language, true);
+        ARROW_RIGHT = LanguageBuilder.getContent(this.translationName, "arrowRight", language, true);
+        ARROW_UP = LanguageBuilder.getContent(this.translationName, "arrowUp", language, true);
+        ARROW_DOWN = LanguageBuilder.getContent(this.translationName, "arrowDown", language, true);
 
-        super.updateLanguage(language);
+        super.loadLanguage(language);
     }
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "notEnoughSlot", NOT_ENOUGH_SLOT);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "loseGame", LOSE_GAME);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "winGame", WIN_GAME);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "arrowLeft", ARROW_LEFT);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "arrowRight", ARROW_RIGHT);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "arrowUp", ARROW_UP);
-        languageElement.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "arrowDown", ARROW_DOWN);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "notEnoughSlot", NOT_ENOUGH_SLOT);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "loseGame", LOSE_GAME);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "winGame", WIN_GAME);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "arrowLeft", ARROW_LEFT);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "arrowRight", ARROW_RIGHT);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "arrowUp", ARROW_UP);
+        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "arrowDown", ARROW_DOWN);
 
         return languageElement;
     }
 
     @Override
     protected InventoryPlayersElement createElement(UUID uuid) {
-        return new InventoryCreditElement(this.main, this.getLines(), Material.PAPER, this, uuid, this);
+        InventoryPlayersElement element = new InventoryCreditElement(this.main, this.getLines(), Material.PAPER, this, uuid, this);
+        element.build();
+        return element;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class InventoryCredit extends InventoryPlayers implements ConfigurationPl
     }
 
     @Override
-    public final ItemStack getPlayerItemItem() {
+    public final ItemStack getItemForPlayer() {
         ItemStack paper = new ItemStack(Material.PAPER, 1);
         ItemMeta paperM = paper.getItemMeta();
         paperM.setDisplayName("§e" + getName());

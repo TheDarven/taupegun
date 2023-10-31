@@ -5,29 +5,25 @@ import fr.thedarven.player.model.StatsPlayerTaupe;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public abstract class InventoryAction extends CustomInventory {
+public abstract class InventoryAction extends ConfigurationInventory {
 
-    public InventoryAction(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory pParent, int pPosition, byte pData) {
-        super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition, pData);
+    public InventoryAction(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position, byte data) {
+        super(main, name, description, translationName, lines, material, parent, position, data);
     }
 
-    public InventoryAction(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory pParent, byte pData) {
-        super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pData);
+    public InventoryAction(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position) {
+        this(main, name, description, translationName, lines, material, parent, position, (byte) 0);
     }
 
-    public InventoryAction(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory pParent, int pPosition) {
-        super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition);
-    }
-
-    public InventoryAction(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory pParent) {
-        super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent);
+    public InventoryAction(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent) {
+        this(main, name, description, translationName, lines, material, parent, 0, (byte) 0);
     }
 
     /**
      * L'action a réaliser lorsqu'on clic sur l'item de l'inventaire
      *
      * @param player Le Player qui clic sur l'item
-     * @param pl Le PlayerTaupe du Player
+     * @param pl     Le PlayerTaupe du Player
      */
     abstract protected void action(Player player, StatsPlayerTaupe pl);
 

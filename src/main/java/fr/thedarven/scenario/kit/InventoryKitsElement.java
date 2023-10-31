@@ -1,14 +1,15 @@
 package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.utils.manager.ItemManager;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.player.model.StatsPlayerTaupe;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.InventoryGiveItem;
-import fr.thedarven.utils.helpers.ItemHelper;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,108 +23,101 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class InventoryKitsElement extends CustomInventory implements InventoryGiveItem, AdminConfiguration {
-	
-	protected final Kit kit;
+public class InventoryKitsElement extends ConfigurationInventory implements InventoryGiveItem, AdminConfiguration {
 
-	public InventoryKitsElement(TaupeGun main, InventoryKits parent, Kit kit) {
-		super(main, kit.getName(), null, "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
-		this.kit = kit;
-		initItem();
-		setName(kit.getName());
-		this.getParent().reloadInventory();
-	}
+    protected final Kit kit;
 
-	@Override
-	public void updateLanguage(String language) {
-		updateLanguage(language, false);
-	}
+    public InventoryKitsElement(TaupeGun main, InventoryKits parent, Kit kit) {
+        super(main, kit.getName(), null, "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
+        this.kit = kit;
+        setName(kit.getName());
+    }
 
-	@Override
-	protected String getFormattedInventoryName() {
-		return this.name;
-	}
+    @Override
+    public TreeInventory build() {
+        super.build();
+        this.getParent().reloadInventory();
+        return this;
+    }
 
-	@Override
-	protected String getFormattedItemName() {
-		String name = getName();
-		if (Objects.nonNull(this.kit)) {
-			name = this.kit.getName();
-		}
-		Map<String, String> params = new HashMap<>();
-		params.put("name", name);
-		return TextInterpreter.textInterpretation(ELEMENT_ITEM_NAME_FORMAT, params);
-	}
-	
-	
-	/**
-	 * Pour initier les items
-	 */
-	private void initItem() {
-		Inventory inventory = getInventory();
+    @Override
+    protected String getNameOfLanguage(String language) {
+        return kit.getName();
+    }
 
-		ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
-		ItemMeta verreM = verre.getItemMeta();
-		verreM.setDisplayName("§f");
-		verre.setItemMeta(verreM);
-		
-		for (int i = 10; i < 17; i++) {
-			inventory.setItem(i, verre);
-		}
+    @Override
+    protected String getDescriptionOfLanguage(String language) {
+        return getDescription();
+    }
 
-		List<String> itemsString = this.kit.getItems();
-		ItemManager itemManager = this.main.getItemManager();
-		for (int i = 0; i < 9; i++) {
-			String itemString = itemsString.get(i);
-			if (Objects.nonNull(itemString)) {
-				inventory.setItem(i, itemManager.fromBase64(itemString));
-			} else {
-				inventory.setItem(i, new ItemStack(Material.AIR));
-			}
-		}
-	}
+    @Override
+    protected String getInventoryName() {
+        return this.getName();
+    }
 
-	public void removeKitInventories() {
-		getParent().removeChild(this, true);
-	}
-	
-	/**
-	 * Pour recharger les items dans l'inventaire
-	 */
-	public void reloadItem(){
-		ItemStack item = getItem();
-		int hashCode = item.hashCode();
-		ItemMeta itemM = item.getItemMeta();
-		itemM.setDisplayName(this.kit.getName());
-		item.setItemMeta(itemM);
+    @Override
+    protected String getItemName() {
+        String name = getName();
+        if (Objects.nonNull(this.kit)) {
+            name = this.kit.getName();
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("name", name);
+        return TextInterpreter.textInterpretation(GlobalVariable.ELEMENT_ITEM_NAME_FORMAT, params);
+    }
 
-		if (Objects.nonNull(this.getParent())) {
-			this.getParent().updateChildItem(hashCode, item, this);
-		}
-	}
+    @Override
+    protected Inventory buildAndFillInventory() {
+        Inventory inventory = super.buildAndFillInventory();
 
-	@Override
-	public void giveItems(Player player) {
-		Location playerLocation = player.getLocation();
-		ItemStack item;
+        ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+        ItemMeta verreM = verre.getItemMeta();
+        verreM.setDisplayName("§f");
+        verre.setItemMeta(verreM);
 
-		for(int i = 0; i < 9; i++) {
-			item = this.inventory.getItem(i);
-			if (!ItemHelper.isNullOrAir(item)) {
-				player.getWorld().dropItem(playerLocation, item);
-			}
-		}
-	}
+        for (int i = 10; i < 17; i++) {
+            inventory.setItem(i, verre);
+        }
 
-	@Override
-	public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
-		if (openChildInventory(e.getCurrentItem(), player, pl))
-			return;
+        List<String> itemsString = this.kit.getItems();
+        for (int i = 0; i < 9; i++) {
+            String itemString = itemsString.get(i);
+            if (Objects.nonNull(itemString)) {
+                inventory.setItem(i, ItemHelper.fromBase64(itemString));
+            } else {
+                inventory.setItem(i, new ItemStack(Material.AIR));
+            }
+        }
 
-		if (isLockedCaseItem(e.getCurrentItem()))
-			return;
+        return inventory;
+    }
 
-		e.setCancelled(false);
-	}
-	
+    public void removeKitInventories() {
+        this.getParent().removeChild(this, true);
+    }
+
+    @Override
+    public void giveItems(Player player) {
+        Location playerLocation = player.getLocation();
+        ItemStack item;
+
+        for (int i = 0; i < 9; i++) {
+            item = this.inventory.getItem(i);
+            if (!ItemHelper.isNullOrAir(item)) {
+                player.getWorld().dropItem(playerLocation, item);
+            }
+        }
+    }
+
+    @Override
+    public void onInventoryClick(InventoryClickEvent e, Player player, StatsPlayerTaupe pl) {
+        if (openChildInventory(e.getCurrentItem(), player, pl))
+            return;
+
+        if (isLockedCaseItem(e.getCurrentItem()))
+            return;
+
+        e.setCancelled(false);
+    }
+
 }

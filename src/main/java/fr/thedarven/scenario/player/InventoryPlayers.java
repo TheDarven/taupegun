@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.builder.CustomInventory;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class InventoryPlayers extends CustomInventory {
+public abstract class InventoryPlayers extends ConfigurationInventory {
 
-    protected final Map<UUID, InventoryPlayersElement> players = new HashMap<>();
+    private final Map<UUID, InventoryPlayersElement> players = new HashMap<>();
 
     public InventoryPlayers(TaupeGun main, String pName, String pDescription, String pTranslationName,
-                            int pLines, Material pMaterial, CustomInventory pParent, int pPosition) {
+                            int pLines, Material pMaterial, ConfigurationInventory pParent, int pPosition) {
         super(main, pName, pDescription, pTranslationName, pLines, pMaterial, pParent, pPosition);
     }
 

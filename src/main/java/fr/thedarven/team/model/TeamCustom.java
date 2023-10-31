@@ -56,12 +56,14 @@ public class TeamCustom {
 		this.alive = pAlive;
 		
 		InventoryTeamsElement inv = new InventoryTeamsElement(this.main, name, colorEnum);
+		inv.build();
 		InventoryTeamsParameters parameters = new InventoryTeamsParameters(this.main, inv);
-		new InventoryTeamsChangeColor(this.main, parameters);
-		new InventoryTeamsRename(this.main, parameters);
-		new InventoryTeamsPlayers(this.main, inv);
-		new InventoryDeleteTeams(this.main, inv);
-		
+		parameters.build();
+		new InventoryTeamsChangeColor(this.main, parameters).build();
+		new InventoryTeamsRename(this.main, parameters).build();
+		new InventoryTeamsPlayers(this.main, inv).build();
+		new InventoryDeleteTeams(this.main, inv).build();
+
 		teams.put(name, this);
 	}
 

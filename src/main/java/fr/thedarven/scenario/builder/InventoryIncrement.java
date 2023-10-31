@@ -4,22 +4,22 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import org.bukkit.Material;
 
-public abstract class InventoryIncrement extends CustomInventory implements AdminConfiguration {
-	
-	public InventoryIncrement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory customInventory, int pPosition) {
-		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, customInventory, pPosition);
-	}
-	
-	public InventoryIncrement(TaupeGun main, String pName, String pDescription, String pTranslationName, int pLines, Material pMaterial, CustomInventory customInventory, int pPosition, byte pData) {
-		super(main, pName, pDescription, pTranslationName, pLines, pMaterial, customInventory, pPosition, pData);
-	}
-	
-	/**
-	 * Pour avoir le dernier enfant
-	 * 
-	 * @return Le dernier enfant
-	 */
-	final public CustomInventory getLastChild() {
-		return getChildrenValue().get(this.children.size() - 1);
-	}
+public abstract class InventoryIncrement extends ConfigurationInventory implements AdminConfiguration {
+
+    public InventoryIncrement(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position, byte itemData) {
+        super(main, name, description, translationName, lines, material, parent, position, itemData);
+    }
+
+    public InventoryIncrement(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position) {
+        this(main, name, description, translationName, lines, material, parent, position, (byte) 0);
+    }
+
+    /**
+     * Pour avoir le dernier enfant
+     *
+     * @return Le dernier enfant
+     */
+    final public TreeInventory getLastChild() {
+        return getChildren().get(this.countChildren() - 1);
+    }
 }

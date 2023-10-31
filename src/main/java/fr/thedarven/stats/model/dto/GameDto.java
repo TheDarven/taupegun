@@ -43,7 +43,7 @@ public class GameDto {
 
 		this.started_at = this.main.getDatabaseManager().getLongTimestamp();
 		this.duration = 0;
-		this.language = this.main.getScenariosManager().language.getSelectedLanguage();
+		this.language = this.main.getLanguageManager().getLanguage();
 
 		try {
 			this.ip = InetAddress.getLocalHost().getHostAddress();

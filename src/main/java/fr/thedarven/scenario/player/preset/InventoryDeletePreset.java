@@ -1,10 +1,12 @@
 package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.scenario.builder.InventoryDelete;
+import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
 import fr.thedarven.scenario.player.preset.model.Preset;
-import fr.thedarven.scenario.builder.InventoryDelete;
 import fr.thedarven.scenario.utils.AdminConfiguration;
+import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -24,8 +26,13 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
         super(main, parent, "Supprimer le preset", "MENU_PRESET_ITEM_DELETE", 1);
         this.playerConfiguration = playerConfiguration;
         this.preset = preset;
-        updateLanguage(getLanguage());
+    }
+
+    @Override
+    public TreeInventory build() {
+        super.build();
         this.getParent().reloadInventory();
+        return this;
     }
 
     public Preset getPreset() {
@@ -33,19 +40,16 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
     }
 
     @Override
-    public void updateLanguage(String language) {
+    public void loadLanguage(String language) {
         DELETE_PRESET_FORMAT = LanguageBuilder.getContent("PRESET", "delete", language, true);
-
-        super.updateLanguage(language);
+        super.loadLanguage(language);
     }
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
-
         LanguageBuilder languagePreset = LanguageBuilder.getLanguageBuilder("PRESET");
-        languagePreset.addTranslation(LanguageBuilder.DEFAULT_LANGUAGE, "delete", DELETE_PRESET_FORMAT);
-
+        languagePreset.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "delete", DELETE_PRESET_FORMAT);
         return languageElement;
     }
 

@@ -1,7 +1,7 @@
 package fr.thedarven.player.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.model.enums.EnumInventory;
+import fr.thedarven.model.enums.EnumPlayerInventoryType;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -10,11 +10,11 @@ import java.util.Objects;
 
 public abstract class PlayerInventoryRunnable extends PlayerRunnable {
 
-    private final EnumInventory enumInventory;
+    private final EnumPlayerInventoryType type;
 
-    public PlayerInventoryRunnable(TaupeGun main, StatsPlayerTaupe pl, EnumInventory enumInventory) {
+    public PlayerInventoryRunnable(TaupeGun main, StatsPlayerTaupe pl, EnumPlayerInventoryType type) {
         super(main, pl);
-        this.enumInventory = enumInventory;
+        this.type = type;
     }
 
     @Override
@@ -25,7 +25,7 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
         if (Objects.nonNull(player) && checkOpenedInventory(player)) {
             player.closeInventory();
         }
-        this.pl.getOpenedInventory().setInventory(null, EnumInventory.NONE);
+        this.pl.getOpenedInventory().setInventory(null, EnumPlayerInventoryType.NONE);
     }
 
     public void openInventory() {
@@ -39,13 +39,13 @@ public abstract class PlayerInventoryRunnable extends PlayerRunnable {
             return;
         }
         player.openInventory(createdInventory);
-        this.pl.getOpenedInventory().setInventory(player.getOpenInventory().getTopInventory(), enumInventory);
+        this.pl.getOpenedInventory().setInventory(player.getOpenInventory().getTopInventory(), type);
     }
 
     protected abstract Inventory createInventory();
 
     protected boolean checkOpenedInventory(Player player) {
-        return this.pl.getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), this.enumInventory);
+        return this.pl.getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), this.type);
     }
 
 }

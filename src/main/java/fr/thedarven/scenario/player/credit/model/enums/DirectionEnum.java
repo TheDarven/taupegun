@@ -1,4 +1,4 @@
-package fr.thedarven.model.enums;
+package fr.thedarven.scenario.player.credit.model.enums;
 
 public enum DirectionEnum {
     TOP(0, -1),
