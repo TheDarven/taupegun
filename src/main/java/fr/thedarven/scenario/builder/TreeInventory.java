@@ -2,7 +2,7 @@ package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.model.enums.EnumConfiguration;
+import fr.thedarven.scenario.model.enums.EnumConfiguration;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.scenario.player.InventoryPlayers;
 import fr.thedarven.scenario.runnable.DelayClickRunnable;

@@ -3,7 +3,7 @@ package fr.thedarven.events.listener;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.model.enums.EnumInventory;
+import fr.thedarven.model.enums.EnumPlayerInventoryType;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public class InventoryClickListener implements Listener {
         Inventory clickInv = e.getClickedInventory();
         ItemStack clickItem = e.getCurrentItem();
 
-        if (pl.getOpenedInventory().checkInventory(clickInv, EnumInventory.TEAM)) {
+        if (pl.getOpenedInventory().checkInventory(clickInv, EnumPlayerInventoryType.TEAM)) {
             TeamsInventoryClickEvent teamsInventoryClickListener = new TeamsInventoryClickEvent(pl, player, clickItem);
             Bukkit.getPluginManager().callEvent(teamsInventoryClickListener);
             e.setCancelled(true);
@@ -89,7 +89,7 @@ public class InventoryClickListener implements Listener {
         }
 
         Player player = (Player) e.getWhoClicked();
-        if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumInventory.TEAM)) {
+        if (StatsPlayerTaupe.getPlayerManager(player.getUniqueId()).getOpenedInventory().checkInventory(player.getOpenInventory().getTopInventory(), EnumPlayerInventoryType.TEAM)) {
             e.setCancelled(true);
         }
 

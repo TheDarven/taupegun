@@ -1,8 +1,8 @@
 package fr.thedarven.scenario.player.credit.runnable;
 
-import fr.thedarven.model.CreditPlayer;
-import fr.thedarven.model.enums.CreditPlayerTypeEnum;
-import fr.thedarven.model.enums.DirectionEnum;
+import fr.thedarven.scenario.player.credit.model.CreditPlayer;
+import fr.thedarven.scenario.player.credit.model.enums.CreditPlayerTypeEnum;
+import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.scenario.player.credit.InventoryCredit;
 import fr.thedarven.scenario.player.credit.InventoryCreditElement;

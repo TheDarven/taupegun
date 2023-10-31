@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.model.enums.DirectionEnum;
+import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;

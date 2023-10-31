@@ -1,6 +1,6 @@
-package fr.thedarven.model;
+package fr.thedarven.scenario.player.credit.model;
 
-import fr.thedarven.model.enums.CreditPlayerTypeEnum;
+import fr.thedarven.scenario.player.credit.model.enums.CreditPlayerTypeEnum;
 import fr.thedarven.utils.api.skull.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

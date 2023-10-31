@@ -2,7 +2,7 @@ package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.model.enums.EnumInventory;
+import fr.thedarven.model.enums.EnumPlayerInventoryType;
 import fr.thedarven.player.model.StatsPlayerTaupe;
 import fr.thedarven.player.runnable.PlayerInventoryRunnable;
 import fr.thedarven.team.model.TeamCustom;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class TeamSelectionRunnable extends PlayerInventoryRunnable {
 
     public TeamSelectionRunnable(TaupeGun main, StatsPlayerTaupe pl) {
-        super(main, pl, EnumInventory.TEAM);
+        super(main, pl, EnumPlayerInventoryType.TEAM);
     }
 
     @Override
