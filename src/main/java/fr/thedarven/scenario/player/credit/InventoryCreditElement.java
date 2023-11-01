@@ -111,8 +111,8 @@ public class InventoryCreditElement extends InventoryPlayersElement {
         for (int index : indexes) {
             ItemStack item = playerInventory.getItem(index);
             if (!ItemHelper.isNullOrAir(item)) {
-                player.sendMessage(InventoryCredit.NOT_ENOUGH_SLOT);
-                player.closeInventory();
+                player.sendMessage(String.format("%s%s", ChatColor.RED, InventoryCredit.NOT_ENOUGH_SLOT));
+                event.setCancelled(true);
                 return;
             }
         }
