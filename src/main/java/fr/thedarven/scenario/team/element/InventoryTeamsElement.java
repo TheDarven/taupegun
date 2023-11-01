@@ -180,11 +180,8 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         ItemStack item = e.getCurrentItem();
         if (item.getType() == Material.SKULL_ITEM) {
             TeamCustom teamLeave = TeamCustom.getTeamCustomByName(getName());
-            if (Objects.isNull(teamLeave))
-                return;
-
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
-            if (Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == teamLeave) {
+            if (Objects.nonNull(teamLeave) && Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == teamLeave) {
                 teamLeave.leaveTeam(playerTaupe.getUuid());
                 sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
                 reloadInventory();

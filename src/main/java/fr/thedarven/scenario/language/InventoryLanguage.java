@@ -1,28 +1,15 @@
 package fr.thedarven.scenario.language;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
-import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
-import fr.thedarven.utils.GlobalVariable;
-import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.skull.Skull;
-import fr.thedarven.utils.api.titles.ActionBar;
-import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 public class InventoryLanguage extends ConfigurationInventory implements AdminConfiguration {
-
-    private static String SELECTING_LANGUAGE = "Vous avez sélectionné la langue {languageName}";
 
     private InventoryLanguageElement selectedLanguage;
 
@@ -35,8 +22,6 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
 
     @Override
     public void loadLanguage(String language) {
-        SELECTING_LANGUAGE = LanguageBuilder.getContent("MENU_LANGUAGE", "selectingMessage", language, true);
-
         super.loadLanguage(language);
 
         this.getChildren().stream()
@@ -53,14 +38,6 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
                 });
 
         this.updateItem();
-    }
-
-    @Override
-    protected LanguageBuilder initDefaultTranslation() {
-        LanguageBuilder languageElement = super.initDefaultTranslation();
-        languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "selectingMessage", SELECTING_LANGUAGE);
-
-        return languageElement;
     }
 
 
@@ -90,27 +67,6 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
         if (Objects.nonNull(this.getParent())) {
             this.getParent().updateChildItem(exItem, head, this);
         }
-    }
-
-    @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        ItemStack item = e.getCurrentItem();
-
-        Optional<TreeInventory> oTreeInventory = this.getChildByHash(item.hashCode());
-        if (oTreeInventory.isPresent() && oTreeInventory.get() instanceof InventoryLanguageElement) {
-            TreeInventory treeInventory = oTreeInventory.get();
-            if (treeInventory == this.selectedLanguage) {
-                return;
-            }
-            this.main.getLanguageManager().setLanguage(((InventoryLanguageElement) treeInventory).getLanguageShortName());
-
-            Map<String, String> params = new HashMap<>();
-            params.put("languageName", "§6" + this.selectedLanguage.getName() + "§e");
-            String selectingLanguageMessage = TextInterpreter.textInterpretation("§e" + SELECTING_LANGUAGE, params);
-            new ActionBar(selectingLanguageMessage).sendActionBar(player);
-            return;
-        }
-        onChildClick(item, player, pl);
     }
 
 }

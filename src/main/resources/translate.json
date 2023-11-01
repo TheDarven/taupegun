@@ -397,21 +397,32 @@
 			}
 		}
 	},
+
 	{
 		"title": "MENU_LANGUAGE",
 		"translations": {
 			"fr_FR": {
 				"name": "Langue",
-				"description": "Changer de langue.",
-				"selectingMessage": "Vous avez sélectionné la langue {languageName}"
+				"description": "Changer de langue."
 			},
 			"en_US": {
 				"name": "Language",
-				"description": "Switch language.",
+				"description": "Switch language."
+			}
+		}
+	},
+	{
+		"title": "MENU_LANGUAGE_ELEMENT",
+		"translations": {
+			"fr_FR": {
+				"selectingMessage": "Vous avez sélectionné la langue {languageName}"
+			},
+			"en_US": {
 				"selectingMessage": "You just selected {languageName}"
 			}
 		}
 	},
+
 	{
 		"title": "MENU_CONFIGURATION",
 		"translations": {
