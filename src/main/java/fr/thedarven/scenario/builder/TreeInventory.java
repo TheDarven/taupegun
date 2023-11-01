@@ -193,7 +193,7 @@ public abstract class TreeInventory implements Listener {
         Inventory inventory = Bukkit.createInventory(null, this.getLines() * 9, this.getInventoryName());
 
         if (Objects.nonNull(this.getParent())) {
-            ItemStack redstone = new ItemStack(Material.REDSTONE, 1);
+            ItemStack redstone = ItemHelper.addTagOnItemStack(new ItemStack(Material.REDSTONE, 1));
             ItemMeta redstoneM = redstone.getItemMeta();
             redstoneM.setDisplayName(getBackName());
             redstone.setItemMeta(redstoneM);
@@ -457,7 +457,8 @@ public abstract class TreeInventory implements Listener {
     final protected boolean isLockedCaseItem(ItemStack itemStack) {
         return itemStack.getType() == Material.STAINED_GLASS_PANE
                 && itemStack.hasItemMeta()
-                && Objects.equals(itemStack.getItemMeta().getDisplayName(), "§f");
+                && Objects.equals(itemStack.getItemMeta().getDisplayName(), "§f")
+                && ItemHelper.isTaggedItem(itemStack);
     }
 
     /**
@@ -502,7 +503,8 @@ public abstract class TreeInventory implements Listener {
     final protected boolean isReturnItem(ItemStack itemStack, int slot) {
         return itemStack.getType() == Material.REDSTONE
                 && slot == this.getLines() * 9 - 1
-                && Objects.equals(itemStack.getItemMeta().getDisplayName(), getBackName());
+                && Objects.equals(itemStack.getItemMeta().getDisplayName(), getBackName())
+                && ItemHelper.isTaggedItem(itemStack);
     }
 
     /**

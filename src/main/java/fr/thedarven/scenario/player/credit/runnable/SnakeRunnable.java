@@ -8,6 +8,7 @@ import fr.thedarven.scenario.player.credit.InventoryCredit;
 import fr.thedarven.scenario.player.credit.InventoryCreditElement;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.helpers.RandomHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -48,12 +49,12 @@ public class SnakeRunnable extends BukkitRunnable {
         this.body.add(13);
         this.body.add(22);
 
-        this.bodyItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+        this.bodyItem = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14));
         ItemMeta bodyItemM = bodyItem.getItemMeta();
         bodyItemM.setDisplayName("§f");
         bodyItem.setItemMeta(bodyItemM);
 
-        this.headItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 10);
+        this.headItem = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 10));
         ItemMeta headItemM = headItem.getItemMeta();
         headItemM.setDisplayName("§f");
         headItem.setItemMeta(headItemM);

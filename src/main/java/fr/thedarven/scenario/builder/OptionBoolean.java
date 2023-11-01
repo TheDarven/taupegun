@@ -6,6 +6,7 @@ import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -23,17 +24,21 @@ import java.util.*;
 
 public class OptionBoolean extends ConfigurationInventory implements AdminConfiguration, StorablePreset {
 
-    private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
-    private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+    private static final String ITEM_NAME_FORMAT = "§e{name} §r► §6{enable}";
+    private static final String SUB_DESCRIPTION_FORMAT = "§a► {description}";
 
-    private static String ENABLE_FORMAT = "§a{enable}";
-    private static String DISABLE_FORMAT = "§c{disable}";
+    private static final String ENABLE_FORMAT = "§a{enable}";
+    private static final String DISABLE_FORMAT = "§c{disable}";
 
     private static String ENABLED = "Activé";
     private static String DISABLED = "Désactivé";
 
     private static String ENABLE = "Activer";
     private static String DISABLE = "Désactiver";
+
+    private static final int DISABLE_POSITION = 3;
+    private static final int VALUE_POSITION = 4;
+    private static final int ENABLE_POSITION = 5;
 
     protected boolean value;
 
@@ -81,20 +86,17 @@ public class OptionBoolean extends ConfigurationInventory implements AdminConfig
         DISABLE = LanguageBuilder.getContent("CONTENT", "disable", language, true);
         ENABLED = LanguageBuilder.getContent("CONTENT", "enabled", language, true);
         DISABLED = LanguageBuilder.getContent("CONTENT", "disabled", language, true);
-
         super.loadLanguage(language);
     }
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
-
         LanguageBuilder languageContent = LanguageBuilder.getLanguageBuilder("CONTENT");
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "enable", ENABLE);
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "disable", DISABLE);
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "enabled", ENABLED);
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "disabled", DISABLED);
-
         return languageElement;
     }
 
@@ -133,37 +135,37 @@ public class OptionBoolean extends ConfigurationInventory implements AdminConfig
     protected Inventory buildAndFillInventory() {
         Inventory inventory = super.buildAndFillInventory();
 
-        ItemStack item = new ItemStack(getMaterial(), 1, getItemData());
-        ItemMeta itemM = item.getItemMeta();
-        itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        item.setItemMeta(itemM);
-        inventory.setItem(4, item);
+        ItemStack valueItem = ItemHelper.addTagOnItemStack(new ItemStack(getMaterial(), 1, getItemData()));
+        ItemMeta valueItemM = valueItem.getItemMeta();
+        valueItemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        valueItemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        valueItem.setItemMeta(valueItemM);
+        inventory.setItem(VALUE_POSITION, valueItem);
 
-        ItemStack moins = new ItemStack(Material.BANNER, 1);
-        BannerMeta moinsM = (BannerMeta) moins.getItemMeta();
-        moinsM.setBaseColor(DyeColor.RED);
+        ItemStack disableItem = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
+        BannerMeta disableItemM = (BannerMeta) disableItem.getItemMeta();
+        disableItemM.setBaseColor(DyeColor.RED);
         List<Pattern> patternsMoins = new ArrayList<>();
         patternsMoins.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
         patternsMoins.add(new Pattern(DyeColor.RED, PatternType.BORDER));
-        moinsM.setPatterns(patternsMoins);
-        moinsM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        moins.setItemMeta(moinsM);
-        inventory.setItem(3, moins);
+        disableItemM.setPatterns(patternsMoins);
+        disableItemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        disableItem.setItemMeta(disableItemM);
+        inventory.setItem(DISABLE_POSITION, disableItem);
 
-        ItemStack plus = new ItemStack(Material.BANNER, 1);
-        BannerMeta plusM = (BannerMeta) plus.getItemMeta();
-        plusM.setBaseColor(DyeColor.GREEN);
+        ItemStack enableItem = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
+        BannerMeta enableItemM = (BannerMeta) enableItem.getItemMeta();
+        enableItemM.setBaseColor(DyeColor.GREEN);
         List<Pattern> patternsPlus = new ArrayList<>();
         patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
         patternsPlus.add(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
         patternsPlus.add(new Pattern(DyeColor.GREEN, PatternType.BORDER));
         patternsPlus.add(new Pattern(DyeColor.GREEN, PatternType.STRIPE_TOP));
         patternsPlus.add(new Pattern(DyeColor.GREEN, PatternType.STRIPE_BOTTOM));
-        plusM.setPatterns(patternsPlus);
-        plusM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        plus.setItemMeta(plusM);
-        inventory.setItem(5, plus);
+        enableItemM.setPatterns(patternsPlus);
+        enableItemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        enableItem.setItemMeta(enableItemM);
+        inventory.setItem(ENABLE_POSITION, enableItem);
 
         return inventory;
     }
@@ -179,34 +181,36 @@ public class OptionBoolean extends ConfigurationInventory implements AdminConfig
         params.put("disable", LanguageBuilder.getContent("CONTENT", "disable", this.main.getLanguageManager().getLanguage(), true));
         String enableMessage = TextInterpreter.textInterpretation(DISABLE_FORMAT, params);
 
-        ItemStack moins = inventory.getItem(3);
-        ItemMeta moinsM = moins.getItemMeta();
-        moinsM.setDisplayName(enableMessage);
-        moins.setItemMeta(moinsM);
+        ItemStack disableItem = inventory.getItem(DISABLE_POSITION);
+        ItemMeta disableItemM = disableItem.getItemMeta();
+        disableItemM.setDisplayName(enableMessage);
+        disableItem.setItemMeta(disableItemM);
+        inventory.setItem(DISABLE_POSITION, disableItem);
 
         params.clear();
         params.put("enable", LanguageBuilder.getContent("CONTENT", "enable", this.main.getLanguageManager().getLanguage(), true));
         enableMessage = TextInterpreter.textInterpretation(ENABLE_FORMAT, params);
 
-        ItemStack plus = inventory.getItem(5);
-        ItemMeta plusM = plus.getItemMeta();
-        plusM.setDisplayName(enableMessage);
-        plus.setItemMeta(plusM);
+        ItemStack enableItem = inventory.getItem(ENABLE_POSITION);
+        ItemMeta enableItemM = enableItem.getItemMeta();
+        enableItemM.setDisplayName(enableMessage);
+        enableItem.setItemMeta(enableItemM);
+        inventory.setItem(ENABLE_POSITION, enableItem);
 
-        ItemStack item2 = inventory.getItem(4);
-        ItemMeta itemM2 = item2.getItemMeta();
-        itemM2.setDisplayName(getItemName());
-        item2.setItemMeta(itemM2);
-        inventory.setItem(4, item2);
+        ItemStack valueItem = inventory.getItem(VALUE_POSITION);
+        ItemMeta valueItemM = valueItem.getItemMeta();
+        valueItemM.setDisplayName(getItemName());
+        valueItem.setItemMeta(valueItemM);
+        inventory.setItem(VALUE_POSITION, valueItem);
 
         updateItemName();
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (e.getSlot() == 3 && this.value) {
+        if (e.getSlot() == DISABLE_POSITION && this.value) {
             setValue(false);
-        } else if (e.getSlot() == 5 && !this.value) {
+        } else if (e.getSlot() == ENABLE_POSITION && !this.value) {
             setValue(true);
         }
         delayClick(pl);

@@ -9,6 +9,7 @@ import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -53,7 +54,7 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
         Inventory inventory = super.buildAndFillInventory();
 
         for (int color = 0; color < 14; color++) {
-            ItemStack banner = new ItemStack(Material.BANNER, 1);
+            ItemStack banner = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
             BannerMeta bannerM = (BannerMeta) banner.getItemMeta();
             bannerM.setBaseColor(BANNERS_COLOR[color].getDyeColor());
             banner.setItemMeta(bannerM);

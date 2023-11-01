@@ -27,13 +27,11 @@ public class OwnTeam extends OptionBoolean implements ConfigurationPlayerItemCon
         this.configurationPlayerItem = new ConfigurationPlayerItem(this, 8, this.getItemForPlayer());
     }
 
-
     @Override
     protected void setValue(boolean value) {
         super.setValue(value);
         this.reloadPlayersItem();
     }
-
 
     @Override
     public void loadLanguage(String language) {
@@ -45,7 +43,6 @@ public class OwnTeam extends OptionBoolean implements ConfigurationPlayerItemCon
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
         languageElement.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "teamChoice", TEAM_CHOICE);
-
         return languageElement;
     }
 

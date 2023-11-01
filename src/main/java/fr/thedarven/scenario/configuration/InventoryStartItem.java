@@ -27,7 +27,7 @@ public class InventoryStartItem extends FillableInventory implements AdminConfig
     protected Inventory buildAndFillInventory() {
         Inventory inventory = super.buildAndFillInventory();
 
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+        ItemStack glass = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15));
         ItemMeta glassM = glass.getItemMeta();
         glassM.setDisplayName("§f");
         glass.setItemMeta(glassM);

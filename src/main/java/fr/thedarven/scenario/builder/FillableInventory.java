@@ -20,5 +20,13 @@ public abstract class FillableInventory extends ConfigurationInventory {
         }
         e.setCancelled(false);
     }
-    
+
+    @Override
+    protected boolean canDoubleClick(InventoryClickEvent event) {
+        if (event.getCursor() != null) {
+            return !ItemHelper.isTaggedItem(event.getCursor());
+        }
+        return false;
+    }
+
 }

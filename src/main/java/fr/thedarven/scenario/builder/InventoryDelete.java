@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.kit.InventoryKitsElement;
 import fr.thedarven.utils.GlobalVariable;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -20,8 +21,8 @@ public abstract class InventoryDelete extends ConfigurationInventory {
 
     private static String CONFIRM_ACTION = "✔ Confirmer";
     private static String CANCEL_ACTION = "✘ Annuler";
-    private static int CONFIRM_POSITION = 3;
-    private static int CANCEL_POSITION = 5;
+    private static final int CONFIRM_POSITION = 3;
+    private static final int CANCEL_POSITION = 5;
 
     public InventoryDelete(TaupeGun main, ConfigurationInventory parent, String name, String translationName, int position) {
         super(main, name, "", translationName, 1, Material.STAINED_CLAY, parent, position, (byte) 14);
@@ -37,18 +38,15 @@ public abstract class InventoryDelete extends ConfigurationInventory {
     public void loadLanguage(String language) {
         CONFIRM_ACTION = LanguageBuilder.getContent("CONTENT", "confirm", language, true);
         CANCEL_ACTION = LanguageBuilder.getContent("CONTENT", "cancel", language, true);
-
         super.loadLanguage(language);
     }
 
     @Override
     protected LanguageBuilder initDefaultTranslation() {
         LanguageBuilder languageElement = super.initDefaultTranslation();
-
         LanguageBuilder languageContent = LanguageBuilder.getLanguageBuilder("CONTENT");
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "confirm", CONFIRM_ACTION);
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "cancel", CANCEL_ACTION);
-
         return languageElement;
     }
 
@@ -72,13 +70,13 @@ public abstract class InventoryDelete extends ConfigurationInventory {
         Inventory inventory = super.buildAndFillInventory();
         inventory.clear();
 
-        ItemStack confirm = new ItemStack(Material.STAINED_CLAY, 1, (byte) 13);
+        ItemStack confirm = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_CLAY, 1, (byte) 13));
         ItemMeta confirmM = confirm.getItemMeta();
         confirmM.setDisplayName(ChatColor.GREEN + CONFIRM_ACTION);
         confirm.setItemMeta(confirmM);
         inventory.setItem(CONFIRM_POSITION, confirm);
 
-        ItemStack cancel = new ItemStack(Material.STAINED_CLAY, 1, (byte) 14);
+        ItemStack cancel = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_CLAY, 1, (byte) 14));
         ItemMeta cancelM = cancel.getItemMeta();
         cancelM.setDisplayName(ChatColor.RED + CANCEL_ACTION);
         cancel.setItemMeta(cancelM);
@@ -119,9 +117,9 @@ public abstract class InventoryDelete extends ConfigurationInventory {
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         if (e.getCurrentItem().getType() == Material.STAINED_CLAY) {
-            if (e.getCurrentItem().getDurability() == 13) {
+            if (e.getSlot() == CONFIRM_POSITION) {
                 deleteElement(player);
-            } else if (e.getCurrentItem().getDurability() == 14) {
+            } else if (e.getSlot() == CANCEL_POSITION) {
                 player.openInventory(getParent().getInventory());
             }
         }

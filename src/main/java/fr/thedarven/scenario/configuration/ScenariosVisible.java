@@ -27,7 +27,6 @@ public class ScenariosVisible extends OptionBoolean implements ConfigurationPlay
     @Override
     public void loadLanguage(String language) {
         SCENARIOS_ITEM_NAME = LanguageBuilder.getContent("ITEM", "configuration", language, true);
-
         super.loadLanguage(language);
     }
 

@@ -27,7 +27,7 @@ public class Skull {
      */
     public static ItemStack getCustomSkull(String url) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        return getCustomSkull(url, head);
+        return updateSkullSkin(url, head);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Skull {
      * @param head the skull itemstack
      * @return the skull Itemstack modified
      */
-    public static ItemStack getCustomSkull(String url, ItemStack head) {
+    public static ItemStack updateSkullSkin(String url, ItemStack head) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         PropertyMap propertyMap = profile.getProperties();
 

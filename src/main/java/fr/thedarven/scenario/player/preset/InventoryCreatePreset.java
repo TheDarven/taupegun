@@ -37,7 +37,6 @@ public class InventoryCreatePreset extends ConfigurationInventory implements Adm
         TOO_LONG_NAME_FORMAT = LanguageBuilder.getContent("PRESET", "nameTooLong", language, true);
         NAME_ALREADY_USED_FORMAT = LanguageBuilder.getContent("PRESET", "nameAlreadyUsed", language, true);
         PRESET_CREATE = LanguageBuilder.getContent("PRESET", "create", language, true);
-
         super.loadLanguage(language);
     }
 

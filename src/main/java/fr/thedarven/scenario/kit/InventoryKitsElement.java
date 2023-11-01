@@ -68,7 +68,7 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
     protected Inventory buildAndFillInventory() {
         Inventory inventory = super.buildAndFillInventory();
 
-        ItemStack verre = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+        ItemStack verre = ItemHelper.addTagOnItemStack(new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15));
         ItemMeta verreM = verre.getItemMeta();
         verreM.setDisplayName("§f");
         verre.setItemMeta(verreM);

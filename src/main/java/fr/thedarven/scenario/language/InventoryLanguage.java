@@ -25,7 +25,7 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
         super.loadLanguage(language);
 
         this.getChildren().stream()
-                .filter(child -> child instanceof InventoryLanguageElement && ((InventoryLanguageElement) child).getLanguageShortName().equalsIgnoreCase(language))
+                .filter(child -> child instanceof InventoryLanguageElement && Objects.equals(((InventoryLanguageElement) child).getLanguageShortName(), language))
                 .map(child -> (InventoryLanguageElement) child)
                 .findFirst()
                 .ifPresent(child -> {
@@ -63,7 +63,7 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
 
         int exItem = getItem().hashCode();
 
-        ItemStack head = Skull.getCustomSkull(link, getItem());
+        ItemStack head = Skull.updateSkullSkin(link, getItem());
         if (Objects.nonNull(this.getParent())) {
             this.getParent().updateChildItem(exItem, head, this);
         }

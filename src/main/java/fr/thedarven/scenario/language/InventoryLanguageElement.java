@@ -39,7 +39,7 @@ public class InventoryLanguageElement extends ConfigurationInventory implements 
         super.build();
         if (getParent() instanceof InventoryLanguage) {
             InventoryLanguage inventoryParent = (InventoryLanguage) getParent();
-            if (this.main.getLanguageManager().getLanguage().equals(this.languageShortName)) {
+            if (Objects.equals(this.main.getLanguageManager().getLanguage(), languageShortName)) {
                 inventoryParent.setSelectedLanguageInventory(this);
             }
         }
@@ -62,13 +62,11 @@ public class InventoryLanguageElement extends ConfigurationInventory implements 
     @Override
     protected List<String> getItemDescription() {
         List<String> returnArray = super.getItemDescription();
-        if (getParent() instanceof InventoryLanguage) {
-            if (this.main.getLanguageManager().getLanguage().equals(languageShortName)) {
-                returnArray.add("");
-                Map<String, String> params = new HashMap<>();
-                params.put("description", LanguageBuilder.getContent("CONTENT", "selected", this.main.getLanguageManager().getLanguage(), true));
-                returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
-            }
+        if (Objects.equals(this.main.getLanguageManager().getLanguage(), languageShortName)) {
+            returnArray.add("");
+            Map<String, String> params = new HashMap<>();
+            params.put("description", LanguageBuilder.getContent("CONTENT", "selected", this.main.getLanguageManager().getLanguage(), true));
+            returnArray.add(TextInterpreter.textInterpretation(SUB_DESCRIPTION_FORMAT, params));
         }
 
         return returnArray;
@@ -94,7 +92,7 @@ public class InventoryLanguageElement extends ConfigurationInventory implements 
 
     @Override
     protected ItemStack buildItem(Material material, byte itemData) {
-        ItemStack head = Skull.getCustomSkull(this.link, super.buildItem(material, itemData));
+        ItemStack head = Skull.updateSkullSkin(this.link, super.buildItem(material, itemData));
         ItemMeta headM = head.getItemMeta();
         headM.setDisplayName(getItemName());
         headM.setLore(this.getItemDescription());

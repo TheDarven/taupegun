@@ -60,26 +60,33 @@ public class ItemHelper {
     }
 
     public static ItemStack getTaggedItemStack(Material material, short data) {
-        ItemStack item = new ItemStack(org.bukkit.Material.DIRT, 1);
-
-        net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("uuid", UUID.randomUUID().toString());
-        nmsItem.setTag(tag);
-        item = CraftItemStack.asBukkitCopy(nmsItem);
-
+        ItemStack item = addTagOnItemStack(new ItemStack(org.bukkit.Material.DIRT, 1));
         item.setType(material);
         item.setDurability(data);
-
         return item;
     }
 
     public static ItemStack addTagOnItemStack(ItemStack item) {
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         NBTTagCompound tag = nmsItem.getTag();
+        boolean hasTag = tag != null;
+        if (!hasTag) {
+            tag = new NBTTagCompound();
+        }
         tag.setString("uuid", UUID.randomUUID().toString());
-        nmsItem.setTag(tag);
+        if (!hasTag) {
+            nmsItem.setTag(tag);
+        }
         return CraftItemStack.asBukkitCopy(nmsItem);
+    }
+
+    public static boolean isTaggedItem(ItemStack item) {
+        net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+        if (!nmsItem.hasTag()) {
+            return false;
+        }
+        NBTTagCompound tag = nmsItem.getTag();
+        return tag.hasKey("uuid");
     }
 
     /**

@@ -7,6 +7,7 @@ import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.NumericParams;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.DyeColor;
@@ -25,8 +26,18 @@ import java.util.*;
 
 public class OptionNumeric extends ConfigurationInventory implements AdminConfiguration, StorablePreset {
 
-    private static String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
-    private static String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+    enum NumericOperation {PLUS, MINUS}
+
+    private static final String ITEM_NAME_FORMAT = "§e{name} §r► §6{value}{afterName}";
+    private static final String SUB_DESCRIPTION_FORMAT = "§a► {description}";
+
+    private static final int MINUS_3_POSITION = 1;
+    private static final int MINUS_2_POSITION = 2;
+    private static final int MINUS_1_POSITION = 3;
+    private static final int VALUE_POSITION = 4;
+    private static final int PLUS_1_POSITION = 5;
+    private static final int PLUS_2_POSITION = 6;
+    private static final int PLUS_3_POSITION = 7;
 
     protected int min;
     protected int max;
@@ -151,7 +162,6 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
     @Override
     public void loadLanguage(String language) {
         afterName = LanguageBuilder.getContent(this.translationName, "afterName", language, true);
-
         super.loadLanguage(language);
     }
 
@@ -209,7 +219,7 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
      * @return La bannière
      */
     private ItemStack createPlusItem(DyeColor bannerColor, ChatColor nameColor, int factor) {
-        ItemStack increment = new ItemStack(Material.BANNER, 1);
+        ItemStack increment = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
         BannerMeta incrementM = (BannerMeta) increment.getItemMeta();
         incrementM.setBaseColor(bannerColor);
         List<Pattern> pattern = new ArrayList<>();
@@ -238,7 +248,7 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
      * @return La bannière
      */
     private ItemStack createMinusItem(DyeColor bannerColor, ChatColor nameColor, int factor) {
-        ItemStack decrement = new ItemStack(Material.BANNER, 1);
+        ItemStack decrement = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
         BannerMeta decrementM = (BannerMeta) decrement.getItemMeta();
         decrementM.setBaseColor(bannerColor);
         List<Pattern> pattern = new ArrayList<>();
@@ -259,24 +269,24 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
     protected Inventory buildAndFillInventory() {
         Inventory inventory = super.buildAndFillInventory();
 
-        ItemStack item = new ItemStack(getMaterial(), 1, getItemData());
-        ItemMeta itemM = item.getItemMeta();
-        itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        item.setItemMeta(itemM);
-        inventory.setItem(4, item);
+        ItemStack valueItem = ItemHelper.addTagOnItemStack(new ItemStack(getMaterial(), 1, getItemData()));
+        ItemMeta valueItemM = valueItem.getItemMeta();
+        valueItemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        valueItemM.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        valueItem.setItemMeta(valueItemM);
+        inventory.setItem(VALUE_POSITION, valueItem);
 
-        inventory.setItem(3, createMinusItem(DyeColor.YELLOW, ChatColor.YELLOW, 1));
-        inventory.setItem(5, createPlusItem(DyeColor.BLUE, ChatColor.AQUA, 1));
+        inventory.setItem(MINUS_1_POSITION, createMinusItem(DyeColor.YELLOW, ChatColor.YELLOW, 1));
+        inventory.setItem(PLUS_1_POSITION, createPlusItem(DyeColor.BLUE, ChatColor.AQUA, 1));
 
         if (morePas > 1) {
-            inventory.setItem(2, createMinusItem(DyeColor.ORANGE, ChatColor.GOLD, 10));
-            inventory.setItem(6, createPlusItem(DyeColor.LIME, ChatColor.GREEN, 10));
+            inventory.setItem(MINUS_2_POSITION, createMinusItem(DyeColor.ORANGE, ChatColor.GOLD, 10));
+            inventory.setItem(PLUS_2_POSITION, createPlusItem(DyeColor.LIME, ChatColor.GREEN, 10));
         }
 
         if (morePas > 2) {
-            inventory.setItem(1, createMinusItem(DyeColor.RED, ChatColor.RED, 100));
-            inventory.setItem(7, createPlusItem(DyeColor.GREEN, ChatColor.DARK_GREEN, 100));
+            inventory.setItem(MINUS_3_POSITION, createMinusItem(DyeColor.RED, ChatColor.RED, 100));
+            inventory.setItem(PLUS_3_POSITION, createPlusItem(DyeColor.GREEN, ChatColor.DARK_GREEN, 100));
         }
 
         return inventory;
@@ -289,14 +299,12 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
             return;
         }
 
-        ItemStack item = this.inventory.getItem(4);
-        if (Objects.nonNull(item)) {
-            ItemMeta itemM2 = item.getItemMeta();
-            itemM2.setDisplayName(getItemName());
-            item.setItemMeta(itemM2);
-            this.inventory.setItem(4, item);
-            updateItemName();
-        }
+        ItemStack valueItem = this.inventory.getItem(VALUE_POSITION);
+        ItemMeta valueItemM = valueItem.getItemMeta();
+        valueItemM.setDisplayName(getItemName());
+        valueItem.setItemMeta(valueItemM);
+        this.inventory.setItem(VALUE_POSITION, valueItem);
+        updateItemName();
     }
 
 
@@ -312,31 +320,31 @@ public class OptionNumeric extends ConfigurationInventory implements AdminConfig
      * @param slot Le slot sur lequel le joueur à cliqué
      */
     final protected void updateValue(PlayerTaupe pl, int slot) {
-        int operation = 0;
+        NumericOperation operation = null;
         int number = 0;
-        if (slot == 1 && this.morePas > 2) {
-            operation = 1;
+        if (slot == MINUS_3_POSITION && this.morePas > 2) {
+            operation = NumericOperation.MINUS;
             number = this.pas * 100;
-        } else if (slot == 2 && this.morePas > 1) {
-            operation = 1;
+        } else if (slot == MINUS_2_POSITION && this.morePas > 1) {
+            operation = NumericOperation.MINUS;
             number = this.pas * 10;
-        } else if (slot == 3) {
-            operation = 1;
+        } else if (slot == MINUS_1_POSITION) {
+            operation = NumericOperation.MINUS;
             number = this.pas;
-        } else if (slot == 5) {
-            operation = 2;
+        } else if (slot == PLUS_1_POSITION) {
+            operation = NumericOperation.PLUS;
             number = this.pas;
-        } else if (slot == 6 && this.morePas > 1) {
-            operation = 2;
+        } else if (slot == PLUS_2_POSITION && this.morePas > 1) {
+            operation = NumericOperation.PLUS;
             number = this.pas * 10;
-        } else if (slot == 7 && this.morePas > 2) {
-            operation = 2;
+        } else if (slot == PLUS_3_POSITION && this.morePas > 2) {
+            operation = NumericOperation.PLUS;
             number = this.pas * 100;
         }
 
-        if (operation == 1) {
+        if (operation == NumericOperation.MINUS) {
             setValue(this.value - number);
-        } else if (operation == 2) {
+        } else if (operation == NumericOperation.PLUS) {
             setValue(this.value + number);
         }
         delayClick(pl);
