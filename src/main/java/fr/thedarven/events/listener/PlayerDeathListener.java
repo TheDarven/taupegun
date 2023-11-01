@@ -33,18 +33,14 @@ public class PlayerDeathListener implements Listener {
 
 	@EventHandler
 	public void PlayerDeath(PlayerDeathEvent e) {
-		String originalDeathMessage = e.getDeathMessage();
-
 		Player victim = e.getEntity();
 		PlayerTaupe plVictim = PlayerTaupe.getPlayerManager(victim.getUniqueId());
 		Player killer = victim.getKiller();
-		
-		Map<String, String> params = new HashMap<>();
-		params.put("playerName", "§6" + victim.getName() + "§r");
-		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
-		
-		e.setDeathMessage(deathAllMessage);
-		killPlayer(plVictim,false);
+
+		String originalDeathMessage = e.getDeathMessage();
+		e.setDeathMessage(null);
+
+		killPlayer(plVictim);
 		if (Objects.nonNull(killer)){
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
@@ -66,14 +62,18 @@ public class PlayerDeathListener implements Listener {
 		}
 	}
 	
-	public void killPlayer(PlayerTaupe pl, boolean showMessage) {
-		if (showMessage) {
-			Map<String, String> params = new HashMap<>();
-			params.put("playerName", "§6" + pl.getName() + "§r");
-			String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
-			Bukkit.broadcastMessage(deathAllMessage);
+	public void killPlayer(PlayerTaupe pl) {
+		// Display death message
+		String startTeamColor = ChatColor.GRAY.toString();
+		if (pl.getStartTeam().isPresent()) {
+			startTeamColor = pl.getStartTeam().get().getColorEnum().getColor();
 		}
+		Map<String, String> params = new HashMap<>();
+		params.put("playerName", String.format("%s%s%s", startTeamColor, pl.getName(), ChatColor.RESET));
+		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
+		Bukkit.broadcastMessage(deathAllMessage);
 
+		// Remove the player from alive players
 		if (!EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			return;
 		}
