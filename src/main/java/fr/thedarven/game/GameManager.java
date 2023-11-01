@@ -1,6 +1,8 @@
 package fr.thedarven.game;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.GameRecap;
+import fr.thedarven.game.model.PveDeathRecap;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
 import fr.thedarven.model.Manager;
@@ -9,14 +11,15 @@ import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GameManager extends Manager {
 
 	private int timer = 0;
 	private int cooldownTimer = 10;
-	private int pveKills = 0;
-
+	private final List<GameRecap> gameRecaps = new ArrayList<>();
 	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
@@ -43,12 +46,18 @@ public class GameManager extends Manager {
 		this.cooldownTimer--;
 	}
 
-	public int getPveKills() {
-		return this.pveKills;
+	public long countPveDeath() {
+		return this.gameRecaps.stream()
+				.filter(recap -> recap instanceof PveDeathRecap)
+				.count();
 	}
 
-	public void incrementPveKills() {
-		this.pveKills++;
+	public void addToRecap(GameRecap recap) {
+		this.gameRecaps.add(recap);
+	}
+
+	public List<GameRecap> getGameRecaps() {
+		return this.gameRecaps;
 	}
 
 	public void startGame() {
