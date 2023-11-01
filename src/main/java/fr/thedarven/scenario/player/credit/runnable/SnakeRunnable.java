@@ -28,7 +28,7 @@ public class SnakeRunnable extends BukkitRunnable {
             new CreditPlayer("bf2c7402-4bc8-4a04-8a53-f3380f878d6d", "Morelsky", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("0f306b83-f997-4f6c-a5d7-c1249c190aaa", "Infernaton", CreditPlayerTypeEnum.TESTER),
             new CreditPlayer("2ffa1f03-30ef-4b9a-b480-38a36b3f4ffc", "yukimoki", CreditPlayerTypeEnum.CONTRIBUTOR),
-            new CreditPlayer("e05403a3-dd1b-45b7-9e25-f2ac8be6da83", "JANEO", CreditPlayerTypeEnum.TRANSLATOR),
+            new CreditPlayer("1a1695e5-38f7-472c-afaa-ca9ff17cf2863", "JaneoMiner", CreditPlayerTypeEnum.TRANSLATOR),
             new CreditPlayer(GlobalVariable.THEDARVEN_UUID, "TheDarven", CreditPlayerTypeEnum.DEVELOPER)
     );
 
