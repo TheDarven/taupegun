@@ -356,7 +356,7 @@ public abstract class TreeInventory implements Listener {
      * @param e L'évènement de clic
      */
     public void onInventoryPreClick(InventoryClickEvent e) {
-        if (e.isShiftClick() || e.getClick() == ClickType.DOUBLE_CLICK) {
+        if (e.isShiftClick() || (e.getClick() == ClickType.DOUBLE_CLICK && !canDoubleClick(e))) {
             return;
         }
 
@@ -486,6 +486,10 @@ public abstract class TreeInventory implements Listener {
         return !PermissionHelper.canPlayerEditConfiguration(player)
                 && enumConfiguration.equals(EnumConfiguration.INVENTORY)
                 && this.main.getScenariosManager().scenariosVisible.getValue();
+    }
+
+    protected boolean canDoubleClick(InventoryClickEvent event) {
+        return false;
     }
 
     /**

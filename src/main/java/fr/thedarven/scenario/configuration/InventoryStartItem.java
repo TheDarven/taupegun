@@ -1,15 +1,14 @@
 package fr.thedarven.scenario.configuration;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.FillableInventory;
 import fr.thedarven.scenario.player.preset.utils.StorablePreset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.InventoryGiveItem;
 import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class InventoryStartItem extends ConfigurationInventory implements AdminConfiguration, InventoryGiveItem, StorablePreset {
+public class InventoryStartItem extends FillableInventory implements AdminConfiguration, InventoryGiveItem, StorablePreset {
 
     public InventoryStartItem(TaupeGun main, ConfigurationInventory parent) {
         super(main, "Stuff de départ", "Configuration du stuff de départ.", "MENU_STARTER_KIT", 6, Material.CHEST, parent, 7);
@@ -58,14 +57,6 @@ public class InventoryStartItem extends ConfigurationInventory implements AdminC
                 playerInventory.setItem(i - 36, currentInventory.getItem(i));
             }
         }
-    }
-
-    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (onChildClick(e.getCurrentItem(), player, pl)
-                || isLockedCaseItem(e.getCurrentItem())) {
-            return;
-        }
-        e.setCancelled(false);
     }
 
     @Override

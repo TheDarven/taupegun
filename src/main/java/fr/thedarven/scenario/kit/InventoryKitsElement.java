@@ -2,8 +2,7 @@ package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.ConfigurationInventory;
+import fr.thedarven.scenario.builder.FillableInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.InventoryGiveItem;
@@ -13,7 +12,6 @@ import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class InventoryKitsElement extends ConfigurationInventory implements InventoryGiveItem, AdminConfiguration {
+public class InventoryKitsElement extends FillableInventory implements InventoryGiveItem, AdminConfiguration {
 
     protected final Kit kit;
 
@@ -107,15 +105,6 @@ public class InventoryKitsElement extends ConfigurationInventory implements Inve
                 player.getWorld().dropItem(playerLocation, item);
             }
         }
-    }
-
-    @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (onChildClick(e.getCurrentItem(), player, pl) || isLockedCaseItem(e.getCurrentItem())) {
-            return;
-        }
-
-        e.setCancelled(false);
     }
 
 }
