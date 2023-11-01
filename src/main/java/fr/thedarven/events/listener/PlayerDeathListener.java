@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.KillRecap;
 import fr.thedarven.game.model.PveDeathRecap;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -33,6 +34,7 @@ public class PlayerDeathListener implements Listener {
 	@EventHandler
 	public void PlayerDeath(PlayerDeathEvent e) {
 		Player victim = e.getEntity();
+		PlayerTaupe plVictim = PlayerTaupe.getPlayerManager(victim.getUniqueId());
 		Player killer = victim.getKiller();
 		
 		Map<String, String> params = new HashMap<>();
@@ -40,13 +42,14 @@ public class PlayerDeathListener implements Listener {
 		String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
 		
 		e.setDeathMessage(deathAllMessage);
-		killPlayer(PlayerTaupe.getPlayerManager(e.getEntity().getUniqueId()),false);
+		killPlayer(plVictim,false);
 		if (Objects.nonNull(killer)){
 			PlayerTaupe pcKiller = PlayerTaupe.getPlayerManager(killer.getUniqueId());
 			pcKiller.setKill(pcKiller.getKill() + 1);
 			this.main.getDatabaseManager().updateMoleKills(killer);
+			this.main.getGameManager().addToRecap(new KillRecap(pcKiller, plVictim));
 		} else {
-			this.main.getGameManager().addToRecap(new PveDeathRecap(PlayerTaupe.getPlayerManager(victim.getUniqueId())));
+			this.main.getGameManager().addToRecap(new PveDeathRecap(plVictim));
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
