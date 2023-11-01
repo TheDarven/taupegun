@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerDeathListener implements Listener {
 
-	private TaupeGun main;
+	private final TaupeGun main;
 
 	public PlayerDeathListener(TaupeGun main) {
 		this.main = main;
@@ -33,6 +33,8 @@ public class PlayerDeathListener implements Listener {
 
 	@EventHandler
 	public void PlayerDeath(PlayerDeathEvent e) {
+		String originalDeathMessage = e.getDeathMessage();
+
 		Player victim = e.getEntity();
 		PlayerTaupe plVictim = PlayerTaupe.getPlayerManager(victim.getUniqueId());
 		Player killer = victim.getKiller();
@@ -49,7 +51,7 @@ public class PlayerDeathListener implements Listener {
 			this.main.getDatabaseManager().updateMoleKills(killer);
 			this.main.getGameManager().addToRecap(new KillRecap(pcKiller, plVictim));
 		} else {
-			this.main.getGameManager().addToRecap(new PveDeathRecap(plVictim));
+			this.main.getGameManager().addToRecap(new PveDeathRecap(plVictim, originalDeathMessage));
 		}
 		
 		if (EnumGameState.isCurrentState(EnumGameState.GAME)) {

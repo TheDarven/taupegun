@@ -112,7 +112,7 @@ public class TranslationManager extends Manager {
 		LanguageBuilder commandElement = LanguageBuilder.getLanguageBuilder("COMMAND");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "heal", "Vous venez d'être soigné.");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "playerList", "Liste des joueurs : ");
-		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "revive", "{playerName} a été réssuscité.");
+		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "revive", "{playerName} a été ressuscité.");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "cannotRevive", "Il est impossible de réanimer quelqu'un à ce stade de la partie.");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "molesNotAnnounced", "Les taupes ne sont pas encore annoncées.");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "invalidNumber", "Nombre incorrect.");
@@ -177,6 +177,10 @@ public class TranslationManager extends Manager {
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleMessageT", " Tapez /supert pour envoyer un message à votre équipe.");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleMessageReveal", " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapList", "======== Évènements de la partie ========");
+		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapRevive", "{playerName} a été ressuscité");
+		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapKill", "{victimName} a été tué par {killerName}");
+		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapPveDeath", "{playerName} est mort");
+		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapRevive", "{playerName} a été ressuscité");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "killList", "======== Liste des kills ========");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "killPve", "PVE : {amount}");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "selected", "Sélectionné");

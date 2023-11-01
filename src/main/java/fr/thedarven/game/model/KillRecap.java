@@ -1,7 +1,12 @@
 package fr.thedarven.game.model;
 
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KillRecap implements GameRecap {
 
@@ -15,6 +20,9 @@ public class KillRecap implements GameRecap {
 
     @Override
     public String getMessage() {
-        return String.format("%s ⚔ %s%s%s (♰)", killer.getName(), ChatColor.RED, victim.getName(), ChatColor.RESET);
+        Map<String, String> params = new HashMap<>();
+        params.put("victimName", String.format("%s%s%s", victim.getStartTeam().getColorEnum().getColor(), victim.getName(), ChatColor.RESET));
+        params.put("killerName", String.format("%s%s%s", killer.getStartTeam().getColorEnum().getColor(), killer.getName(), ChatColor.RESET));
+        return TextInterpreter.textInterpretation(LanguageBuilder.getContent("CONTENT", "recapKill", true), params);
     }
 }

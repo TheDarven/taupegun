@@ -1,7 +1,12 @@
 package fr.thedarven.game.model;
 
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReviveRecap implements GameRecap {
 
@@ -13,6 +18,8 @@ public class ReviveRecap implements GameRecap {
 
     @Override
     public String getMessage() {
-        return String.format("%s%s%s (❤)", ChatColor.GREEN, revivedPlayer.getName(), ChatColor.RESET);
+        Map<String, String> params = new HashMap<>();
+        params.put("playerName", String.format("%s%s%s", revivedPlayer.getStartTeam().getColorEnum().getColor(), revivedPlayer.getName(), ChatColor.RESET));
+        return TextInterpreter.textInterpretation(LanguageBuilder.getContent("CONTENT", "recapRevive", true), params);
     }
 }
