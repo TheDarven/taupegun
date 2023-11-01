@@ -176,6 +176,7 @@ public class TranslationManager extends Manager {
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleMessageInfo", " Vous êtes une super taupe, retournez votre équipe de taupe et remportez la partie avec votre équipe de taupes !");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleMessageT", " Tapez /supert pour envoyer un message à votre équipe.");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleMessageReveal", " Tapez /superreveal pour vous révéler aux yeux de tous et gagner une pomme d'or.");
+		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "recapList", "======== Évènements de la partie ========");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "killList", "======== Liste des kills ========");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "killPve", "PVE : {amount}");
 		contentElement.addTranslation(GlobalVariable.FR_LANGUAGE, "selected", "Sélectionné");

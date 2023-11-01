@@ -56,6 +56,10 @@ public class GameManager extends Manager {
 		this.gameRecaps.add(recap);
 	}
 
+	public List<GameRecap> getGameRecaps() {
+		return this.gameRecaps;
+	}
+
 	public void startGame() {
 		EnumGameState.setState(EnumGameState.GAME);
 		this.gameRunnable = new GameRunnable(this.main, this);

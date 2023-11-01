@@ -1,6 +1,7 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.GameRecap;
 import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.utils.manager.MessageManager;
 import fr.thedarven.game.model.enums.EnumGameState;
@@ -68,7 +69,21 @@ public class EndGameRunnable extends BukkitRunnable {
         if (this.main.getScenariosManager().superMoles.getValue()) {
             messageManager.sendSuperTaupeListMessage(null);
         }
+        sendGameRecapMessage();
         sendKillRankingMessage();
+    }
+
+    /**
+     * Sends into server chat the recap of the game.
+     */
+    private void sendGameRecapMessage() {
+        List<GameRecap> recaps = this.main.getGameManager().getGameRecaps();
+        String recapListMessage = String.format("§l§6%s", LanguageBuilder.getContent("CONTENT", "recapList", true));
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(recapListMessage);
+        for (GameRecap recap: recaps) {
+            Bukkit.broadcastMessage(recap.getMessage());
+        }
     }
 
     /**
