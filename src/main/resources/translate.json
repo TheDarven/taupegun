@@ -98,7 +98,9 @@
 				"operator": "Vous n'avez pas les permissions pour utiliser cette commande.",
 				"disabledCommand": "La commande est désactivée.",
 
-				"coordinates": "Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]"
+				"coordinates": "Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]",
+
+				"commandUsage": "Usage : {usage}"
 			},
 			"en_US": {
 				"heal": "You've been healed.",
@@ -116,7 +118,9 @@
 				"operator": "You do not have the necessary permissions to use this command.",
 				"disabledCommand": "The command is disabled.",
 
-				"coordinates": "Coordinates of {playerName} : [x={x}, y={y}, z={z}]"
+				"coordinates": "Coordinates of {playerName} : [x={x}, y={y}, z={z}]",
+
+				"commandUsage": "Usage : {usage}"
 			}
 		}
 	},

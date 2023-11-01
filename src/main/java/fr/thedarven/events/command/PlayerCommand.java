@@ -3,11 +3,16 @@ package fr.thedarven.events.command;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.utils.TextInterpreter;
+import fr.thedarven.utils.languages.LanguageBuilder;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class PlayerCommand implements CommandExecutor {
@@ -83,5 +88,12 @@ public abstract class PlayerCommand implements CommandExecutor {
      * @param args Les arguments de la commande
      */
     public abstract void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args);
+
+    protected final void sendCommandUsageToPlayer(Command command, Player payer) {
+        Map<String, String> params = new HashMap<>();
+        params.put("usage", command.getUsage());
+        String commandUsage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("COMMAND", "commandUsage", true), params);
+        payer.sendMessage(String.format("%s%s", ChatColor.RED, commandUsage));
+    }
 
 }

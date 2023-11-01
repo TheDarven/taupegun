@@ -124,7 +124,9 @@ public class TranslationManager extends Manager {
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "operator", "Vous n'avez pas les permissions pour utiliser cette commande.");
 		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "disabledCommand", "La commande est désactivée.");
 
-		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "coordinates", "\"Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]\"");
+		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "coordinates", "Les coordonnées de {playerName} : [x={x}, y={y}, z={z}]");
+
+		commandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "commandUsage", "Usage : {usage}");
 
 
 		LanguageBuilder teamElement = LanguageBuilder.getLanguageBuilder("TEAM");

@@ -6,36 +6,53 @@ main: fr.thedarven.TaupeGun
 commands:
   revive:
     description: Pour reanimer un joueur.
+    usage: /revive <player>
   heal:
     description: Soigne tous les joueurs.
+    usage: /heal
   g:
     description: Envoie une annonce sur le serveur.
+    usage: /g <message>
   playerkill:
     description: Supprime un joueur de la partie meme si il est deconnecte.
+    usage: /playerkill <player>
   players:
     description: Pour voir la liste des joueurs encore en jeu.
+    usage: /players
   rules:
     description: Permet de voir les configurations de la partie.
+    usage: /rules
   scenarios:
     description: Permet de configurer la partie.
     aliases: [config]
+    usage: /scenarios
   taupelist:
     description: Permet aux spectateurs de voir la liste des taupes.
+    usage: /taupelist
   claim:
     description: Pour avoir son kit de taupe.
+    usage: /claim
   reveal:
     description: Pour se reveler a tous les joueurs en tant que taupe.
+    usage: /reveal
   superreveal:
     description: Pour se reveler a tous les joueurs en tant que supertaupe.
+    usage: /superreveal
   supert:
     description: Pour envoyer un message a son equipe de supertaupes.
+    usage: /supert <message>
   t:
     description: Pour envoyer un message a son equipe de taupes.
+    usage: /t <message>
   item:
     description: Pour recuperer les items au lobby.
+    usage: /item
   say:
     description: Pour envoyer une annonce avec le pseudonyme de l'auteur.
+    usage: /say <message>
   start:
     description: Pour lancer la partie.
+    usage: /start
   coords:
     description: Pour envoyer ses coordonnees a son equipe
+    usage: /coords
