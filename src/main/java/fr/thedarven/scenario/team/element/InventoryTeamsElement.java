@@ -10,6 +10,7 @@ import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -75,7 +76,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
 
     @Override
     protected String getItemName() {
-        return this.getName();
+        return String.format("%s%s", ChatColor.LIGHT_PURPLE, this.getName());
     }
 
     @Override
