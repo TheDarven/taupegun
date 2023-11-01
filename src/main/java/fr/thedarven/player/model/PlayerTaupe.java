@@ -101,8 +101,8 @@ public class PlayerTaupe extends StatsPlayer {
 		return team;
 	}
 
-	public TeamCustom getStartTeam() {
-		return startTeam;
+	public Optional<TeamCustom> getStartTeam() {
+		return Optional.ofNullable(startTeam);
 	}
 
 	public int getKill() {

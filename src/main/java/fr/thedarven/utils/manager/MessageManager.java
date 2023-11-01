@@ -71,10 +71,17 @@ public class MessageManager extends Manager {
 
             PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getTaupeTeam() == team)
-                    .forEach(pc -> listTaupe
-                            .append(pc.getStartTeam().getColorEnum().getColor())
-                            .append(pc.getName())
-                            .append(" "));
+                    .forEach(pc -> {
+                        String startTeamColor = ChatColor.GRAY.toString();
+                        if (pc.getStartTeam().isPresent()) {
+                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                        }
+
+                        listTaupe
+                                .append(startTeamColor)
+                                .append(pc.getName())
+                                .append(" ");
+                    });
 
             if (Objects.nonNull(receiver)) {
                 receiver.sendMessage(listTaupe.toString());
@@ -99,10 +106,17 @@ public class MessageManager extends Manager {
 
             PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getSuperTaupeTeam() == team)
-                    .forEach(pc -> listSuperTaupe
-                            .append(pc.getStartTeam().getColorEnum().getColor())
-                            .append(pc.getName())
-                            .append(" "));
+                    .forEach(pc -> {
+                        String startTeamColor = ChatColor.GRAY.toString();
+                        if (pc.getStartTeam().isPresent()) {
+                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                        }
+
+                        listSuperTaupe
+                                .append(startTeamColor)
+                                .append(pc.getName())
+                                .append(" ");
+                    });
 
             if (Objects.nonNull(receiver)) {
                 receiver.sendMessage(listSuperTaupe.toString());

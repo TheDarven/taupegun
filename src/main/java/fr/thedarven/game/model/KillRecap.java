@@ -20,9 +20,18 @@ public class KillRecap implements GameRecap {
 
     @Override
     public String getMessage() {
+        String victimStartTeamColor = org.bukkit.ChatColor.GRAY.toString();
+        if (victim.getStartTeam().isPresent()) {
+            victimStartTeamColor = victim.getStartTeam().get().getColorEnum().getColor();
+        }
+        String killerStartTeamColor = org.bukkit.ChatColor.GRAY.toString();
+        if (killer.getStartTeam().isPresent()) {
+            killerStartTeamColor = killer.getStartTeam().get().getColorEnum().getColor();
+        }
+
         Map<String, String> params = new HashMap<>();
-        params.put("victimName", String.format("%s%s%s", victim.getStartTeam().getColorEnum().getColor(), victim.getName(), ChatColor.RESET));
-        params.put("killerName", String.format("%s%s%s", killer.getStartTeam().getColorEnum().getColor(), killer.getName(), ChatColor.RESET));
+        params.put("victimName", String.format("%s%s%s", victimStartTeamColor, victim.getName(), ChatColor.RESET));
+        params.put("killerName", String.format("%s%s%s", killerStartTeamColor, killer.getName(), ChatColor.RESET));
         return TextInterpreter.textInterpretation(LanguageBuilder.getContent("CONTENT", "recapKill", true), params);
     }
 }

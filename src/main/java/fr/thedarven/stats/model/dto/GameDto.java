@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import fr.thedarven.stats.model.enums.EnumRestStatType;
 import fr.thedarven.utils.helpers.RandomHelper;
@@ -134,9 +135,7 @@ public class GameDto {
 				this.duration = this.main.getGameManager().getTimer();
 
 				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {
-					TeamCustom team = pt.getStartTeam();
-					if(team == null)
-						team = TeamCustom.getSpectatorTeam();
+					TeamCustom team = pt.getStartTeam().orElse(TeamCustom.getSpectatorTeam());
 					String teamName = (team == null) ? "" : team.getTeam().getName();
 
 					addPlayer(new PlayerDto(pt.getUuid(), pt.getName(), pt.hasWin(), pt.getTaupeTeamNumber(), pt.getSuperTaupeTeamNumber(),

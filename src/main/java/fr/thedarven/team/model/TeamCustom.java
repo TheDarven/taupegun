@@ -187,7 +187,7 @@ public class TeamCustom {
 		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
 			if (pl.getTeam() == this)
 				pl.setTeam(null);
-			if (pl.getStartTeam() == this)
+			if (pl.getStartTeam().isPresent() && pl.getStartTeam().get() == this)
 				pl.setStartTeam(null);
 			if (pl.getTaupeTeam() == this)
 				pl.setTaupeTeam(null);

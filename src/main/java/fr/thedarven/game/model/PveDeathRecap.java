@@ -21,8 +21,13 @@ public class PveDeathRecap implements GameRecap {
 
     @Override
     public String getMessage() {
+        String startTeamColor = org.bukkit.ChatColor.GRAY.toString();
+        if (victim.getStartTeam().isPresent()) {
+            startTeamColor = victim.getStartTeam().get().getColorEnum().getColor();
+        }
+
         Map<String, String> params = new HashMap<>();
-        params.put("playerName", String.format("%s%s%s", victim.getStartTeam().getColorEnum().getColor(), victim.getName(), ChatColor.RESET));
+        params.put("playerName", String.format("%s%s%s", startTeamColor, victim.getName(), ChatColor.RESET));
         String deathMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("CONTENT", "recapPveDeath", true), params);
 
         if (StringHelper.isNull(originMessage)) {

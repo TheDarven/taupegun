@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ReviveCommand extends OperatorCommand {
 
@@ -51,9 +52,14 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	private void respawnPlayer(Player sender, PlayerTaupe targetedPl, Player targetedPlayer) {
-		TeamCustom team = targetedPl.getStartTeam();
-		if (Objects.isNull(team) || team.isSpectator())
+		Optional<TeamCustom> oTeam = targetedPl.getStartTeam();
+		if (!oTeam.isPresent()) {
 			return;
+		}
+		TeamCustom team = oTeam.get();
+		if (team.isSpectator()) {
+			return;
+		}
 
 		if (!team.isAlive()) {
 			this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), false);

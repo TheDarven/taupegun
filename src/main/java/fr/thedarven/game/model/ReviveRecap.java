@@ -18,8 +18,13 @@ public class ReviveRecap implements GameRecap {
 
     @Override
     public String getMessage() {
+        String startTeamColor = org.bukkit.ChatColor.GRAY.toString();
+        if (revivedPlayer.getStartTeam().isPresent()) {
+            startTeamColor = revivedPlayer.getStartTeam().get().getColorEnum().getColor();
+        }
+
         Map<String, String> params = new HashMap<>();
-        params.put("playerName", String.format("%s%s%s", revivedPlayer.getStartTeam().getColorEnum().getColor(), revivedPlayer.getName(), ChatColor.RESET));
+        params.put("playerName", String.format("%s%s%s", startTeamColor, revivedPlayer.getName(), ChatColor.RESET));
         return TextInterpreter.textInterpretation(LanguageBuilder.getContent("CONTENT", "recapRevive", true), params);
     }
 }
