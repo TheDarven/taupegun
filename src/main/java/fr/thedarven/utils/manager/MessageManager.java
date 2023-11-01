@@ -1,9 +1,12 @@
 package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.GameRecap;
+import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.model.Manager;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.api.titles.TabMessage;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -11,7 +14,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MessageManager extends Manager {
 
@@ -56,10 +63,18 @@ public class MessageManager extends Manager {
      */
     public void sendTaupeListMessage(Player receiver) {
         for (TeamCustom team : TeamCustom.getTaupeTeams()) {
-            StringBuilder listTaupe = new StringBuilder("§c" + ChatColor.BOLD + team.getTeam().getName() + ": " + ChatColor.RESET + "§c");
+            StringBuilder listTaupe = new StringBuilder(ChatColor.RED.toString())
+                    .append(ChatColor.BOLD)
+                    .append(team.getTeam().getName())
+                    .append(" : ")
+                    .append(ChatColor.RESET);
+
             PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getTaupeTeam() == team)
-                    .forEach(pc -> listTaupe.append(pc.getName()).append(" "));
+                    .forEach(pc -> listTaupe
+                            .append(pc.getStartTeam().getColorEnum().getColor())
+                            .append(pc.getName())
+                            .append(" "));
 
             if (Objects.nonNull(receiver)) {
                 receiver.sendMessage(listTaupe.toString());
@@ -76,17 +91,57 @@ public class MessageManager extends Manager {
      */
     public void sendSuperTaupeListMessage(Player receiver) {
         for (TeamCustom team : TeamCustom.getSuperTaupeTeams()) {
-            StringBuilder listTaupe = new StringBuilder(ChatColor.DARK_RED + "" + ChatColor.BOLD + team.getTeam().getName() + ": " + ChatColor.RESET + "" + ChatColor.DARK_RED);
+            StringBuilder listSuperTaupe = new StringBuilder(ChatColor.DARK_RED.toString())
+                    .append(ChatColor.BOLD)
+                    .append(team.getTeam().getName())
+                    .append(" : ")
+                    .append(ChatColor.RESET);
+
             PlayerTaupe.getAllPlayerManager().stream()
                     .filter(pc -> pc.getSuperTaupeTeam() == team)
-                    .forEach(pc -> listTaupe.append(pc.getName()).append(" "));
+                    .forEach(pc -> listSuperTaupe
+                            .append(pc.getStartTeam().getColorEnum().getColor())
+                            .append(pc.getName())
+                            .append(" "));
 
             if (Objects.nonNull(receiver)) {
-                receiver.sendMessage(listTaupe.toString());
+                receiver.sendMessage(listSuperTaupe.toString());
             } else {
-                Bukkit.broadcastMessage(listTaupe.toString());
+                Bukkit.broadcastMessage(listSuperTaupe.toString());
             }
         }
+    }
+
+    /**
+     * Sends into server chat the recap of the game.
+     */
+    public void sendGameRecapMessage() {
+        List<GameRecap> recaps = this.main.getGameManager().getGameRecaps();
+        String recapListMessage = String.format("§l§6%s", LanguageBuilder.getContent("CONTENT", "recapList", true));
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(recapListMessage);
+        for (GameRecap recap: recaps) {
+            Bukkit.broadcastMessage(recap.getMessage());
+        }
+    }
+
+    /**
+     * Sends into server chat the number of kills of each player.
+     */
+    public void sendKillRankingMessage() {
+        String killListMessage = String.format("§l§6%s", LanguageBuilder.getContent("CONTENT", "killList", true));
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(killListMessage);
+        List<PlayerTaupe> kills = PlayerTaupe.getAllPlayerManager().stream()
+                .filter(pc -> pc.getKill() > 0)
+                .sorted(new SortPlayerKill())
+                .collect(Collectors.toList());
+        kills.forEach(pc -> Bukkit.broadcastMessage(String.format("%s%s%s : %s%s", ChatColor.BOLD, ChatColor.GREEN, pc.getName(), ChatColor.RESET, pc.getKill())));
+
+        String killPveMessage = String.format("§2%s", LanguageBuilder.getContent("CONTENT", "killPve", true));
+        Map<String, String> params = new HashMap<>();
+        params.put("amount", String.valueOf(this.main.getGameManager().countPveDeath()));
+        Bukkit.broadcastMessage(TextInterpreter.textInterpretation(killPveMessage, params));
     }
 
     /**

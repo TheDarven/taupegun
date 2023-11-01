@@ -1,15 +1,11 @@
 package fr.thedarven.game.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.game.model.GameRecap;
-import fr.thedarven.game.utils.SortPlayerKill;
-import fr.thedarven.utils.manager.MessageManager;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import fr.thedarven.utils.manager.MessageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.EntityType;
@@ -17,11 +13,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class EndGameRunnable extends BukkitRunnable {
 
@@ -58,50 +49,21 @@ public class EndGameRunnable extends BukkitRunnable {
             EnumGameState.setState(EnumGameState.END);
             timer = 11;
         } else {
-            timer --;
+            timer--;
         }
     }
 
     private void endGameMessage() {
         MessageManager messageManager = this.main.getMessageManager();
 
+        String moleListMessage = String.format("§l§6%s", LanguageBuilder.getContent("CONTENT", "moleList", true));
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(moleListMessage);
         messageManager.sendTaupeListMessage(null);
         if (this.main.getScenariosManager().superMoles.getValue()) {
             messageManager.sendSuperTaupeListMessage(null);
         }
-        sendGameRecapMessage();
-        sendKillRankingMessage();
-    }
-
-    /**
-     * Sends into server chat the recap of the game.
-     */
-    private void sendGameRecapMessage() {
-        List<GameRecap> recaps = this.main.getGameManager().getGameRecaps();
-        String recapListMessage = String.format("§l§6%s", LanguageBuilder.getContent("CONTENT", "recapList", true));
-        Bukkit.broadcastMessage(" ");
-        Bukkit.broadcastMessage(recapListMessage);
-        for (GameRecap recap: recaps) {
-            Bukkit.broadcastMessage(recap.getMessage());
-        }
-    }
-
-    /**
-     * Sends into server chat the number of kills of each player.
-     */
-    private void sendKillRankingMessage() {
-        String killListMessage = "§l§6" + LanguageBuilder.getContent("CONTENT", "killList", true);
-        Bukkit.broadcastMessage(" ");
-        Bukkit.broadcastMessage(killListMessage);
-        List<PlayerTaupe> kills = PlayerTaupe.getAllPlayerManager().stream()
-                .filter(pc -> pc.getKill() > 0)
-                .sorted(new SortPlayerKill())
-                .collect(Collectors.toList());
-        kills.forEach(pc -> Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.GREEN + pc.getName() + ": " + ChatColor.RESET + " " + pc.getKill()));
-
-        String killPveMessage = "§2" + LanguageBuilder.getContent("CONTENT", "killPve", true);
-        Map<String, String> params = new HashMap<>();
-        params.put("amount", String.valueOf(this.main.getGameManager().countPveDeath()));
-        Bukkit.broadcastMessage(TextInterpreter.textInterpretation(killPveMessage, params));
+        messageManager.sendGameRecapMessage();
+        messageManager.sendKillRankingMessage();
     }
 }
