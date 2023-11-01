@@ -74,8 +74,8 @@ public class InventoryLanguageElement extends ConfigurationInventory implements 
     }
 
     @Override
-    protected ItemStack buildItem(Material material, byte data) {
-        ItemStack head = Skull.getCustomSkull(this.link, super.buildItem(material, data));
+    protected ItemStack buildItem(Material material, byte itemData) {
+        ItemStack head = Skull.getCustomSkull(this.link, super.buildItem(material, itemData));
         ItemMeta headM = head.getItemMeta();
         headM.setDisplayName(getItemName());
         headM.setLore(this.getItemDescription());

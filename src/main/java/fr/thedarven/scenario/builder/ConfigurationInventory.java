@@ -24,8 +24,8 @@ public class ConfigurationInventory extends EditableTreeInventory implements Lis
         this.translationName = translationName;
     }
 
-    public ConfigurationInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, byte data) {
-        this(main, name, description, translationName, lines, material, parent, 0, data);
+    public ConfigurationInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, byte itemData) {
+        this(main, name, description, translationName, lines, material, parent, 0, itemData);
     }
 
     public ConfigurationInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position) {

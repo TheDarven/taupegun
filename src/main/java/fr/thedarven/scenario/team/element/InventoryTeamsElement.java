@@ -140,8 +140,8 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
      * Pour recharger les items dans l'inventaire
      */
     @Override
-    protected ItemStack buildItem(Material material, byte data) {
-        ItemStack itemStack = super.buildItem(material, data);
+    protected ItemStack buildItem(Material material, byte itemData) {
+        ItemStack itemStack = super.buildItem(material, itemData);
 
         BannerMeta itemM = (BannerMeta) itemStack.getItemMeta();
         itemM.setBaseColor(colorEnum.getDyeColor());

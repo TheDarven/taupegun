@@ -172,10 +172,10 @@ public abstract class TreeInventory implements Listener {
      * Construit l'item de l'inventaire
      *
      * @param material Le material
-     * @param data     La data de l'item
+     * @param itemData La data de l'item
      */
-    protected ItemStack buildItem(Material material, byte data) {
-        ItemStack item = ItemHelper.getTaggedItemStack(material, data);
+    protected ItemStack buildItem(Material material, byte itemData) {
+        ItemStack item = ItemHelper.getTaggedItemStack(material, itemData);
 
         ItemMeta itemM = item.getItemMeta();
         itemM.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
