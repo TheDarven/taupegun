@@ -61,7 +61,7 @@ public class InventoryStartItem extends ConfigurationInventory implements AdminC
     }
 
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (openChildInventory(e.getCurrentItem(), player, pl)
+        if (onChildClick(e.getCurrentItem(), player, pl)
                 || isLockedCaseItem(e.getCurrentItem())) {
             return;
         }

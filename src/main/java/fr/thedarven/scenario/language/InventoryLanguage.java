@@ -110,7 +110,7 @@ public class InventoryLanguage extends ConfigurationInventory implements AdminCo
             new ActionBar(selectingLanguageMessage).sendActionBar(player);
             return;
         }
-        openChildInventory(item, player, pl);
+        onChildClick(item, player, pl);
     }
 
 }

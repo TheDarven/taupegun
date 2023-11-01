@@ -76,7 +76,7 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
             return;
         }
 
-        openChildInventory(e.getCurrentItem(), player, pl);
+        onChildClick(e.getCurrentItem(), player, pl);
     }
 
 }

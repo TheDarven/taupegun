@@ -2,7 +2,7 @@ package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.InventoryAction;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
 import fr.thedarven.scenario.player.preset.runnable.CreatePresetRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -14,7 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class InventoryCreatePreset extends InventoryAction implements AdminConfiguration {
+public class InventoryCreatePreset extends ConfigurationInventory implements AdminConfiguration {
 
     private static String TOO_MANY_PRESET = "Vous ne pouvez pas avoir plus de 9 presets.";
     private static String DEFAULT_PRESET_NAME = "Nom du preset";
@@ -54,7 +54,7 @@ public class InventoryCreatePreset extends InventoryAction implements AdminConfi
     }
 
     @Override
-    protected void action(Player player, PlayerTaupe pl) {
+    public void onClickIn(Player player, PlayerTaupe pl) {
         if (playerConfiguration.isPresetAmountLimit()) {
             new ActionBar(ChatColor.RED + TOO_MANY_PRESET).sendActionBar(player);
             player.closeInventory();

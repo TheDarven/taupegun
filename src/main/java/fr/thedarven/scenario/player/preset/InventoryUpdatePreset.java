@@ -46,7 +46,7 @@ public class InventoryUpdatePreset extends InventoryPresetAction implements Admi
     }
 
     @Override
-    protected void action(Player player, PlayerTaupe pl) {
+    public void onClickIn(Player player, PlayerTaupe pl) {
         Map<String, String> params = new HashMap<>();
         params.put("presetName", "§e§l" + this.preset.getName() + "§r§a");
         new ActionBar(TextInterpreter.textInterpretation("§a" + UPDATE_PRESET, params)).sendActionBar(player);

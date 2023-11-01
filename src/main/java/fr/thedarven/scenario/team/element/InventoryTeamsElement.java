@@ -193,7 +193,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
             }
         }
 
-        openChildInventory(item, player, pl);
+        onChildClick(item, player, pl);
     }
 
     public void sendRemovePlayerTeamMessage(Player receiver, String target) {

@@ -111,11 +111,9 @@ public class InventoryKitsElement extends ConfigurationInventory implements Inve
 
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (openChildInventory(e.getCurrentItem(), player, pl))
+        if (onChildClick(e.getCurrentItem(), player, pl) || isLockedCaseItem(e.getCurrentItem())) {
             return;
-
-        if (isLockedCaseItem(e.getCurrentItem()))
-            return;
+        }
 
         e.setCancelled(false);
     }

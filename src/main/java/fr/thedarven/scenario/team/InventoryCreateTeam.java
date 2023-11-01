@@ -3,7 +3,6 @@ package fr.thedarven.scenario.team;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
-import fr.thedarven.scenario.builder.InventoryAction;
 import fr.thedarven.scenario.team.runnable.CreateTeamRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
@@ -15,7 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class InventoryCreateTeam extends InventoryAction implements AdminConfiguration {
+public class InventoryCreateTeam extends ConfigurationInventory implements AdminConfiguration {
 
     private static String TOO_MANY_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
     private static String CREATE_TEAM = "Choix du nom";
@@ -42,7 +41,7 @@ public class InventoryCreateTeam extends InventoryAction implements AdminConfigu
     }
 
     @Override
-    protected void action(Player player, PlayerTaupe pl) {
+    public void onClickIn(Player player, PlayerTaupe pl) {
         if (TeamCustom.board.getTeams().size() < 36) {
             addTeamAction(player, pl);
         } else {

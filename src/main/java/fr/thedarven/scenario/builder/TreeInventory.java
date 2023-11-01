@@ -2,9 +2,8 @@ package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.scenario.model.enums.EnumConfiguration;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.player.InventoryPlayers;
+import fr.thedarven.scenario.model.enums.EnumConfiguration;
 import fr.thedarven.scenario.runnable.DelayClickRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
@@ -400,7 +399,7 @@ public abstract class TreeInventory implements Listener {
      * @param pl     Le PlayerTaupe du Player qui clic
      */
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        openChildInventory(e.getCurrentItem(), player, pl);
+        onChildClick(e.getCurrentItem(), player, pl);
     }
 
     /**
@@ -411,26 +410,20 @@ public abstract class TreeInventory implements Listener {
      * @param pl     Le PlayerTaupe du Player
      * @return <b>true</b> si l'item cliqué est celui d'un inventaire enfant, <b>false</b> sinon
      */
-    final protected boolean openChildInventory(ItemStack item, Player player, PlayerTaupe pl) {
+    final protected boolean onChildClick(ItemStack item, Player player, PlayerTaupe pl) {
         TreeInventory treeInventory = this.children.get(item.hashCode());
-        if (Objects.isNull(treeInventory))
+        if (Objects.isNull(treeInventory)) {
             return false;
-
-        if (treeInventory instanceof InventoryAction) {
-            ((InventoryAction) treeInventory).action(player, pl);
-            return true;
         }
-
-        if (canPlayerOpenInventory(treeInventory, player)) {
-            if (treeInventory instanceof InventoryPlayers) {
-                ((InventoryPlayers) treeInventory).openInventoryOfPlayer(player);
-                return true;
-            }
-
-            player.openInventory(treeInventory.getInventory());
-            delayClick(pl);
-        }
+        treeInventory.onClickIn(player, pl);
         return true;
+    }
+
+    public void onClickIn(Player player, PlayerTaupe playerTaupe) {
+        if (canPlayerOpenInventory(this, player)) {
+            player.openInventory(getInventory());
+            delayClick(playerTaupe);
+        }
     }
 
     /**

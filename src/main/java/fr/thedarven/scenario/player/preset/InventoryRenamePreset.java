@@ -23,7 +23,7 @@ public class InventoryRenamePreset extends InventoryPresetAction implements Admi
     }
 
     @Override
-    protected void action(Player player, PlayerTaupe pl) {
+    public void onClickIn(Player player, PlayerTaupe pl) {
         // TODO Rename the preset
     }
 

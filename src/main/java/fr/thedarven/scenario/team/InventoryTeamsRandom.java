@@ -2,7 +2,7 @@ package fr.thedarven.scenario.team;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.InventoryAction;
+import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class InventoryTeamsRandom extends InventoryAction implements AdminConfiguration {
+public class InventoryTeamsRandom extends ConfigurationInventory implements AdminConfiguration {
 
     private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
 
@@ -40,7 +40,7 @@ public class InventoryTeamsRandom extends InventoryAction implements AdminConfig
     }
 
     @Override
-    protected void action(Player player, PlayerTaupe pl) {
+    public void onClickIn(Player player, PlayerTaupe pl) {
         randomTeamAction(player);
     }
 
