@@ -144,8 +144,8 @@ public class TranslationManager extends Manager {
 		
 		LanguageBuilder startCommandElement = LanguageBuilder.getLanguageBuilder("START_COMMAND");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "gameAlreadyStarted", "La partie a déjà commencé !");
-		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "needTwoTeams", "Il faut au minimum deux équipes.");
-		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "needThreeTeams", "Il faut au minimum trois équipes pour avoir une supertaupe.");
+		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "needTwoTeams", "Il faut au minimum deux équipes non vides.");
+		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "needThreeTeams", "Il faut au minimum trois équipes non vides pour avoir une supertaupe.");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "notEnoughKits", "Il n'y a pas assez de kits.");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "notEnoughPlayersPerTeam", "Il n'y a pas assez de joueurs par équipe.");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "disconnectedPlayer", "Les joueurs ne sont pas tous connectés.");

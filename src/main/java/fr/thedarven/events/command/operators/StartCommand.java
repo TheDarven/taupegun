@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class StartCommand extends OperatorCommand {
 
@@ -62,13 +63,15 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		List<TeamCustom> teams = TeamCustom.getAllStartTeams();
-		if (teams.size() < 2 && !this.main.getScenariosManager().superMoles.getValue()) {
+		List<TeamCustom> teamsWithPlayer = TeamCustom.getAllStartTeams().stream()
+				.filter(team -> !team.getPlayers().isEmpty())
+				.collect(Collectors.toList());
+		if (teamsWithPlayer.size() < 2 && !this.main.getScenariosManager().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 			return false;
 		}
 
-		if (teams.size() < 3 && this.main.getScenariosManager().superMoles.getValue()) {
+		if (teamsWithPlayer.size() < 3 && this.main.getScenariosManager().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needThreeTeams", true));
 			return false;
 		}
@@ -78,7 +81,7 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		for (TeamCustom team: teams) {
+		for (TeamCustom team: teamsWithPlayer) {
 			if (notEnoughPlayersPerTeam(team)) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", true));
 				return false;

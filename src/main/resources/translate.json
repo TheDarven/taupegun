@@ -125,8 +125,8 @@
 		"translations": {
 			"fr_FR": {
 				"gameAlreadyStarted": "La partie a déjà commencé !",
-				"needTwoTeams": "Il faut au minimum deux équipes.",
-				"needThreez": "Il faut au minimum trois équipes pour avoir une supertaupe.",
+				"needTwoTeams": "Il faut au minimum deux équipes non vides.",
+				"needThreez": "Il faut au minimum trois équipes non vides pour avoir une supertaupe.",
 				"notEnoughKits": "Il n'y a pas assez de kits.",
 				"notEnoughPlayersPerTeam": "Il n'y a pas assez de joueurs par équipe.",
 				"disconnectedPlayer": "Les joueurs ne sont pas tous connectés.",
@@ -138,8 +138,8 @@
 			},
 			"en_US": {
 				"gameAlreadyStarted": "The game has already started !",
-				"needTwoTeams": "You need at least two teams.",
-				"needThreeTeams": "You need at least three teams to have a supermole.",
+				"needTwoTeams": "You need at least two non-empty teams.",
+				"needThreeTeams": "You need at least three non-empty teams.",
 				"notEnoughKits": "There aren't enough kits.",
 				"notEnoughPlayersPerTeam": "There aren't enough players in each team.",
 				"disconnectedPlayer": "The players are not all connected.",
