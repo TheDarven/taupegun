@@ -8,6 +8,7 @@ import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.OptionBoolean;
 import fr.thedarven.scenario.builder.OptionNumeric;
 import fr.thedarven.scenario.configuration.*;
+import fr.thedarven.scenario.kit.InventoryCreateKit;
 import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.scenario.language.InventoryLanguage;
 import fr.thedarven.scenario.language.InventoryLanguageElement;
@@ -50,7 +51,7 @@ public class ScenariosManager {
     public InventoryLanguageElement fr_FR;
     public InventoryLanguageElement en_US;
 
-    public ConfigurationInventory addKit;
+    public InventoryCreateKit addKit;
 
     public InventoryCreateTeam addTeam;
     public InventoryTeamsRandom randomizeTeams;
@@ -142,7 +143,7 @@ public class ScenariosManager {
         this.en_US = new InventoryLanguageElement(this.main, "English US", "By @Janeo1101", language, GlobalVariable.EN_LANGUAGE, "http://textures.minecraft.net/texture/cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
         this.en_US.build();
 
-        this.addKit = new ConfigurationInventory(this.main, "✚ Ajouter un kit", null, "MENU_KIT_ADD", 1, Material.PAPER, kitsMenu, 0);
+        this.addKit = new InventoryCreateKit(this.main, kitsMenu);
         this.addKit.build();
 
         this.addTeam = new InventoryCreateTeam(this.main, teamsMenu);

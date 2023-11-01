@@ -363,17 +363,17 @@ public abstract class TreeInventory implements Listener {
         Player player = (Player) e.getWhoClicked();
         PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
+        if (!canPlayerOpenInventory(this, player)) {
+            player.closeInventory();
+            return;
+        }
+
         if (!canPlayerInteract(player, EnumConfiguration.INVENTORY) || Objects.isNull(e.getCurrentItem()) || !pl.getCanClick()) {
             return;
         }
 
         if (isReturnItem(e.getCurrentItem(), e.getRawSlot())) {
             onReturnClick(player);
-            return;
-        }
-
-        if (!canPlayerOpenInventory(this, player)) {
-            player.closeInventory();
             return;
         }
 
