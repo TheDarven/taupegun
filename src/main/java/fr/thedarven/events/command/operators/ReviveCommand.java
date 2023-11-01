@@ -43,7 +43,9 @@ public class ReviveCommand extends OperatorCommand {
 	}
 
 	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
-		if (args.length > 0 && !this.main.getGameManager().areMolesRevealed() && TeamCustom.getAllAliveTeams().size() > 1) {
+		if (args.length == 0) {
+			sendCommandUsageToPlayer(cmd, sender);
+		} else if (!this.main.getGameManager().areMolesRevealed() && TeamCustom.getAllAliveTeams().size() > 1) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		} else {
 			sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotRevive", true));
