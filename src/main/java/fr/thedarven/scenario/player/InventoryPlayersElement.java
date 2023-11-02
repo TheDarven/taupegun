@@ -36,9 +36,10 @@ public abstract class InventoryPlayersElement extends ConfigurationInventory {
             return;
         }
         TreeInventory realParent = getParent().getParent();
-        if (Objects.nonNull(realParent) && canPlayerOpenInventory(realParent, player)) {
-            player.openInventory(realParent.getInventory());
+        if (Objects.isNull(realParent)) {
+            return;
         }
+        realParent.openInventory(player);
     }
 
     protected boolean canPlayerOpenInventory(TreeInventory treeInventory, Player player) {

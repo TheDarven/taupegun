@@ -89,15 +89,17 @@ public abstract class EditableTreeInventory extends TreeInventory {
         if (Objects.isNull(this.inventory)) {
             return;
         }
+        Inventory exInventory = this.inventory;
 
         Inventory newInventory = Bukkit.createInventory(null, getLines() * 9, getInventoryName());
         newInventory.setContents(this.inventory.getContents());
+        this.inventory = newInventory;
+        
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (Objects.equals(player.getOpenInventory().getTopInventory(), this.inventory)) {
-                player.openInventory(newInventory);
+            if (Objects.equals(player.getOpenInventory().getTopInventory(), exInventory)) {
+                openInventory(player);
             }
         }
-        this.inventory = newInventory;
     }
 
 }

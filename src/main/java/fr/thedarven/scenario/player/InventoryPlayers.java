@@ -1,7 +1,6 @@
 package fr.thedarven.scenario.player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,15 +24,13 @@ public abstract class InventoryPlayers extends ConfigurationInventory {
         players.put(uuid, element);
     }
 
-    public void openInventoryOfPlayer(Player player) {
-        player.openInventory(getInventoryOfUuid(player.getUniqueId()).getInventory());
-    }
-
     @Override
-    public void onClickIn(Player player, PlayerTaupe pl) {
-        if (canPlayerOpenInventory(this, player)) {
-            this.openInventoryOfPlayer(player);
+    public boolean openInventory(Player player) {
+        if (!canPlayerOpenInventory(this, player)) {
+            return false;
         }
+        player.openInventory(getInventoryOfUuid(player.getUniqueId()).getInventory());
+        return true;
     }
 
     public InventoryPlayersElement getInventoryOfUuid(UUID uuid) {

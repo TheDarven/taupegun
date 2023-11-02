@@ -51,7 +51,9 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
         if (Objects.nonNull(teamDelete)) {
             teamDelete.deleteTeam();
         }
-        player.openInventory(this.main.getScenariosManager().teamsMenu.getInventory());
+        if (!this.main.getScenariosManager().teamsMenu.openInventory(player)) {
+            player.closeInventory();
+        }
         InventoryTeamsPlayers.reloadInventories();
     }
 }

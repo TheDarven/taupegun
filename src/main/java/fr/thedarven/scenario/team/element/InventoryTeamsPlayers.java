@@ -87,7 +87,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
             if (Objects.nonNull(playerTaupe)) {
                 teamJoin.joinTeam(playerTaupe);
                 sendAddPlayerTeamMessage(player, playerTaupe);
-                player.openInventory(this.getParent().getInventory());
+                this.getParent().openInventory(player);
             }
         } else {
             Map<String, String> params = new HashMap<>();

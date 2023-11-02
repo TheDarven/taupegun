@@ -40,7 +40,7 @@ public class CreateKitRunnable extends BukkitRunnable {
         KitManager kitManager = this.main.getKitManager();
 
         if (kitManager.isUsedKitName(this.kitName)) {
-            this.player.openInventory(this.kitsMenu.getInventory());
+            this.kitsMenu.openInventory(this.player);
             new ActionBar("§c" + InventoryKits.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
             return;
         }
@@ -51,7 +51,7 @@ public class CreateKitRunnable extends BukkitRunnable {
         params.put("kitName", "§e§l" + this.kitName + "§r§a");
         new ActionBar(TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params)).sendActionBar(this.player);
 
-        this.player.openInventory(kit.getConfigurationInventory().getInventory());
+        kit.getConfigurationInventory().openInventory(this.player);
     }
 
 }

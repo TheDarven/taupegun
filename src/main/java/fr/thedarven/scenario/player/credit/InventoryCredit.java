@@ -84,7 +84,7 @@ public class InventoryCredit extends InventoryPlayers implements ConfigurationPl
     @Override
     public final void onPlayerItemClick(PlayerTaupe pl) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            openInventoryOfPlayer(pl.getPlayer());
+            openInventory(pl.getPlayer());
         }
     }
 }

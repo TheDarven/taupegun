@@ -60,7 +60,9 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
         new ActionBar(TextInterpreter.textInterpretation("§a" + DELETE_PRESET_FORMAT, params)).sendActionBar(player);
 
         this.main.getScenariosManager().removePreset(this.preset, this.playerConfiguration);
-        player.openInventory(getParent().getInventory());
+        if (getParent() == null || !getParent().openInventory(player)) {
+            player.closeInventory();
+        }
     }
 
 }

@@ -37,7 +37,7 @@ public class CreatePresetRunnable extends PlayerRunnable {
         ScenariosManager scenariosManager = this.main.getScenariosManager();
 
         if (this.playerConfiguration.isUsedPresetName(this.presetName)) {
-            scenariosManager.saveConfigurationMenu.openInventoryOfPlayer(this.player);
+            scenariosManager.saveConfigurationMenu.openInventory(this.player);
             new ActionBar("§c" + InventoryCreatePreset.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
             return;
         }
@@ -47,7 +47,7 @@ public class CreatePresetRunnable extends PlayerRunnable {
             params.put("presetName", "§e§l" + this.presetName + "§r§a");
             new ActionBar(TextInterpreter.textInterpretation("§a" + InventoryCreatePreset.PRESET_CREATE, params)).sendActionBar(this.player);
 
-            scenariosManager.saveConfigurationMenu.openInventoryOfPlayer(this.player);
+            scenariosManager.saveConfigurationMenu.openInventory(this.player);
         }
     }
 }

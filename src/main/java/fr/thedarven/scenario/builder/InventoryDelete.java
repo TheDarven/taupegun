@@ -120,7 +120,9 @@ public abstract class InventoryDelete extends ConfigurationInventory {
             if (e.getSlot() == CONFIRM_POSITION) {
                 deleteElement(player);
             } else if (e.getSlot() == CANCEL_POSITION) {
-                player.openInventory(getParent().getInventory());
+                if (getParent() == null || !getParent().openInventory(player)) {
+                    player.closeInventory();
+                }
             }
         }
         delayClick(pl);

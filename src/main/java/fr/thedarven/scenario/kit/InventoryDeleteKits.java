@@ -47,6 +47,8 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
         new ActionBar(TextInterpreter.textInterpretation(String.format("§c%s", DELETE_KIT_FORMAT), params)).sendActionBar(player);
 
         this.main.getKitManager().removeKit(this.kit);
-        player.openInventory(this.main.getScenariosManager().kitsMenu.getInventory());
+        if (!this.main.getScenariosManager().kitsMenu.openInventory(player)) {
+            player.closeInventory();
+        }
     }
 }

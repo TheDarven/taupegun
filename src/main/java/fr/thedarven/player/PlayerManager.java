@@ -90,9 +90,9 @@ public class PlayerManager extends Manager {
 
     public void openConfigInventory(Player p) {
         if (PermissionHelper.canPlayerEditConfiguration(p) && EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            p.openInventory(this.main.getScenariosManager().menu.getInventory());
+            this.main.getScenariosManager().menu.openInventory(p);
         } else if (this.main.getScenariosManager().scenariosVisible.getValue()) {
-            p.openInventory(this.main.getScenariosManager().configurationMenu.getInventory());
+            this.main.getScenariosManager().configurationMenu.openInventory(p);
         }
     }
 

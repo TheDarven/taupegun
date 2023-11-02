@@ -24,7 +24,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
 
     @Override
     protected void operate() {
-        this.player.openInventory(this.main.getScenariosManager().chooseTeamColor.getInventory());
+        this.main.getScenariosManager().chooseTeamColor.openInventory(player);
 
         if (Objects.isNull(this.pl.getCreateTeamName())) {
             this.player.closeInventory();

@@ -420,10 +420,7 @@ public abstract class TreeInventory implements Listener {
     }
 
     public void onClickIn(Player player, PlayerTaupe playerTaupe) {
-        if (canPlayerOpenInventory(this, player)) {
-            player.openInventory(getInventory());
-            delayClick(playerTaupe);
-        }
+        openInventory(player);
     }
 
     /**
@@ -432,11 +429,26 @@ public abstract class TreeInventory implements Listener {
      * @param player
      */
     public void onReturnClick(Player player) {
-        if (canPlayerOpenInventory(getParent(), player)) {
-            player.openInventory(this.getParent().getInventory());
+        if (getParent() == null) {
+            return;
         }
+        getParent().openInventory(player);
     }
 
+
+    /**
+     * Ouvre l'inventaire pour le joueur
+     * @param player Le joueur
+     * @return <b>true</b> si l'inventaire a été ouvert, sinon <b>false</b>
+     */
+    public boolean openInventory(Player player) {
+        if (player == null || !canPlayerOpenInventory(this, player)) {
+            return false;
+        }
+        player.openInventory(getInventory());
+        delayClick(PlayerTaupe.getPlayerManager(player.getUniqueId()));
+        return true;
+    }
 
     /**
      * Pour ajouter un cooldown de clique au joueur
