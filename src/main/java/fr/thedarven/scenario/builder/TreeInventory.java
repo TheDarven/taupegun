@@ -208,7 +208,7 @@ public abstract class TreeInventory implements Listener {
      * Pour mettre à jour des items dans l'inventaire
      */
     protected void refreshInventoryItems() {
-        if (Objects.isNull(this.getParent()) || Objects.isNull(this.inventory)) {
+        if (Objects.isNull(this.inventory)) {
             return;
         }
 
@@ -430,9 +430,10 @@ public abstract class TreeInventory implements Listener {
      */
     public void onReturnClick(Player player) {
         if (getParent() == null) {
-            return;
+            player.closeInventory();
+        } else {
+            getParent().openInventory(player);
         }
-        getParent().openInventory(player);
     }
 
 
