@@ -162,18 +162,8 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         if (Objects.isNull(inv)) {
             return;
         }
-
-        inv.getChildren()
-                .forEach(child -> {
-                    if (child instanceof InventoryTeamsPlayers) {
-                        InventoryTeamsPlayers.inventories.remove(child);
-                    }
-                });
-        InventoryTeamsPlayers.reloadInventories();
-
-        if (Objects.nonNull(inv.getParent())) {
-            inv.getParent().removeChild(inv, true);
-        }
+        
+        inv.deleteInventory(true);
         teams.remove(name);
     }
 

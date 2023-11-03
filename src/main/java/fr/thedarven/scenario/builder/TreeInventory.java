@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -300,29 +301,38 @@ public abstract class TreeInventory implements Listener {
         this.getChildren().forEach(this::removeChildItem);
     }
 
-
     /**
-     * Pour supprimer un enfant
+     * Pour supprimer un inventaire
      *
-     * @param treeInventory L'enfant à supprimer
-     * @param reload        Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
+     * @param reload Reload l'inventaire parent après la suppresion de l'enfant si <b>true</b>
      */
-    public final void removeChild(TreeInventory treeInventory, boolean reload) {
+    public final void deleteInventory(boolean reload) {
         List<TreeInventory> children = getChildren();
         children.forEach(child -> {
-            treeInventory.removeChild(child, false);
+            child.deleteInventory(false);
         });
 
-        this.children.remove(treeInventory.getItem().hashCode());
-        this.removeChildItem(treeInventory);
-        if (reload) {
-            reloadInventory();
+        if (getParent() != null) {
+            getParent().children.remove(getItem().hashCode());
+            getParent().removeChildItem(this);
+            if (reload) {
+                getParent().reloadInventory();
+            }
         }
 
-        if (Objects.nonNull(treeInventory.inventory)) {
-            List<HumanEntity> viewers = new ArrayList<>(treeInventory.inventory.getViewers());
-            viewers.forEach(HumanEntity::closeInventory);
+        if (Objects.nonNull(getInventory())) {
+            List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
+            viewers.forEach(viewer -> {
+                if (getParent() == null || !(viewer instanceof Player)) {
+                    viewer.closeInventory();
+                } else {
+                    getParent().openInventory((Player) viewer);
+                }
+            });
         }
+
+        HandlerList.unregisterAll(this);
+        // TODO Get children pour les inventaires qui n'en n'ont pas directement
     }
 
 

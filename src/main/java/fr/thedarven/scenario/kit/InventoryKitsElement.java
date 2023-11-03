@@ -91,7 +91,7 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
     }
 
     public void removeKitInventories() {
-        this.getParent().removeChild(this, true);
+        this.deleteInventory(true);
     }
 
     @Override

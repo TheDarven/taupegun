@@ -33,11 +33,11 @@ public class InventoryPlayersElementPreset extends InventoryPlayersElement imple
                 .forEach(child -> {
                     if (child instanceof InventoryPresetAction) {
                         if (((InventoryPresetAction) child).getPreset() == preset) {
-                            removeChild(child, false);
+                            child.deleteInventory(false);
                         }
                     } else if (child instanceof InventoryDeletePreset) {
                         if (((InventoryDeletePreset) child).getPreset() == preset) {
-                            removeChild(child, false);
+                            child.deleteInventory(false);
                         }
                     }
                 });
