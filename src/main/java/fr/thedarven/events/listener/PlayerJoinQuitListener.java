@@ -1,14 +1,12 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.runnable.CloseInventoryRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.ConfigurationInventory;
-import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.titles.Title;
+import fr.thedarven.utils.helpers.DateHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
@@ -22,11 +20,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class PlayerJoinQuitListener implements Listener {
 
-    private TaupeGun main;
+    private final TaupeGun main;
 
     public PlayerJoinQuitListener(TaupeGun main) {
         this.main = main;
@@ -40,7 +37,6 @@ public class PlayerJoinQuitListener implements Listener {
         e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
 
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            InventoryTeamsPlayers.reloadInventories();
             if (this.main.development) {
                 new Title(ChatColor.GOLD + LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
                         LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
@@ -70,9 +66,7 @@ public class PlayerJoinQuitListener implements Listener {
         Player player = e.getPlayer();
         e.setQuitMessage("§8(§c-§8) §7" + e.getPlayer().getName());
 
-        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            new CloseInventoryRunnable().runTaskTimer(this.main, 0, 20);
-        } else if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
+        if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
             this.main.getCommandManager().getStartCommand().stopStartRunnable();
             this.main.getGameManager().setCooldownTimer(10);
 
@@ -120,11 +114,6 @@ public class PlayerJoinQuitListener implements Listener {
         }
 
         PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-        pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
-
-        if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-            Optional<ConfigurationInventory> oOpenedInventory = ConfigurationInventory.getByInventory(player.getOpenInventory().getTopInventory());
-            oOpenedInventory.ifPresent(openedInventory -> openedInventory.onPlayerDisconnect(player));
-        }
+        pl.addTimePlayed((int) (DateHelper.getLongTimestamp() - pl.getLastConnection()));
     }
 }

@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -192,7 +193,7 @@ public abstract class TreeInventory implements Listener {
     protected Inventory buildAndFillInventory() {
         Inventory inventory = Bukkit.createInventory(null, this.getLines() * 9, this.getInventoryName());
 
-        if (Objects.nonNull(this.getParent())) {
+        if (hasBackItem()) {
             ItemStack redstone = ItemHelper.addTagOnItemStack(new ItemStack(Material.REDSTONE, 1));
             ItemMeta redstoneM = redstone.getItemMeta();
             redstoneM.setDisplayName(getBackName());
@@ -208,12 +209,12 @@ public abstract class TreeInventory implements Listener {
      * Pour mettre à jour des items dans l'inventaire
      */
     protected void refreshInventoryItems() {
-        if (Objects.isNull(this.getParent()) || Objects.isNull(this.inventory)) {
+        if (Objects.isNull(this.inventory)) {
             return;
         }
 
         ItemStack redstone = this.inventory.getItem(this.getLines() * 9 - 1);
-        if (!ItemHelper.isNullOrAir(redstone)) {
+        if (hasBackItem() && !ItemHelper.isNullOrAir(redstone)) {
             ItemMeta redstoneM = redstone.getItemMeta();
             redstoneM.setDisplayName(getBackName());
             redstone.setItemMeta(redstoneM);
@@ -300,31 +301,54 @@ public abstract class TreeInventory implements Listener {
         this.getChildren().forEach(this::removeChildItem);
     }
 
-
     /**
-     * Pour supprimer un enfant
+     * Pour supprimer un inventaire
      *
-     * @param treeInventory L'enfant à supprimer
-     * @param reload        Reload l'inventaire après la suppresion de l'enfant si <b>true</b>
+     * @param reload Reload l'inventaire parent après la suppresion de l'enfant si <b>true</b>
      */
-    public final void removeChild(TreeInventory treeInventory, boolean reload) {
-        List<TreeInventory> children = getChildren();
+    public final void deleteInventory(boolean reload) {
+        List<TreeInventory> children = getChildrenForDeletion();
         children.forEach(child -> {
-            treeInventory.removeChild(child, false);
+            child.deleteInventory(false);
         });
 
-        this.children.remove(treeInventory.getItem().hashCode());
-        this.removeChildItem(treeInventory);
-        if (reload) {
-            reloadInventory();
+        if (getParent() != null) {
+            getParent().children.remove(getItem().hashCode());
+            getParent().removeChildItem(this);
+            if (reload) {
+                getParent().reloadInventory();
+            }
         }
 
-        if (Objects.nonNull(treeInventory.inventory)) {
-            List<HumanEntity> viewers = new ArrayList<>(treeInventory.inventory.getViewers());
-            viewers.forEach(HumanEntity::closeInventory);
-        }
+        HandlerList.unregisterAll(this);
+
+        onInventoryDelete();
     }
 
+    /**
+     * @return Les inventaires enfants à traiter lors de la suppression de l'inventaire
+     */
+    public List<TreeInventory> getChildrenForDeletion() {
+        return getChildren();
+    }
+
+    /**
+     * Lorsque l'inventaire est supprimé
+     */
+    public void onInventoryDelete() {
+        if (getInventory() == null) {
+            return;
+        }
+
+        List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
+        viewers.forEach(viewer -> {
+            if (getParent() == null || !(viewer instanceof Player)) {
+                viewer.closeInventory();
+            } else {
+                getParent().openInventory((Player) viewer);
+            }
+        });
+    }
 
     /**
      * Lorsque l'inventaire est ouvert.
@@ -343,19 +367,11 @@ public abstract class TreeInventory implements Listener {
     }
 
     /**
-     * Lorsqu'un joueur se trouvant dans l'inventaire est déconnecté .
-     *
-     * @param player Le joueur qui va être déconnecté.
-     */
-    public void onPlayerDisconnect(Player player) {
-    }
-
-    /**
      * Permet de valider l'action de clic dans l'inventaire
      *
      * @param e L'évènement de clic
      */
-    public void onInventoryPreClick(InventoryClickEvent e) {
+    public final void onInventoryPreClick(InventoryClickEvent e) {
         if (e.isShiftClick() || (e.getClick() == ClickType.DOUBLE_CLICK && !canDoubleClick(e))) {
             return;
         }
@@ -429,15 +445,17 @@ public abstract class TreeInventory implements Listener {
      * @param player
      */
     public void onReturnClick(Player player) {
-        if (getParent() == null) {
-            return;
+        if (!hasBackItem() || getParent() == null) {
+            player.closeInventory();
+        } else {
+            getParent().openInventory(player);
         }
-        getParent().openInventory(player);
     }
 
 
     /**
      * Ouvre l'inventaire pour le joueur
+     *
      * @param player Le joueur
      * @return <b>true</b> si l'inventaire a été ouvert, sinon <b>false</b>
      */
@@ -526,5 +544,14 @@ public abstract class TreeInventory implements Listener {
      */
     protected String getBackName() {
         return "§c" + BACK_STRING;
+    }
+
+    /**
+     * Informe si l'inventaire possède un item de retour
+     *
+     * @return <b>true</b> s'il en possède un, sinon <b>false</b>
+     */
+    protected boolean hasBackItem() {
+        return getParent() != null;
     }
 }

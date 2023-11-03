@@ -1,14 +1,15 @@
 package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
+import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.scenario.player.credit.runnable.SnakeRunnable;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.helpers.ItemHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,10 +25,10 @@ import java.util.UUID;
 
 public class InventoryCreditElement extends InventoryPlayersElement {
 
-    private final static ItemStack UP_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull("https://textures.minecraft.net/texture/a99aaf2456a6122de8f6b62683f2bc2eed9abb81fd5bea1b4c23a58156b669"));
-    private final static ItemStack LEFT_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull("https://textures.minecraft.net/texture/5f133e91919db0acefdc272d67fd87b4be88dc44a958958824474e21e06d53e6"));
-    private final static ItemStack DOWN_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull("https://textures.minecraft.net/texture/3912d45b1c78cc22452723ee66ba2d15777cc288568d6c1b62a545b29c7187"));
-    private final static ItemStack RIGHT_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull("https://textures.minecraft.net/texture/e3fc52264d8ad9e654f415bef01a23947edbccccf649373289bea4d149541f70"));
+    private final static ItemStack UP_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull(Skull.UP_HEAD_URL));
+    private final static ItemStack LEFT_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull(Skull.LEFT_HEAD_URL));
+    private final static ItemStack DOWN_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull(Skull.DOWN_HEAD_URL));
+    private final static ItemStack RIGHT_HEAD = ItemHelper.addTagOnItemStack(Skull.getCustomSkull(Skull.RIGHT_HEAD_URL));
 
     private SnakeRunnable snakeRunnable;
 
@@ -126,12 +127,6 @@ public class InventoryCreditElement extends InventoryPlayersElement {
     public void onInventoryClose(InventoryCloseEvent event) {
         endGameAndRemoveArrow((Player) event.getPlayer());
     }
-
-    @Override
-    public void onPlayerDisconnect(Player player) {
-        endGameAndRemoveArrow(player);
-    }
-
 
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {

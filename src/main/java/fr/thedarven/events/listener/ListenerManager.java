@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.listener.stats.RegeneratesHealthListener;
 import fr.thedarven.events.listener.stats.ThrewArrowListener;
 import fr.thedarven.model.Manager;
+import fr.thedarven.scenario.team.element.player.PlayersWithoutTeamPageData;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -11,6 +12,7 @@ public class ListenerManager extends Manager {
 
 	private PlayerJoinQuitListener playerJoinQuitListener;
 	private PlayerDeathListener deathListener;
+	private PlayersWithoutTeamPageData playersWithoutTeamPageData;
 
 	public ListenerManager(TaupeGun main) {
 		super(main);
@@ -42,6 +44,9 @@ public class ListenerManager extends Manager {
 		// Stats
 		pm.registerEvents(new RegeneratesHealthListener(), this.main);
 		pm.registerEvents(new ThrewArrowListener(), this.main);
+
+		this.playersWithoutTeamPageData = new PlayersWithoutTeamPageData();
+		pm.registerEvents(this.playersWithoutTeamPageData, this.main);
 	}
 
 	public PlayerJoinQuitListener getPlayerJoinQuitListener(){
@@ -50,5 +55,9 @@ public class ListenerManager extends Manager {
 
 	public PlayerDeathListener getDeathListener(){
 		return this.deathListener;
+	}
+
+	public PlayersWithoutTeamPageData getPlayersWithoutTeamPageData() {
+		return playersWithoutTeamPageData;
 	}
 }

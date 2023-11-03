@@ -61,14 +61,13 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.scenariosManager = new ScenariosManager(this);
+		this.worldManager = new WorldManager(this);
+		this.worldManager.buildLobby();
 		this.kitManager = new KitManager(this);
 		this.listenerManager = new ListenerManager(this);
 		this.commandManager = new CommandManager(this);
 
 		this.saveDefaultConfig();
-
-		this.worldManager = new WorldManager(this);
-		this.worldManager.buildLobby();
 
 		this.databaseManager = new DatabaseManager(this);
 

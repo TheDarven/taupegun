@@ -1,9 +1,12 @@
 package fr.thedarven.team.model;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.PlayerJoinTeamEvent;
+import fr.thedarven.events.event.PlayerLeaveTeamEvent;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.scenario.team.element.*;
+import fr.thedarven.scenario.team.element.player.PageableTeamsPlayersSelection;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.Bukkit;
@@ -61,7 +64,7 @@ public class TeamCustom {
 		parameters.build();
 		new InventoryTeamsChangeColor(this.main, parameters).build();
 		new InventoryTeamsRename(this.main, parameters).build();
-		new InventoryTeamsPlayers(this.main, inv).build();
+		new PageableTeamsPlayersSelection(this.main, inv, this).build();
 		new InventoryDeleteTeams(this.main, inv).build();
 
 		teams.put(name, this);
@@ -185,15 +188,23 @@ public class TeamCustom {
 
 	public void deleteTeam() {
 		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
-			if (pl.getTeam() == this)
+			if (pl.getTeam() == this) {
 				pl.setTeam(null);
-			if (pl.getStartTeam().isPresent() && pl.getStartTeam().get() == this)
+
+				PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
+				Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
+			}
+			if (pl.getStartTeam().isPresent() && pl.getStartTeam().get() == this) {
 				pl.setStartTeam(null);
-			if (pl.getTaupeTeam() == this)
+			}
+			if (pl.getTaupeTeam() == this) {
 				pl.setTaupeTeam(null);
-			if (pl.getSuperTaupeTeam() == this)
+			}
+			if (pl.getSuperTaupeTeam() == this) {
 				pl.setSuperTaupeTeam(null);
+			}
 		}
+
 		InventoryTeamsElement.removeTeam(team.getName());
 		teams.remove(this.team.getName());
 		team.unregister();
@@ -216,10 +227,14 @@ public class TeamCustom {
 		}
 
 		pl.setTeam(this);
+
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			pl.setStartTeam(this);
 			reloadTeamsInventories();
 		}
+
+		PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(pl, this);
+		Bukkit.getPluginManager().callEvent(playerJoinTeamEvent);
 	}
 	
 	public void joinTeam(UUID uuid) {
@@ -252,19 +267,23 @@ public class TeamCustom {
 			board.resetScores(player);
 		}
 		pl.setTeam(null);
+
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			pl.setStartTeam(null);
 			reloadTeamsInventories();
 		}
+
+		PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
+		Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
 	}
 
 	private void reloadTeamsInventories() {
+		// TODO Passer par des évènements
 		this.main.getScenariosManager().teamsMenu.reloadInventory();
 		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
 		if (Objects.nonNull(inventoryTeamsElement)) {
 			inventoryTeamsElement.reloadInventory();
 		}
-		InventoryTeamsPlayers.reloadInventories();
 	}
 
 

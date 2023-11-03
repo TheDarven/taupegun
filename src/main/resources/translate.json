@@ -12,6 +12,8 @@
 				"clickToConfigure": "Cliquez pour configurer",
 				"back": "Retour",
 				"info": "[Info]",
+				"previousPage": "[<] Page {page}/{lastPage}",
+				"nextPage": "[>] Page {page}/{lastPage}",
 
 				"moleMessageInfo": " Vous êtes une taupe, trahissez votre équipe et remportez la partie avec votre équipe de taupes !",
 				"moleMessageT": " Tapez /t pour envoyer un message à votre équipe de taupes.",
@@ -40,6 +42,8 @@
 				"clickToConfigure": "Click here to configure",
 				"back": "Back",
 				"info": "[Info]",
+				"previousPage": "[<] Page {page}/{lastPage}",
+				"nextPage": "[>] Page {page}/{lastPage}",
 
 				"moleMessageInfo": " You are a mole, betray your team and win the game along your mole team !",
 				"moleMessageT": " Type /t to send a message to your mole team.",

@@ -4,9 +4,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import fr.thedarven.stats.model.enums.EnumRestStatType;
+import fr.thedarven.utils.helpers.DateHelper;
 import fr.thedarven.utils.helpers.RandomHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Team;
@@ -42,7 +42,7 @@ public class GameDto {
 
 		this.main = main;
 
-		this.started_at = this.main.getDatabaseManager().getLongTimestamp();
+		this.started_at = DateHelper.getLongTimestamp();
 		this.duration = 0;
 		this.language = this.main.getLanguageManager().getLanguage();
 

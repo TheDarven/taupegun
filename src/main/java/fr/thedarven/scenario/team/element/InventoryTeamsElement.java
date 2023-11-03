@@ -5,10 +5,12 @@ import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
+import fr.thedarven.scenario.team.element.player.PageableTeamsPlayersSelection;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -105,11 +107,11 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
 
         AtomicInteger pos = new AtomicInteger(0);
         team.getEntries().forEach(entry -> {
-            getInventory().setItem(pos.getAndIncrement(), this.main.getPlayerManager().getHeadOfPlayer(entry, entry));
+            getInventory().setItem(pos.getAndIncrement(), ItemHelper.getPlayerHeadWithName(entry, entry));
         });
 
         getChildren().forEach(inv -> {
-            if (inv instanceof InventoryTeamsPlayers) {
+            if (inv instanceof PageableTeamsPlayersSelection) {
                 getInventory().setItem(pos.get(), inv.getItem());
                 getInventory().setItem(pos.incrementAndGet(), new ItemStack(Material.AIR, 1));
             }
@@ -162,17 +164,8 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
             return;
         }
 
-        inv.getChildren()
-                .forEach(child -> {
-                    if (child instanceof InventoryTeamsPlayers) {
-                        InventoryTeamsPlayers.inventories.remove(child);
-                    }
-                });
-        InventoryTeamsPlayers.reloadInventories();
-
-        if (Objects.nonNull(inv.getParent())) {
-            inv.getParent().removeChild(inv, true);
-        }
+        // TODO passer en event
+        inv.deleteInventory(true);
         teams.remove(name);
     }
 
@@ -186,7 +179,6 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
                 teamLeave.leaveTeam(playerTaupe.getUuid());
                 sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
                 reloadInventory();
-                InventoryTeamsPlayers.reloadInventories();
                 return;
             }
         }

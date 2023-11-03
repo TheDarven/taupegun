@@ -2,7 +2,7 @@ package fr.thedarven.stats.model.dto;
 
 import java.util.UUID;
 
-import fr.thedarven.TaupeGun;
+import fr.thedarven.utils.helpers.DateHelper;
 
 public class PlayerKillDto {
 	private UUID victim;
@@ -14,7 +14,7 @@ public class PlayerKillDto {
 		this.victim = victim;
 		this.killer = killer;
 		this.killer_health = killer_health;
-		this.created_at = TaupeGun.getInstance().getDatabaseManager().getLongTimestamp();
+		this.created_at = DateHelper.getLongTimestamp();
 	}
 
 	public UUID getVictim() {
