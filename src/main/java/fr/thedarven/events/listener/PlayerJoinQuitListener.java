@@ -1,14 +1,12 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.runnable.CloseInventoryRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.ConfigurationInventory;
-import fr.thedarven.scenario.team.element.InventoryTeamsPlayers;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.titles.Title;
+import fr.thedarven.utils.helpers.DateHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
@@ -22,11 +20,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class PlayerJoinQuitListener implements Listener {
 
-    private TaupeGun main;
+    private final TaupeGun main;
 
     public PlayerJoinQuitListener(TaupeGun main) {
         this.main = main;
@@ -120,7 +117,7 @@ public class PlayerJoinQuitListener implements Listener {
         }
 
         PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
-        pl.addTimePlayed((int) (this.main.getDatabaseManager().getLongTimestamp() - pl.getLastConnection()));
+        pl.addTimePlayed((int) (DateHelper.getLongTimestamp() - pl.getLastConnection()));
 
         if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
             Optional<ConfigurationInventory> oOpenedInventory = ConfigurationInventory.getByInventory(player.getOpenInventory().getTopInventory());

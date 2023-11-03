@@ -7,6 +7,7 @@ import java.util.Objects;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.KillRecap;
 import fr.thedarven.game.model.PveDeathRecap;
+import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -122,6 +123,6 @@ public class PlayerDeathListener implements Listener {
 		Map<String, String> params = new HashMap<>();
 		params.put("playerName", pl.getName());
 		String headName = "§6" + TextInterpreter.textInterpretation(LanguageBuilder.getContent("ITEM", "head", true), params);
-		deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), this.main.getPlayerManager().getHeadOfPlayer(pl.getName(), headName));
+		deadPlayer.getWorld().dropItem(deadPlayer.getLocation(), ItemHelper.getPlayerHeadWithName(pl.getName(), headName));
 	}
 }

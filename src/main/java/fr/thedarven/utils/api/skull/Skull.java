@@ -38,7 +38,7 @@ public class Skull {
     /**
      * Modifies a Skull item with specific url skin
      *
-     * @param url the url
+     * @param url  the url
      * @param head the skull itemstack
      * @return the skull Itemstack modified
      */
@@ -53,7 +53,8 @@ public class Skull {
         ItemMeta headMeta = head.getItemMeta();
         try {
             Reflection.setValue(headMeta, "profile", profile);
-        } catch (IllegalAccessException | NoSuchFieldException ignored) { }
+        } catch (IllegalAccessException | NoSuchFieldException ignored) {
+        }
         head.setItemMeta(headMeta);
         return head;
     }
@@ -61,7 +62,7 @@ public class Skull {
     /**
      * Creates a Skull item with Player skin
      *
-     * @param playerName
+     * @param playerName The player name
      * @return
      */
     public static ItemStack getPlayerHead(String playerName) {

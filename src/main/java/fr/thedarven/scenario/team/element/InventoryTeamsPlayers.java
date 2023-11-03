@@ -55,7 +55,7 @@ public class InventoryTeamsPlayers extends ConfigurationInventory implements Adm
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
             if (Objects.isNull(pl.getTeam())) {
-                getInventory().setItem(i, this.main.getPlayerManager().getHeadOfPlayer(player.getName(), player.getName()));
+                getInventory().setItem(i, ItemHelper.getPlayerHeadWithName(player.getName(), player.getName()));
                 i++;
             }
         }

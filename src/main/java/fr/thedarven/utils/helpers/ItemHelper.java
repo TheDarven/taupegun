@@ -1,11 +1,13 @@
 package fr.thedarven.utils.helpers;
 
+import fr.thedarven.utils.api.skull.Skull;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -139,6 +141,21 @@ public class ItemHelper {
         ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
 
         return item;
+    }
+
+    /**
+     * Creates a Skull item with Player skin and custom name
+     *
+     * @param playerName The player name
+     * @param customHeadName The custom name of the item
+     * @return
+     */
+    public static ItemStack getPlayerHeadWithName(String playerName, String customHeadName) {
+        ItemStack head = Skull.getPlayerHead(playerName);
+        SkullMeta headM = (SkullMeta) head.getItemMeta();
+        headM.setDisplayName(customHeadName);
+        head.setItemMeta(headM);
+        return head;
     }
 
 }

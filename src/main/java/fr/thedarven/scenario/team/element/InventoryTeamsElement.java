@@ -9,6 +9,7 @@ import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -105,7 +106,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
 
         AtomicInteger pos = new AtomicInteger(0);
         team.getEntries().forEach(entry -> {
-            getInventory().setItem(pos.getAndIncrement(), this.main.getPlayerManager().getHeadOfPlayer(entry, entry));
+            getInventory().setItem(pos.getAndIncrement(), ItemHelper.getPlayerHeadWithName(entry, entry));
         });
 
         getChildren().forEach(inv -> {

@@ -10,11 +10,8 @@ import fr.thedarven.utils.api.titles.Title;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.Objects;
@@ -45,23 +42,6 @@ public class PlayerManager extends Manager {
             player.playSound(player.getLocation(), sound, 1, 1);
             title.sendTitle(player);
         }
-    }
-
-    /**
-     * Permet d'avoir la tête d'un Player
-     *
-     * @param pseudonym Le pseudonyme du Player
-     * @param headName Le nom de l'item
-     * @return La tête du Player
-     */
-    public ItemStack getHeadOfPlayer(String pseudonym, String headName) {
-        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-        SkullMeta headM = (SkullMeta) head.getItemMeta();
-        headM.setOwner(pseudonym);
-        headM.setDisplayName(headName);
-        head.setItemMeta(headM);
-
-        return head;
     }
 
     public void clearPlayer(Player p) {
