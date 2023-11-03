@@ -85,7 +85,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
     protected List<String> getItemDescription() {
         List<String> lores = new ArrayList<>();
 
-        TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
+        TeamCustom teamCustom = TeamCustom.getTeamByName(getName());
         if (Objects.nonNull(teamCustom)) {
             Team team = teamCustom.getTeam();
             if (!team.getEntries().isEmpty()) {
@@ -98,7 +98,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
 
     @Override
     public void reloadInventory() {
-        TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
+        TeamCustom teamCustom = TeamCustom.getTeamByName(getName());
         if (Objects.isNull(teamCustom)) {
             return;
         }

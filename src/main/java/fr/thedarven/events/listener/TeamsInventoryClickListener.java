@@ -43,7 +43,7 @@ public class TeamsInventoryClickListener implements Listener {
             String isLeavingMessage = TextInterpreter.textInterpretation("§l§3" + LanguageBuilder.getContent("TEAM", "isLeaving", true), params);
             player.sendMessage(isLeavingMessage);
         } else if (clickItem.getType() == Material.BANNER) {
-            TeamCustom teamCustom = TeamCustom.getTeamCustomByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
+            TeamCustom teamCustom = TeamCustom.getTeamByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
 
             if (Objects.isNull(teamCustom) || teamCustom == team)
                 return;

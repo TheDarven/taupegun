@@ -74,7 +74,7 @@ public class MessageManager extends Manager {
                     .forEach(pc -> {
                         String startTeamColor = ChatColor.GRAY.toString();
                         if (pc.getStartTeam().isPresent()) {
-                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                            startTeamColor = pc.getStartTeam().get().getColor().getColor();
                         }
 
                         listTaupe
@@ -109,7 +109,7 @@ public class MessageManager extends Manager {
                     .forEach(pc -> {
                         String startTeamColor = ChatColor.GRAY.toString();
                         if (pc.getStartTeam().isPresent()) {
-                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                            startTeamColor = pc.getStartTeam().get().getColor().getColor();
                         }
 
                         listSuperTaupe

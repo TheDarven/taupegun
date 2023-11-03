@@ -47,7 +47,7 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
         params.put("teamName", "§e§l" + team.getName() + "§r§a");
         new ActionBar(TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params)).sendActionBar(player);
 
-        TeamCustom teamDelete = TeamCustom.getTeamCustomByName(team.getName());
+        TeamCustom teamDelete = TeamCustom.getTeamByName(team.getName());
         if (Objects.nonNull(teamDelete)) {
             teamDelete.deleteTeam();
         }

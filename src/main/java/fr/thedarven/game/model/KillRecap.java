@@ -22,11 +22,11 @@ public class KillRecap implements GameRecap {
     public String getMessage() {
         String victimStartTeamColor = org.bukkit.ChatColor.GRAY.toString();
         if (victim.getStartTeam().isPresent()) {
-            victimStartTeamColor = victim.getStartTeam().get().getColorEnum().getColor();
+            victimStartTeamColor = victim.getStartTeam().get().getColor().getColor();
         }
         String killerStartTeamColor = org.bukkit.ChatColor.GRAY.toString();
         if (killer.getStartTeam().isPresent()) {
-            killerStartTeamColor = killer.getStartTeam().get().getColorEnum().getColor();
+            killerStartTeamColor = killer.getStartTeam().get().getColor().getColor();
         }
 
         Map<String, String> params = new HashMap<>();

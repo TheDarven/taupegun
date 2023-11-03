@@ -72,7 +72,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     private ItemStack getItemOfTeam(TeamCustom team, TeamCustom playerTeam) {
         ItemStack teamBanner = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
         BannerMeta teamBannerM = (BannerMeta) teamBanner.getItemMeta();
-        teamBannerM.setBaseColor(team.getColorEnum().getDyeColor());
+        teamBannerM.setBaseColor(team.getColor().getDyeColor());
         teamBannerM.setDisplayName(team.getTeam().getPrefix() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 
         if (Objects.nonNull(playerTeam) && playerTeam == team) {

@@ -85,7 +85,7 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
      * @param itemStack L'item selectionné par le joueur
      */
     private void choiceTeamColor(Player player, PlayerTaupe pl, ItemStack itemStack) {
-        TeamCustom teamCustom = TeamCustom.getTeamCustomByName(pl.getCreateTeamName());
+        TeamCustom teamCustom = TeamCustom.getTeamByName(pl.getCreateTeamName());
         if (Objects.nonNull(teamCustom)) {
             player.closeInventory();
             this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(player);
@@ -93,15 +93,12 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
             return;
         }
 
-
-        DyeColor dyeColor = ((BannerMeta) itemStack.getItemMeta()).getBaseColor();
-
-        new TeamCustom(this.main, pl.getCreateTeamName(), ColorEnum.getByDyeColor(dyeColor), 0, 0, false, true);
+        DyeColor bannerColor = ((BannerMeta) itemStack.getItemMeta()).getBaseColor();
+        new TeamCustom(this.main, pl.getCreateTeamName(), ColorEnum.getByDyeColor(bannerColor), 0, 0, false, true);
 
         Map<String, String> params = new HashMap<>();
         params.put("teamName", "§e§l" + pl.getCreateTeamName() + "§r§a");
         String successTeamCreateMessage = TextInterpreter.textInterpretation("§a" + SUCCESS_TEAM_CREATE_FORMAT, params);
-
         new ActionBar(successTeamCreateMessage).sendActionBar(player);
 
         pl.setCreateTeamName(null);

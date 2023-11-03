@@ -26,12 +26,12 @@ public class TeamCustom {
 	public static Scoreboard board = manager.getNewScoreboard();
 	public static Objective objective = board.registerNewObjective("health", "health");
 	
-	private static Map<String, TeamCustom> teams = new HashMap<>();
+	private static final Map<String, TeamCustom> teams = new HashMap<>();
 
 	private final TaupeGun main;
 
 	private String name;
-	private ColorEnum colorEnum;
+	private ColorEnum color;
 
 	private Team team;
 	private int taupeTeam;
@@ -40,18 +40,18 @@ public class TeamCustom {
 	private List<PlayerTaupe> players;
 	private boolean alive;
 	
-	public TeamCustom(TaupeGun main, String name, ColorEnum colorEnum, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+	public TeamCustom(TaupeGun main, String name, ColorEnum color, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
 		this.main = main;
 		team = board.registerNewTeam(name);
 		if (name.startsWith(this.main.getTeamManager().getMoleTeamName()) || name.startsWith(this.main.getTeamManager().getSuperMoleTeamName())) {
-			team.setPrefix(colorEnum.getColor() + "[" + name + "] ");
+			team.setPrefix(color.getColor() + "[" + name + "] ");
 		} else {
-			team.setPrefix(colorEnum.getColor());
+			team.setPrefix(color.getColor());
 		}
 		team.setSuffix("§f");
 
 		this.name = name;
-		this.colorEnum = colorEnum;
+		this.color = color;
 
 		this.taupeTeam = pTaupe;
 		this.superTaupeTeam = pSuperTaupe;
@@ -71,12 +71,12 @@ public class TeamCustom {
 		teams.put(name, this);
 	}
 
-	public ColorEnum getColorEnum() {
-		return colorEnum;
+	public ColorEnum getColor() {
+		return color;
 	}
 
-	public void setColorEnum(ColorEnum colorEnum) {
-		this.colorEnum = colorEnum;
+	public void setColor(ColorEnum color) {
+		this.color = color;
 	}
 
 	public Team getTeam() { return this.team; }
@@ -315,7 +315,7 @@ public class TeamCustom {
 				.collect(Collectors.toList());
 	}
 	
-	public static TeamCustom getTeamCustomByName(String name) {
+	public static TeamCustom getTeamByName(String name) {
 		return teams.get(name);
 	}
 
