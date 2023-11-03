@@ -226,6 +226,18 @@ public class MessageManager extends Manager {
         }
     }
 
+    /**
+     * Sends an error message that there are too many teams
+     * @param received The player that received the message
+     */
+    public void sendTooManyTeamMessage(Player received) {
+        Map<String, String> params = new HashMap<>();
+        params.put("maxTeam", String.valueOf(TeamCustom.MAX_TEAM_AMOUNT));
+        String tooManyTeamMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "tooManyTeams", true), params);
+
+        new ActionBar(String.format("%s%s", ChatColor.RED, tooManyTeamMessage)).sendActionBar(received);
+    }
+
     private String getMessageOfArray(String[] words) {
         StringBuilder message = new StringBuilder();
         for (String word : words) {

@@ -85,6 +85,13 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
      * @param itemStack L'item selectionné par le joueur
      */
     private void choiceTeamColor(Player player, PlayerTaupe pl, ItemStack itemStack) {
+        if (TeamCustom.countTeam() >= TeamCustom.MAX_TEAM_AMOUNT) {
+            player.closeInventory();
+            this.main.getMessageManager().sendTooManyTeamMessage(player);
+            pl.setCreateTeamName(null);
+            return;
+        }
+
         TeamCustom teamCustom = TeamCustom.getTeamByName(pl.getCreateTeamName());
         if (Objects.nonNull(teamCustom)) {
             player.closeInventory();
