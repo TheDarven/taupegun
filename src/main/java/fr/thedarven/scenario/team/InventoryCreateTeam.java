@@ -7,6 +7,7 @@ import fr.thedarven.scenario.team.runnable.CreateTeamRunnable;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
+import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.anvil.AnvilGUI;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -14,9 +15,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InventoryCreateTeam extends ConfigurationInventory implements AdminConfiguration {
 
-    private static String TOO_MANY_TEAM = "Vous ne pouvez pas créer plus de 36 équipes.";
+    private static String TOO_MANY_TEAM = "Vous ne pouvez pas créer plus de {maxTeam} équipes.";
     private static String CREATE_TEAM = "Choix du nom";
 
     public InventoryCreateTeam(TaupeGun main, ConfigurationInventory parent) {
@@ -42,12 +46,17 @@ public class InventoryCreateTeam extends ConfigurationInventory implements Admin
 
     @Override
     public void onClickIn(Player player, PlayerTaupe pl) {
-        if (TeamCustom.board.getTeams().size() < 36) {
-            addTeamAction(player, pl);
-        } else {
-            new ActionBar(ChatColor.RED + TOO_MANY_TEAM).sendActionBar(player);
+        if (TeamCustom.countTeam() >= TeamCustom.MAX_TEAM_AMOUNT) {
+            Map<String, String> params = new HashMap<>();
+            params.put("maxTeam", String.valueOf(TeamCustom.MAX_TEAM_AMOUNT));
+            String tooManyTeamMessage = TextInterpreter.textInterpretation(TOO_MANY_TEAM, params);
+
+            new ActionBar(String.format("%s%s", ChatColor.RED, tooManyTeamMessage)).sendActionBar(player);
             player.closeInventory();
+            return;
         }
+
+        addTeamAction(player, pl);
     }
 
     /**

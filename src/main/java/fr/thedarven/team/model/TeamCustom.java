@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class TeamCustom {
 
 	public final static int MAX_PLAYER_PER_TEAM = 9;
+	public final static int MAX_TEAM_AMOUNT = 36;
 
 	public static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	public static Scoreboard board = manager.getNewScoreboard();
@@ -363,5 +364,9 @@ public class TeamCustom {
 		if (TeamCustom.getAllAliveTeams().size() != 1)
 			return Optional.empty();
 		return Optional.ofNullable(getAllAliveTeams().get(0));
+	}
+
+	public static int countTeam() {
+		return teams.size();
 	}
 }

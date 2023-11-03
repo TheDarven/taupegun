@@ -165,7 +165,7 @@
 			"fr_FR": {
 				"nameChoice": "Choix du nom",
 				"nameTooLong": "Le nom de l'équipe ne doit pas dépasser 16 caractères.",
-				"tooManyTeams": "Vous ne pouvez pas créer plus de 36 équipes.",
+				"tooManyTeams": "Vous ne pouvez pas créer plus de {maxTeam} équipes.",
 				"create": "L'équipe {teamName} a été créée avec succès.",
 				"delete": "L'équipe {teamName} a été supprimée avec succès.",
 				"full": "L'équipe {teamName} est déjà complète.",
@@ -186,7 +186,7 @@
 			"en_US": {
 				"nameChoice": "Name choice",
 				"nameTooLong": "The team's name cannot exceed 16 characters.",
-				"tooManyTeams": "You cannot create more than 36 teams.",
+				"tooManyTeams": "You cannot create more than {maxTeam} teams.",
 				"create": "The {teamName} team has been successfully created.",
 				"delete": "The {teamName} team has been successfully deleted.",
 				"full": "The {teamName} team is already full.",
