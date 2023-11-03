@@ -8,17 +8,15 @@ import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InventoryTeamsRandom extends ConfigurationInventory implements AdminConfiguration {
 
+    private static final Comparator<TeamCustom> TEAM_SIZE_COMPARATOR = Comparator.comparing(TeamCustom::getSize);
     private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
 
     public InventoryTeamsRandom(TaupeGun main, InventoryTeams parent) {
@@ -41,30 +39,24 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
 
     @Override
     public void onClickIn(Player player, PlayerTaupe pl) {
-        randomTeamAction(player);
+        fillTeamRandomly(player);
     }
 
     /**
      * Permet de répartir les joueurs de manière aléatoire dans les équipes
      *
-     * @param player Le joueur qui a lancé le processus
+     * @param sender Le joueur qui a lancé le processus
      */
-    private void randomTeamAction(Player player) {
-        List<TeamCustom> teamList = new ArrayList<>();
-        List<PlayerTaupe> playerList = new ArrayList<>();
+    private void fillTeamRandomly(Player sender) {
+        List<PlayerTaupe> playerWithoutTeam = PlayerTaupe.getAllPlayerManager().stream()
+                .filter(playerTaupe -> playerTaupe.isOnline() && playerTaupe.getTeam() == null)
+                .collect(Collectors.toList());
+        Collections.shuffle(playerWithoutTeam);
 
-        TeamCustom.getAllTeams().stream()
+        List<TeamCustom> teamList = TeamCustom.getAllTeams().stream()
                 .filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
-                .forEach(teamList::add);
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerTaupe pl = PlayerTaupe.getPlayerManager(p.getUniqueId());
-            if (Objects.isNull(pl.getTeam())) {
-                playerList.add(pl);
-            }
-        }
-
-        Collections.shuffle(playerList);
+                .sorted(TEAM_SIZE_COMPARATOR)
+                .collect(Collectors.toList());
 
         for (int i = 0; i < teamList.size(); i++) {
             for (int j = i; j < teamList.size(); j++) {
@@ -77,22 +69,17 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
         }
 
         int teamIndex = 0;
-        while (!playerList.isEmpty() && !teamList.isEmpty()) {
+        while (!playerWithoutTeam.isEmpty() && !teamList.isEmpty()) {
             TeamCustom currentTeam = teamList.get(teamIndex);
-            if (!currentTeam.isFull()) {
-                currentTeam.joinTeam(playerList.get(0));
-                playerList.remove(0);
-            }
-
             if (currentTeam.isFull()) {
                 teamList.remove(teamIndex);
+                continue;
             }
-
-            teamIndex++;
-            if (teamIndex > teamList.size() - 1) {
-                teamIndex = 0;
-            }
+            currentTeam.joinTeam(playerWithoutTeam.remove(0));
+            teamIndex = (teamIndex + 1) % teamList.size();
+            teamList.sort(TEAM_SIZE_COMPARATOR);
         }
-        new ActionBar("§a" + PLAYER_REPARTITION).sendActionBar(player);
+
+        new ActionBar("§a" + PLAYER_REPARTITION).sendActionBar(sender);
     }
 }

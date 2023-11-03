@@ -9,19 +9,21 @@ import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class InventoryDeleteTeams extends InventoryDelete implements AdminConfiguration {
 
     private static String TEAM_DELETE_FORMAT = "L'équipe {teamName} a été supprimée avec succès.";
 
-    public InventoryDeleteTeams(TaupeGun main, ConfigurationInventory parent) {
+    private final TeamCustom team;
+
+    public InventoryDeleteTeams(TaupeGun main, ConfigurationInventory parent, TeamCustom team) {
         super(main, parent, "Supprimer l'équipe", "MENU_TEAM_ITEM_DELETE", 18);
+        this.team = team;
     }
 
     @Override
@@ -41,18 +43,10 @@ public class InventoryDeleteTeams extends InventoryDelete implements AdminConfig
 
     @Override
     protected void deleteElement(Player player) {
-        Team team = TeamCustom.board.getTeam(getParent().getName());
-
         Map<String, String> params = new HashMap<>();
-        params.put("teamName", "§e§l" + team.getName() + "§r§a");
-        new ActionBar(TextInterpreter.textInterpretation("§a" + TEAM_DELETE_FORMAT, params)).sendActionBar(player);
+        params.put("teamName", String.format("§e§l%s§r§a", this.team.getName()));
+        new ActionBar(TextInterpreter.textInterpretation(String.format("%s%s", ChatColor.GREEN, TEAM_DELETE_FORMAT), params)).sendActionBar(player);
 
-        TeamCustom teamDelete = TeamCustom.getTeamByName(team.getName());
-        if (Objects.nonNull(teamDelete)) {
-            teamDelete.deleteTeam();
-        }
-        if (!this.main.getScenariosManager().teamsMenu.openInventory(player)) {
-            player.closeInventory();
-        }
+        this.team.deleteTeam();
     }
 }

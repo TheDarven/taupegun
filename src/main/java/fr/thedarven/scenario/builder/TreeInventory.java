@@ -163,7 +163,7 @@ public abstract class TreeInventory implements Listener {
 
         this.inventory = this.buildAndFillInventory();
         if (this.parent != null) {
-            this.getParent().addChildItem(this);
+            this.getParent().addChild(this);
         }
         return this;
     }
@@ -222,12 +222,13 @@ public abstract class TreeInventory implements Listener {
     }
 
     /**
-     * Pour ajouter l'item d'un enfant
+     * Pour ajouter un enfant
      *
-     * @param treeInventory L'inventaire de l'item à ajouter
+     * @param treeInventory L'inventaire à ajouter
+     * @return <b>true</b>si l'enfant a été ajouté, sinon <b>false</b>
      */
-    final public void addChildItem(TreeInventory treeInventory) {
-        boolean setItem = false;
+    protected final boolean addChild(TreeInventory treeInventory) {
+        boolean hasFoundSlot = false;
         if (this.inventory.getSize() <= treeInventory.getPosition() || Objects.nonNull(this.inventory.getItem(treeInventory.getPosition()))) {
             int i = 0;
             boolean boucle = true;
@@ -235,7 +236,7 @@ public abstract class TreeInventory implements Listener {
                 if (this.inventory.getItem(i) == null) {
                     boucle = false;
                     treeInventory.setPosition(i);
-                    setItem = true;
+                    hasFoundSlot = true;
                 }
                 i++;
             }
@@ -243,12 +244,27 @@ public abstract class TreeInventory implements Listener {
                 System.out.printf("%smErreur de positionnement de l'item %s%s%n", GlobalVariable.ANSI_RED, treeInventory.getInventoryName(), GlobalVariable.ANSI_RESET);
             }
         } else {
-            setItem = true;
+            hasFoundSlot = true;
         }
 
-        if (setItem) {
+        if (hasFoundSlot) {
             this.children.put(treeInventory.getItem().hashCode(), treeInventory);
             this.inventory.setItem(treeInventory.getPosition(), treeInventory.getItem());
+        }
+        return hasFoundSlot;
+    }
+
+    /**
+     * Retire un enfant
+     *
+     * @param treeInventory L'enfant à supprimer
+     * @param reload Recharge l'inventaire après la suppresion de l'enfant si <b>true</b>
+     */
+    protected final void removeChild(TreeInventory treeInventory, boolean reload) {
+        this.children.remove(treeInventory.getItem().hashCode());
+        this.removeChildItem(treeInventory);
+        if (reload) {
+            refreshInventoryItems();
         }
     }
 
@@ -262,12 +278,12 @@ public abstract class TreeInventory implements Listener {
         for (int i = 0; i < this.inventory.getSize(); i++) {
             ItemStack item = this.inventory.getItem(i);
             if (Objects.nonNull(item) && item.hashCode() == hashCode) {
-                this.children.remove(hashCode);
-                this.children.put(newItem.hashCode(), child);
                 this.inventory.setItem(i, newItem);
-                return;
+                break;
             }
         }
+        this.children.remove(hashCode);
+        this.children.put(newItem.hashCode(), child);
     }
 
     /**
@@ -304,7 +320,7 @@ public abstract class TreeInventory implements Listener {
     /**
      * Pour supprimer un inventaire
      *
-     * @param reload Reload l'inventaire parent après la suppresion de l'enfant si <b>true</b>
+     * @param reload Recharge l'inventaire parent après la suppresion de l'enfant si <b>true</b>
      */
     public final void deleteInventory(boolean reload) {
         List<TreeInventory> children = getChildrenForDeletion();
@@ -313,11 +329,7 @@ public abstract class TreeInventory implements Listener {
         });
 
         if (getParent() != null) {
-            getParent().children.remove(getItem().hashCode());
-            getParent().removeChildItem(this);
-            if (reload) {
-                getParent().reloadInventory();
-            }
+            getParent().removeChild(this, reload);
         }
 
         HandlerList.unregisterAll(this);

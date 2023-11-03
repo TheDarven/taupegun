@@ -3,10 +3,10 @@ package fr.thedarven.team.model;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.PlayerJoinTeamEvent;
 import fr.thedarven.events.event.PlayerLeaveTeamEvent;
+import fr.thedarven.events.event.TeamCreateEvent;
+import fr.thedarven.events.event.TeamDeleteEvent;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.scenario.team.element.*;
-import fr.thedarven.scenario.team.element.player.PageableTeamsPlayersSelection;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.Bukkit;
@@ -22,9 +22,9 @@ public class TeamCustom {
 	public final static int MAX_PLAYER_PER_TEAM = 9;
 	public final static int MAX_TEAM_AMOUNT = 36;
 
-	public static ScoreboardManager manager = Bukkit.getScoreboardManager();
-	public static Scoreboard board = manager.getNewScoreboard();
-	public static Objective objective = board.registerNewObjective("health", "health");
+	private static final ScoreboardManager manager = Bukkit.getScoreboardManager();
+	public static final Scoreboard board = manager.getNewScoreboard();
+	private static final Objective objective = board.registerNewObjective("health", "health");
 	
 	private static final Map<String, TeamCustom> teams = new HashMap<>();
 
@@ -33,11 +33,11 @@ public class TeamCustom {
 	private String name;
 	private ColorEnum color;
 
-	private Team team;
-	private int taupeTeam;
-	private int superTaupeTeam;
-	private boolean spectator;
-	private List<PlayerTaupe> players;
+	private final Team team;
+	private final int taupeTeam;
+	private final int superTaupeTeam;
+	private final boolean isSpectator;
+	private final List<PlayerTaupe> players;
 	private boolean alive;
 	
 	public TeamCustom(TaupeGun main, String name, ColorEnum color, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
@@ -55,20 +55,14 @@ public class TeamCustom {
 
 		this.taupeTeam = pTaupe;
 		this.superTaupeTeam = pSuperTaupe;
-		this.spectator = pSpectator;
+		this.isSpectator = pSpectator;
 		this.players = new ArrayList<>();
 		this.alive = pAlive;
-		
-		InventoryTeamsElement inv = new InventoryTeamsElement(this.main, name, colorEnum);
-		inv.build();
-		InventoryTeamsParameters parameters = new InventoryTeamsParameters(this.main, inv);
-		parameters.build();
-		new InventoryTeamsChangeColor(this.main, parameters).build();
-		new InventoryTeamsRename(this.main, parameters).build();
-		new PageableTeamsPlayersSelection(this.main, inv, this).build();
-		new InventoryDeleteTeams(this.main, inv).build();
 
 		teams.put(name, this);
+
+		TeamCreateEvent teamCreateEvent = new TeamCreateEvent(this);
+		Bukkit.getPluginManager().callEvent(teamCreateEvent);
 	}
 
 	public ColorEnum getColor() {
@@ -98,7 +92,7 @@ public class TeamCustom {
 	}
 	
 	public boolean isSpectator() {
-		return spectator;
+		return isSpectator;
 	}
 
 	public List<PlayerTaupe> getTaupeTeamPlayers() {
@@ -206,17 +200,21 @@ public class TeamCustom {
 			}
 		}
 
-		InventoryTeamsElement.removeTeam(team.getName());
 		teams.remove(this.team.getName());
 		team.unregister();
+
+		TeamDeleteEvent teamDeleteEvent = new TeamDeleteEvent(this);
+		Bukkit.getPluginManager().callEvent(teamDeleteEvent);
 	}
 
 	public void joinTeam(PlayerTaupe pl) {
-		if ((!alive || team.getEntries().size() >= MAX_PLAYER_PER_TEAM) && !this.spectator)
+		if ((!alive || isFull()) && !this.isSpectator) {
 			return;
+		}
 
-		if (Objects.isNull(pl))
+		if (Objects.isNull(pl)) {
 			return;
+		}
 
 		if (pl.getTeam() != null) {
 			pl.getTeam().leaveTeam(pl.getUuid());
@@ -231,7 +229,6 @@ public class TeamCustom {
 
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			pl.setStartTeam(this);
-			reloadTeamsInventories();
 		}
 
 		PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(pl, this);
@@ -271,20 +268,10 @@ public class TeamCustom {
 
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
 			pl.setStartTeam(null);
-			reloadTeamsInventories();
 		}
 
 		PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
 		Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
-	}
-
-	private void reloadTeamsInventories() {
-		// TODO Passer par des évènements
-		this.main.getScenariosManager().teamsMenu.reloadInventory();
-		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
-		if (Objects.nonNull(inventoryTeamsElement)) {
-			inventoryTeamsElement.reloadInventory();
-		}
 	}
 
 
@@ -315,8 +302,8 @@ public class TeamCustom {
 				.collect(Collectors.toList());
 	}
 	
-	public static TeamCustom getTeamByName(String name) {
-		return teams.get(name);
+	public static Optional<TeamCustom> getTeamByName(String name) {
+		return Optional.ofNullable(teams.get(name));
 	}
 
 	public static int getNumberOfTeam() {
