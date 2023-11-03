@@ -193,7 +193,7 @@ public abstract class TreeInventory implements Listener {
     protected Inventory buildAndFillInventory() {
         Inventory inventory = Bukkit.createInventory(null, this.getLines() * 9, this.getInventoryName());
 
-        if (Objects.nonNull(this.getParent())) {
+        if (hasBackItem()) {
             ItemStack redstone = ItemHelper.addTagOnItemStack(new ItemStack(Material.REDSTONE, 1));
             ItemMeta redstoneM = redstone.getItemMeta();
             redstoneM.setDisplayName(getBackName());
@@ -214,7 +214,7 @@ public abstract class TreeInventory implements Listener {
         }
 
         ItemStack redstone = this.inventory.getItem(this.getLines() * 9 - 1);
-        if (!ItemHelper.isNullOrAir(redstone)) {
+        if (hasBackItem() && !ItemHelper.isNullOrAir(redstone)) {
             ItemMeta redstoneM = redstone.getItemMeta();
             redstoneM.setDisplayName(getBackName());
             redstone.setItemMeta(redstoneM);
@@ -353,19 +353,11 @@ public abstract class TreeInventory implements Listener {
     }
 
     /**
-     * Lorsqu'un joueur se trouvant dans l'inventaire est déconnecté .
-     *
-     * @param player Le joueur qui va être déconnecté.
-     */
-    public void onPlayerDisconnect(Player player) {
-    }
-
-    /**
      * Permet de valider l'action de clic dans l'inventaire
      *
      * @param e L'évènement de clic
      */
-    public void onInventoryPreClick(InventoryClickEvent e) {
+    public final void onInventoryPreClick(InventoryClickEvent e) {
         if (e.isShiftClick() || (e.getClick() == ClickType.DOUBLE_CLICK && !canDoubleClick(e))) {
             return;
         }
@@ -439,7 +431,7 @@ public abstract class TreeInventory implements Listener {
      * @param player
      */
     public void onReturnClick(Player player) {
-        if (getParent() == null) {
+        if (!hasBackItem() || getParent() == null) {
             player.closeInventory();
         } else {
             getParent().openInventory(player);
@@ -449,6 +441,7 @@ public abstract class TreeInventory implements Listener {
 
     /**
      * Ouvre l'inventaire pour le joueur
+     *
      * @param player Le joueur
      * @return <b>true</b> si l'inventaire a été ouvert, sinon <b>false</b>
      */
@@ -537,5 +530,14 @@ public abstract class TreeInventory implements Listener {
      */
     protected String getBackName() {
         return "§c" + BACK_STRING;
+    }
+
+    /**
+     * Informe si l'inventaire possède un item de retour
+     *
+     * @return <b>true</b> s'il en possède un, sinon <b>false</b>
+     */
+    protected boolean hasBackItem() {
+        return getParent() != null;
     }
 }
