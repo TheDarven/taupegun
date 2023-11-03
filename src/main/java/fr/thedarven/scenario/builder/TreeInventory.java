@@ -307,7 +307,7 @@ public abstract class TreeInventory implements Listener {
      * @param reload Reload l'inventaire parent après la suppresion de l'enfant si <b>true</b>
      */
     public final void deleteInventory(boolean reload) {
-        List<TreeInventory> children = getChildren();
+        List<TreeInventory> children = getChildrenForDeletion();
         children.forEach(child -> {
             child.deleteInventory(false);
         });
@@ -320,21 +320,35 @@ public abstract class TreeInventory implements Listener {
             }
         }
 
-        if (Objects.nonNull(getInventory())) {
-            List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
-            viewers.forEach(viewer -> {
-                if (getParent() == null || !(viewer instanceof Player)) {
-                    viewer.closeInventory();
-                } else {
-                    getParent().openInventory((Player) viewer);
-                }
-            });
-        }
-
         HandlerList.unregisterAll(this);
-        // TODO Get children pour les inventaires qui n'en n'ont pas directement
+
+        onInventoryDelete();
     }
 
+    /**
+     * @return Les inventaires enfants à traiter lors de la suppression de l'inventaire
+     */
+    public List<TreeInventory> getChildrenForDeletion() {
+        return getChildren();
+    }
+
+    /**
+     * Lorsque l'inventaire est supprimé
+     */
+    public void onInventoryDelete() {
+        if (getInventory() == null) {
+            return;
+        }
+
+        List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
+        viewers.forEach(viewer -> {
+            if (getParent() == null || !(viewer instanceof Player)) {
+                viewer.closeInventory();
+            } else {
+                getParent().openInventory((Player) viewer);
+            }
+        });
+    }
 
     /**
      * Lorsque l'inventaire est ouvert.

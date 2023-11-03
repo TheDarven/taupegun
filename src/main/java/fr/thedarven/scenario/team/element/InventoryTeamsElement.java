@@ -5,6 +5,7 @@ import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
+import fr.thedarven.scenario.team.element.player.PageableTeamsPlayersSelection;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
@@ -110,7 +111,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         });
 
         getChildren().forEach(inv -> {
-            if (inv instanceof InventoryTeamsPlayers) {
+            if (inv instanceof PageableTeamsPlayersSelection) {
                 getInventory().setItem(pos.get(), inv.getItem());
                 getInventory().setItem(pos.incrementAndGet(), new ItemStack(Material.AIR, 1));
             }
@@ -162,7 +163,8 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         if (Objects.isNull(inv)) {
             return;
         }
-        
+
+        // TODO passer en event
         inv.deleteInventory(true);
         teams.remove(name);
     }
@@ -177,7 +179,6 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
                 teamLeave.leaveTeam(playerTaupe.getUuid());
                 sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
                 reloadInventory();
-                InventoryTeamsPlayers.reloadInventories();
                 return;
             }
         }

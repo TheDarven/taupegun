@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
+public abstract class PageInventory<ELEMENT, PAGEABLE extends PageableInventory<ELEMENT, ?>> extends ConfigurationInventory {
 
     private static String PREVIOUS_PAGE = "[<] Page {page}/{lastPage}";
     private static String NEXT_PAGE = "[>] Page {page}/{lastPage}";
@@ -26,10 +26,10 @@ public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
     private final int page;
     private ItemStack previousItem;
     private ItemStack nextItem;
-    private final PageableInventory<ELEMENT, ? extends PageInventory<ELEMENT>> pageableInventory;
+    private final PAGEABLE pageableInventory;
 
     public PageInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material, int position, byte itemData,
-                         PageableInventory<ELEMENT, ? extends PageInventory<ELEMENT>> pageableInventory, int page) {
+                         PAGEABLE pageableInventory, int page) {
         super(main, name, description, translationName, Math.max(2, lines), material, null, position, itemData);
         this.pageableInventory = pageableInventory;
         this.page = page;
@@ -91,7 +91,7 @@ public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
     /**
      * @return The pageable inventory to which this inventory is attached
      */
-    public PageableInventory<ELEMENT, ? extends PageInventory<ELEMENT>> getPageableInventory() {
+    public PAGEABLE getPageableInventory() {
         return this.pageableInventory;
     }
 
@@ -157,8 +157,10 @@ public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
-        if (this.previousItem != null && e.getCurrentItem() != null && e.getCurrentItem().hashCode() == this.previousItem.hashCode()) {
+    public final void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
+        if (e.getSlot() < getSize()) {
+            onClickInElementSlot(e, player, pl);
+        } else if (this.previousItem != null && e.getCurrentItem() != null && e.getCurrentItem().hashCode() == this.previousItem.hashCode()) {
             this.pageableInventory.getPage(page - 1).ifPresent(previousPage -> previousPage.openInventory(player));
         } else if (this.nextItem != null && e.getCurrentItem() != null && e.getCurrentItem().hashCode() == this.nextItem.hashCode()) {
             this.pageableInventory.getPage(page + 1).ifPresent(nextPage -> nextPage.openInventory(player));
@@ -166,6 +168,47 @@ public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
             super.onInventoryClick(e, player, pl);
         }
     }
+
+    @Override
+    public void onInventoryDelete() {
+        this.pageableInventory.removePage(this.page);
+
+        // Open previous page
+        if (getInventory() == null) {
+            return;
+        }
+
+        Optional<? extends PageInventory<ELEMENT, ?>> oPreviousPage = this.pageableInventory.getPage(Math.max(1, this.page - 1));
+        List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
+        viewers.forEach(viewer -> {
+            if (viewer instanceof Player) {
+                Player player = (Player) viewer;
+                if (oPreviousPage.isPresent() && oPreviousPage.get() != this && oPreviousPage.get().openInventory(player)) {
+                    return;
+                }
+                if (this.pageableInventory.openInventory(player)) {
+                    return;
+                }
+                if (this.pageableInventory.getParent() != null && this.pageableInventory.getParent().openInventory(player)) {
+                    return;
+                }
+            }
+            viewer.closeInventory();
+        });
+    }
+
+    @Override
+    protected boolean hasBackItem() {
+        return true;
+    }
+
+    /**
+     * Code to execute when an element slot is clicked
+     * @param event Original InventoryClickEvent
+     * @param player The player who clicked
+     * @param playerTaupe The PlayerTaupe of the player
+     */
+    protected abstract void onClickInElementSlot(InventoryClickEvent event, Player player, PlayerTaupe playerTaupe);
 
     /**
      * Add the element to the page
@@ -180,27 +223,4 @@ public abstract class PageInventory<ELEMENT> extends ConfigurationInventory {
      * @param element The element to be removed
      */
     protected abstract void removeElement(ELEMENT element);
-
-    /**
-     * Code to execute when the page is deleted
-     */
-    protected void onPageDelete() {
-        List<HumanEntity> viewers = new ArrayList<>(getInventory().getViewers());
-
-        Optional<? extends PageInventory<ELEMENT>> oPreviousPage = this.pageableInventory.getPage(Math.max(1, this.page - 1));
-        if (oPreviousPage.isPresent() && oPreviousPage.get() != this) {
-            // Open previous page
-            PageInventory<ELEMENT> previousPage = oPreviousPage.get();
-            viewers.forEach(viewer -> {
-                if (!(viewer instanceof Player)) {
-                    viewer.closeInventory();
-                } else {
-                    previousPage.openInventory((Player) viewer);
-                }
-            });
-        } else {
-            // Close inventory
-            viewers.forEach(HumanEntity::closeInventory);
-        }
-    }
 }

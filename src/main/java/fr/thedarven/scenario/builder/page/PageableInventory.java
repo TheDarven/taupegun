@@ -10,23 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEMENT>> extends ConfigurationInventory {
+public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEMENT, ?>> extends ConfigurationInventory {
 
     private static final int MAX_PAGE_AMOUNT = 999;
 
-    private final List<ELEMENT> elements = new ArrayList<>();
     private final List<PAGE> pages = new ArrayList<>();
+    private final PageData<ELEMENT> pageData;
 
-    public PageableInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material, ConfigurationInventory parent, int position, byte itemData) {
+    public PageableInventory(TaupeGun main, String name, String description, String translationName, int lines, Material material,
+                             ConfigurationInventory parent, int position, byte itemData, PageData<ELEMENT> pageData) {
         super(main, name, description, translationName, Math.max(2, lines), material, parent, position, itemData);
-    }
-
-    /**
-     * Get a copy list of all elements
-     * @return A copy list of all elements
-     */
-    public final List<ELEMENT> getElements() {
-        return new ArrayList<>(this.elements);
+        this.pageData = pageData;
+        this.pageData.subscribe(this);
     }
 
     /**
@@ -35,12 +30,14 @@ public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEM
      * @return List that contains all elements of the page
      */
     public final List<ELEMENT> getElementsOfPage(int page) {
+        List<ELEMENT> elements = this.pageData.getElements();
+
         int elementPerPage = (getLines() - 1) * 9;
-        if (this.elements.size() <= (page - 1) * elementPerPage) {
+        if (elements.size() <= (page - 1) * elementPerPage) {
             return new ArrayList<>();
         }
-        int toIndex = Math.min(this.elements.size(), page * elementPerPage);
-        return getElements().subList((page - 1) * elementPerPage, toIndex);
+        int toIndex = Math.min(elements.size(), page * elementPerPage);
+        return elements.subList((page - 1) * elementPerPage, toIndex);
     }
 
     /**
@@ -85,53 +82,56 @@ public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEM
         return pages.get(0).openInventory(player);
     }
 
+    @Override
+    public void onInventoryDelete() {
+        super.onInventoryDelete();
+        this.pageData.unsubscribe(this);
+    }
+
+    @Override
+    public List<TreeInventory> getChildrenForDeletion() {
+        List<TreeInventory> children = super.getChildren();
+        children.addAll(pages);
+        return children;
+    }
+
     /**
      * Add element to the pages
      * @param element The element to be added
      * @return <b>true</b> if the element is added, otherwise <b>false</b>
      */
-    public boolean addElement(ELEMENT element) {
+    protected void onElementAdd(ELEMENT element) {
         Optional<PAGE> oLastPage = this.getPage(countPages());
         if (oLastPage.isPresent()) {
             PAGE lastPage = oLastPage.get();
             if (!lastPage.isFull()) {
-                this.elements.add(element);
                 lastPage.addElement(element);
-                return true;
+                return;
             }
         }
 
         if (countPages() < MAX_PAGE_AMOUNT) {
             PAGE newPage = buildPage(countPages() + 1);
-            this.elements.add(element);
             this.pages.add(newPage);
             newPage.addElement(element);
             this.pages.forEach(PageInventory::refreshInventoryItems);
-            return true;
         }
-
-        return false;
     }
 
     /**
      * Remove element from the pages
      * @param element The element to be removed
+     * @param indexOfElement Index of the element
      * @return <b>true</b> if the element is removed, otherwise <b>false</b>
      */
-    public boolean removeElement(ELEMENT element) {
-        int indexOfElement = elements.indexOf(element);
-        if (indexOfElement == -1) {
-            return false;
-        }
-
+    protected void onElementRemove(ELEMENT element, int indexOfElement) {
         // Get the page where the element is located
         Optional<PAGE> oPageOfElement = getPage(Math.floorDiv(indexOfElement, elementsPerPage()) + 1);
         if (!oPageOfElement.isPresent()) {
-            return false;
+            return;
         }
 
         // Remove the element
-        elements.remove(element);
         PAGE pageOfElement = oPageOfElement.get();
         pageOfElement.removeElement(element);
 
@@ -145,13 +145,11 @@ public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEM
             PAGE page = oPage.get();
             if (page.isEmpty() && page.getPage() == countPages() && countPages() > 1) {
                 // The last page must be deleted if it is empty
-                this.pages.remove(countPages() - 1);
-                page.onPageDelete();
+                page.deleteInventory(false);
                 firstPageIndex = 1;
             }
             page.refreshInventoryItems();
         }
-        return true;
     }
 
     /**
@@ -160,5 +158,13 @@ public abstract class PageableInventory<ELEMENT, PAGE extends PageInventory<ELEM
      * @return A new page
      */
     protected abstract PAGE buildPage(int page);
+
+    /**
+     * Remove a page
+     * @param page The page to be removed
+     */
+    protected final void removePage(int page) {
+        this.pages.remove(Math.max(0, Math.max(page - 1, countPages() - 1)));
+    }
 
 }

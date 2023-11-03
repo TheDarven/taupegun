@@ -37,7 +37,6 @@ public class PlayerJoinQuitListener implements Listener {
         e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
 
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            InventoryTeamsPlayers.reloadInventories();
             if (this.main.development) {
                 new Title(ChatColor.GOLD + LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
                         LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
@@ -67,9 +66,7 @@ public class PlayerJoinQuitListener implements Listener {
         Player player = e.getPlayer();
         e.setQuitMessage("§8(§c-§8) §7" + e.getPlayer().getName());
 
-        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            new CloseInventoryRunnable().runTaskTimer(this.main, 0, 20);
-        } else if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
+        if (EnumGameState.isCurrentState(EnumGameState.WAIT)) {
             this.main.getCommandManager().getStartCommand().stopStartRunnable();
             this.main.getGameManager().setCooldownTimer(10);
 
@@ -118,10 +115,5 @@ public class PlayerJoinQuitListener implements Listener {
 
         PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
         pl.addTimePlayed((int) (DateHelper.getLongTimestamp() - pl.getLastConnection()));
-
-        if (Objects.nonNull(player.getOpenInventory()) && Objects.nonNull(player.getOpenInventory().getTopInventory())) {
-            Optional<ConfigurationInventory> oOpenedInventory = ConfigurationInventory.getByInventory(player.getOpenInventory().getTopInventory());
-            oOpenedInventory.ifPresent(openedInventory -> openedInventory.onPlayerDisconnect(player));
-        }
     }
 }

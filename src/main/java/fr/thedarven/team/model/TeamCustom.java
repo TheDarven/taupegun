@@ -6,6 +6,7 @@ import fr.thedarven.events.event.PlayerLeaveTeamEvent;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.scenario.team.element.*;
+import fr.thedarven.scenario.team.element.player.PageableTeamsPlayersSelection;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.Bukkit;
@@ -63,7 +64,7 @@ public class TeamCustom {
 		parameters.build();
 		new InventoryTeamsChangeColor(this.main, parameters).build();
 		new InventoryTeamsRename(this.main, parameters).build();
-		new InventoryTeamsPlayers(this.main, inv).build();
+		new PageableTeamsPlayersSelection(this.main, inv, this).build();
 		new InventoryDeleteTeams(this.main, inv).build();
 
 		teams.put(name, this);
@@ -277,12 +278,12 @@ public class TeamCustom {
 	}
 
 	private void reloadTeamsInventories() {
+		// TODO Passer par des évènements
 		this.main.getScenariosManager().teamsMenu.reloadInventory();
 		InventoryTeamsElement inventoryTeamsElement = InventoryTeamsElement.getInventoryTeamsElementOfTeam(this);
 		if (Objects.nonNull(inventoryTeamsElement)) {
 			inventoryTeamsElement.reloadInventory();
 		}
-		InventoryTeamsPlayers.reloadInventories();
 	}
 
 

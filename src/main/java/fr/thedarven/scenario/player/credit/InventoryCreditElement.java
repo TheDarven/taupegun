@@ -1,11 +1,11 @@
 package fr.thedarven.scenario.player.credit;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
+import fr.thedarven.scenario.player.credit.model.enums.DirectionEnum;
 import fr.thedarven.scenario.player.credit.runnable.SnakeRunnable;
 import fr.thedarven.utils.api.skull.Skull;
 import fr.thedarven.utils.helpers.ItemHelper;
@@ -127,12 +127,6 @@ public class InventoryCreditElement extends InventoryPlayersElement {
     public void onInventoryClose(InventoryCloseEvent event) {
         endGameAndRemoveArrow((Player) event.getPlayer());
     }
-
-    @Override
-    public void onPlayerDisconnect(Player player) {
-        endGameAndRemoveArrow(player);
-    }
-
 
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
