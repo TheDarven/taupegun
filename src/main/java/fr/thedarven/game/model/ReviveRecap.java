@@ -20,7 +20,7 @@ public class ReviveRecap implements GameRecap {
     public String getMessage() {
         String startTeamColor = org.bukkit.ChatColor.GRAY.toString();
         if (revivedPlayer.getStartTeam().isPresent()) {
-            startTeamColor = revivedPlayer.getStartTeam().get().getColorEnum().getColor();
+            startTeamColor = revivedPlayer.getStartTeam().get().getColor().getColor();
         }
 
         Map<String, String> params = new HashMap<>();

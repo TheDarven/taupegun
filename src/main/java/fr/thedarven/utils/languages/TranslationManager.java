@@ -143,7 +143,8 @@ public class TranslationManager extends Manager {
 		teamElement.addTranslation(GlobalVariable.FR_LANGUAGE, "spectatorTeamName", "Spectateurs");
 		teamElement.addTranslation(GlobalVariable.FR_LANGUAGE, "moleTeamName", "Taupes");
 		teamElement.addTranslation(GlobalVariable.FR_LANGUAGE, "superMoleTeamName", "SuperTaupe");
-		
+		teamElement.addTranslation(GlobalVariable.FR_LANGUAGE, "tooManyTeams", "Vous ne pouvez pas créer plus de {maxTeam} équipes.");
+
 		LanguageBuilder startCommandElement = LanguageBuilder.getLanguageBuilder("START_COMMAND");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "gameAlreadyStarted", "La partie a déjà commencé !");
 		startCommandElement.addTranslation(GlobalVariable.FR_LANGUAGE, "needTwoTeams", "Il faut au minimum deux équipes non vides.");

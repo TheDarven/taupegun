@@ -67,7 +67,7 @@ public class PlayerDeathListener implements Listener {
 		// Display death message
 		String startTeamColor = ChatColor.GRAY.toString();
 		if (pl.getStartTeam().isPresent()) {
-			startTeamColor = pl.getStartTeam().get().getColorEnum().getColor();
+			startTeamColor = pl.getStartTeam().get().getColor().getColor();
 		}
 		Map<String, String> params = new HashMap<>();
 		params.put("playerName", String.format("%s%s%s", startTeamColor, pl.getName(), ChatColor.RESET));
@@ -116,7 +116,7 @@ public class PlayerDeathListener implements Listener {
 		if (Objects.nonNull(team)) {
 			team.leaveTeam(pl.getUuid());
 		}
-		TeamCustom.getSpectatorTeam().joinTeam(pl);
+		this.main.getTeamManager().getSpectatorTeam().ifPresent(spectatorTeam -> spectatorTeam.joinTeam(pl));
 	}
 
 	private void dropHeadItem(PlayerTaupe pl, Player deadPlayer) {

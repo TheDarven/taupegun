@@ -30,8 +30,8 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
     @Override
     protected void operate() {
-        Player playerWhoWatched = Bukkit.getPlayer(this.pl.getUuid());
-        Player viewedPlayer = Bukkit.getPlayer(this.viewedPl.getUuid());
+        Player playerWhoWatched = this.pl.getPlayer();
+        Player viewedPlayer = this.viewedPl.getPlayer();
 
         if (Objects.nonNull(playerWhoWatched) && Objects.nonNull(viewedPlayer) && playerWhoWatched.getGameMode() == GameMode.SPECTATOR && checkOpenedInventory(playerWhoWatched)) {
             openInventory(playerWhoWatched);
@@ -42,8 +42,8 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
     @Override
     public Inventory createInventory() {
-        Player playerWhoWatched = Bukkit.getPlayer(this.pl.getUuid());
-        Player viewedPlayer = Bukkit.getPlayer(this.viewedPl.getUuid());
+        Player playerWhoWatched = this.pl.getPlayer();
+        Player viewedPlayer = this.viewedPl.getPlayer();
 
         if (Objects.isNull(playerWhoWatched) || Objects.isNull(viewedPlayer) || playerWhoWatched.getGameMode() != GameMode.SPECTATOR)
             return null;
@@ -123,7 +123,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
             lores.add(unknownMoleMessage);
         } else if (this.viewedPl.isTaupe()) {
             params.clear();
-            params.put("teamName", "§r" + this.viewedPl.getTaupeTeam().getTeam().getName()+"§e");
+            params.put("teamName", "§r" + this.viewedPl.getTaupeTeam().getName()+"§e");
             String moleMessage = TextInterpreter.textInterpretation("§e" + LanguageBuilder.getContent("INVSEE", "mole", true), params);
             lores.add(moleMessage);
         } else {
@@ -143,7 +143,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
             lores.add(unknownSuperMoleMessage);
         } else if (this.viewedPl.isSuperTaupe()) {
             params.clear();
-            params.put("teamName", "§r" + this.viewedPl.getSuperTaupeTeam().getTeam().getName() + "§e");
+            params.put("teamName", "§r" + this.viewedPl.getSuperTaupeTeam().getName() + "§e");
             String superMoleMessage = TextInterpreter.textInterpretation("§e" + LanguageBuilder.getContent("INVSEE", "superMole", true), params);
             lores.add(superMoleMessage);
         } else {

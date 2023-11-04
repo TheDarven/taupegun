@@ -71,18 +71,18 @@ public class TeamsPlayersSelectionPage extends PageInventory<PlayerTaupe, Pageab
             return;
         }
 
-        if (teamJoin.getSize() < 9) {
-            teamJoin.joinTeam(clickedPlayer);
-            Map<String, String> params = new HashMap<>();
-            params.put("playerName", String.format("§e§l%s§a§r", clickedPlayer.getName()));
-            String isAddingMessage = String.format("§a%s", TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "isAdding", true), params));
-
-            new ActionBar(isAddingMessage).sendActionBar(player);
-        } else {
+        if (teamJoin.isFull()) {
             Map<String, String> params = new HashMap<>();
             params.put("teamName", String.format("§e§l%s§r§c", teamJoin.getName()));
             new ActionBar(String.format("§c%s", TextInterpreter.textInterpretation(TEAM_FULL_FORMAT, params))).sendActionBar(player);
+            return;
         }
+
+        teamJoin.joinTeam(clickedPlayer);
+        Map<String, String> params = new HashMap<>();
+        params.put("playerName", String.format("§e§l%s§a§r", clickedPlayer.getName()));
+        String isAddingMessage = String.format("§a%s", TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "isAdding", true), params));
+        new ActionBar(isAddingMessage).sendActionBar(player);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class InventoryTeamsRename extends ConfigurationInventory implements Admi
 
     @Override
     public void onClickIn(Player player, PlayerTaupe pl) {
-        // TODO Change name
+        // TODO Change name + change name of scoreboard team
     }
 
 }

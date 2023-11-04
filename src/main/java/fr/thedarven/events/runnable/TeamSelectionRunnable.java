@@ -54,7 +54,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
         Inventory teamMenu = Bukkit.createInventory(null, 45, teamChoiceTitle);
         TeamCustom playerTeam = PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam();
 
-        TeamCustom.getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
+        this.main.getTeamManager().getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
 
         if (Objects.nonNull(playerTeam)) {
             String emptyMessage = "§4" + LanguageBuilder.getContent("TEAM", "leave", true);
@@ -72,8 +72,8 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     private ItemStack getItemOfTeam(TeamCustom team, TeamCustom playerTeam) {
         ItemStack teamBanner = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
         BannerMeta teamBannerM = (BannerMeta) teamBanner.getItemMeta();
-        teamBannerM.setBaseColor(team.getColorEnum().getDyeColor());
-        teamBannerM.setDisplayName(team.getTeam().getPrefix() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
+        teamBannerM.setBaseColor(team.getColor().getDyeColor());
+        teamBannerM.setDisplayName(team.getColor().getColor() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 
         if (Objects.nonNull(playerTeam) && playerTeam == team) {
             teamBannerM.addEnchant(Enchantment.LURE, 1, false);
@@ -85,7 +85,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
             String emptyMessage = "§e" + LanguageBuilder.getContent("TEAM", "empty", true);
             itemLore.add(emptyMessage);
         } else {
-            team.getPlayers().forEach(ps -> itemLore.add(team.getTeam().getPrefix() + " " + ps.getName()));
+            team.getMembers().forEach(ps -> itemLore.add(String.format("%s %s", team.getColor(), ps.getName())));
         }
 
         teamBannerM.setLore(itemLore);

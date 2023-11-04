@@ -37,7 +37,7 @@ public class PlayerMoveListener implements Listener {
 			if (Objects.nonNull(team)) {
 				for (int y = -3; y < 0; y++) {
 					if (block.getRelative(0, y,0).getType() == Material.STAINED_GLASS) {
-						block.getRelative(0, y, 0).setData((byte) ColorEnum.getByColor(team.getTeam().getPrefix()).getId());
+						block.getRelative(0, y, 0).setData((byte) team.getColor().getId());
 					}
 				}
 			}

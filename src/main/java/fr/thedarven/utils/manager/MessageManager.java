@@ -14,10 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MessageManager extends Manager {
@@ -62,10 +59,10 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendTaupeListMessage(Player receiver) {
-        for (TeamCustom team : TeamCustom.getTaupeTeams()) {
+        for (TeamCustom team : this.main.getTeamManager().getMoleTeams()) {
             StringBuilder listTaupe = new StringBuilder(ChatColor.RED.toString())
                     .append(ChatColor.BOLD)
-                    .append(team.getTeam().getName())
+                    .append(team.getName())
                     .append(" : ")
                     .append(ChatColor.RESET);
 
@@ -74,7 +71,7 @@ public class MessageManager extends Manager {
                     .forEach(pc -> {
                         String startTeamColor = ChatColor.GRAY.toString();
                         if (pc.getStartTeam().isPresent()) {
-                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                            startTeamColor = pc.getStartTeam().get().getColor().getColor();
                         }
 
                         listTaupe
@@ -97,10 +94,10 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendSuperTaupeListMessage(Player receiver) {
-        for (TeamCustom team : TeamCustom.getSuperTaupeTeams()) {
+        for (TeamCustom team : this.main.getTeamManager().getSuperMoleTeams()) {
             StringBuilder listSuperTaupe = new StringBuilder(ChatColor.DARK_RED.toString())
                     .append(ChatColor.BOLD)
-                    .append(team.getTeam().getName())
+                    .append(team.getName())
                     .append(" : ")
                     .append(ChatColor.RESET);
 
@@ -109,7 +106,7 @@ public class MessageManager extends Manager {
                     .forEach(pc -> {
                         String startTeamColor = ChatColor.GRAY.toString();
                         if (pc.getStartTeam().isPresent()) {
-                            startTeamColor = pc.getStartTeam().get().getColorEnum().getColor();
+                            startTeamColor = pc.getStartTeam().get().getColor().getColor();
                         }
 
                         listSuperTaupe
@@ -176,7 +173,7 @@ public class MessageManager extends Manager {
         String notRevealMolesMessage = "§c" + sender.getName() + ":" + content;
         String spectatorMessage = "§c[" + senderTaupe.getTaupeTeam().getName() + "] " + sender.getName() + ":" + content;
 
-        senderTaupe.getTaupeTeam().getTaupeTeamPlayers().stream()
+        senderTaupe.getTaupeTeam().getMoleTeamPlayers().stream()
                 .filter(pc -> !pc.isSuperReveal() && pc.isAlive() && Objects.nonNull(pc.getPlayer()))
                 .forEach(pc -> {
                     if (pc.isReveal()) {
@@ -187,11 +184,9 @@ public class MessageManager extends Manager {
                     }
                 });
 
-        TeamCustom spectatorTeam = TeamCustom.getSpectatorTeam();
-        if (Objects.nonNull(spectatorTeam)) {
-            spectatorTeam.getConnectedPlayers()
-                    .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage));
-        }
+        Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
+        oSpectatorTeam.ifPresent(teamCustom -> teamCustom.getConnectedMembers()
+                .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage)));
     }
 
     /**
@@ -219,11 +214,21 @@ public class MessageManager extends Manager {
                     }
                 });
 
-        TeamCustom spectatorTeam = TeamCustom.getSpectatorTeam();
-        if (Objects.nonNull(spectatorTeam)) {
-            spectatorTeam.getConnectedPlayers()
-                    .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage));
-        }
+        Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
+        oSpectatorTeam.ifPresent(teamCustom -> teamCustom.getConnectedMembers()
+                .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage)));
+    }
+
+    /**
+     * Sends an error message that there are too many teams
+     * @param received The player that received the message
+     */
+    public void sendTooManyTeamMessage(Player received) {
+        Map<String, String> params = new HashMap<>();
+        params.put("maxTeam", String.valueOf(TeamCustom.MAX_TEAM_AMOUNT));
+        String tooManyTeamMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "tooManyTeams", true), params);
+
+        new ActionBar(String.format("%s%s", ChatColor.RED, tooManyTeamMessage)).sendActionBar(received);
     }
 
     private String getMessageOfArray(String[] words) {

@@ -202,6 +202,27 @@ public class GameRunnable extends BukkitRunnable {
      * Initie les joueurs en début de partie
      */
     private void initGamePlayers() {
+        for (PlayerTaupe playerTaupe: PlayerTaupe.getAllPlayerManager()) {
+            if (playerTaupe.isOnline()) {
+                Player player = playerTaupe.getPlayer();
+                if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
+                    new DisableF3().disableF3(player);
+                }
+                this.main.getPlayerManager().clearPlayer(player);
+
+                if (playerTaupe.getTeam() != null) {
+                    this.main.getScenariosManager().startItem.giveItems(player);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2) );
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 200, 0) );
+                    player.setGameMode(GameMode.SURVIVAL);
+                }
+            }
+
+            if (playerTaupe.getTeam() == null) {
+                playerTaupe.setAlive(false);
+            }
+        }
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerManager(player.getUniqueId());
 
@@ -228,13 +249,13 @@ public class GameRunnable extends BukkitRunnable {
     private void teleportPlayers(World world) {
         double rayon = this.main.getScenariosManager().wallSizeBefore.getRadius() - 100;
         int Z = -1;
-        double X, radius = (6.283184/TeamCustom.getAllTeams().size() - TeamCustom.getTaupeTeams().size() - TeamCustom.getSuperTaupeTeams().size());
+        double X, radius = (6.283184/this.main.getTeamManager().countTeams() - this.main.getTeamManager().getMoleTeams().size() - this.main.getTeamManager().getSuperMoleTeams().size());
 
-        for (TeamCustom team : TeamCustom.getAllStartAliveTeams()) {
-            int teamId = this.main.getDatabaseManager().createTeam(team.getTeam().getName(), team.getTeam().getPrefix());
+        for (TeamCustom team : this.main.getTeamManager().getAllStartLivingTeams()) {
+            int teamId = this.main.getDatabaseManager().createTeam(team.getName(), team.getColor().toString());
             Z++;
             X = Z * radius;
-            for (PlayerTaupe pl: team.getPlayers()) {
+            for (PlayerTaupe pl: team.getMembers()) {
                 Player player = pl.getPlayer();
                 if (Objects.isNull(player))
                     continue;
@@ -258,7 +279,7 @@ public class GameRunnable extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             PlayerTaupe pl = PlayerTaupe.getPlayerManager(player.getUniqueId());
             if (!pl.isAlive() && Objects.isNull(pl.getTeam())) {
-                TeamCustom.getSpectatorTeam().joinTeam(player.getUniqueId());
+                this.main.getTeamManager().getSpectatorTeam().ifPresent(spectatorTeam -> spectatorTeam.joinTeam(pl));
                 player.setGameMode(GameMode.SPECTATOR);
             }
         });
@@ -283,19 +304,19 @@ public class GameRunnable extends BukkitRunnable {
         border.setSize(wallSize, speed);
 
 
-        int nbTeam = TeamCustom.getNumberOfTeam();
+        int nbTeam = this.main.getTeamManager().countTeams();
         double radius = this.main.getScenariosManager().wallSizeBefore.getRadius() - 200;
         int Z = 0;
         double X;
-        for (TeamCustom team: TeamCustom.getAllTeams()) {
+        for (TeamCustom team: this.main.getTeamManager().getAllTeams()) {
             if (team.isSpectator()) {
                 Location centerLocation = new Location(world, 0, 150, 0);
-                team.getPlayersInWorldEnvironment(World.Environment.NETHER).forEach(player -> player.teleport(centerLocation));
+                team.getMembersInWorldEnvironment(World.Environment.NETHER).forEach(player -> player.teleport(centerLocation));
             } else {
                 X = Z * Math.PI * 2 / nbTeam;
                 Location teleportPoint = new Location(world, (int) (radius * Math.cos(X)), 250, (int) (radius * Math.sin(X)));
                 teleportPoint.setY(world.getHighestBlockYAt(teleportPoint) + 2);
-                team.getPlayersInWorldEnvironment(World.Environment.NETHER).forEach(player -> {
+                team.getMembersInWorldEnvironment(World.Environment.NETHER).forEach(player -> {
                     player.teleport(teleportPoint);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 100));
                 });

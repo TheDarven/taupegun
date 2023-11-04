@@ -33,7 +33,7 @@ public class CoordsCommand extends PlayerCommand {
 
         TeamCustom teamCustom = pl.getTeam();
         if (Objects.nonNull(teamCustom)) {
-            for (Player mate: teamCustom.getConnectedPlayers()) {
+            for (Player mate: teamCustom.getConnectedMembers()) {
                 mate.sendMessage(coordinatesMessage);
             }
         } else {

@@ -84,10 +84,10 @@ public class GameManager extends Manager {
 
 			if (pl.isSuperTaupe()) {
 				this.main.getDatabaseManager()
-						.updateMoleMole(pl.getTaupeTeam().getTaupeTeamNumber(), pl.getSuperTaupeTeam().getSuperTaupeTeamNumber(), pl.getUuid().toString());
+						.updateMoleMole(pl.getTaupeTeam().getMoleTeamNumber(), pl.getSuperTaupeTeam().getSuperMoleTeamNumber(), pl.getUuid().toString());
 			} else {
 				this.main.getDatabaseManager()
-						.updateMoleMole(pl.getTaupeTeam().getTaupeTeamNumber(), 0, pl.getUuid().toString());
+						.updateMoleMole(pl.getTaupeTeam().getMoleTeamNumber(), 0, pl.getUuid().toString());
 			}
 		}
 	}

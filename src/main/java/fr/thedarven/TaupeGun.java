@@ -50,6 +50,8 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 
+		this.teamManager = new TeamManager(this);
+
 		this.metrics = new Metrics(this, 11400);
 
 		this.languageManager = new LanguageManager(this);
@@ -75,7 +77,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.craftManager.loadCrafts();
 
 		this.playerManager = new PlayerManager(this);
-		this.teamManager = new TeamManager(this);
 
 		Bukkit.getOnlinePlayers().forEach(player -> this.playerManager.resetPlayerData(player));
 

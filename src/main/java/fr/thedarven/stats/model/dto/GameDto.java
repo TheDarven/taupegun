@@ -4,12 +4,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import fr.thedarven.stats.model.enums.EnumRestStatType;
 import fr.thedarven.utils.helpers.DateHelper;
 import fr.thedarven.utils.helpers.RandomHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.Team;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
@@ -130,16 +130,17 @@ public class GameDto {
 	}
 
 	public void endGame() {
-		if(currentGame == this) {
-			if(Bukkit.getServer().getOnlineMode()) {
+		if (currentGame == this) {
+			if (Bukkit.getServer().getOnlineMode()) {
 				this.duration = this.main.getGameManager().getTimer();
+				Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
 
 				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {
-					TeamCustom team = pt.getStartTeam().orElse(TeamCustom.getSpectatorTeam());
-					String teamName = (team == null) ? "" : team.getTeam().getName();
+					TeamCustom team = pt.getStartTeam().orElse(oSpectatorTeam.orElse(null));
+					String teamName = (team == null) ? "" : team.getName();
 
-					addPlayer(new PlayerDto(pt.getUuid(), pt.getName(), pt.hasWin(), pt.getTaupeTeamNumber(), pt.getSuperTaupeTeamNumber(),
-							teamName, pt.isSpectator(), pt.isAlive(), pt.getLastConnection(), pt.getUpdatedTimePlayed()));
+					addPlayer(new PlayerDto(pt.getUuid(), pt.getName(), hasPlayerWin(pt), pt.getTaupeTeamNumber(), pt.getSuperTaupeTeamNumber(),
+							teamName, oSpectatorTeam.isPresent() && team == oSpectatorTeam.get(), pt.isAlive(), pt.getLastConnection(), pt.getUpdatedTimePlayed()));
 					addPlayerStat(new PlayerStatsDto(pt.getUuid(), EnumRestStatType.MINED_DIAMOND, pt.getMinedDiamond()));
 					addPlayerStat(new PlayerStatsDto(pt.getUuid(), EnumRestStatType.MINED_IRON, pt.getMinedIron()));
 					addPlayerStat(new PlayerStatsDto(pt.getUuid(), EnumRestStatType.MINED_GOLD, pt.getMinedGold()));
@@ -158,9 +159,8 @@ public class GameDto {
 					addPlayerStat(new PlayerStatsDto(pt.getUuid(), EnumRestStatType.ATE_GOLDEN_APPLE, pt.getAteGoldenApple()));
 				}
 
-				for(TeamCustom customTeam: TeamCustom.getAllStartTeams()) {
-					Team team = customTeam.getTeam();
-					addTeam(new TeamDto(team.getName(), team.getPrefix(), customTeam.isAlive(), customTeam.isSpectator()));
+				for(TeamCustom customTeam: this.main.getTeamManager().getAllStartTeams()) {
+					addTeam(new TeamDto(customTeam.getName(), customTeam.getColor().getColor(), customTeam.isAlive(), customTeam.isSpectator()));
 				}
 
 				String[] caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWSYZ0123456789".split("");
@@ -195,5 +195,25 @@ public class GameDto {
 	public static void endGames() {
 		if(currentGame != null)
 			currentGame.endGame();
+	}
+
+	private boolean hasPlayerWin(PlayerTaupe playerTaupe) {
+		Optional<TeamCustom> oVictoryTeam = this.main.getTeamManager().getWinningTeam();
+		if (!oVictoryTeam.isPresent()) {
+			return false;
+		}
+		TeamCustom victoryTeam = oVictoryTeam.get();
+
+		if (victoryTeam.isSuperMoleTeam()) {
+			return victoryTeam == playerTaupe.getSuperTaupeTeam();
+		} else if(victoryTeam.isMoleTeam()) {
+			return victoryTeam == playerTaupe.getTaupeTeam()
+                    && playerTaupe.getSuperTaupeTeam() == null;
+		} else {
+            Optional<TeamCustom> oStartTeam = playerTaupe.getStartTeam();
+            return oStartTeam.isPresent()
+                    && victoryTeam == oStartTeam.get()
+                    && playerTaupe.getTaupeTeam() == null;
+        }
 	}
 }

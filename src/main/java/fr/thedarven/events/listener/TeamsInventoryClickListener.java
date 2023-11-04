@@ -1,9 +1,11 @@
 package fr.thedarven.events.listener;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
@@ -16,8 +18,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TeamsInventoryClickListener implements Listener {
+
+    private final TaupeGun main;
+
+    public TeamsInventoryClickListener(TaupeGun main) {
+        this.main = main;
+    }
 
     @EventHandler
     public void onTeamsInventoryClick(TeamsInventoryClickEvent e) {
@@ -28,30 +37,39 @@ public class TeamsInventoryClickListener implements Listener {
         }
 
         Player player = e.getPlayer();
-        PlayerTaupe pl = e.getPl();
-        TeamCustom team = pl.getTeam();
+        PlayerTaupe playerTaupe = e.getPl();
+        TeamCustom playerTeam = playerTaupe.getTeam();
 
         if (clickItem.getType() == Material.BARRIER) {
-            if (Objects.isNull(team))
+            if (playerTeam == null) {
                 return;
+            }
 
-            team.leaveTeam(player.getUniqueId());
-            openTeamsInventory(pl);
+            playerTeam.leaveTeam(player.getUniqueId());
+            openTeamsInventory(playerTaupe);
 
             Map<String, String> params = new HashMap<>();
-            params.put("teamName", team.getTeam().getPrefix() + team.getTeam().getName() + "§3");
+            params.put("teamName", playerTeam.getColor().getColor() + playerTeam.getName() + "§3");
             String isLeavingMessage = TextInterpreter.textInterpretation("§l§3" + LanguageBuilder.getContent("TEAM", "isLeaving", true), params);
             player.sendMessage(isLeavingMessage);
         } else if (clickItem.getType() == Material.BANNER) {
-            TeamCustom teamCustom = TeamCustom.getTeamCustomByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
-
-            if (Objects.isNull(teamCustom) || teamCustom == team)
+            Optional<TeamCustom> oClickedTeam = this.main.getTeamManager().getTeamByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
+            if (!oClickedTeam.isPresent() || oClickedTeam.get() == playerTeam) {
                 return;
+            }
 
-            teamCustom.joinTeam(pl);
-            openTeamsInventory(pl);
+            TeamCustom clickedTeam = oClickedTeam.get();
+            if (clickedTeam.isFull()) {
+                Map<String, String> params = new HashMap<>();
+                params.put("teamName", String.format("§e§l%s§r§c", clickedTeam.getName()));
+                new ActionBar(String.format("§c%s", TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "full", true), params))).sendActionBar(player);
+                return;
+            }
+
+            clickedTeam.joinTeam(playerTaupe);
+            openTeamsInventory(playerTaupe);
             Map<String, String> params = new HashMap<>();
-            params.put("teamName", teamCustom.getTeam().getPrefix() + teamCustom.getName() + "§3");
+            params.put("teamName", clickedTeam.getColor().getColor() + clickedTeam.getName() + "§3");
             String isJoiningMessage = TextInterpreter.textInterpretation("§l§3" + LanguageBuilder.getContent("TEAM", "isJoining", true), params);
             player.sendMessage(isJoiningMessage);
         }

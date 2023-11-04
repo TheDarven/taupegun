@@ -45,15 +45,11 @@ public class CreateTeamRunnable extends PlayerRunnable {
             return;
         }
 
-        TeamCustom.board.getTeams()
-                .stream()
-                .filter(team -> this.pl.getCreateTeamName().equals(team.getName()))
-                .findFirst()
-                .ifPresent(team -> {
-                    this.player.closeInventory();
-                    this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
-                    this.pl.setCreateTeamName(null);
-                });
+        if (this.main.getTeamManager().getTeamByName(this.pl.getCreateTeamName()).isPresent()) {
+            this.player.closeInventory();
+            this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
+            this.pl.setCreateTeamName(null);
+        }
     }
 
     /**
@@ -63,14 +59,11 @@ public class CreateTeamRunnable extends PlayerRunnable {
      * @return <b>true</b> si le nom est disponible, <b>false</b> sinon
      */
     private boolean isUnavailableTeamName(String teamName) {
-        if (LanguageBuilder.getAllContent("TEAM", "spectatorTeamName").contains(teamName))
+        if (LanguageBuilder.getAllContent("TEAM", "spectatorTeamName").contains(teamName)
+                || elementStartWith(teamName, LanguageBuilder.getAllContent("TEAM", "moleTeamName"))
+                || elementStartWith(teamName, LanguageBuilder.getAllContent("TEAM", "superMoleTeamName"))) {
             return false;
-
-        if (elementStartWith(teamName, LanguageBuilder.getAllContent("TEAM", "moleTeamName")))
-            return false;
-
-        if (elementStartWith(teamName, LanguageBuilder.getAllContent("TEAM", "superMoleTeamName")))
-            return false;
+        }
 
         return Objects.equals(teamName, LanguageBuilder.getContent("TEAM", "nameChoice", true));
     }

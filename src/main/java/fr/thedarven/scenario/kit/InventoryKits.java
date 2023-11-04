@@ -40,7 +40,7 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
 
     @Override
     public void reloadInventory() {
-        this.getChildren().forEach(this::removeChildItem);
+        removeChildrenItems();
 
         int i = 0;
         for (TreeInventory treeInventory : getChildren()) {

@@ -1,6 +1,10 @@
 package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.PlayerJoinTeamEvent;
+import fr.thedarven.events.event.PlayerLeaveTeamEvent;
+import fr.thedarven.events.event.TeamDeleteEvent;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
@@ -15,39 +19,20 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.scoreboard.Team;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryTeamsElement extends ConfigurationInventory implements AdminConfiguration {
 
-    public static Map<String, InventoryTeamsElement> teams = new LinkedHashMap<>();
-    private ColorEnum colorEnum;
+    private final TeamCustom team;
 
-    public InventoryTeamsElement(TaupeGun main, String name, ColorEnum colorEnum) {
-        super(main, name, null, "MENU_TEAM_ITEM", 3, Material.BANNER, main.getScenariosManager().teamsMenu, 0);
-        this.colorEnum = colorEnum;
-        teams.put(name, this);
-    }
-
-    @Override
-    public TreeInventory build() {
-        super.build();
-        this.main.getScenariosManager().teamsMenu.reloadInventory();
-        return this;
-    }
-
-    /**
-     * Pour récupérer la couleur de l'équipe
-     *
-     * @return La couleur
-     */
-    public ColorEnum getColor() {
-        return this.colorEnum;
+    public InventoryTeamsElement(TaupeGun main, ConfigurationInventory parent, TeamCustom team) {
+        super(main, team.getName(), null, "MENU_TEAM_ITEM", 3, Material.BANNER, parent, 0);
+        this.team = team;
     }
 
     /**
@@ -56,8 +41,28 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
      * @param colorEnum La nouvelle couleur
      */
     public void setColor(ColorEnum colorEnum) {
-        this.colorEnum = colorEnum;
+        // TODO Changer la couleur
+        this.team.setColor(colorEnum);
         updateItemColor();
+    }
+
+    /**
+     * Pour mettre à jour la description
+     */
+    final protected void updateItemColor() {
+        if (Objects.isNull(this.getItem())) {
+            return;
+        }
+
+        int hashCode = getItem().hashCode();
+
+        BannerMeta itemM = (BannerMeta) getItem().getItemMeta();
+        itemM.setBaseColor(this.team.getColor().getDyeColor());
+
+        getItem().setItemMeta(itemM);
+        if (Objects.nonNull(this.getParent())) {
+            this.getParent().updateChildItem(hashCode, getItem(), this);
+        }
     }
 
 
@@ -83,59 +88,51 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
 
     @Override
     protected List<String> getItemDescription() {
-        List<String> lores = new ArrayList<>();
-
-        TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
-        if (Objects.nonNull(teamCustom)) {
-            Team team = teamCustom.getTeam();
-            if (!team.getEntries().isEmpty()) {
-                lores.add("");
-            }
-            team.getEntries().forEach(entry -> lores.add("§a• " + entry));
+        List<String> itemDescription = new ArrayList<>();
+        if (this.team.countMembers() > 0) {
+            itemDescription.add("");
+            this.team.getMembers().forEach(member -> itemDescription.add(String.format("§a• %s", member.getName())));
         }
-        return lores;
+        return itemDescription;
     }
 
     @Override
-    public void reloadInventory() {
-        TeamCustom teamCustom = TeamCustom.getTeamCustomByName(getName());
-        if (Objects.isNull(teamCustom)) {
-            return;
+    protected void refreshInventoryItems() {
+        super.refreshInventoryItems();
+
+        int position = 0;
+        for (PlayerTaupe member: this.team.getMembers()) {
+            getInventory().setItem(position++, ItemHelper.getPlayerHeadWithName(member.getName(), member.getName()));
         }
 
-        Team team = teamCustom.getTeam();
-
-        AtomicInteger pos = new AtomicInteger(0);
-        team.getEntries().forEach(entry -> {
-            getInventory().setItem(pos.getAndIncrement(), ItemHelper.getPlayerHeadWithName(entry, entry));
-        });
-
-        getChildren().forEach(inv -> {
-            if (inv instanceof PageableTeamsPlayersSelection) {
-                getInventory().setItem(pos.get(), inv.getItem());
-                getInventory().setItem(pos.incrementAndGet(), new ItemStack(Material.AIR, 1));
+        for (TreeInventory child: getChildren()) {
+            if (child instanceof PageableTeamsPlayersSelection && !team.isFull()) {
+                getInventory().setItem(position++, child.getItem());
+                getInventory().setItem(position++, new ItemStack(Material.AIR, 1));
             }
-        });
+        }
 
         updateItemDescription();
     }
 
-    /**
-     * Pour mettre à jour la description
-     */
-    final protected void updateItemColor() {
-        if (Objects.isNull(this.getItem())) {
-            return;
+    @EventHandler
+    public void onPlayerJoinTeam(PlayerJoinTeamEvent event) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && event.getTeam() == this.team) {
+            this.refreshInventoryItems();
         }
+    }
 
-        int hashCode = getItem().hashCode();
+    @EventHandler
+    public void onPlayerLeaveTeam(PlayerLeaveTeamEvent event) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && event.getTeam() == this.team) {
+            this.refreshInventoryItems();
+        }
+    }
 
-        BannerMeta itemM = (BannerMeta) getItem().getItemMeta();
-        itemM.setBaseColor(this.colorEnum.getDyeColor());
-
-        getItem().setItemMeta(itemM);
-        if (Objects.nonNull(this.getParent())) {
-            this.getParent().updateChildItem(hashCode, getItem(), this);
+    @EventHandler
+    public void onTeamDelete(TeamDeleteEvent event) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && event.getTeam() == this.team) {
+            deleteInventory(true);
         }
     }
 
@@ -147,38 +144,20 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         ItemStack itemStack = super.buildItem(material, itemData);
 
         BannerMeta itemM = (BannerMeta) itemStack.getItemMeta();
-        itemM.setBaseColor(colorEnum.getDyeColor());
+        itemM.setBaseColor(this.team.getColor().getDyeColor());
 
         itemStack.setItemMeta(itemM);
         return itemStack;
-    }
-
-    /**
-     * Pour supprimer une équipe
-     *
-     * @param name Le nom de l'équipe à supprimer
-     */
-    static public void removeTeam(String name) {
-        ConfigurationInventory inv = teams.get(name);
-        if (Objects.isNull(inv)) {
-            return;
-        }
-
-        // TODO passer en event
-        inv.deleteInventory(true);
-        teams.remove(name);
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe pl) {
         ItemStack item = e.getCurrentItem();
         if (item.getType() == Material.SKULL_ITEM) {
-            TeamCustom teamLeave = TeamCustom.getTeamCustomByName(getName());
             PlayerTaupe playerTaupe = PlayerTaupe.getPlayerTaupeByName(item.getItemMeta().getDisplayName());
-            if (Objects.nonNull(teamLeave) && Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == teamLeave) {
-                teamLeave.leaveTeam(playerTaupe.getUuid());
-                sendRemovePlayerTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
-                reloadInventory();
+            if (Objects.nonNull(playerTaupe) && playerTaupe.getTeam() == this.team) {
+                this.team.leaveTeam(playerTaupe.getUuid());
+                sendRemovePlayerFromTeamMessage(player, e.getCurrentItem().getItemMeta().getDisplayName());
                 return;
             }
         }
@@ -186,31 +165,11 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         onChildClick(item, player, pl);
     }
 
-    public void sendRemovePlayerTeamMessage(Player receiver, String target) {
+    private void sendRemovePlayerFromTeamMessage(Player receiver, String target) {
         Map<String, String> params = new HashMap<>();
-        params.put("playerName", "§e§l" + target + "§f§r");
+        params.put("playerName", String.format("§e§l%s§f§r", target));
         String isRemovingMessage = TextInterpreter.textInterpretation("§f" + LanguageBuilder.getContent("TEAM", "isDeleting", true), params);
-
         new ActionBar(isRemovingMessage).sendActionBar(receiver);
-    }
-
-    /**
-     * Permet d'avoir la liste des InventoryTeamsElement
-     *
-     * @return La liste des InventoryTeamsElement
-     */
-    public static List<InventoryTeamsElement> getInventoryTeamsElement() {
-        return new ArrayList<>(teams.values());
-    }
-
-    /**
-     * Permet d'avoir l'InventoryTeamsElement d'une TeamCustom
-     *
-     * @param team La TeamCustom
-     * @return <b>L'InventoryTeamsElement</b> de la TeamCustom
-     */
-    public static InventoryTeamsElement getInventoryTeamsElementOfTeam(TeamCustom team) {
-        return teams.get(team.getName());
     }
 }
 

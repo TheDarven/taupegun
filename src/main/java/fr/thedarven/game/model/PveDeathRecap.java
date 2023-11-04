@@ -23,7 +23,7 @@ public class PveDeathRecap implements GameRecap {
     public String getMessage() {
         String startTeamColor = org.bukkit.ChatColor.GRAY.toString();
         if (victim.getStartTeam().isPresent()) {
-            startTeamColor = victim.getStartTeam().get().getColorEnum().getColor();
+            startTeamColor = victim.getStartTeam().get().getColor().getColor();
         }
 
         Map<String, String> params = new HashMap<>();

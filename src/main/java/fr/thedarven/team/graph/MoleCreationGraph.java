@@ -53,7 +53,7 @@ public abstract class MoleCreationGraph {
         for (TeamCustom moleTeam: this.moleTeams) {
             List<Kit> kits = this.main.getKitManager().getAllKits();
 
-            for (PlayerTaupe mole: moleTeam.getTaupeTeamPlayers()) {
+            for (PlayerTaupe mole: moleTeam.getMoleTeamPlayers()) {
                 if (kits.isEmpty()) {
                     kits = this.main.getKitManager().getAllKits();
                 }
@@ -81,7 +81,7 @@ public abstract class MoleCreationGraph {
                 superMoleTeam = new TeamCustom(this.main, this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber,
                         ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
             }
-            List<PlayerTaupe> players = team.getTaupeTeamPlayers();
+            List<PlayerTaupe> players = team.getMoleTeamPlayers();
             if (players.size() > 0) {
                 Collections.shuffle(players);
                 players.get(0).setSuperTaupeTeam(superMoleTeam);

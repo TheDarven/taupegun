@@ -23,9 +23,9 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
     protected void selectPlayers() {
         this.players.clear();
 
-        List<TeamCustom> teams = TeamCustom.getAllStartTeams();
+        List<TeamCustom> teams = this.main.getTeamManager().getAllStartTeams();
         for (TeamCustom team : teams) {
-            List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
+            List<PlayerTaupe> playerOfTeam = team.getMembers();
 
             int amountOfMoles = getAmountOfMoles(team);
             if (amountOfMoles == 1) {
