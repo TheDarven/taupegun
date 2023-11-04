@@ -21,7 +21,6 @@ import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class InventoryTeamsColor extends ConfigurationInventory implements AdminConfiguration {
 
@@ -85,14 +84,14 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
      * @param itemStack L'item selectionné par le joueur
      */
     private void choiceTeamColor(Player player, PlayerTaupe pl, ItemStack itemStack) {
-        if (TeamCustom.countTeam() >= TeamCustom.MAX_TEAM_AMOUNT) {
+        if (this.main.getTeamManager().countTeams() >= TeamCustom.MAX_TEAM_AMOUNT) {
             player.closeInventory();
             this.main.getMessageManager().sendTooManyTeamMessage(player);
             pl.setCreateTeamName(null);
             return;
         }
 
-        if (TeamCustom.getTeamByName(pl.getCreateTeamName()).isPresent()) {
+        if (this.main.getTeamManager().getTeamByName(pl.getCreateTeamName()).isPresent()) {
             player.closeInventory();
             this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(player);
             pl.setCreateTeamName(null);

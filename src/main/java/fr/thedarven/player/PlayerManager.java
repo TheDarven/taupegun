@@ -80,7 +80,7 @@ public class PlayerManager extends Manager {
         StringBuilder message = new StringBuilder();
 
         if (Objects.nonNull(playerTaupe.getTeam())) {
-            for (PlayerTaupe mate: playerTaupe.getTeam().getAlivesPlayers()) {
+            for (PlayerTaupe mate: playerTaupe.getTeam().getLivingPlayers()) {
                 if (!Objects.equals(mate, playerTaupe)) {
                     message.append(getOrientation(player, mate));
                 }

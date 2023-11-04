@@ -45,7 +45,7 @@ public class CreateTeamRunnable extends PlayerRunnable {
             return;
         }
 
-        if (TeamCustom.getTeamByName(this.pl.getCreateTeamName()).isPresent()) {
+        if (this.main.getTeamManager().getTeamByName(this.pl.getCreateTeamName()).isPresent()) {
             this.player.closeInventory();
             this.main.getMessageManager().sendTeamNameAlreadyUsedMessage(this.player);
             this.pl.setCreateTeamName(null);

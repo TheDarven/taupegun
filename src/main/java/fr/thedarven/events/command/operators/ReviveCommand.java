@@ -45,7 +45,7 @@ public class ReviveCommand extends OperatorCommand {
 	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (args.length == 0) {
 			sendCommandUsageToPlayer(cmd, sender);
-		} else if (!this.main.getGameManager().areMolesRevealed() && TeamCustom.getAllAliveTeams().size() > 1) {
+		} else if (!this.main.getGameManager().areMolesRevealed() && this.main.getTeamManager().getAllLivingTeams().size() > 1) {
 			return super.canPlayerExecuteCommand(sender, pl, cmd, alias, args);
 		} else {
 			sender.sendMessage("§a[TaupeGun]§c " + LanguageBuilder.getContent("COMMAND", "cannotRevive", true));
@@ -64,12 +64,12 @@ public class ReviveCommand extends OperatorCommand {
 		}
 
 		if (!team.isAlive()) {
-			this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), false);
+			this.main.getDatabaseManager().updateTeamDeath(team.getName(), false);
 			team.setAlive(true);
 		}
 
 		Location respawnLocation = null;
-		for (PlayerTaupe mate: team.getAlivesPlayers()) {
+		for (PlayerTaupe mate: team.getLivingPlayers()) {
 			Player matePlayer = mate.getPlayer();
 			if (Objects.nonNull(matePlayer) && matePlayer != sender) {
 				respawnLocation = matePlayer.getLocation();

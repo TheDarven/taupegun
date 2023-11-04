@@ -26,8 +26,10 @@ public class ScoreboardManager extends Manager {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            for (PersonalScoreboard scoreboard : scoreboards.values())
+            PersonalScoreboard.updateCommonData(this.main);
+            for (PersonalScoreboard scoreboard : scoreboards.values()) {
                 this.executorMonoThread.execute(scoreboard::reloadData);
+            }
         }, 100, 100, TimeUnit.MILLISECONDS);
     }
 

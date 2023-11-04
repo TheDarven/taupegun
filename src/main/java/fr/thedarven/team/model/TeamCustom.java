@@ -5,355 +5,290 @@ import fr.thedarven.events.event.PlayerJoinTeamEvent;
 import fr.thedarven.events.event.PlayerLeaveTeamEvent;
 import fr.thedarven.events.event.TeamCreateEvent;
 import fr.thedarven.events.event.TeamDeleteEvent;
-import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
-import fr.thedarven.stats.model.StatsPlayer;
+import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.stats.model.StatsPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TeamCustom {
 
-	public final static int MAX_PLAYER_PER_TEAM = 9;
-	public final static int MAX_TEAM_AMOUNT = 36;
+    public final static int MAX_PLAYER_PER_TEAM = 9;
+    public final static int MAX_TEAM_AMOUNT = 36;
 
-	private static final ScoreboardManager manager = Bukkit.getScoreboardManager();
-	public static final Scoreboard board = manager.getNewScoreboard();
-	private static final Objective objective = board.registerNewObjective("health", "health");
-	
-	private static final Map<String, TeamCustom> teams = new HashMap<>();
+    private static final ScoreboardManager manager = Bukkit.getScoreboardManager();
+    public static final Scoreboard board = manager.getNewScoreboard();
+    private static final Objective objective = board.registerNewObjective("health", "health");
 
-	private final TaupeGun main;
+    private final TaupeGun main;
+    private final String name;
+    private ColorEnum color;
 
-	private String name;
-	private ColorEnum color;
+    private final Team team;
+    private final int taupeTeam;
+    private final int superTaupeTeam;
+    private final boolean isSpectator;
+    private final List<PlayerTaupe> members;
+    private boolean alive;
 
-	private final Team team;
-	private final int taupeTeam;
-	private final int superTaupeTeam;
-	private final boolean isSpectator;
-	private final List<PlayerTaupe> players;
-	private boolean alive;
-	
-	public TeamCustom(TaupeGun main, String name, ColorEnum color, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
-		this.main = main;
-		team = board.registerNewTeam(name);
-		if (name.startsWith(this.main.getTeamManager().getMoleTeamName()) || name.startsWith(this.main.getTeamManager().getSuperMoleTeamName())) {
-			team.setPrefix(color.getColor() + "[" + name + "] ");
-		} else {
-			team.setPrefix(color.getColor());
-		}
-		team.setSuffix("§f");
+    public TeamCustom(TaupeGun main, String name, ColorEnum color, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+        this.main = main;
+        team = board.registerNewTeam(name);
+        if (name.startsWith(main.getTeamManager().getMoleTeamName()) || name.startsWith(main.getTeamManager().getSuperMoleTeamName())) {
+            team.setPrefix(color.getColor() + "[" + name + "] ");
+        } else {
+            team.setPrefix(color.getColor());
+        }
+        team.setSuffix("§f");
 
-		this.name = name;
-		this.color = color;
+        this.name = name;
+        this.color = color;
 
-		this.taupeTeam = pTaupe;
-		this.superTaupeTeam = pSuperTaupe;
-		this.isSpectator = pSpectator;
-		this.players = new ArrayList<>();
-		this.alive = pAlive;
+        this.taupeTeam = pTaupe;
+        this.superTaupeTeam = pSuperTaupe;
+        this.isSpectator = pSpectator;
+        this.members = new ArrayList<>();
+        this.alive = pAlive;
 
-		teams.put(name, this);
+        main.getTeamManager().addTeam(this);
 
-		TeamCreateEvent teamCreateEvent = new TeamCreateEvent(this);
-		Bukkit.getPluginManager().callEvent(teamCreateEvent);
-	}
+        TeamCreateEvent teamCreateEvent = new TeamCreateEvent(this);
+        Bukkit.getPluginManager().callEvent(teamCreateEvent);
+    }
 
-	public ColorEnum getColor() {
-		return color;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setColor(ColorEnum color) {
-		this.color = color;
-	}
+    public ColorEnum getColor() {
+        return color;
+    }
 
-	public Team getTeam() { return this.team; }
-	
-	public boolean isTaupeTeam() {
-		return taupeTeam != 0;
-	}
-	
-	public boolean isSuperTaupeTeam() {
-		return superTaupeTeam != 0;
-	}
-	
-	public int getTaupeTeamNumber() {
-		return taupeTeam;
-	}
-	
-	public int getSuperTaupeTeamNumber() {
-		return superTaupeTeam;
-	}
-	
-	public boolean isSpectator() {
-		return isSpectator;
-	}
+    public void setColor(ColorEnum color) {
+        this.color = color;
+    }
 
-	public List<PlayerTaupe> getTaupeTeamPlayers() {
-		if (this.taupeTeam == 0) {
-			return new ArrayList<>();
-		}
+    public String getTeamPrefix() {
+        return this.team.getPrefix();
+    }
 
-		return PlayerTaupe.getAllPlayerManager()
-				.stream()
-				.filter(p -> p.getTaupeTeam() == this)
-				.collect(Collectors.toList());
-	}
+    public boolean isMoleTeam() {
+        return taupeTeam != 0;
+    }
 
-	public List<PlayerTaupe> getSuperTaupeTeamPlayers() {
-		if (this.superTaupeTeam == 0) {
-			return new ArrayList<>();
-		}
+    public boolean isSuperMoleTeam() {
+        return superTaupeTeam != 0;
+    }
 
-		return PlayerTaupe.getAllPlayerManager()
-				.stream()
-				.filter(p -> p.getSuperTaupeTeam() == this)
-				.collect(Collectors.toList());
-	}
+    public int getMoleTeamNumber() {
+        return taupeTeam;
+    }
 
-	public List<PlayerTaupe> getPlayers(){
-		return players;
-	}
+    public int getSuperMoleTeamNumber() {
+        return superTaupeTeam;
+    }
 
-	public List<PlayerTaupe> getAlivesPlayers() {
-		return players.stream()
-				.filter(PlayerTaupe::isAlive)
-				.collect(Collectors.toList());
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
-	
-	public void setAlive(boolean pAlive) {
-		alive = pAlive;
-	}
+    public boolean isSpectator() {
+        return isSpectator;
+    }
 
-	public boolean isFull() { return this.players.size() >= MAX_PLAYER_PER_TEAM; }
+    /**
+     * @return The list of player for whom this team is their mole team
+     */
+    public List<PlayerTaupe> getMoleTeamPlayers() {
+        if (this.taupeTeam == 0) {
+            return new ArrayList<>();
+        }
 
-	public int getSize() {
-		return this.players.size();
-	}
+        return PlayerTaupe.getAllPlayerManager()
+                .stream()
+                .filter(p -> p.getTaupeTeam() == this)
+                .collect(Collectors.toList());
+    }
 
-	public long getTaupeTeamSize() {
-		if (this.taupeTeam == 0) {
-			return 0;
-		}
+    /**
+     * @return The list of player for whom this team is their super mole team
+     */
+    public List<PlayerTaupe> getSuperTaupeTeamPlayers() {
+        if (this.superTaupeTeam == 0) {
+            return new ArrayList<>();
+        }
 
-		return PlayerTaupe.getAllPlayerManager()
-				.stream()
-				.filter(p -> p.getTaupeTeam() == this)
-				.count();
-	}
+        return PlayerTaupe.getAllPlayerManager()
+                .stream()
+                .filter(p -> p.getSuperTaupeTeam() == this)
+                .collect(Collectors.toList());
+    }
 
-	public long getSuperTaupeTeamSize() {
-		if (this.superTaupeTeam == 0) {
-			return 0;
-		}
+    /**
+     * @return A copy of list of members
+     */
+    public List<PlayerTaupe> getMembers() {
+        return new ArrayList<>(members);
+    }
 
-		return PlayerTaupe.getAllPlayerManager()
-				.stream()
-				.filter(p -> p.getSuperTaupeTeam() == this)
-				.count();
-	}
+    /**
+     * @return The number of members
+     */
+    public int countMembers() {
+        return this.members.size();
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public List<PlayerTaupe> getLivingPlayers() {
+        return members.stream()
+                .filter(PlayerTaupe::isAlive)
+                .collect(Collectors.toList());
+    }
 
-	public List<Player> getConnectedPlayers() {
-		return this.players.stream()
-				.map(StatsPlayer::getPlayer)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toList());
-	}
+    public boolean isAlive() {
+        return alive;
+    }
 
-	public List<Player> getPlayersInWorldEnvironment(World.Environment environment) {
-		return this.getConnectedPlayers().stream()
-				.filter(p -> p.getWorld().getEnvironment() == environment)
-				.collect(Collectors.toList());
-	}
+    public void setAlive(boolean pAlive) {
+        alive = pAlive;
+    }
 
+    public boolean isFull() {
+        return this.members.size() >= MAX_PLAYER_PER_TEAM;
+    }
 
-	public void deleteTeam() {
-		for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
-			if (pl.getTeam() == this) {
-				pl.setTeam(null);
+    public int getSize() {
+        return this.members.size();
+    }
 
-				PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
-				Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
-			}
-			if (pl.getStartTeam().isPresent() && pl.getStartTeam().get() == this) {
-				pl.setStartTeam(null);
-			}
-			if (pl.getTaupeTeam() == this) {
-				pl.setTaupeTeam(null);
-			}
-			if (pl.getSuperTaupeTeam() == this) {
-				pl.setSuperTaupeTeam(null);
-			}
-		}
+    public long getMoleTeamSize() {
+        if (this.taupeTeam == 0) {
+            return 0;
+        }
 
-		teams.remove(this.team.getName());
-		team.unregister();
+        return PlayerTaupe.getAllPlayerManager()
+                .stream()
+                .filter(p -> p.getTaupeTeam() == this)
+                .count();
+    }
 
-		TeamDeleteEvent teamDeleteEvent = new TeamDeleteEvent(this);
-		Bukkit.getPluginManager().callEvent(teamDeleteEvent);
-	}
+    public long getSuperMoleTeamSize() {
+        if (this.superTaupeTeam == 0) {
+            return 0;
+        }
 
-	public void joinTeam(PlayerTaupe pl) {
-		if ((!alive || isFull()) && !this.isSpectator) {
-			return;
-		}
+        return PlayerTaupe.getAllPlayerManager()
+                .stream()
+                .filter(p -> p.getSuperTaupeTeam() == this)
+                .count();
+    }
 
-		if (Objects.isNull(pl)) {
-			return;
-		}
+    public List<Player> getConnectedMembers() {
+        return this.members.stream()
+                .map(StatsPlayer::getPlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
 
-		if (pl.getTeam() != null) {
-			pl.getTeam().leaveTeam(pl.getUuid());
-		}
-
-		Player player = Bukkit.getPlayer(pl.getUuid());
-		if (Objects.nonNull(player)) {
-			joinScoreboardTeam(pl.getName(), pl, player);
-		}
-
-		pl.setTeam(this);
-
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			pl.setStartTeam(this);
-		}
-
-		PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(pl, this);
-		Bukkit.getPluginManager().callEvent(playerJoinTeamEvent);
-	}
-	
-	public void joinTeam(UUID uuid) {
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
-		joinTeam(pl);
-	}
-
-	private void joinScoreboardTeam(String name, PlayerTaupe pl, Player player) {
-		team.addEntry(name);
-		objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-
-		if (Objects.nonNull(pl)) {
-			players.add(pl);
-		}
-
-		if (Objects.nonNull(player)) {
-			Score score = objective.getScore(player);
-			score.setScore(20);
-			player.setScoreboard(board);
-		}
-	}
-
-	public void leaveTeam(UUID uuid){
-		PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
-		Player player = Bukkit.getPlayer(uuid);
-		
-		team.removeEntry(pl.getName());
-		players.remove(pl);
-		if (Objects.nonNull(player)) {
-			board.resetScores(player);
-		}
-		pl.setTeam(null);
-
-		if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-			pl.setStartTeam(null);
-		}
-
-		PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
-		Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
-	}
+    public List<Player> getMembersInWorldEnvironment(World.Environment environment) {
+        return this.getConnectedMembers().stream()
+                .filter(p -> p.getWorld().getEnvironment() == environment)
+                .collect(Collectors.toList());
+    }
 
 
+    public void deleteTeam() {
+        for (PlayerTaupe pl : PlayerTaupe.getAllPlayerManager()) {
+            if (pl.getTeam() == this) {
+                pl.setTeam(null);
 
-	
-	public static List<TeamCustom> getAllTeams() {
-		return new ArrayList<>(teams.values());
-	}
-	
-	public static List<TeamCustom> getAllAliveTeams() {
-		return teams.values()
-				.stream()
-				.filter(team -> !team.isSpectator() && team.isAlive())
-				.collect(Collectors.toList());
-	}
-	
-	public static List<TeamCustom> getAllStartAliveTeams() {
-		return teams.values()
-				.stream()
-				.filter(team -> !team.isSpectator() && !team.isTaupeTeam() && !team.isSuperTaupeTeam() && team.isAlive())
-				.collect(Collectors.toList());
-	}
-	
-	public static List<TeamCustom> getAllStartTeams() {
-		return teams.values()
-				.stream()
-				.filter(team -> !team.isSpectator() && !team.isTaupeTeam() && !team.isSuperTaupeTeam())
-				.collect(Collectors.toList());
-	}
-	
-	public static Optional<TeamCustom> getTeamByName(String name) {
-		return Optional.ofNullable(teams.get(name));
-	}
+                PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
+                Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
+            }
+            if (pl.getStartTeam().isPresent() && pl.getStartTeam().get() == this) {
+                pl.setStartTeam(null);
+            }
+            if (pl.getTaupeTeam() == this) {
+                pl.setTaupeTeam(null);
+            }
+            if (pl.getSuperTaupeTeam() == this) {
+                pl.setSuperTaupeTeam(null);
+            }
+        }
 
-	public static int getNumberOfTeam() {
-		return teams.size();
-	}
+        this.main.getTeamManager().removeTeam(this);
+        team.unregister();
 
-	public static TeamCustom getSpectatorTeam() {
-		return teams.values()
-				.stream()
-				.filter(TeamCustom::isSpectator)
-				.findFirst()
-				.orElse(null);
-	}
+        TeamDeleteEvent teamDeleteEvent = new TeamDeleteEvent(this);
+        Bukkit.getPluginManager().callEvent(teamDeleteEvent);
+    }
 
-	public static TeamCustom getTaupeTeam(int teamNumber) {
-		return teams.values()
-				.stream()
-				.filter(team -> team.getTaupeTeamNumber() == teamNumber)
-				.findFirst()
-				.orElse(null);
-	}
-	
-	public static List<TeamCustom> getTaupeTeams() {
-		return teams.values()
-				.stream()
-				.filter(TeamCustom::isTaupeTeam)
-				.collect(Collectors.toList());
-	}
-	
-	public static List<TeamCustom> getSuperTaupeTeams() {
-		return teams.values()
-				.stream()
-				.filter(TeamCustom::isSuperTaupeTeam)
-				.collect(Collectors.toList());
-	}
+    public void joinTeam(PlayerTaupe pl) {
+        if ((!alive || isFull()) && !this.isSpectator) {
+            return;
+        }
 
-	public static void deleteTeamTaupe() {
-		List<TeamCustom> teamsValue = new ArrayList<>(teams.values());
-		teamsValue.stream()
-				.filter(team -> team.isTaupeTeam() || team.isSuperTaupeTeam())
-				.forEach(TeamCustom::deleteTeam);
-	}
-	
-	public static Optional<TeamCustom> getWinTeam() {
-		if (TeamCustom.getAllAliveTeams().size() != 1)
-			return Optional.empty();
-		return Optional.ofNullable(getAllAliveTeams().get(0));
-	}
+        if (Objects.isNull(pl)) {
+            return;
+        }
 
-	public static int countTeam() {
-		return teams.size();
-	}
+        if (pl.getTeam() != null) {
+            pl.getTeam().leaveTeam(pl.getUuid());
+        }
+
+        Player player = pl.getPlayer();
+        if (Objects.nonNull(player)) {
+            joinScoreboardTeam(pl.getName(), pl, player);
+        }
+
+        pl.setTeam(this);
+        if (this.isSpectator) {
+            pl.setAlive(false);
+        }
+
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            pl.setStartTeam(this);
+        }
+
+        PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(pl, this);
+        Bukkit.getPluginManager().callEvent(playerJoinTeamEvent);
+    }
+
+    private void joinScoreboardTeam(String name, PlayerTaupe pl, Player player) {
+        team.addEntry(name);
+        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
+        if (Objects.nonNull(pl)) {
+            members.add(pl);
+        }
+
+        if (Objects.nonNull(player)) {
+            Score score = objective.getScore(player);
+            score.setScore(20);
+            player.setScoreboard(board);
+        }
+    }
+
+    public void leaveTeam(UUID uuid) {
+        PlayerTaupe pl = PlayerTaupe.getPlayerManager(uuid);
+        Player player = pl.getPlayer();
+
+        team.removeEntry(pl.getName());
+        members.remove(pl);
+        if (Objects.nonNull(player)) {
+            board.resetScores(player);
+        }
+        pl.setTeam(null);
+
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            pl.setStartTeam(null);
+        }
+
+        PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
+        Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
+    }
 }

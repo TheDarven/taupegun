@@ -6,7 +6,6 @@ import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.team.model.TeamCustom;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -63,34 +62,14 @@ public class PlayerTaupe extends StatsPlayer {
 		this.canClick = true;
 		this.createTeamName = null;
 
-		if (!EnumGameState.isCurrentState(EnumGameState.WAIT, EnumGameState.LOBBY)) {
-			this.alive = false;
-			TeamCustom.getSpectatorTeam().joinTeam(this);
-
-			player.setGameMode(GameMode.SPECTATOR);
-		} else {
-			this.alive = true;
-			this.team = null;
-
-			player.setHealth(20);
-			player.setLevel(0);
-			player.setGameMode(GameMode.SURVIVAL);
-
-			World world = TaupeGun.getInstance().getWorldManager().getWorld();
-			if (Objects.nonNull(world)) {
-				player.teleport(new Location(world, 0.5, 201, 0.5));
-			}
-		}
+		this.alive = true;
+		this.team = null;
 
 		playerManagerHashMap.put(this.uuid, this);
 	}
 
 	public boolean isAlive() {
 		return alive;
-	}
-
-	public boolean isSpectator() {
-		return startTeam != TeamCustom.getSpectatorTeam();
 	}
 
 	public String getName() {
@@ -189,13 +168,13 @@ public class PlayerTaupe extends StatsPlayer {
 
 	public int getTaupeTeamNumber() {
 		if(isTaupe())
-			return teamTaupe.getTaupeTeamNumber();
+			return teamTaupe.getMoleTeamNumber();
 		return 0;
 	}
 
 	public int getSuperTaupeTeamNumber() {
 		if(isSuperTaupe())
-			return teamSuperTaupe.getSuperTaupeTeamNumber();
+			return teamSuperTaupe.getSuperMoleTeamNumber();
 		return 0;
 	}
 
@@ -218,21 +197,6 @@ public class PlayerTaupe extends StatsPlayer {
 	public Kit getMoleKit() {
 		return this.moleKit;
 	}
-
-	public boolean hasWin() {
-		Optional<TeamCustom> optionalVictoryTeam = TeamCustom.getWinTeam();
-		if(!optionalVictoryTeam.isPresent())
-			return false;
-		TeamCustom victoryTeam = optionalVictoryTeam.get();
-
-		if(victoryTeam.isSuperTaupeTeam())
-			return victoryTeam == this.teamSuperTaupe;
-		else if(victoryTeam.isTaupeTeam())
-			return victoryTeam == this.teamTaupe && this.teamSuperTaupe == null;
-		else
-			return victoryTeam == this.startTeam && this.teamTaupe == null;
-	}
-
 
 	/*
 	 * CONFIG

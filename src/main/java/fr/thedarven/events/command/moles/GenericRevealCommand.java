@@ -1,6 +1,7 @@
 package fr.thedarven.events.command.moles;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -27,7 +28,7 @@ public abstract class GenericRevealCommand extends MoleCommand {
     }
 
     public void reveal(Player player, TeamCustom newTeam){
-        newTeam.joinTeam(player.getUniqueId());
+        newTeam.joinTeam(PlayerTaupe.getPlayerManager(player.getUniqueId()));
 
         player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GOLDEN_APPLE,1));
         if (player.getHealth() < 16.0) {

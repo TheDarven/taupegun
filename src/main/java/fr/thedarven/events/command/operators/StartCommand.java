@@ -32,7 +32,7 @@ public class StartCommand extends OperatorCommand {
 		MoleCreationSuccessEnum moleTeamCreationSuccess = graph.createTeams();
 		if (moleTeamCreationSuccess == MoleCreationSuccessEnum.INCORRECT_MOLE_AMOUNT) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "incorrectMoleNumber", true));
-			TeamCustom.deleteTeamTaupe();
+			this.main.getTeamManager().deleteMoleAndSuperMoleTeams();
 			for(PlayerTaupe playerTaupe : PlayerTaupe.getAllPlayerManager()) {
 				playerTaupe.setTaupeTeam(null);
 				playerTaupe.setSuperTaupeTeam(null);
@@ -63,10 +63,10 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		List<TeamCustom> teamsWithPlayer = TeamCustom.getAllStartTeams().stream()
-				.filter(team -> !team.getPlayers().isEmpty())
+		List<TeamCustom> teamsWithPlayer = this.main.getTeamManager().getAllStartTeams().stream()
+				.filter(team -> team.countMembers() > 0)
 				.collect(Collectors.toList());
-		if (teamsWithPlayer.size() < 2 && !this.main.getScenariosManager().superMoles.getValue()) {
+		if (teamsWithPlayer.size() < 1 && !this.main.getScenariosManager().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 			return false;
 		}
@@ -86,7 +86,7 @@ public class StartCommand extends OperatorCommand {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", true));
 				return false;
 			}
-			if (team.getConnectedPlayers().size() > team.getSize()) {
+			if (team.getConnectedMembers().size() > team.getSize()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", true));
 				return false;
 			}

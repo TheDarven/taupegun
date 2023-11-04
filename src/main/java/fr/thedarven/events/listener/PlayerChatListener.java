@@ -27,7 +27,7 @@ public class PlayerChatListener implements Listener {
 		Player player = e.getPlayer();
 		if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
 			e.setCancelled(true);
-			Bukkit.broadcastMessage("§7" + getTeamColor(pl) + player.getName() + ": §r" + e.getMessage());
+			Bukkit.broadcastMessage("§7" + getTeamPrefix(pl) + player.getName() + ": §r" + e.getMessage());
 		} else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
 			e.setCancelled(true);
 			if (!pl.isAlive()) {
@@ -42,7 +42,7 @@ public class PlayerChatListener implements Listener {
 
 			if (this.main.getScenariosManager().teamTchat.getValue()) {
 				if (e.getMessage().startsWith("!") || e.getMessage().startsWith("*"))  {
-					Bukkit.broadcastMessage(getTeamColor(pl)+player.getName() + ": §7" + e.getMessage().substring(1));
+					Bukkit.broadcastMessage(getTeamPrefix(pl)+player.getName() + ": §7" + e.getMessage().substring(1));
 				} else {
 					if (pl.isTaupe() && pl.getTeam() == pl.getTaupeTeam()) {
 						this.main.getMessageManager().moleSendsMoleMessage(player, pl, e.getMessage().split(" "));
@@ -51,7 +51,7 @@ public class PlayerChatListener implements Listener {
 					} else {
 						String teamMessage = "§e" + LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true)+"§7" + player.getName() + ": " + e.getMessage();
 						if (Objects.nonNull(pl.getTeam())) {
-							pl.getTeam().getAlivesPlayers()
+							pl.getTeam().getLivingPlayers()
 									.stream()
 									.filter(StatsPlayer::isOnline)
 									.forEach(playerTaupe -> playerTaupe.getPlayer().sendMessage(teamMessage));
@@ -59,17 +59,16 @@ public class PlayerChatListener implements Listener {
 					}
 				}
 			} else {
-				Bukkit.broadcastMessage(getTeamColor(pl) + player.getName() + ": §7" + e.getMessage());
+				Bukkit.broadcastMessage(getTeamPrefix(pl) + player.getName() + ": §7" + e.getMessage());
 			}
 		}
 	}
 
-	private String getTeamColor(PlayerTaupe pl) {
-		String color = "";
-		if (Objects.nonNull(pl.getTeam()) && Objects.nonNull(pl.getTeam().getTeam())) {
-			color = pl.getTeam().getTeam().getPrefix();
+	private String getTeamPrefix(PlayerTaupe pl) {
+		if (pl.getTeam() != null) {
+			return pl.getTeam().getTeamPrefix();
 		}
-		return color;
+		return "";
 	}
 
 }

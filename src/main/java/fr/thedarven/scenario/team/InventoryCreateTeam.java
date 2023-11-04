@@ -37,7 +37,7 @@ public class InventoryCreateTeam extends ConfigurationInventory implements Admin
 
     @Override
     public void onClickIn(Player player, PlayerTaupe pl) {
-        if (TeamCustom.countTeam() >= TeamCustom.MAX_TEAM_AMOUNT) {
+        if (this.main.getTeamManager().countTeams() >= TeamCustom.MAX_TEAM_AMOUNT) {
             this.main.getMessageManager().sendTooManyTeamMessage(player);
             player.closeInventory();
             return;

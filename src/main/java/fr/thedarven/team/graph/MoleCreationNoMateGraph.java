@@ -22,10 +22,10 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
     protected void selectPlayers() {
         this.players.clear();
 
-        List<TeamCustom> teams = TeamCustom.getAllStartTeams();
+        List<TeamCustom> teams = this.main.getTeamManager().getAllStartTeams();
         for (TeamCustom team: teams) {
             List<PlayerTaupe> selectedPlayers = new ArrayList<>();
-            List<PlayerTaupe> playerOfTeam = new ArrayList<>(team.getPlayers());
+            List<PlayerTaupe> playerOfTeam = team.getMembers();
 
             int amountOfMoles = getAmountOfMoles(team);
             if (amountOfMoles == 1) {
@@ -83,7 +83,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
         int nbTeam = this.moleTeams.size();
         for (int i = 0; i < nbTeam; i++) {
             for (int j = i; j < nbTeam; j++) {
-                if (this.moleTeams.get(i).getTaupeTeamSize() > this.moleTeams.get(j).getTaupeTeamSize()) {
+                if (this.moleTeams.get(i).getMoleTeamSize() > this.moleTeams.get(j).getMoleTeamSize()) {
                     TeamCustom temp = this.moleTeams.get(i);
                     this.moleTeams.set(i, this.moleTeams.get(j));
                     this.moleTeams.set(j, temp);
@@ -92,7 +92,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
         }
 
         for (int i = 0; i < nbTeam - 1; i++) {
-            if (this.moleTeams.get(i).getTaupeTeamSize() == this.moleTeams.get(i + 1).getTaupeTeamSize()) {
+            if (this.moleTeams.get(i).getMoleTeamSize() == this.moleTeams.get(i + 1).getMoleTeamSize()) {
                 int randomValue = RandomHelper.generate(3);
                 if (randomValue >= 1) {
                     TeamCustom temp = this.moleTeams.get(i);

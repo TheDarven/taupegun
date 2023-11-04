@@ -53,7 +53,7 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
                 .collect(Collectors.toList());
         Collections.shuffle(playerWithoutTeam);
 
-        List<TeamCustom> teamList = TeamCustom.getAllTeams().stream()
+        List<TeamCustom> teamList = this.main.getTeamManager().getAllTeams().stream()
                 .filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
                 .sorted(TEAM_SIZE_COMPARATOR)
                 .collect(Collectors.toList());

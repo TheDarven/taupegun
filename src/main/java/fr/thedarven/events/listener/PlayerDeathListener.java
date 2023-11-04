@@ -116,7 +116,7 @@ public class PlayerDeathListener implements Listener {
 		if (Objects.nonNull(team)) {
 			team.leaveTeam(pl.getUuid());
 		}
-		TeamCustom.getSpectatorTeam().joinTeam(pl);
+		this.main.getTeamManager().getSpectatorTeam().ifPresent(spectatorTeam -> spectatorTeam.joinTeam(pl));
 	}
 
 	private void dropHeadItem(PlayerTaupe pl, Player deadPlayer) {

@@ -89,9 +89,9 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
     @Override
     protected List<String> getItemDescription() {
         List<String> itemDescription = new ArrayList<>();
-        if (!this.team.getPlayers().isEmpty()) {
+        if (this.team.countMembers() > 0) {
             itemDescription.add("");
-            this.team.getPlayers().forEach(member -> itemDescription.add(String.format("§a• %s", member.getName())));
+            this.team.getMembers().forEach(member -> itemDescription.add(String.format("§a• %s", member.getName())));
         }
         return itemDescription;
     }
@@ -101,7 +101,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         super.refreshInventoryItems();
 
         int position = 0;
-        for (PlayerTaupe member: this.team.getPlayers()) {
+        for (PlayerTaupe member: this.team.getMembers()) {
             getInventory().setItem(position++, ItemHelper.getPlayerHeadWithName(member.getName(), member.getName()));
         }
 

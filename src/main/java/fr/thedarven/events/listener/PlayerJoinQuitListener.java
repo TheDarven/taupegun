@@ -36,13 +36,7 @@ public class PlayerJoinQuitListener implements Listener {
 
         e.setJoinMessage("§8(§a+§8) §7" + e.getPlayer().getName());
 
-        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            if (this.main.development) {
-                new Title(ChatColor.GOLD + LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
-                        LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true),
-                        40).sendTitle(player);
-            }
-        } else if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
+        if (EnumGameState.isCurrentState(EnumGameState.GAME)) {
             if (!this.main.getScenariosManager().coordonneesVisibles.getValue()) {
                 new DisableF3().disableF3(player);
             }
@@ -53,8 +47,7 @@ public class PlayerJoinQuitListener implements Listener {
                 if (Objects.nonNull(world)) {
                     player.teleport(new Location(world, 0, 200, 0));
                 }
-                TeamCustom.getSpectatorTeam().joinTeam(pl.getUuid());
-
+                this.main.getTeamManager().getSpectatorTeam().ifPresent(spectatorTeam -> spectatorTeam.joinTeam(pl));
                 this.main.getPlayerManager().clearPlayer(player);
             }
         }
@@ -84,7 +77,7 @@ public class PlayerJoinQuitListener implements Listener {
                 pl.setSuperTaupeTeam(null);
             }
 
-            TeamCustom.deleteTeamTaupe();
+            this.main.getTeamManager().deleteMoleAndSuperMoleTeams();
         }
         leaveAction(player);
     }
@@ -103,6 +96,22 @@ public class PlayerJoinQuitListener implements Listener {
 
         pl.setCustomName(player.getName());
         pl.setLastConnection();
+
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY, EnumGameState.WAIT)) {
+            if (this.main.development) {
+                new Title(ChatColor.GOLD + LanguageBuilder.getContent("EVENT_LOGIN", "developerModeTitle", true),
+                        LanguageBuilder.getContent("EVENT_LOGIN", "developerModeSubtitle", true), 40)
+                        .sendTitle(player);
+            }
+
+            World world = this.main.getWorldManager().getWorld();
+            if (Objects.nonNull(world)) {
+                player.teleport(new Location(world, 0.5, 201, 0.5));
+            }
+            player.setHealth(20);
+            player.setLevel(0);
+            player.setGameMode(GameMode.SURVIVAL);
+        }
     }
 
     public void leaveAction(Player player) {

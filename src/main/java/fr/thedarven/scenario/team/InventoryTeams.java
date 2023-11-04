@@ -57,7 +57,7 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
                 updateChildPositionItem(child, child.getPosition());
             } else if (child instanceof InventoryTeamsElement) {
                 updateChildPositionItem(child, position++);
-            } else if (child instanceof InventoryCreateTeam && TeamCustom.countTeam() < TeamCustom.MAX_TEAM_AMOUNT) {
+            } else if (child instanceof InventoryCreateTeam && this.main.getTeamManager().countTeams() < TeamCustom.MAX_TEAM_AMOUNT) {
                 updateChildPositionItem(child, countChildren() - 2);
             }
         }

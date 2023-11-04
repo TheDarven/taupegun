@@ -70,4 +70,9 @@ public enum ColorEnum {
         return ColorEnum.WHITE;
     }
 
+    @Override
+    public String toString() {
+        return this.color;
+    }
+
 }

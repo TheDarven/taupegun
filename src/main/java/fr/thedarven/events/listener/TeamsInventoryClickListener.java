@@ -1,5 +1,6 @@
 package fr.thedarven.events.listener;
 
+import fr.thedarven.TaupeGun;
 import fr.thedarven.events.event.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.player.model.PlayerTaupe;
@@ -20,6 +21,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class TeamsInventoryClickListener implements Listener {
+
+    private final TaupeGun main;
+
+    public TeamsInventoryClickListener(TaupeGun main) {
+        this.main = main;
+    }
 
     @EventHandler
     public void onTeamsInventoryClick(TeamsInventoryClickEvent e) {
@@ -42,11 +49,11 @@ public class TeamsInventoryClickListener implements Listener {
             openTeamsInventory(playerTaupe);
 
             Map<String, String> params = new HashMap<>();
-            params.put("teamName", playerTeam.getTeam().getPrefix() + playerTeam.getName() + "§3");
+            params.put("teamName", playerTeam.getColor().getColor() + playerTeam.getName() + "§3");
             String isLeavingMessage = TextInterpreter.textInterpretation("§l§3" + LanguageBuilder.getContent("TEAM", "isLeaving", true), params);
             player.sendMessage(isLeavingMessage);
         } else if (clickItem.getType() == Material.BANNER) {
-            Optional<TeamCustom> oClickedTeam = TeamCustom.getTeamByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
+            Optional<TeamCustom> oClickedTeam = this.main.getTeamManager().getTeamByName(clickItem.getItemMeta().getDisplayName().substring(2, clickItem.getItemMeta().getDisplayName().lastIndexOf('[') - 1));
             if (!oClickedTeam.isPresent() || oClickedTeam.get() == playerTeam) {
                 return;
             }
@@ -62,7 +69,7 @@ public class TeamsInventoryClickListener implements Listener {
             clickedTeam.joinTeam(playerTaupe);
             openTeamsInventory(playerTaupe);
             Map<String, String> params = new HashMap<>();
-            params.put("teamName", clickedTeam.getTeam().getPrefix() + clickedTeam.getName() + "§3");
+            params.put("teamName", clickedTeam.getColor().getColor() + clickedTeam.getName() + "§3");
             String isJoiningMessage = TextInterpreter.textInterpretation("§l§3" + LanguageBuilder.getContent("TEAM", "isJoining", true), params);
             player.sendMessage(isJoiningMessage);
         }
