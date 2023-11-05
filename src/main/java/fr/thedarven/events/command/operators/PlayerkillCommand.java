@@ -1,7 +1,9 @@
 package fr.thedarven.events.command.operators;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.GamePlayerDeathEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.game.model.enums.GameDeathCause;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.helpers.PermissionHelper;
 import org.bukkit.Bukkit;
@@ -9,8 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,9 +31,11 @@ public class PlayerkillCommand extends OperatorCommand implements TabCompleter {
 
 		Player targetedPlayer = targetedPl.getPlayer();
 		if (Objects.nonNull(targetedPlayer)) {
-			targetedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1000, 250));
+			targetedPl.setPlayerKillCommand(true);
+			targetedPlayer.getPlayer().setHealth(0);
 		} else {
-			this.main.getListenerManager().getDeathListener().killPlayer(targetedPl);
+			GamePlayerDeathEvent gamePlayerDeathEvent = new GamePlayerDeathEvent(targetedPl, GameDeathCause.PLAYER_KILL_COMMAND);
+			Bukkit.getPluginManager().callEvent(gamePlayerDeathEvent);
 		}
 	}
 

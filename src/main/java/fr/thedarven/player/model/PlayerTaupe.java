@@ -2,7 +2,6 @@ package fr.thedarven.player.model;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
-import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.stats.model.StatsPlayer;
 import fr.thedarven.team.model.TeamCustom;
@@ -36,6 +35,7 @@ public class PlayerTaupe extends StatsPlayer {
 
 	private boolean canClick;
 	private String createTeamName;
+	private boolean isPlayerKillCommand;
 
 	public PlayerTaupe(UUID playerUuid) {
 		super(playerUuid);
@@ -64,6 +64,7 @@ public class PlayerTaupe extends StatsPlayer {
 
 		this.alive = true;
 		this.team = null;
+		this.isPlayerKillCommand = false;
 
 		playerManagerHashMap.put(this.uuid, this);
 	}
@@ -215,6 +216,14 @@ public class PlayerTaupe extends StatsPlayer {
 
 	public void setCreateTeamName(String pName) {
 		createTeamName = pName;
+	}
+
+	public boolean isPlayerKillCommand() {
+		return isPlayerKillCommand;
+	}
+
+	public void setPlayerKillCommand(boolean playerKillCommand) {
+		isPlayerKillCommand = playerKillCommand;
 	}
 
 	public static PlayerTaupe getPlayerTaupeByName(String name) {

@@ -231,6 +231,17 @@ public class MessageManager extends Manager {
         new ActionBar(String.format("%s%s", ChatColor.RED, tooManyTeamMessage)).sendActionBar(received);
     }
 
+    public void broadcastDeathMessage(PlayerTaupe deathPlayerTaupe) {
+        ChatColor startTeamColor = ChatColor.GRAY;
+        if (deathPlayerTaupe.getStartTeam().isPresent()) {
+            startTeamColor = deathPlayerTaupe.getStartTeam().get().getColor().getChatColor();
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("playerName", String.format("%s%s%s", startTeamColor, deathPlayerTaupe.getName(), ChatColor.RESET));
+        String deathAllMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("EVENT_DEATH", "deathAll", true), params);
+        Bukkit.broadcastMessage(deathAllMessage);
+    }
+
     private String getMessageOfArray(String[] words) {
         StringBuilder message = new StringBuilder();
         for (String word : words) {
