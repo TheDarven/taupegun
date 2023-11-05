@@ -18,14 +18,17 @@ public class CommandManager extends Manager {
 
     public void loadCommands(){
         // Operator's commands
-        main.getCommand("revive").setExecutor(new ReviveCommand(this.main));
+        ReviveCommand reviveCommand = new ReviveCommand(this.main);
+        main.getCommand("revive").setExecutor(reviveCommand);
+        main.getCommand("revive").setTabCompleter(reviveCommand);
+
         main.getCommand("heal").setExecutor(new HealCommand(this.main));
         main.getCommand("g").setExecutor(new GCommand(this.main));
         main.getCommand("say").setExecutor(new SayCommand(this.main));
 
         PlayerkillCommand playerkillCommand = new PlayerkillCommand(this.main);
         main.getCommand("playerkill").setExecutor(playerkillCommand);
-        main.getCommand("revive").setTabCompleter(playerkillCommand);
+        main.getCommand("playerkill").setTabCompleter(playerkillCommand);
 
         main.getCommand("rules").setExecutor(new ScenariosCommand(this.main));
         main.getCommand("scenarios").setExecutor(new ScenariosCommand(this.main));
