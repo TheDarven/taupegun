@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class StartRunnable extends BukkitRunnable {
 
-    private TaupeGun main;
+    private final TaupeGun main;
 
     public StartRunnable(TaupeGun main) {
         this.main = main;
