@@ -1,4 +1,4 @@
-package fr.thedarven.events.event;
+package fr.thedarven.events.event.team;
 
 import fr.thedarven.player.model.PlayerTaupe;
 import org.bukkit.entity.Player;

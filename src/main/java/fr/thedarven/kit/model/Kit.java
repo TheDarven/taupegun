@@ -12,12 +12,6 @@ public class Kit implements Serializable, Cloneable {
     private List<String> items;
     private transient InventoryKitsElement configurationInventory;
 
-    public Kit(String name) {
-        this.name = name;
-        this.items = new ArrayList<>();
-        this.configurationInventory = null;
-    }
-
     public Kit(String name, List<String> items) {
         this.name = name;
         this.items = items;

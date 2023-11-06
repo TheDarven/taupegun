@@ -1,9 +1,9 @@
 package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.event.PlayerJoinTeamEvent;
-import fr.thedarven.events.event.PlayerLeaveTeamEvent;
-import fr.thedarven.events.event.TeamDeleteEvent;
+import fr.thedarven.events.event.team.PlayerJoinTeamEvent;
+import fr.thedarven.events.event.team.PlayerLeaveTeamEvent;
+import fr.thedarven.events.event.team.TeamDeleteEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;

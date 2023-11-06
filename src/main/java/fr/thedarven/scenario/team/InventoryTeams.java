@@ -1,8 +1,8 @@
 package fr.thedarven.scenario.team;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.event.TeamCreateEvent;
-import fr.thedarven.events.event.TeamDeleteEvent;
+import fr.thedarven.events.event.team.TeamCreateEvent;
+import fr.thedarven.events.event.team.TeamDeleteEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.InventoryIncrement;
