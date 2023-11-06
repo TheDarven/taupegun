@@ -6,6 +6,8 @@ import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.OptionNumeric;
+import fr.thedarven.team.model.SpectatorTeam;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.TextInterpreter;
@@ -82,7 +84,7 @@ public class GameRunnable extends BukkitRunnable {
 
         this.teleportPlayers(world);
 
-        new TeamCustom(this.main, this.main.getTeamManager().getSpectatorTeamName(), ColorEnum.WHITE, 0, 0, true, false);
+        new SpectatorTeam(this.main, this.main.getTeamManager().getSpectatorTeamName(), ColorEnum.WHITE);
 
         this.main.getWorldManager().destroyLobby();
     }
@@ -309,10 +311,10 @@ public class GameRunnable extends BukkitRunnable {
         int Z = 0;
         double X;
         for (TeamCustom team: this.main.getTeamManager().getAllTeams()) {
-            if (team.isSpectator()) {
+            if (team instanceof SpectatorTeam) {
                 Location centerLocation = new Location(world, 0, 150, 0);
                 team.getMembersInWorldEnvironment(World.Environment.NETHER).forEach(player -> player.teleport(centerLocation));
-            } else {
+            } else if (team instanceof StartTeam) {
                 X = Z * Math.PI * 2 / nbTeam;
                 Location teleportPoint = new Location(world, (int) (radius * Math.cos(X)), 250, (int) (radius * Math.sin(X)));
                 teleportPoint.setY(world.getHighestBlockYAt(teleportPoint) + 2);

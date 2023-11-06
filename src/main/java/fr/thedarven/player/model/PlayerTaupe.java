@@ -4,6 +4,9 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.stats.model.StatsPlayer;
+import fr.thedarven.team.model.MoleTeam;
+import fr.thedarven.team.model.StartTeam;
+import fr.thedarven.team.model.SuperMoleTeam;
 import fr.thedarven.team.model.TeamCustom;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -29,9 +32,9 @@ public class PlayerTaupe extends StatsPlayer {
 	private final List<PlayerRunnable> runnables;
 
 	private TeamCustom team;
-	private TeamCustom startTeam;
-	private TeamCustom teamTaupe;
-	private TeamCustom teamSuperTaupe;
+	private StartTeam startTeam;
+	private MoleTeam teamTaupe;
+	private SuperMoleTeam teamSuperTaupe;
 
 	private boolean canClick;
 	private String createTeamName;
@@ -81,7 +84,7 @@ public class PlayerTaupe extends StatsPlayer {
 		return team;
 	}
 
-	public Optional<TeamCustom> getStartTeam() {
+	public Optional<StartTeam> getStartTeam() {
 		return Optional.ofNullable(startTeam);
 	}
 
@@ -137,7 +140,7 @@ public class PlayerTaupe extends StatsPlayer {
 		team = pTeam;
 	}
 
-	public void setStartTeam(TeamCustom pTeam) {
+	public void setStartTeam(StartTeam pTeam) {
 		startTeam = pTeam;
 	}
 
@@ -159,32 +162,32 @@ public class PlayerTaupe extends StatsPlayer {
 		return teamSuperTaupe != null;
 	}
 
-	public TeamCustom getTaupeTeam() {
+	public MoleTeam getTaupeTeam() {
 		return teamTaupe;
 	}
 
-	public TeamCustom getSuperTaupeTeam() {
+	public SuperMoleTeam getSuperTaupeTeam() {
 		return teamSuperTaupe;
 	}
 
 	public int getTaupeTeamNumber() {
 		if(isTaupe())
-			return teamTaupe.getMoleTeamNumber();
+			return teamTaupe.getTeamNumber();
 		return 0;
 	}
 
 	public int getSuperTaupeTeamNumber() {
 		if(isSuperTaupe())
-			return teamSuperTaupe.getSuperMoleTeamNumber();
+			return teamSuperTaupe.getTeamNumber();
 		return 0;
 	}
 
-	public void setTaupeTeam(TeamCustom pTeam) {
-		teamTaupe = pTeam;
+	public void setTaupeTeam(MoleTeam moleTeam) {
+		teamTaupe = moleTeam;
 	}
 
-	public void setSuperTaupeTeam(TeamCustom pTeam) {
-		teamSuperTaupe = pTeam;
+	public void setSuperTaupeTeam(SuperMoleTeam superMoleTeam) {
+		teamSuperTaupe = superMoleTeam;
 	}
 
 	public boolean isReveal() {

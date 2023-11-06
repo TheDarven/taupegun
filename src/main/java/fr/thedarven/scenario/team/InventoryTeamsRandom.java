@@ -5,6 +5,7 @@ import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.TeamManager;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -54,31 +55,21 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
                 .collect(Collectors.toList());
         Collections.shuffle(playerWithoutTeam);
 
-        List<TeamCustom> teamList = this.main.getTeamManager().getAllTeams().stream()
+        List<StartTeam> startTeams = this.main.getTeamManager().getAllStartTeams().stream()
                 .filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
                 .sorted(TeamManager.TEAM_SIZE_COMPARATOR)
                 .collect(Collectors.toList());
 
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = i; j < teamList.size(); j++) {
-                if (teamList.get(i).getSize() > teamList.get(j).getSize()) {
-                    TeamCustom temp = teamList.get(j);
-                    teamList.set(j, teamList.get(i));
-                    teamList.set(i, temp);
-                }
-            }
-        }
-
         int teamIndex = 0;
-        while (!playerWithoutTeam.isEmpty() && !teamList.isEmpty()) {
-            TeamCustom currentTeam = teamList.get(teamIndex);
+        while (!playerWithoutTeam.isEmpty() && !startTeams.isEmpty()) {
+            TeamCustom currentTeam = startTeams.get(teamIndex);
             if (currentTeam.isFull()) {
-                teamList.remove(teamIndex);
+                startTeams.remove(teamIndex);
                 continue;
             }
             currentTeam.joinTeam(playerWithoutTeam.remove(0));
-            teamIndex = (teamIndex + 1) % teamList.size();
-            teamList.sort(TeamManager.TEAM_SIZE_COMPARATOR);
+            teamIndex = (teamIndex + 1) % startTeams.size();
+            startTeams.sort(TeamManager.TEAM_SIZE_COMPARATOR);
         }
 
         new ActionBar("§a" + PLAYER_REPARTITION).sendActionBar(sender);

@@ -54,7 +54,7 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
         Inventory teamMenu = Bukkit.createInventory(null, 45, teamChoiceTitle);
         TeamCustom playerTeam = PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam();
 
-        this.main.getTeamManager().getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
+        this.main.getTeamManager().getAllStartTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
 
         if (Objects.nonNull(playerTeam)) {
             String emptyMessage = "§4" + LanguageBuilder.getContent("TEAM", "leave", true);

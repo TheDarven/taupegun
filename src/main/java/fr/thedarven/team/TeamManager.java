@@ -3,7 +3,7 @@ package fr.thedarven.team;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.Manager;
-import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.team.model.*;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
 import java.util.*;
@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 public class TeamManager extends Manager {
 
     public static final Comparator<TeamCustom> TEAM_SIZE_COMPARATOR = Comparator.comparing(TeamCustom::getSize);
-    public static final Comparator<TeamCustom> MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(TeamCustom::getMoleTeamNumber);
-    public static final Comparator<TeamCustom> SUPER_MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(TeamCustom::getSuperMoleTeamNumber);
+    public static final Comparator<MoleTeam> MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(MoleTeam::getTeamNumber);
+    public static final Comparator<SuperMoleTeam> SUPER_MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(SuperMoleTeam::getTeamNumber);
 
     private static String SPECTATOR_TEAM_NAME = null;
     private static String MOLE_TEAM_NAME = null;
@@ -62,27 +62,30 @@ public class TeamManager extends Manager {
     /**
      * @return The spectator team
      */
-    public Optional<TeamCustom> getSpectatorTeam() {
+    public Optional<SpectatorTeam> getSpectatorTeam() {
         return this.teams.stream()
-                .filter(TeamCustom::isSpectator)
+                .filter(team -> team instanceof SpectatorTeam)
+                .map(team -> (SpectatorTeam) team)
                 .findFirst();
     }
 
     /**
      * @return List of mole teams
      */
-    public List<TeamCustom> getMoleTeams() {
+    public List<MoleTeam> getMoleTeams() {
         return this.teams.stream()
-                .filter(TeamCustom::isMoleTeam)
+                .filter(team -> team instanceof MoleTeam)
+                .map(team -> (MoleTeam) team)
                 .collect(Collectors.toList());
     }
 
     /**
      * @return List of super mole teams
      */
-    public List<TeamCustom> getSuperMoleTeams() {
+    public List<SuperMoleTeam> getSuperMoleTeams() {
         return this.teams.stream()
-                .filter(TeamCustom::isSuperMoleTeam)
+                .filter(team -> team instanceof SuperMoleTeam)
+                .map(team -> (SuperMoleTeam) team)
                 .collect(Collectors.toList());
     }
 
@@ -91,16 +94,17 @@ public class TeamManager extends Manager {
      */
     public List<TeamCustom> getAllLivingTeams() {
         return this.teams.stream()
-                .filter(team -> !team.isSpectator() && team.isAlive())
+                .filter(TeamCustom::isAlive)
                 .collect(Collectors.toList());
     }
 
     /**
      * @return List of non-mole and non-spectator teams
      */
-    public List<TeamCustom> getAllStartTeams() {
+    public List<StartTeam> getAllStartTeams() {
         return this.teams.stream()
-                .filter(team -> !team.isSpectator() && !team.isMoleTeam() && !team.isSuperMoleTeam())
+                .filter(team -> team instanceof StartTeam)
+                .map(team -> (StartTeam) team)
                 .collect(Collectors.toList());
     }
 
@@ -175,7 +179,7 @@ public class TeamManager extends Manager {
      */
     public void deleteMoleAndSuperMoleTeams() {
         new ArrayList<>(this.teams).stream()
-                .filter(team -> team.isMoleTeam() || team.isSuperMoleTeam())
+                .filter(team -> team instanceof MoleTeam || team instanceof SuperMoleTeam)
                 .forEach(TeamCustom::deleteTeam);
     }
 }

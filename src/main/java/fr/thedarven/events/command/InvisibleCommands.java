@@ -5,6 +5,7 @@ import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.helpers.RandomHelper;
@@ -70,7 +71,7 @@ public class InvisibleCommands implements Listener {
         if (this.main.getTeamManager().countTeams() == 0) {
             int i = 0;
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                TeamCustom team = new TeamCustom(this.main, String.format("Team #%s", i++), ColorEnum.values()[RandomHelper.generate(ColorEnum.values().length)], 0, 0, false, true);
+                TeamCustom team = new StartTeam(this.main, String.format("Team #%s", i++), ColorEnum.values()[RandomHelper.generate(ColorEnum.values().length)], true);
                 team.joinTeam(PlayerTaupe.getPlayerManager(onlinePlayer.getUniqueId()));
             }
         }

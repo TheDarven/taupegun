@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class TeamCustom {
+public abstract class TeamCustom {
 
     public final static int MAX_PLAYER_PER_TEAM = 9;
     public final static int MAX_TEAM_AMOUNT = 36;
@@ -34,13 +34,10 @@ public class TeamCustom {
     private ColorEnum color;
 
     private final Team team;
-    private final int taupeTeam;
-    private final int superTaupeTeam;
-    private final boolean isSpectator;
     private final List<PlayerTaupe> members;
     private boolean alive;
 
-    public TeamCustom(TaupeGun main, String name, ColorEnum color, int pTaupe, int pSuperTaupe, boolean pSpectator, boolean pAlive) {
+    public TeamCustom(TaupeGun main, String name, ColorEnum color, boolean alive) {
         this.main = main;
         team = board.registerNewTeam(name);
         if (name.startsWith(main.getTeamManager().getMoleTeamName()) || name.startsWith(main.getTeamManager().getSuperMoleTeamName())) {
@@ -53,11 +50,8 @@ public class TeamCustom {
         this.name = name;
         this.color = color;
 
-        this.taupeTeam = pTaupe;
-        this.superTaupeTeam = pSuperTaupe;
-        this.isSpectator = pSpectator;
         this.members = new ArrayList<>();
-        this.alive = pAlive;
+        this.alive = alive;
 
         main.getTeamManager().addTeam(this);
 
@@ -79,54 +73,6 @@ public class TeamCustom {
 
     public String getTeamPrefix() {
         return this.team.getPrefix();
-    }
-
-    public boolean isMoleTeam() {
-        return taupeTeam != 0;
-    }
-
-    public boolean isSuperMoleTeam() {
-        return superTaupeTeam != 0;
-    }
-
-    public int getMoleTeamNumber() {
-        return taupeTeam;
-    }
-
-    public int getSuperMoleTeamNumber() {
-        return superTaupeTeam;
-    }
-
-    public boolean isSpectator() {
-        return isSpectator;
-    }
-
-    /**
-     * @return The list of player for whom this team is their mole team
-     */
-    public List<PlayerTaupe> getMoleTeamPlayers() {
-        if (this.taupeTeam == 0) {
-            return new ArrayList<>();
-        }
-
-        return PlayerTaupe.getAllPlayerManager()
-                .stream()
-                .filter(p -> p.getTaupeTeam() == this)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @return The list of player for whom this team is their super mole team
-     */
-    public List<PlayerTaupe> getSuperTaupeTeamPlayers() {
-        if (this.superTaupeTeam == 0) {
-            return new ArrayList<>();
-        }
-
-        return PlayerTaupe.getAllPlayerManager()
-                .stream()
-                .filter(p -> p.getSuperTaupeTeam() == this)
-                .collect(Collectors.toList());
     }
 
     /**
@@ -163,28 +109,6 @@ public class TeamCustom {
 
     public int getSize() {
         return this.members.size();
-    }
-
-    public long getMoleTeamSize() {
-        if (this.taupeTeam == 0) {
-            return 0;
-        }
-
-        return PlayerTaupe.getAllPlayerManager()
-                .stream()
-                .filter(p -> p.getTaupeTeam() == this)
-                .count();
-    }
-
-    public long getSuperMoleTeamSize() {
-        if (this.superTaupeTeam == 0) {
-            return 0;
-        }
-
-        return PlayerTaupe.getAllPlayerManager()
-                .stream()
-                .filter(p -> p.getSuperTaupeTeam() == this)
-                .count();
     }
 
     public List<Player> getConnectedMembers() {
@@ -227,35 +151,34 @@ public class TeamCustom {
         Bukkit.getPluginManager().callEvent(teamDeleteEvent);
     }
 
-    public void joinTeam(PlayerTaupe pl) {
-        if ((!alive || isFull()) && !this.isSpectator) {
-            return;
+    /**
+     * Add player to the team
+     * @param playerTaupe The player to add
+     * @return <b>true</b> if the player has been added to the team, otherwise <b>false</b>
+     */
+    public boolean joinTeam(PlayerTaupe playerTaupe) {
+        if (!canAddPlayer()) {
+            return false;
         }
 
-        if (Objects.isNull(pl)) {
-            return;
+        if (Objects.isNull(playerTaupe)) {
+            return false;
         }
 
-        if (pl.getTeam() != null) {
-            pl.getTeam().leaveTeam(pl.getUuid());
+        if (playerTaupe.getTeam() != null) {
+            playerTaupe.getTeam().leaveTeam(playerTaupe.getUuid());
         }
 
-        Player player = pl.getPlayer();
+        Player player = playerTaupe.getPlayer();
         if (Objects.nonNull(player)) {
-            joinScoreboardTeam(pl.getName(), pl, player);
+            joinScoreboardTeam(playerTaupe.getName(), playerTaupe, player);
         }
 
-        pl.setTeam(this);
-        if (this.isSpectator) {
-            pl.setAlive(false);
-        }
+        playerTaupe.setTeam(this);
 
-        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
-            pl.setStartTeam(this);
-        }
-
-        PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(pl, this);
+        PlayerJoinTeamEvent playerJoinTeamEvent = new PlayerJoinTeamEvent(playerTaupe, this);
         Bukkit.getPluginManager().callEvent(playerJoinTeamEvent);
+        return true;
     }
 
     private void joinScoreboardTeam(String name, PlayerTaupe pl, Player player) {
@@ -290,5 +213,12 @@ public class TeamCustom {
 
         PlayerLeaveTeamEvent playerLeaveTeamEvent = new PlayerLeaveTeamEvent(pl, this);
         Bukkit.getPluginManager().callEvent(playerLeaveTeamEvent);
+    }
+
+    /**
+     * @return <b>true</b> if a player can join the team, otherwise <b>false</b>
+     */
+    protected boolean canAddPlayer() {
+        return this.alive && !isFull();
     }
 }

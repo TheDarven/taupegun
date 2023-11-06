@@ -6,6 +6,7 @@ import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.stats.model.dto.GameDto;
 import fr.thedarven.stats.model.dto.PlayerDeathDto;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.helpers.PermissionHelper;
@@ -58,11 +59,11 @@ public class ReviveCommand extends OperatorCommand implements TabCompleter {
             return;
         }
 
-        Optional<TeamCustom> oTeam = targetedPl.getStartTeam();
-        if (!oTeam.isPresent()) {
+        Optional<StartTeam> oStartTeam = targetedPl.getStartTeam();
+        if (!oStartTeam.isPresent()) {
             return;
         }
-        TeamCustom team = oTeam.get();
+        TeamCustom team = oStartTeam.get();
 
         if (!team.isAlive()) {
             this.main.getDatabaseManager().updateTeamDeath(team.getName(), false);
@@ -132,7 +133,7 @@ public class ReviveCommand extends OperatorCommand implements TabCompleter {
         if (playerTaupe == null) {
             return false;
         }
-        Optional<TeamCustom> oTeam = playerTaupe.getStartTeam();
-        return !playerTaupe.isAlive() && playerTaupe.isOnline() && oTeam.isPresent() && !oTeam.get().isSpectator();
+        Optional<StartTeam> oTeam = playerTaupe.getStartTeam();
+        return !playerTaupe.isAlive() && playerTaupe.isOnline() && oTeam.isPresent();
     }
 }

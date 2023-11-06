@@ -4,6 +4,8 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.team.model.MoleTeam;
+import fr.thedarven.team.model.SuperMoleTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public abstract class MoleCreationGraph {
 
     protected final TaupeGun main;
-    protected final List<TeamCustom> moleTeams;
+    protected final List<MoleTeam> moleTeams;
 
     public MoleCreationGraph(TaupeGun main) {
         this.main = main;
@@ -50,10 +52,10 @@ public abstract class MoleCreationGraph {
     protected abstract void createMoleTeams();
 
     protected void assignMoleKits() {
-        for (TeamCustom moleTeam: this.moleTeams) {
+        for (MoleTeam moleTeam: this.moleTeams) {
             List<Kit> kits = this.main.getKitManager().getAllKits();
 
-            for (PlayerTaupe mole: moleTeam.getMoleTeamPlayers()) {
+            for (PlayerTaupe mole: moleTeam.getMolePlayers()) {
                 if (kits.isEmpty()) {
                     kits = this.main.getKitManager().getAllKits();
                 }
@@ -73,16 +75,16 @@ public abstract class MoleCreationGraph {
         double superTaupesTeamSize = this.main.getScenariosManager().superMolesTeamSize.getValue();
 
         int superTeamNumber = 0;
-        TeamCustom superMoleTeam = null;
+        SuperMoleTeam superMoleTeam = null;
         for (int i = 0; i < this.moleTeams.size(); i++) {
-            TeamCustom team = this.moleTeams.get(i);
+            MoleTeam team = this.moleTeams.get(i);
             if (i % superTaupesTeamSize == 0) {
                 superTeamNumber++;
-                superMoleTeam = new TeamCustom(this.main, this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber,
-                        ColorEnum.DARK_RED, 0, superTeamNumber, false, true);
+                superMoleTeam = new SuperMoleTeam(this.main, this.main.getTeamManager().getSuperMoleTeamName() + superTeamNumber,
+                        ColorEnum.DARK_RED, true, superTeamNumber);
             }
-            List<PlayerTaupe> players = team.getMoleTeamPlayers();
-            if (players.size() > 0) {
+            List<PlayerTaupe> players = team.getMolePlayers();
+            if (!players.isEmpty()) {
                 Collections.shuffle(players);
                 players.get(0).setSuperTaupeTeam(superMoleTeam);
             }

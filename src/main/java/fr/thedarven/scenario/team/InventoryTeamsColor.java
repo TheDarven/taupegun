@@ -5,6 +5,7 @@ import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.TextInterpreter;
@@ -99,7 +100,7 @@ public class InventoryTeamsColor extends ConfigurationInventory implements Admin
         }
 
         DyeColor bannerColor = ((BannerMeta) itemStack.getItemMeta()).getBaseColor();
-        new TeamCustom(this.main, pl.getCreateTeamName(), ColorEnum.getByDyeColor(bannerColor), 0, 0, false, true);
+        new StartTeam(this.main, pl.getCreateTeamName(), ColorEnum.getByDyeColor(bannerColor), true);
 
         Map<String, String> params = new HashMap<>();
         params.put("teamName", "§e§l" + pl.getCreateTeamName() + "§r§a");

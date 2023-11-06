@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 import fr.thedarven.stats.model.enums.EnumRestStatType;
+import fr.thedarven.team.model.*;
 import fr.thedarven.utils.helpers.DateHelper;
 import fr.thedarven.utils.helpers.RandomHelper;
 import org.bukkit.Bukkit;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.team.model.TeamCustom;
 
 public class GameDto {
 
@@ -133,10 +133,12 @@ public class GameDto {
 		if (currentGame == this) {
 			if (Bukkit.getServer().getOnlineMode()) {
 				this.duration = this.main.getGameManager().getTimer();
-				Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
+				Optional<SpectatorTeam> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
 
 				for(PlayerTaupe pt: PlayerTaupe.getAllPlayerManager()) {
-					TeamCustom team = pt.getStartTeam().orElse(oSpectatorTeam.orElse(null));
+					Optional<StartTeam> oStartTeam = pt.getStartTeam();
+
+					TeamCustom team = oStartTeam.isPresent() ? oStartTeam.get() : oSpectatorTeam.orElse(null);
 					String teamName = (team == null) ? "" : team.getName();
 
 					addPlayer(new PlayerDto(pt.getUuid(), pt.getName(), hasPlayerWin(pt), pt.getTaupeTeamNumber(), pt.getSuperTaupeTeamNumber(),
@@ -159,8 +161,8 @@ public class GameDto {
 					addPlayerStat(new PlayerStatsDto(pt.getUuid(), EnumRestStatType.ATE_GOLDEN_APPLE, pt.getAteGoldenApple()));
 				}
 
-				for(TeamCustom customTeam: this.main.getTeamManager().getAllStartTeams()) {
-					addTeam(new TeamDto(customTeam.getName(), customTeam.getColor().getColor(), customTeam.isAlive(), customTeam.isSpectator()));
+				for(StartTeam startTeam: this.main.getTeamManager().getAllStartTeams()) {
+					addTeam(new TeamDto(startTeam.getName(), startTeam.getColor().getColor(), startTeam.isAlive(), false));
 				}
 
 				String[] caracters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWSYZ0123456789".split("");
@@ -204,13 +206,13 @@ public class GameDto {
 		}
 		TeamCustom victoryTeam = oVictoryTeam.get();
 
-		if (victoryTeam.isSuperMoleTeam()) {
+		if (victoryTeam instanceof SuperMoleTeam) {
 			return victoryTeam == playerTaupe.getSuperTaupeTeam();
-		} else if(victoryTeam.isMoleTeam()) {
+		} else if(victoryTeam instanceof MoleTeam) {
 			return victoryTeam == playerTaupe.getTaupeTeam()
                     && playerTaupe.getSuperTaupeTeam() == null;
 		} else {
-            Optional<TeamCustom> oStartTeam = playerTaupe.getStartTeam();
+            Optional<StartTeam> oStartTeam = playerTaupe.getStartTeam();
             return oStartTeam.isPresent()
                     && victoryTeam == oStartTeam.get()
                     && playerTaupe.getTaupeTeam() == null;

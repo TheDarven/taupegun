@@ -3,6 +3,8 @@ package fr.thedarven.team.graph;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.team.model.MoleTeam;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
@@ -23,18 +25,18 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
     protected void selectPlayers() {
         this.players.clear();
 
-        List<TeamCustom> teams = this.main.getTeamManager().getAllStartTeams();
-        for (TeamCustom team : teams) {
-            List<PlayerTaupe> playerOfTeam = team.getMembers();
+        List<StartTeam> startTeams = this.main.getTeamManager().getAllStartTeams();
+        for (StartTeam startTeam : startTeams) {
+            List<PlayerTaupe> playerOfTeam = startTeam.getMembers();
 
-            int amountOfMoles = getAmountOfMoles(team);
+            int amountOfMoles = getAmountOfMoles(startTeam);
             if (amountOfMoles == 1) {
-                this.players.add(playerOfTeam.get(RandomHelper.generate(team.getSize())));
+                this.players.add(playerOfTeam.get(RandomHelper.generate(startTeam.getSize())));
             } else if (amountOfMoles == 2) {
-                int taupeInt1 = RandomHelper.generate(team.getSize());
-                int taupeInt2 = RandomHelper.generate(team.getSize());
+                int taupeInt1 = RandomHelper.generate(startTeam.getSize());
+                int taupeInt2 = RandomHelper.generate(startTeam.getSize());
                 while (taupeInt1 == taupeInt2) {
-                    taupeInt2 = RandomHelper.generate(team.getSize());
+                    taupeInt2 = RandomHelper.generate(startTeam.getSize());
                 }
                 this.players.add(playerOfTeam.get(taupeInt1));
                 this.players.add(playerOfTeam.get(taupeInt2));
@@ -52,9 +54,7 @@ public class MoleCreationWithMateGraph extends MoleCreationGraph {
         String moleTeamName = this.main.getTeamManager().getMoleTeamName();
 
         for (int i = 1; i <= nbTeams; i++) {
-            this.moleTeams.add(
-                    new TeamCustom(this.main, moleTeamName + i, ColorEnum.RED, i, 0, false, true)
-            );
+            this.moleTeams.add(new MoleTeam(this.main, moleTeamName + i, ColorEnum.RED, true, i));
         }
     }
 

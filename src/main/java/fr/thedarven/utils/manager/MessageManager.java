@@ -6,6 +6,9 @@ import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.model.Manager;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.TeamManager;
+import fr.thedarven.team.model.MoleTeam;
+import fr.thedarven.team.model.SpectatorTeam;
+import fr.thedarven.team.model.SuperMoleTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -61,10 +64,10 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendTaupeListMessage(Player receiver) {
-        List<TeamCustom> teams = this.main.getTeamManager().getMoleTeams();
+        List<MoleTeam> teams = this.main.getTeamManager().getMoleTeams();
         teams.sort(TeamManager.MOLE_TEAM_NUMBER_COMPARATOR);
 
-        for (TeamCustom team : this.main.getTeamManager().getMoleTeams()) {
+        for (MoleTeam team : this.main.getTeamManager().getMoleTeams()) {
             StringBuilder listTaupe = new StringBuilder(ChatColor.RED.toString())
                     .append(ChatColor.BOLD)
                     .append(team.getName())
@@ -99,9 +102,10 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendSuperTaupeListMessage(Player receiver) {
-        List<TeamCustom> teams = this.main.getTeamManager().getSuperMoleTeams();
+        List<SuperMoleTeam> teams = this.main.getTeamManager().getSuperMoleTeams();
         teams.sort(TeamManager.SUPER_MOLE_TEAM_NUMBER_COMPARATOR);
-        for (TeamCustom team : teams) {
+
+        for (SuperMoleTeam team : teams) {
             StringBuilder listSuperTaupe = new StringBuilder(ChatColor.DARK_RED.toString())
                     .append(ChatColor.BOLD)
                     .append(team.getName())
@@ -180,7 +184,7 @@ public class MessageManager extends Manager {
         String notRevealMolesMessage = "§c" + sender.getName() + ":" + content;
         String spectatorMessage = "§c[" + senderTaupe.getTaupeTeam().getName() + "] " + sender.getName() + ":" + content;
 
-        senderTaupe.getTaupeTeam().getMoleTeamPlayers().stream()
+        senderTaupe.getTaupeTeam().getMolePlayers().stream()
                 .filter(pc -> !pc.isSuperReveal() && pc.isAlive() && Objects.nonNull(pc.getPlayer()))
                 .forEach(pc -> {
                     if (pc.isReveal()) {
@@ -191,7 +195,7 @@ public class MessageManager extends Manager {
                     }
                 });
 
-        Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
+        Optional<SpectatorTeam> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
         oSpectatorTeam.ifPresent(teamCustom -> teamCustom.getConnectedMembers()
                 .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage)));
     }
@@ -211,7 +215,7 @@ public class MessageManager extends Manager {
         String notRevealSuperMolesMessage = "§4" + sender.getName() + ":" + content;
         String spectatorMessage = ChatColor.DARK_RED + "[" + senderTaupe.getSuperTaupeTeam().getName() + "] " + sender.getName() + ":" + content;
 
-        senderTaupe.getSuperTaupeTeam().getSuperTaupeTeamPlayers().stream()
+        senderTaupe.getSuperTaupeTeam().getSuperMolePlayers().stream()
                 .filter(pc -> pc.isAlive() && Objects.nonNull(pc.getPlayer()))
                 .forEach(pc -> {
                     if (pc.isSuperReveal()) {
@@ -221,7 +225,7 @@ public class MessageManager extends Manager {
                     }
                 });
 
-        Optional<TeamCustom> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
+        Optional<SpectatorTeam> oSpectatorTeam = this.main.getTeamManager().getSpectatorTeam();
         oSpectatorTeam.ifPresent(teamCustom -> teamCustom.getConnectedMembers()
                 .forEach(pc -> pc.getPlayer().sendMessage(spectatorMessage)));
     }

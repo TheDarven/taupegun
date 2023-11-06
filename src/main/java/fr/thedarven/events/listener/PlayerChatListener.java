@@ -46,7 +46,7 @@ public class PlayerChatListener implements Listener {
 				} else {
 					if (pl.isTaupe() && pl.getTeam() == pl.getTaupeTeam()) {
 						this.main.getMessageManager().moleSendsMoleMessage(player, pl, e.getMessage().split(" "));
-					} else if (pl.isSuperTaupe() && pl.getTaupeTeam() == pl.getSuperTaupeTeam()) {
+					} else if (pl.isSuperTaupe() && pl.getTeam() == pl.getSuperTaupeTeam()) {
 						this.main.getMessageManager().superMoleSendsSuperMoleMessage(player, pl, e.getMessage().split(" "));
 					} else {
 						String teamMessage = "§e" + LanguageBuilder.getContent("EVENT_TCHAT", "teamMessage", true)+"§7" + player.getName() + ": " + e.getMessage();

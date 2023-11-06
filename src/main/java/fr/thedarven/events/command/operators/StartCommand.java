@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.events.runnable.StartRunnable;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.team.model.StartTeam;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.team.graph.MoleCreationGraph;
 import fr.thedarven.team.graph.MoleCreationSuccessEnum;
@@ -63,7 +64,7 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		List<TeamCustom> teamsWithPlayer = this.main.getTeamManager().getAllStartTeams().stream()
+		List<StartTeam> teamsWithPlayer = this.main.getTeamManager().getAllStartTeams().stream()
 				.filter(team -> team.countMembers() > 0)
 				.collect(Collectors.toList());
 		if (teamsWithPlayer.size() < 1 && !this.main.getScenariosManager().superMoles.getValue()) {
@@ -81,7 +82,7 @@ public class StartCommand extends OperatorCommand {
 			return false;
 		}
 
-		for (TeamCustom team: teamsWithPlayer) {
+		for (StartTeam team: teamsWithPlayer) {
 			if (notEnoughPlayersPerTeam(team)) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", true));
 				return false;
