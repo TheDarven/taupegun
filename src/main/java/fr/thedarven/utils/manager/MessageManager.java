@@ -5,6 +5,7 @@ import fr.thedarven.game.model.GameRecap;
 import fr.thedarven.game.utils.SortPlayerKill;
 import fr.thedarven.model.Manager;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.team.TeamManager;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MessageManager extends Manager {
+
 
     public MessageManager(TaupeGun main) {
         super(main);
@@ -59,6 +61,9 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendTaupeListMessage(Player receiver) {
+        List<TeamCustom> teams = this.main.getTeamManager().getMoleTeams();
+        teams.sort(TeamManager.MOLE_TEAM_NUMBER_COMPARATOR);
+
         for (TeamCustom team : this.main.getTeamManager().getMoleTeams()) {
             StringBuilder listTaupe = new StringBuilder(ChatColor.RED.toString())
                     .append(ChatColor.BOLD)
@@ -94,7 +99,9 @@ public class MessageManager extends Manager {
      * @param receiver player to send message to
      */
     public void sendSuperTaupeListMessage(Player receiver) {
-        for (TeamCustom team : this.main.getTeamManager().getSuperMoleTeams()) {
+        List<TeamCustom> teams = this.main.getTeamManager().getSuperMoleTeams();
+        teams.sort(TeamManager.SUPER_MOLE_TEAM_NUMBER_COMPARATOR);
+        for (TeamCustom team : teams) {
             StringBuilder listSuperTaupe = new StringBuilder(ChatColor.DARK_RED.toString())
                     .append(ChatColor.BOLD)
                     .append(team.getName())

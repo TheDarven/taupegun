@@ -4,6 +4,7 @@ import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
+import fr.thedarven.team.TeamManager;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.api.titles.ActionBar;
@@ -11,12 +12,12 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class InventoryTeamsRandom extends ConfigurationInventory implements AdminConfiguration {
 
-    private static final Comparator<TeamCustom> TEAM_SIZE_COMPARATOR = Comparator.comparing(TeamCustom::getSize);
     private static String PLAYER_REPARTITION = "Les joueurs ont été réparties dans les équipes.";
 
     public InventoryTeamsRandom(TaupeGun main, InventoryTeams parent) {
@@ -55,7 +56,7 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
 
         List<TeamCustom> teamList = this.main.getTeamManager().getAllTeams().stream()
                 .filter(teamCustom -> teamCustom.getSize() < TeamCustom.MAX_PLAYER_PER_TEAM)
-                .sorted(TEAM_SIZE_COMPARATOR)
+                .sorted(TeamManager.TEAM_SIZE_COMPARATOR)
                 .collect(Collectors.toList());
 
         for (int i = 0; i < teamList.size(); i++) {
@@ -77,7 +78,7 @@ public class InventoryTeamsRandom extends ConfigurationInventory implements Admi
             }
             currentTeam.joinTeam(playerWithoutTeam.remove(0));
             teamIndex = (teamIndex + 1) % teamList.size();
-            teamList.sort(TEAM_SIZE_COMPARATOR);
+            teamList.sort(TeamManager.TEAM_SIZE_COMPARATOR);
         }
 
         new ActionBar("§a" + PLAYER_REPARTITION).sendActionBar(sender);

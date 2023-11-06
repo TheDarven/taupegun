@@ -6,13 +6,14 @@ import fr.thedarven.model.Manager;
 import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.languages.LanguageBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeamManager extends Manager {
+
+    public static final Comparator<TeamCustom> TEAM_SIZE_COMPARATOR = Comparator.comparing(TeamCustom::getSize);
+    public static final Comparator<TeamCustom> MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(TeamCustom::getMoleTeamNumber);
+    public static final Comparator<TeamCustom> SUPER_MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(TeamCustom::getSuperMoleTeamNumber);
 
     private static String SPECTATOR_TEAM_NAME = null;
     private static String MOLE_TEAM_NAME = null;
