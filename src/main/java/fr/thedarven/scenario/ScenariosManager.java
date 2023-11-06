@@ -96,7 +96,7 @@ public class ScenariosManager {
     public OptionBoolean daylightCycle;
     public PotionII potionLevel2;
     public StrengthNerf strengthPercentage;
-    public OptionBoolean kickOnDeath;
+    public KickOnDeath kickOnDeath;
 
     public ConfigurationInventory molesMenu;
     public OptionBoolean superMoles;
@@ -227,7 +227,7 @@ public class ScenariosManager {
         this.potionLevel2.build();
         this.strengthPercentage = new StrengthNerf(this.main, othersMenu);
         this.strengthPercentage.build();
-        this.kickOnDeath = new OptionBoolean(this.main, "Kick à la mort", "Exclut les joueurs à leur mort.", "MENU_CONFIGURATION_OTHER_DEATH_KICK", Material.REDSTONE_BLOCK, othersMenu, 15, false);
+        this.kickOnDeath = new KickOnDeath(this.main, othersMenu);
         this.kickOnDeath.build();
 
         this.molesMenu = new ConfigurationInventory(this.main, "Taupes", "Tous les paramètres des taupes.", "MENU_CONFIGURATION_MOLE", 1, Material.SEA_LANTERN, configurationMenu, 10);

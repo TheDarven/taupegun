@@ -18,6 +18,7 @@ import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -48,7 +49,7 @@ public class PlayerDeathListener implements Listener {
         plVictim.setPlayerKillCommand(false);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onGamePlayerDeath(GamePlayerDeathEvent event) {
         PlayerTaupe deadPlayerTaupe = event.getPlayerTaupe();
         Player deadPlayer = deadPlayerTaupe.getPlayer();
@@ -66,13 +67,6 @@ public class PlayerDeathListener implements Listener {
                 World world = this.main.getWorldManager().getWorld();
                 if (Objects.nonNull(world)) {
                     deadPlayer.teleport(new Location(world, 0, 200, 0));
-                }
-
-                if (this.main.getScenariosManager().kickOnDeath.getValue()) {
-                    deadPlayer.kickPlayer(LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
-                } else {
-                    deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathMumble", true));
-                    deadPlayer.sendMessage("§c" + LanguageBuilder.getContent("EVENT_DEATH", "deathInfo", true));
                 }
             }
         }
