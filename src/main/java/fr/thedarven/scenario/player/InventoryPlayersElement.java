@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class InventoryPlayersElement extends ConfigurationInventory {
@@ -32,14 +33,19 @@ public abstract class InventoryPlayersElement extends ConfigurationInventory {
     }
 
     public void onReturnClick(Player player) {
+        getRealParent().ifPresent(realParent -> realParent.openInventory(player));
+    }
+
+    /**
+     * Retrieve the parent inventory of the PlayerInventory, which mean the parent of the parent.
+     * This is because <b>this</b> is an instance of the PlayerInventory for a specific Player.
+     * @return The real parent of the PlayerInventory.
+     */
+    public Optional<TreeInventory> getRealParent() {
         if (Objects.isNull(getParent())) {
-            return;
+            return Optional.empty();
         }
-        TreeInventory realParent = getParent().getParent();
-        if (Objects.isNull(realParent)) {
-            return;
-        }
-        realParent.openInventory(player);
+        return Optional.ofNullable(getParent().getParent());
     }
 
     protected boolean canPlayerOpenInventory(TreeInventory treeInventory, Player player) {
