@@ -13,6 +13,7 @@ import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.team.model.TeamCustom;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 public class InventoryTeams extends InventoryIncrement implements AdminConfiguration {
 
@@ -20,7 +21,7 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
         super(main, "Équipes", "Menu des équipes.", "MENU_TEAM", 6, Material.BANNER, parent, 5, (byte) 15);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onTeamCreate(TeamCreateEvent event) {
         if (!EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             return;
@@ -39,7 +40,7 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
         this.refreshInventoryItems();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onTeamDelete(TeamDeleteEvent event) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
             this.refreshInventoryItems();
@@ -58,7 +59,7 @@ public class InventoryTeams extends InventoryIncrement implements AdminConfigura
             } else if (child instanceof InventoryTeamsElement) {
                 updateChildPositionItem(child, position++);
             } else if (child instanceof InventoryCreateTeam && this.main.getTeamManager().countTeams() < TeamCustom.MAX_TEAM_AMOUNT) {
-                updateChildPositionItem(child, countChildren() - 2);
+                updateChildPositionItem(child, this.main.getTeamManager().countTeams());
             }
         }
     }
