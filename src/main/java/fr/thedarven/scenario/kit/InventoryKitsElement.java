@@ -1,9 +1,11 @@
 package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.kit.KitDeleteEvent;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.kit.model.Kit;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.FillableInventory;
-import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.scenario.utils.InventoryGiveItem;
 import fr.thedarven.utils.GlobalVariable;
@@ -12,6 +14,9 @@ import fr.thedarven.utils.helpers.ItemHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,14 +33,6 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
     public InventoryKitsElement(TaupeGun main, InventoryKits parent, Kit kit) {
         super(main, kit.getName(), null, "MENU_KIT_ITEM", 2, Material.CHEST, parent, 0);
         this.kit = kit;
-        setName(kit.getName());
-    }
-
-    @Override
-    public TreeInventory build() {
-        super.build();
-        this.getParent().reloadInventory();
-        return this;
     }
 
     @Override
@@ -51,6 +48,10 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
     @Override
     protected String getInventoryName() {
         return this.getName();
+    }
+
+    public Kit getKit() {
+        return kit;
     }
 
     @Override
@@ -90,10 +91,6 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
         return inventory;
     }
 
-    public void removeKitInventories() {
-        this.deleteInventory(true);
-    }
-
     @Override
     public void giveItems(Player player) {
         Location playerLocation = player.getLocation();
@@ -104,6 +101,33 @@ public class InventoryKitsElement extends FillableInventory implements Inventory
             if (!ItemHelper.isNullOrAir(item)) {
                 player.getWorld().dropItem(playerLocation, item);
             }
+        }
+    }
+
+    @Override
+    public void onInventoryClick(InventoryClickEvent e, Player player, PlayerTaupe playerTaupe) {
+        super.onInventoryClick(e, player, playerTaupe);
+        if (e.isCancelled()) {
+            return;
+        }
+
+        // Update the kit items
+        List<String> items = kit.getItems();
+        Inventory inventory = getInventory();
+        for (int i = 0; i < 9; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (!ItemHelper.isNullOrAir(item)) {
+                items.set(i, ItemHelper.toBase64(item));
+            } else {
+                items.set(i, null);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onKitDelete(KitDeleteEvent event) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && event.getKit() == this.kit) {
+            this.deleteInventory(true);
         }
     }
 

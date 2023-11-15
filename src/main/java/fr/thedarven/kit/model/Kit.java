@@ -1,7 +1,5 @@
 package fr.thedarven.kit.model;
 
-import fr.thedarven.scenario.kit.InventoryKitsElement;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +8,10 @@ public class Kit implements Serializable, Cloneable {
 
     private String name;
     private List<String> items;
-    private transient InventoryKitsElement configurationInventory;
 
     public Kit(String name, List<String> items) {
         this.name = name;
         this.items = items;
-        this.configurationInventory = null;
     }
 
     public String getName() {
@@ -24,14 +20,6 @@ public class Kit implements Serializable, Cloneable {
 
     public List<String> getItems() {
         return this.items;
-    }
-
-    public InventoryKitsElement getConfigurationInventory() {
-        return this.configurationInventory;
-    }
-
-    public void setConfigurationInventory(InventoryKitsElement inventory) {
-        this.configurationInventory = inventory;
     }
 
     public Object clone() {

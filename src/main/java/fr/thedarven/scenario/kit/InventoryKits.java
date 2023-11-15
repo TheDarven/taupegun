@@ -1,6 +1,11 @@
 package fr.thedarven.scenario.kit;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.kit.KitCreateEvent;
+import fr.thedarven.events.event.team.TeamDeleteEvent;
+import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.kit.KitManager;
+import fr.thedarven.kit.model.Kit;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.InventoryIncrement;
 import fr.thedarven.scenario.builder.TreeInventory;
@@ -8,6 +13,10 @@ import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+
+import java.util.Optional;
 
 public class InventoryKits extends InventoryIncrement implements AdminConfiguration {
 
@@ -37,20 +46,47 @@ public class InventoryKits extends InventoryIncrement implements AdminConfigurat
         return languageElement;
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onKitCreate(KitCreateEvent event) {
+        if (!EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            return;
+        }
+
+        InventoryKitsElement kitInventory = new InventoryKitsElement(this.main, this, event.getKit());
+        kitInventory.build();
+        new InventoryDeleteKits(this.main, kitInventory, event.getKit()).build();
+
+        this.refreshInventoryItems();
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onTeamDelete(TeamDeleteEvent event) {
+        if (EnumGameState.isCurrentState(EnumGameState.LOBBY)) {
+            this.refreshInventoryItems();
+        }
+    }
 
     @Override
-    public void reloadInventory() {
+    protected void refreshInventoryItems() {
+        super.refreshInventoryItems();
         removeChildrenItems();
 
-        int i = 0;
-        for (TreeInventory treeInventory : getChildren()) {
-            if (treeInventory instanceof InventoryKitsElement) {
-                updateChildPositionItem(treeInventory, i);
-                i++;
-            } else if (countChildren() < 10) {
-                updateChildPositionItem(treeInventory, countChildren() - 1);
+        int position = 0;
+        for (TreeInventory child : getChildren()) {
+            if (child instanceof InventoryKitsElement) {
+                updateChildPositionItem(child, position);
+                position++;
+            } else if (child instanceof InventoryCreateKit && this.main.getKitManager().countKits() < KitManager.MAX_KIT_AMOUNT) {
+                updateChildPositionItem(child, this.main.getKitManager().countKits());
             }
         }
+    }
+
+    public Optional<InventoryKitsElement> getInventoryOfKit(Kit kit) {
+        return this.getChildren().stream()
+                .filter(inventory -> inventory instanceof InventoryKitsElement && ((InventoryKitsElement) inventory).getKit() == kit)
+                .map(inventory -> (InventoryKitsElement) inventory)
+                .findFirst();
     }
 
 }

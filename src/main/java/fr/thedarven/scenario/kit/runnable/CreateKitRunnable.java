@@ -2,7 +2,6 @@ package fr.thedarven.scenario.kit.runnable;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.kit.KitManager;
-import fr.thedarven.kit.model.Kit;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.utils.TextInterpreter;
@@ -38,20 +37,21 @@ public class CreateKitRunnable extends BukkitRunnable {
         }
 
         KitManager kitManager = this.main.getKitManager();
-
         if (kitManager.isUsedKitName(this.kitName)) {
             this.kitsMenu.openInventory(this.player);
             new ActionBar("§c" + InventoryKits.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
             return;
         }
 
-        Kit kit = kitManager.createKit(this.kitName, new ArrayList<>(Collections.nCopies(9, null)));
+        kitManager.createKit(this.kitName, new ArrayList<>(Collections.nCopies(9, null)));
 
         Map<String, String> params = new HashMap<>();
         params.put("kitName", "§e§l" + this.kitName + "§r§a");
         new ActionBar(TextInterpreter.textInterpretation("§a" + InventoryKits.KIT_CREATE, params)).sendActionBar(this.player);
 
-        kit.getConfigurationInventory().openInventory(this.player);
+        if (!this.main.getScenariosManager().kitsMenu.getLastChild().openInventory(player)) {
+            player.closeInventory();
+        }
     }
 
 }
