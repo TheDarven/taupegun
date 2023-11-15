@@ -3,8 +3,10 @@ package fr.thedarven.utils.manager;
 import fr.thedarven.TaupeGun;
 import fr.thedarven.game.model.GameRecap;
 import fr.thedarven.game.utils.SortPlayerKill;
+import fr.thedarven.kit.KitManager;
 import fr.thedarven.model.Manager;
 import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.team.TeamManager;
 import fr.thedarven.team.model.MoleTeam;
 import fr.thedarven.team.model.SpectatorTeam;
@@ -240,6 +242,18 @@ public class MessageManager extends Manager {
         String tooManyTeamMessage = TextInterpreter.textInterpretation(LanguageBuilder.getContent("TEAM", "tooManyTeams", true), params);
 
         new ActionBar(String.format("%s%s", ChatColor.RED, tooManyTeamMessage)).sendActionBar(received);
+    }
+
+    /**
+     * Sends an error message that there are too many kits
+     * @param received The player that received the message
+     */
+    public void sendTooManyKitMessage(Player received) {
+        Map<String, String> params = new HashMap<>();
+        params.put("maxKit", String.valueOf(KitManager.MAX_KIT_AMOUNT));
+        String tooManyKitMessage = TextInterpreter.textInterpretation(InventoryKits.TOO_MANY_KITS, params);
+
+        new ActionBar(String.format("%s%s", ChatColor.RED, tooManyKitMessage)).sendActionBar(received);
     }
 
     public void broadcastDeathMessage(PlayerTaupe deathPlayerTaupe) {

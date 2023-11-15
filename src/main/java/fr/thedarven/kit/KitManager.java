@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 public class KitManager extends Manager {
 
+    public static final int MAX_KIT_AMOUNT = 9;
+
     private final List<Kit> kits;
 
     public KitManager(TaupeGun main) {

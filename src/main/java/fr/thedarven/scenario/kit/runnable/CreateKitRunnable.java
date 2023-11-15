@@ -30,6 +30,12 @@ public class CreateKitRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
+        if (this.main.getKitManager().countKits() >= KitManager.MAX_KIT_AMOUNT) {
+            player.closeInventory();
+            this.main.getMessageManager().sendTooManyKitMessage(player);
+            return;
+        }
+
         if (this.kitName.length() > 16) {
             this.player.closeInventory();
             new ActionBar("§c" + InventoryKits.TOO_LONG_NAME_FORMAT).sendActionBar(this.player);
