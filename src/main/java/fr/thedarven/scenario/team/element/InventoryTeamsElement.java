@@ -1,9 +1,9 @@
 package fr.thedarven.scenario.team.element;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.event.PlayerJoinTeamEvent;
-import fr.thedarven.events.event.PlayerLeaveTeamEvent;
-import fr.thedarven.events.event.TeamDeleteEvent;
+import fr.thedarven.events.event.team.PlayerJoinTeamEvent;
+import fr.thedarven.events.event.team.PlayerLeaveTeamEvent;
+import fr.thedarven.events.event.team.TeamDeleteEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.model.enums.ColorEnum;
 import fr.thedarven.player.model.PlayerTaupe;
@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -129,7 +130,7 @@ public class InventoryTeamsElement extends ConfigurationInventory implements Adm
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onTeamDelete(TeamDeleteEvent event) {
         if (EnumGameState.isCurrentState(EnumGameState.LOBBY) && event.getTeam() == this.team) {
             deleteInventory(true);

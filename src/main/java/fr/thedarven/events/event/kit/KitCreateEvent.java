@@ -1,17 +1,17 @@
-package fr.thedarven.events.event;
+package fr.thedarven.events.event.kit;
 
-import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.kit.model.Kit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class TeamDeleteEvent extends Event {
+public class KitCreateEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final TeamCustom team;
+    private final Kit kit;
 
-    public TeamDeleteEvent(TeamCustom team) {
-        this.team = team;
+    public KitCreateEvent(Kit kit) {
+        this.kit = kit;
     }
 
     @Override
@@ -19,8 +19,8 @@ public class TeamDeleteEvent extends Event {
         return handlers;
     }
 
-    public TeamCustom getTeam() {
-        return team;
+    public Kit getKit() {
+        return kit;
     }
 
     public static HandlerList getHandlerList() {

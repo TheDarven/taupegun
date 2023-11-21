@@ -1,7 +1,7 @@
 package fr.thedarven.events.listener;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.events.event.TeamsInventoryClickEvent;
+import fr.thedarven.events.event.team.TeamsInventoryClickEvent;
 import fr.thedarven.events.runnable.TeamSelectionRunnable;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.model.TeamCustom;

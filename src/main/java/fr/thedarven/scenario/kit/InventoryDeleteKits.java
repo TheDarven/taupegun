@@ -43,7 +43,7 @@ public class InventoryDeleteKits extends InventoryDelete implements AdminConfigu
     @Override
     protected void deleteElement(Player player) {
         Map<String, String> params = new HashMap<>();
-        params.put("kitName", String.format("§e§l%s§r§c", getParent().getName()));
+        params.put("kitName", String.format("§e§l%s§r§c", this.kit.getName()));
         new ActionBar(TextInterpreter.textInterpretation(String.format("§c%s", DELETE_KIT_FORMAT), params)).sendActionBar(player);
 
         this.main.getKitManager().removeKit(this.kit);

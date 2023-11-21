@@ -17,13 +17,15 @@ public class ClaimCommand extends MoleCommand {
 	@Override
 	public void executeCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		Kit moleKit = pl.getMoleKit();
-		moleKit.getConfigurationInventory().giveItems(sender);
-		pl.setMoleKit(null);
+		this.main.getScenariosManager().kitsMenu.getInventoryOfKit(moleKit).ifPresent(kitInventory -> {
+			kitInventory.giveItems(sender);
+			pl.setMoleKit(null);
+		});
 	}
 
 	public boolean canPlayerExecuteCommand(Player sender, PlayerTaupe pl, Command cmd, String alias, String[] args) {
 		if (super.canPlayerExecuteCommand(sender, pl, cmd, alias, args)) {
-			return Objects.nonNull(pl.getMoleKit()) && Objects.nonNull(pl.getMoleKit().getConfigurationInventory());
+			return Objects.nonNull(pl.getMoleKit());
 		}
 		return false;
 	}

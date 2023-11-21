@@ -1,4 +1,4 @@
-package fr.thedarven.events.event;
+package fr.thedarven.events.event.team;
 
 import fr.thedarven.team.model.TeamCustom;
 import org.bukkit.event.Event;

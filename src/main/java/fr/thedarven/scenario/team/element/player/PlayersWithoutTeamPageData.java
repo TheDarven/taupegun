@@ -1,7 +1,7 @@
 package fr.thedarven.scenario.team.element.player;
 
-import fr.thedarven.events.event.PlayerJoinTeamEvent;
-import fr.thedarven.events.event.PlayerLeaveTeamEvent;
+import fr.thedarven.events.event.team.PlayerJoinTeamEvent;
+import fr.thedarven.events.event.team.PlayerLeaveTeamEvent;
 import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.page.PageData;

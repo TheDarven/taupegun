@@ -1,15 +1,15 @@
 package fr.thedarven.kit;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.kit.KitCreateEvent;
+import fr.thedarven.events.event.kit.KitDeleteEvent;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.model.Manager;
-import fr.thedarven.scenario.kit.InventoryDeleteKits;
-import fr.thedarven.scenario.kit.InventoryKitsElement;
 import fr.thedarven.utils.helpers.ItemHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,21 +24,22 @@ import java.util.stream.Collectors;
 
 public class KitManager extends Manager {
 
+    public static final int MAX_KIT_AMOUNT = 9;
+
     private final List<Kit> kits;
 
     public KitManager(TaupeGun main) {
         super(main);
         this.kits = new ArrayList<>();
-        initDefaultKits();
     }
 
     public void initDefaultKits() {
         // TNT Kit
         List<ItemStack> tntItems = new ArrayList<>(Collections.nCopies(9, null));
-        tntItems.set(0, new ItemStack(Material.TNT,5));
-        tntItems.set(1, new ItemStack(Material.FLINT_AND_STEEL,1));
+        tntItems.set(0, new ItemStack(Material.TNT, 5));
+        tntItems.set(1, new ItemStack(Material.FLINT_AND_STEEL, 1));
         tntItems.set(2, new ItemStack(Material.MONSTER_EGG, 1, EntityType.CREEPER.getTypeId()));
-        createKit("TNT", tntItems);
+        createKitFromItems("TNT", tntItems);
 
         // Blaze Kit
         List<ItemStack> blazeItems = new ArrayList<>(Collections.nCopies(9, null));
@@ -49,7 +50,7 @@ public class KitManager extends Manager {
         fireM.addStoredEnchant(Enchantment.FIRE_ASPECT, 1, true);
         fire.setItemMeta(fireM);
         blazeItems.set(1, fire);
-        createKit("Blaze", blazeItems);
+        createKitFromItems("Blaze", blazeItems);
 
         // Aérien Kit
         List<ItemStack> aerienItems = new ArrayList<>(Collections.nCopies(9, null));
@@ -66,7 +67,7 @@ public class KitManager extends Manager {
         fallingM.addStoredEnchant(Enchantment.PROTECTION_FALL, 4, true);
         falling.setItemMeta(fallingM);
         aerienItems.set(2, falling);
-        createKit("Aérien", aerienItems);
+        createKitFromItems("Aérien", aerienItems);
 
         // Potion Kit
         List<ItemStack> potionItems = new ArrayList<>(Collections.nCopies(9, null));
@@ -81,7 +82,7 @@ public class KitManager extends Manager {
 
         Potion damage = new Potion(PotionType.INSTANT_DAMAGE, 1, true);
         potionItems.set(3, damage.toItemStack(1));
-        createKit("Potion", potionItems);
+        createKitFromItems("Potion", potionItems);
     }
 
     public List<Kit> getAllKits() {
@@ -92,62 +93,44 @@ public class KitManager extends Manager {
         return this.kits.size();
     }
 
+    public Kit loadKit(String name, List<String> items) {
+        Kit kit = new Kit(name, items);
+        this.kits.add(kit);
+        return kit;
+    }
+
+    private Kit createKitFromItems(String name, List<ItemStack> items) {
+        List<String> stringItems = items.stream()
+                .map(item -> Objects.nonNull(item) ? ItemHelper.toBase64(item) : null)
+                .collect(Collectors.toList());
+        return createKit(name, stringItems);
+    }
+
+    public Kit createKit(String name, List<String> stringItems) {
+        Kit kit = new Kit(name, stringItems);
+        this.kits.add(kit);
+
+        KitCreateEvent kitCreateEvent = new KitCreateEvent(kit);
+        Bukkit.getPluginManager().callEvent(kitCreateEvent);
+
+        return kit;
+    }
+
+    public void removeKit(Kit kit) {
+        if (!this.kits.contains(kit)) {
+            return;
+        }
+
+        this.kits.remove(kit);
+
+        KitDeleteEvent kitDeleteEvent = new KitDeleteEvent(kit);
+        Bukkit.getPluginManager().callEvent(kitDeleteEvent);
+    }
+
     public List<Kit> getCopyOfAllKits() {
         List<Kit> clonedKits = new ArrayList<>();
         this.kits.forEach(kit -> clonedKits.add((Kit) kit.clone()));
         return clonedKits;
-    }
-
-    public Kit loadKit(String name, List<String> items) {
-        Kit kit = new Kit(name, items);
-        this.kits.add(kit);
-        createInventoriesOfKit(kit);
-        return kit;
-    }
-
-    public Kit createKit(String name, List<ItemStack> items) {
-        List<String> itemStacks = items.stream()
-                .map(item -> Objects.nonNull(item) ? ItemHelper.toBase64(item) : null)
-                .collect(Collectors.toList());
-        return loadKit(name, itemStacks);
-    }
-
-    public void createInventoriesOfKit(Kit kit) {
-        InventoryKitsElement kitInventory = new InventoryKitsElement(this.main, this.main.getScenariosManager().kitsMenu, kit);
-        kitInventory.build();
-        new InventoryDeleteKits(this.main, kitInventory, kit).build();
-
-        kit.setConfigurationInventory(kitInventory);
-    }
-
-    public void removeKit(Kit kit) {
-        this.kits.remove(kit);
-        if (Objects.nonNull(kit.getConfigurationInventory())) {
-            kit.getConfigurationInventory().removeKitInventories();
-        }
-    }
-
-    /**
-     * Permet de mettre à jour les items des kits à partir de leur inventaire de configuration
-     */
-    public void updateKitsItems() {
-        this.kits.forEach(kit -> {
-            List<String> items = kit.getItems();
-            InventoryKitsElement configurationInventory = kit.getConfigurationInventory();
-            if (Objects.isNull(configurationInventory)) {
-                return;
-            }
-
-            Inventory inventory = configurationInventory.getInventory();
-            for (int i = 0; i < 9; i++) {
-                ItemStack item = inventory.getItem(i);
-                if (!ItemHelper.isNullOrAir(item)) {
-                    items.set(i, ItemHelper.toBase64(item));
-                } else {
-                    items.set(i, null);
-                }
-            }
-        });
     }
 
     /**
@@ -158,7 +141,7 @@ public class KitManager extends Manager {
     public void loadKits(List<Kit> newKits) {
         List<Kit> copyKits = new ArrayList<>(this.kits);
         copyKits.forEach(this::removeKit);
-        newKits.forEach(kit -> loadKit(kit.getName(), new ArrayList<>(kit.getItems())));
+        newKits.forEach(kit -> createKit(kit.getName(), new ArrayList<>(kit.getItems())));
     }
 
     public boolean isUsedKitName(String name) {
