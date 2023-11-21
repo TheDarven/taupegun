@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Preset implements Serializable {
 
+    public final static int MAX_PRESET_AMOUNT = 9;
     private static final long serialVersionUID = 1L;
 
     private String name;

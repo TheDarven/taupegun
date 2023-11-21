@@ -11,8 +11,6 @@ public class PlayerConfiguration implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public final static int NB_MAX_PRESETS = 9;
-
     private final UUID uuid;
     private final List<Preset> presets;
     private transient ScenariosManager manager;
@@ -49,7 +47,7 @@ public class PlayerConfiguration implements Serializable {
     }
 
     public boolean isPresetAmountLimit() {
-        return NB_MAX_PRESETS <= getNbPresets();
+        return Preset.MAX_PRESET_AMOUNT <= getNbPresets();
     }
 
     public boolean isUsedPresetName(String name) {

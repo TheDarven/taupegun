@@ -312,7 +312,7 @@
 		"title": "PRESET",
 		"translations": {
 			"fr_FR": {
-				"tooManyPresets": "Vous ne pouvez pas avoir plus de 9 presets.",
+				"tooManyPresets": "Vous ne pouvez pas avoir plus de {maxPreset} presets.",
 				"createPresetDefaultName": "Nom du preset",
 				"nameTooLong": "Le nom du preset ne doit pas dépasser 16 caractères.",
 				"nameAlreadyUsed": "Le nom est déjà utilisé pour un autre preset.",

@@ -6,8 +6,10 @@ import fr.thedarven.player.runnable.PlayerRunnable;
 import fr.thedarven.scenario.ScenariosManager;
 import fr.thedarven.scenario.player.preset.InventoryCreatePreset;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
+import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.utils.TextInterpreter;
 import fr.thedarven.utils.api.titles.ActionBar;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -39,6 +41,14 @@ public class CreatePresetRunnable extends PlayerRunnable {
         if (this.playerConfiguration.isUsedPresetName(this.presetName)) {
             scenariosManager.saveConfigurationMenu.openInventory(this.player);
             new ActionBar("§c" + InventoryCreatePreset.NAME_ALREADY_USED_FORMAT).sendActionBar(this.player);
+            return;
+        }
+
+        if (this.playerConfiguration.isPresetAmountLimit()) {
+            Map<String, String> params = new HashMap<>();
+            params.put("maxPreset", String.valueOf(Preset.MAX_PRESET_AMOUNT));
+            String tooManyPresetMessage = TextInterpreter.textInterpretation(InventoryCreatePreset.TOO_MANY_PRESET, params);
+            new ActionBar(String.format("%s%s", ChatColor.RED, tooManyPresetMessage)).sendActionBar(player);
             return;
         }
 
