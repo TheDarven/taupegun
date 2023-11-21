@@ -148,13 +148,6 @@ public abstract class TreeInventory implements Listener {
     }
 
 
-    /**
-     * Recharge les objets de l'inventaire
-     */
-    public void reloadInventory() {
-    }
-
-
     public TreeInventory build() {
         this.item = this.buildItem(material, this.itemData);
 

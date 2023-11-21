@@ -1,6 +1,8 @@
 package fr.thedarven.scenario;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.preset.PresetCreateEvent;
+import fr.thedarven.events.event.preset.PresetDeleteEvent;
 import fr.thedarven.kit.model.Kit;
 import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
@@ -12,7 +14,8 @@ import fr.thedarven.scenario.kit.InventoryKits;
 import fr.thedarven.scenario.language.InventoryLanguage;
 import fr.thedarven.scenario.language.InventoryLanguageElement;
 import fr.thedarven.scenario.player.credit.InventoryCredit;
-import fr.thedarven.scenario.player.preset.*;
+import fr.thedarven.scenario.player.preset.InventoryPlayersElementPreset;
+import fr.thedarven.scenario.player.preset.InventoryPlayersPreset;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.player.preset.utils.StorablePreset;
@@ -23,6 +26,7 @@ import fr.thedarven.scenario.team.InventoryTeamsRandom;
 import fr.thedarven.scenario.utils.NumericParams;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.helpers.FileHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -268,7 +272,9 @@ public class ScenariosManager {
         Preset newPreset = new Preset(name, this, playerConfiguration.getNbPresets());
         newPreset.setValues(getCurrentConfiguration());
         playerConfiguration.addPreset(newPreset);
-        createInventoryOfPreset(newPreset, playerConfiguration);
+
+        PresetCreateEvent presetCreateEvent = new PresetCreateEvent(newPreset, playerConfiguration);
+        Bukkit.getPluginManager().callEvent(presetCreateEvent);
         return true;
     }
 
@@ -281,26 +287,8 @@ public class ScenariosManager {
             }
         }
 
-        InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
-        inventory.removePresetInventories(preset);
-    }
-
-
-    public void initInventoryOfPlayer(PlayerConfiguration playerConfiguration) {
-        InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
-        if (Objects.nonNull(inventory)) {
-            playerConfiguration.getPresets().forEach(preset -> createInventoryOfPreset(preset, playerConfiguration));
-            new InventoryCreatePreset(this.main, inventory, playerConfiguration).build();
-        }
-    }
-
-    public void createInventoryOfPreset(Preset preset, PlayerConfiguration playerConfiguration) {
-        InventoryPlayersElementPreset inventory = getInventoryPlayersElementPreset(playerConfiguration);
-
-        new InventoryLoadPreset(this.main, preset, inventory).build();
-        new InventoryRenamePreset(this.main, preset, inventory).build();
-        new InventoryUpdatePreset(this.main, preset, inventory).build();
-        new InventoryDeletePreset(this.main, inventory, playerConfiguration, preset).build();
+        PresetDeleteEvent presetDeleteEvent = new PresetDeleteEvent(preset, playerConfiguration);
+        Bukkit.getPluginManager().callEvent(presetDeleteEvent);
     }
 
 

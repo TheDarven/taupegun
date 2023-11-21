@@ -2,7 +2,6 @@ package fr.thedarven.scenario.builder;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.kit.InventoryKitsElement;
 import fr.thedarven.utils.GlobalVariable;
 import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
@@ -15,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class InventoryDelete extends ConfigurationInventory {
 
@@ -48,21 +46,6 @@ public abstract class InventoryDelete extends ConfigurationInventory {
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "confirm", CONFIRM_ACTION);
         languageContent.addTranslation(GlobalVariable.DEFAULT_LANGUAGE, "cancel", CANCEL_ACTION);
         return languageElement;
-    }
-
-
-    @Override
-    public void reloadInventory() {
-        removeChildrenItems();
-
-        AtomicInteger counter = new AtomicInteger(0);
-        getChildren().forEach(child -> {
-            if (child instanceof InventoryKitsElement) {
-                updateChildPositionItem(child, counter.getAndIncrement());
-            } else if (countChildren() < 10) {
-                updateChildPositionItem(child, countChildren() - 1);
-            }
-        });
     }
 
     @Override

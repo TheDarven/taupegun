@@ -2,7 +2,6 @@ package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
@@ -22,13 +21,6 @@ public class InventoryUpdatePreset extends InventoryPresetAction implements Admi
     public InventoryUpdatePreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, "Modifier le preset", "Permet de remplacer le preset sauvegardé par la configuration actuelle.",
                 "MENU_PRESET_UPDATE", Material.ANVIL, preset, parent);
-    }
-
-    @Override
-    public TreeInventory build() {
-        super.build();
-        this.getParent().reloadInventory();
-        return this;
     }
 
     @Override

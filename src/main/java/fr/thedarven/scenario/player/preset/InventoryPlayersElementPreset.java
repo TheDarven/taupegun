@@ -1,56 +1,70 @@
 package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.events.event.preset.PresetCreateEvent;
+import fr.thedarven.events.event.preset.PresetDeleteEvent;
 import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.InventoryPlayersElement;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
-import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class InventoryPlayersElementPreset extends InventoryPlayersElement implements AdminConfiguration {
 
     private final PlayerConfiguration playerConfiguration;
 
-    public InventoryPlayersElementPreset(TaupeGun main, int pLines, Material pMaterial, ConfigurationInventory pParent, UUID owner, InventoryPlayersPreset clusterParent) {
+    public InventoryPlayersElementPreset(TaupeGun main, int pLines, Material pMaterial, ConfigurationInventory pParent, UUID owner,
+                                         InventoryPlayersPreset clusterParent, PlayerConfiguration playerConfiguration) {
         super(main, "Configurations sauvegardées", "Pour sauvegarder et charger ses configurations personnelles.",
                 "MENU_PRESET", pLines, pMaterial, pParent, owner, clusterParent);
-        this.playerConfiguration = this.main.getScenariosManager().getPlayerConfiguration(this.owner);
+        this.playerConfiguration = playerConfiguration;
     }
 
     @Override
     public TreeInventory build() {
         super.build();
-        this.main.getScenariosManager().initInventoryOfPlayer(this.playerConfiguration);
-        reloadInventory();
         return this;
     }
 
-    public void removePresetInventories(Preset preset) {
-        getChildren()
-                .forEach(child -> {
-                    if (child instanceof InventoryPresetAction) {
-                        if (((InventoryPresetAction) child).getPreset() == preset) {
-                            child.deleteInventory(false);
-                        }
-                    } else if (child instanceof InventoryDeletePreset) {
-                        if (((InventoryDeletePreset) child).getPreset() == preset) {
-                            child.deleteInventory(false);
-                        }
-                    }
-                });
-        reloadInventory();
+    @EventHandler
+    public void onPresetCreate(PresetCreateEvent event) {
+        if (event.getPlayerConfiguration() != this.playerConfiguration) {
+            return;
+        }
+
+        new InventoryLoadPreset(this.main, event.getPreset(), this).build();
+        new InventoryRenamePreset(this.main, event.getPreset(), this).build();
+        new InventoryUpdatePreset(this.main, event.getPreset(), this).build();
+        new InventoryDeletePreset(this.main, this, event.getPlayerConfiguration(), event.getPreset()).build();
+        this.refreshInventoryItems();
+    }
+
+    @EventHandler
+    public void onPresetDelete(PresetDeleteEvent event) {
+        if (event.getPlayerConfiguration() != this.playerConfiguration) {
+            return;
+        }
+
+        getChildren().stream()
+                .filter(child -> child instanceof PresetInventory && ((PresetInventory) child).getPreset() == event.getPreset())
+                .forEach(child -> child.deleteInventory(false));
+        refreshInventoryItems();
     }
 
     @Override
-    public void reloadInventory() {
+    protected void refreshInventoryItems() {
+        super.refreshInventoryItems();
+        if (Objects.isNull(inventory)) {
+            return;
+        }
         removeChildrenItems();
 
         int nbPresets = this.playerConfiguration.getNbPresets();
-
         for (TreeInventory treeInventory : getChildren()) {
             if (treeInventory instanceof InventoryLoadPreset) {
                 updateChildPositionItem(treeInventory, ((InventoryLoadPreset) treeInventory).getPreset().getIndex());

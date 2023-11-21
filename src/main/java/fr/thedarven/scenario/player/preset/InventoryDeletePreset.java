@@ -2,7 +2,6 @@ package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.scenario.builder.InventoryDelete;
-import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.PlayerConfiguration;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
@@ -15,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InventoryDeletePreset extends InventoryDelete implements AdminConfiguration {
+public class InventoryDeletePreset extends InventoryDelete implements AdminConfiguration, PresetInventory {
 
     private static String DELETE_PRESET_FORMAT = "Votre preset {presetName} a été supprimé avec succès.";
 
@@ -29,12 +28,6 @@ public class InventoryDeletePreset extends InventoryDelete implements AdminConfi
     }
 
     @Override
-    public TreeInventory build() {
-        super.build();
-        this.getParent().reloadInventory();
-        return this;
-    }
-
     public Preset getPreset() {
         return this.preset;
     }

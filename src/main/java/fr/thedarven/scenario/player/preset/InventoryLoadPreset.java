@@ -2,7 +2,6 @@ package fr.thedarven.scenario.player.preset;
 
 import fr.thedarven.TaupeGun;
 import fr.thedarven.player.model.PlayerTaupe;
-import fr.thedarven.scenario.builder.TreeInventory;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import fr.thedarven.scenario.utils.AdminConfiguration;
 import fr.thedarven.utils.GlobalVariable;
@@ -22,13 +21,6 @@ public class InventoryLoadPreset extends InventoryPresetAction implements AdminC
 
     public InventoryLoadPreset(TaupeGun main, Preset preset, InventoryPlayersElementPreset parent) {
         super(main, preset.getName(), "Charger le preset.", "MENU_PRESET_ITEM", Material.DIRT, preset, parent);
-    }
-
-    @Override
-    public TreeInventory build() {
-        super.build();
-        this.getParent().reloadInventory();
-        return this;
     }
 
     @Override

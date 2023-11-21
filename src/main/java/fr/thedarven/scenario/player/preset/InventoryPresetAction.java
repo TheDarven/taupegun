@@ -5,7 +5,7 @@ import fr.thedarven.scenario.builder.ConfigurationInventory;
 import fr.thedarven.scenario.player.preset.model.Preset;
 import org.bukkit.Material;
 
-public abstract class InventoryPresetAction extends ConfigurationInventory {
+public abstract class InventoryPresetAction extends ConfigurationInventory implements PresetInventory {
 
     protected final Preset preset;
 
@@ -14,6 +14,7 @@ public abstract class InventoryPresetAction extends ConfigurationInventory {
         this.preset = preset;
     }
 
+    @Override
     public final Preset getPreset() {
         return this.preset;
     }
