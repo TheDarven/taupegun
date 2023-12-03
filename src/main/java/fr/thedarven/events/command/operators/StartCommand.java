@@ -67,7 +67,7 @@ public class StartCommand extends OperatorCommand {
 		List<StartTeam> teamsWithPlayer = this.main.getTeamManager().getAllStartTeams().stream()
 				.filter(team -> team.countMembers() > 0)
 				.collect(Collectors.toList());
-		if (teamsWithPlayer.size() < 1 && !this.main.getScenariosManager().superMoles.getValue()) {
+		if (teamsWithPlayer.size() < 2 && !this.main.getScenariosManager().superMoles.getValue()) {
 			sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "needTwoTeams", true));
 			return false;
 		}
