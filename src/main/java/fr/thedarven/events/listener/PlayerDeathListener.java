@@ -79,7 +79,7 @@ public class PlayerDeathListener implements Listener {
         this.main.getTeamManager().getSpectatorTeam().ifPresent(spectatorTeam -> spectatorTeam.joinTeam(deadPlayerTaupe));
 
         // Update stats, recap and database
-        Player killer = event.getCause() != GameDeathCause.PLAYER_DEATH_EVENT && deadPlayer != null
+        Player killer = event.getCause() != GameDeathCause.PLAYER_KILL_COMMAND && deadPlayer != null
                 ? deadPlayer.getKiller()
                 : null;
         updateDatabaseAndStatsAndRecap(deadPlayerTaupe, killer, event.getOriginalDeathMessage(), event.getCause());
