@@ -12,8 +12,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 
@@ -23,6 +22,9 @@ public class PersonalScoreboard {
 	private final Player player;
 	private final UUID uuid;
 	private final ObjectiveSign objectiveSign;
+
+	private static int livingPlayerCount = 0;
+	private static int livingStartTeamCount = 0;
 
 	PersonalScoreboard(Player player, TaupeGun main){
 		this.main = main;
@@ -95,8 +97,8 @@ public class PersonalScoreboard {
 		params.clear();
 		params.put("valueColor", "§e");
 		params.put("endValueColor", "§f");
-		params.put("playerCounter", String.valueOf(PlayerTaupe.getAlivePlayerManager().size()));
-		params.put("teamCounter", String.valueOf(TeamCustom.getAllStartAliveTeams().size()));
+		params.put("playerCounter", String.valueOf(livingPlayerCount));
+		params.put("teamCounter", String.valueOf(livingStartTeamCount));
 		String connectedPlayerMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "connectedPlayer",true), params);
 		objectiveSign.setLine(i++, connectedPlayerMessage);
 
@@ -143,6 +145,11 @@ public class PersonalScoreboard {
 		String borderMessage = "§l§7⋙ §f"+TextInterpreter.textInterpretation(LanguageBuilder.getContent("SCOREBOARD", "border",true), params);
 		objectiveSign.setLine(i++, borderMessage);
 		objectiveSign.updateLines();
+	}
+
+	protected static void updateCommonData(TaupeGun main) {
+		livingPlayerCount = PlayerTaupe.getAlivePlayerManager().size();
+		livingStartTeamCount = main.getTeamManager().getAllStartLivingTeams().size();
 	}
 
 	public void onLogout(){

@@ -1,30 +1,25 @@
 package fr.thedarven;
 
 import fr.thedarven.database.DatabaseManager;
-import fr.thedarven.events.commands.CommandManager;
-import fr.thedarven.events.listeners.ListenerManager;
+import fr.thedarven.events.command.CommandManager;
+import fr.thedarven.events.listener.ListenerManager;
 import fr.thedarven.game.GameManager;
-import fr.thedarven.items.ItemManager;
-import fr.thedarven.kits.KitManager;
-import fr.thedarven.messages.MessageManager;
-import fr.thedarven.players.PlayerManager;
-import fr.thedarven.scenarios.ScenariosManager;
-import fr.thedarven.scenarios.builders.InventoryGUI;
-import fr.thedarven.statsgame.RestGame;
-import fr.thedarven.teams.TeamManager;
+import fr.thedarven.kit.KitManager;
+import fr.thedarven.player.PlayerManager;
+import fr.thedarven.scenario.ScenariosManager;
+import fr.thedarven.stats.model.dto.GameDto;
+import fr.thedarven.team.TeamManager;
 import fr.thedarven.utils.Metrics;
 import fr.thedarven.utils.api.DisableF3;
 import fr.thedarven.utils.api.scoreboard.ScoreboardManager;
-import fr.thedarven.utils.languages.LanguageManager;
-import fr.thedarven.utils.manager.CraftManager;
-import fr.thedarven.utils.manager.TeamDeletionManager;
-import fr.thedarven.world.WorldManager;
+import fr.thedarven.utils.languages.TranslationManager;
+import fr.thedarven.utils.manager.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class TaupeGun extends JavaPlugin implements Listener{	
+public class TaupeGun extends JavaPlugin implements Listener{
 
 	public static TaupeGun instance;
 
@@ -32,6 +27,7 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	private Metrics metrics;
 	private LanguageManager languageManager;
+	private TranslationManager translationManager;
 	private MessageManager messageManager;
 	private ScoreboardManager scoreboardManager;
 	private KitManager kitManager;
@@ -43,10 +39,9 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	private GameManager gameManager;
 	private TeamDeletionManager teamDeletionManager;
 	private ScenariosManager scenariosManager;
-	private ItemManager itemManager;
 	private PlayerManager playerManager;
 	private TeamManager teamManager;
-	
+
 	public static TaupeGun getInstance(){
 		return instance;
 	}
@@ -55,25 +50,28 @@ public class TaupeGun extends JavaPlugin implements Listener{
 	public void onEnable(){
 		instance = this;
 
+		this.teamManager = new TeamManager(this);
+
 		this.metrics = new Metrics(this, 11400);
 
 		this.languageManager = new LanguageManager(this);
-		this.languageManager.loadAllTranslations(this);
-		InventoryGUI.setLanguage();
+
+		this.translationManager = new TranslationManager(this);
+		this.translationManager.loadAllTranslations(this);
 
 		this.messageManager = new MessageManager(this);
 
-		this.itemManager = new ItemManager(this);
+		this.kitManager = new KitManager(this);
+
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.scenariosManager = new ScenariosManager(this);
-		this.kitManager = new KitManager(this);
+		this.worldManager = new WorldManager(this);
+		this.worldManager.buildLobby();
+		this.kitManager.initDefaultKits();
 		this.listenerManager = new ListenerManager(this);
 		this.commandManager = new CommandManager(this);
 
 		this.saveDefaultConfig();
-
-		this.worldManager = new WorldManager(this);
-		this.worldManager.buildLobby();
 
 		this.databaseManager = new DatabaseManager(this);
 
@@ -81,31 +79,40 @@ public class TaupeGun extends JavaPlugin implements Listener{
 		this.craftManager.loadCrafts();
 
 		this.playerManager = new PlayerManager(this);
-		this.teamManager = new TeamManager(this);
 
 		Bukkit.getOnlinePlayers().forEach(player -> this.playerManager.resetPlayerData(player));
 
-		new RestGame(this);
+		new GameDto(this);
 
 		this.gameManager = new GameManager(this);
 		this.teamDeletionManager = new TeamDeletionManager(this);
 	}
-	
+
 	@Override
 	public void onDisable(){
 		for (Player p: Bukkit.getOnlinePlayers()) {
-			if (!scenariosManager.coordonneesVisibles.getValue()) {
+			if (this.scenariosManager != null && !this.scenariosManager.coordonneesVisibles.getValue()) {
 				new DisableF3().enableF3(p);
 			}
 
-			this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
+			if (this.listenerManager != null) {
+				this.listenerManager.getPlayerJoinQuitListener().leaveAction(p);
+			}
 
 			getPlayerManager().clearPlayer(p);
 		}
-		if (this.databaseManager.getGameId() != 0) {
+
+		if (this.databaseManager != null && this.databaseManager.getGameId() != 0) {
 			databaseManager.updateGameDuration();
 		}
-		this.scenariosManager.savePlayersConfiguration();
+
+		if (this.scenariosManager != null) {
+			this.scenariosManager.savePlayersConfiguration();
+		}
+	}
+
+	public LanguageManager getLanguageManager() {
+		return this.languageManager;
 	}
 
 	public ListenerManager getListenerManager(){
@@ -134,10 +141,6 @@ public class TaupeGun extends JavaPlugin implements Listener{
 
 	public CommandManager getCommandManager() {
 		return commandManager;
-	}
-
-	public ItemManager getItemManager() {
-		return itemManager;
 	}
 
 	public PlayerManager getPlayerManager() {

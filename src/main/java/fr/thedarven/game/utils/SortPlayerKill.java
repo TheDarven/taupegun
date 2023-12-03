@@ -1,6 +1,6 @@
 package fr.thedarven.game.utils;
 
-import fr.thedarven.players.PlayerTaupe;
+import fr.thedarven.player.model.PlayerTaupe;
 
 import java.util.Comparator;
 

@@ -1,22 +1,25 @@
 package fr.thedarven.game;
 
 import fr.thedarven.TaupeGun;
+import fr.thedarven.game.model.GameRecap;
+import fr.thedarven.game.model.PveDeathRecap;
 import fr.thedarven.game.runnable.EndGameRunnable;
 import fr.thedarven.game.runnable.GameRunnable;
-import fr.thedarven.models.Manager;
+import fr.thedarven.model.Manager;
 
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.statsgame.RestGame;
+import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.stats.model.dto.GameDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GameManager extends Manager {
 
 	private int timer = 0;
 	private int cooldownTimer = 10;
-	private int pveKills = 0;
-
+	private final List<GameRecap> gameRecaps = new ArrayList<>();
 	private GameRunnable gameRunnable;
 
 	public GameManager(TaupeGun main){
@@ -43,12 +46,18 @@ public class GameManager extends Manager {
 		this.cooldownTimer--;
 	}
 
-	public int getPveKills() {
-		return this.pveKills;
+	public long countPveDeath() {
+		return this.gameRecaps.stream()
+				.filter(recap -> recap instanceof PveDeathRecap)
+				.count();
 	}
 
-	public void incrementPveKills() {
-		this.pveKills++;
+	public void addToRecap(GameRecap recap) {
+		this.gameRecaps.add(recap);
+	}
+
+	public List<GameRecap> getGameRecaps() {
+		return this.gameRecaps;
 	}
 
 	public void startGame() {
@@ -63,7 +72,7 @@ public class GameManager extends Manager {
 		}
 		main.getDatabaseManager().updateGameDuration();
 
-		RestGame.endGames();
+		GameDto.endGames();
 		EndGameRunnable endGameRunnable = new EndGameRunnable(this.main);
 		endGameRunnable.runTaskTimer(this.main,5,5);
 	}
@@ -75,19 +84,19 @@ public class GameManager extends Manager {
 
 			if (pl.isSuperTaupe()) {
 				this.main.getDatabaseManager()
-						.updateMoleMole(pl.getTaupeTeam().getTaupeTeamNumber(), pl.getSuperTaupeTeam().getSuperTaupeTeamNumber(), pl.getUuid().toString());
+						.updateMoleMole(pl.getTaupeTeam().getTeamNumber(), pl.getSuperTaupeTeam().getTeamNumber(), pl.getUuid().toString());
 			} else {
 				this.main.getDatabaseManager()
-						.updateMoleMole(pl.getTaupeTeam().getTaupeTeamNumber(), 0, pl.getUuid().toString());
+						.updateMoleMole(pl.getTaupeTeam().getTeamNumber(), 0, pl.getUuid().toString());
 			}
 		}
 	}
 
-	public boolean molesEnabled() {
+	public boolean areMolesRevealed() {
 		return this.main.getScenariosManager().molesActivation.getValue() <= this.main.getGameManager().getTimer();
 	}
 
-	public boolean superMolesEnabled() {
+	public boolean areSuperMolesRevealed() {
 		return this.main.getScenariosManager().superMoles.getValue() && this.main.getScenariosManager().molesActivation.getValue() + 1200 <= this.main.getGameManager().getTimer();
 	}
 

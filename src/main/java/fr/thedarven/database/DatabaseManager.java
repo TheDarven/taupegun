@@ -1,13 +1,12 @@
 package fr.thedarven.database;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.Manager;
-import fr.thedarven.utils.api.SqlConnection;
+import fr.thedarven.database.utils.SqlConnection;
+import fr.thedarven.model.Manager;
+import fr.thedarven.utils.helpers.DateHelper;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
-import java.util.Date;
-import java.util.Objects;
 
 public class DatabaseManager extends Manager {
 
@@ -161,7 +160,7 @@ public class DatabaseManager extends Manager {
         try {
             PreparedStatement q = connection.prepareStatement("INSERT INTO site_partie(type,debut) VALUES (?,?)");
             q.setString(1, "taupegun");
-            q.setInt(2, getTimestamp());
+            q.setInt(2, DateHelper.getTimestamp());
             q.execute();
             q.close();
         } catch (SQLException error) {
@@ -335,7 +334,7 @@ public class DatabaseManager extends Manager {
             while (resultat.next()) {
                 try {
                     PreparedStatement q1 = connection.prepareStatement("UPDATE site_joueur SET time_play = ? WHERE uuid = ?");
-                    q1.setInt(1,resultat.getInt("time_play")+(getTimestamp()-resultat.getInt("last")));
+                    q1.setInt(1,resultat.getInt("time_play")+(DateHelper.getTimestamp()-resultat.getInt("last")));
                     q1.setString(2, player.getUniqueId().toString());
                     q1.execute();
                     q1.close();
@@ -355,7 +354,7 @@ public class DatabaseManager extends Manager {
 
         try {
             PreparedStatement q = this.sqlConnection.getConnection().prepareStatement("UPDATE site_joueur SET last = ? WHERE uuid = ?");
-            q.setInt(1, getTimestamp());
+            q.setInt(1, DateHelper.getTimestamp());
             q.setString(2, player.getUniqueId().toString());
             q.execute();
             q.close();
@@ -404,7 +403,7 @@ public class DatabaseManager extends Manager {
             PreparedStatement q = connection.prepareStatement("INSERT INTO site_joueur(uuid,pseudo,last,time_play) VALUES (?,?,?,?)");
             q.setString(1, player.getUniqueId().toString());
             q.setString(2, player.getName());
-            q.setInt(3, getTimestamp());
+            q.setInt(3, DateHelper.getTimestamp());
             q.setInt(4, 0);
             q.execute();
             q.close();
@@ -413,16 +412,6 @@ public class DatabaseManager extends Manager {
         }
 
         return false;
-    }
-
-    public int getTimestamp() {
-        long date = new Date().getTime();
-        return (int) ((date-(date%100))/1000);
-    }
-
-    public long getLongTimestamp() {
-        long date = new Date().getTime();
-        return (date-(date%100))/1000;
     }
 
 }

@@ -1,9 +1,12 @@
 package fr.thedarven.utils.manager;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.teams.TeamCustom;
-import fr.thedarven.models.enums.EnumGameState;
+import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.team.model.MoleTeam;
+import fr.thedarven.team.model.StartTeam;
+import fr.thedarven.team.model.SuperMoleTeam;
+import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.game.model.enums.EnumGameState;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
 import org.bukkit.Bukkit;
@@ -15,39 +18,35 @@ import java.util.Map;
 
 public class TeamDeletionManager {
 
-	private TaupeGun main;
+	private final TaupeGun main;
 
 	public TeamDeletionManager(TaupeGun main){
 		this.main = main;
 	}
 
 	public void start() {
-		List<TeamCustom> aliveTeams = TeamCustom.getAllAliveTeams();
+		List<TeamCustom> livingTeams = this.main.getTeamManager().getAllLivingTeams();
 
 		if (this.main.getGameManager().getTimer() > this.main.getScenariosManager().molesActivation.getValue()) {
-			for (TeamCustom team : aliveTeams) {
+			for (TeamCustom team : livingTeams) {
 				boolean alive = team.isAlive();
-				if (team.isTaupeTeam()) {
+				if (team instanceof MoleTeam) {
 					alive = PlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getTaupeTeam() == team && !player.isSuperReveal());
-				} else if (team.isSuperTaupeTeam()) {
+				} else if (team instanceof SuperMoleTeam) {
 					alive = PlayerTaupe.getAlivePlayerManager().stream().anyMatch(player -> player.getSuperTaupeTeam() == team);
-				} else if (!team.isSpectator() && team.getTeam().getEntries().size() == 0) {
-					this.main.getDatabaseManager().updateTeamDeath(team.getTeam().getName(), true);
+				} else if (team instanceof StartTeam && team.countMembers() == 0) {
+					this.main.getDatabaseManager().updateTeamDeath(team.getName(), true);
 					alive = false;
-					/* Bukkit.broadcastMessage(ChatColor.RED+"L'équipe "+ChatColor.YELLOW+ChatColor.BOLD+team+ChatColor.RESET+ChatColor.RED+" a été éliminée");
-					for(Player playerOnline : Bukkit.getOnlinePlayers()) {
-						playerOnline.playSound(playerOnline.getLocation(), Sound.ENTITY_GHAST_HURT, 1, 1);
-					} */
 				}
 				team.setAlive(alive);
 			}
 		}
 
-		aliveTeams = TeamCustom.getAllAliveTeams();
+		livingTeams = this.main.getTeamManager().getAllLivingTeams();
 
 		/* ON REGARDE SI IL NE RESTE QUE UNE EQUIPE */
-		if (aliveTeams.size() == 1) {
-			TeamCustom team = aliveTeams.get(0);
+		if (livingTeams.size() == 1) {
+			TeamCustom team = livingTeams.get(0);
 
 			Map<String, String> params = new HashMap<>();
 			params.put("teamName", "§6" + team.getName() + "§a");
@@ -59,7 +58,7 @@ public class TeamDeletionManager {
 			this.main.getPlayerManager().sendPlaySound(Sound.ENDERDRAGON_DEATH);
 
 			EnumGameState.setState(EnumGameState.END_FIREWORK);
-		} else if (aliveTeams.size() == 0) {
+		} else if (livingTeams.isEmpty()) {
 			String nobodyWinMessage = "§a" + LanguageBuilder.getContent("GAME", "nobodyWin", true);
 
 			Bukkit.broadcastMessage(" ");

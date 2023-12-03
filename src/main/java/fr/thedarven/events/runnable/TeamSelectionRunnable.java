@@ -1,11 +1,12 @@
 package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumGameState;
-import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.players.runnable.PlayerInventoryRunnable;
-import fr.thedarven.teams.TeamCustom;
+import fr.thedarven.game.model.enums.EnumGameState;
+import fr.thedarven.model.enums.EnumPlayerInventoryType;
+import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.player.runnable.PlayerInventoryRunnable;
+import fr.thedarven.team.model.TeamCustom;
+import fr.thedarven.utils.helpers.ItemHelper;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,15 +24,19 @@ import java.util.Objects;
 
 public class TeamSelectionRunnable extends PlayerInventoryRunnable {
 
+    private static final int LEAVE_POSITION = 44;
+
     public TeamSelectionRunnable(TaupeGun main, PlayerTaupe pl) {
-        super(main, pl, EnumInventory.TEAM);
+        super(main, pl, EnumPlayerInventoryType.TEAM);
     }
 
     @Override
     protected void operate() {
         Player player = pl.getPlayer();
 
-        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player) && EnumGameState.isCurrentState(EnumGameState.LOBBY) && this.main.getScenariosManager().ownTeam.getValue()){
+        if (Objects.nonNull(player) && player.isOnline() && checkOpenedInventory(player)
+                && EnumGameState.isCurrentState(EnumGameState.LOBBY)
+                && this.main.getScenariosManager().ownTeam.getValue()){
             openInventory(player);
         } else {
             this.stopRunnable();
@@ -41,39 +46,38 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
     @Override
     protected Inventory createInventory() {
         Player player = pl.getPlayer();
-
-        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !this.main.getScenariosManager().ownTeam.getValue())
+        if (Objects.isNull(player) || !player.isOnline() || !EnumGameState.isCurrentState(EnumGameState.LOBBY) || !this.main.getScenariosManager().ownTeam.getValue()) {
             return null;
+        }
 
         String teamChoiceTitle = "§7" + LanguageBuilder.getContent("TEAM", "teamChoiceTitle", true);
-
         Inventory teamMenu = Bukkit.createInventory(null, 45, teamChoiceTitle);
         TeamCustom playerTeam = PlayerTaupe.getPlayerManager(player.getUniqueId()).getTeam();
 
-        TeamCustom.getAllTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
+        this.main.getTeamManager().getAllStartTeams().forEach(team -> teamMenu.addItem(getItemOfTeam(team, playerTeam)));
 
         if (Objects.nonNull(playerTeam)) {
             String emptyMessage = "§4" + LanguageBuilder.getContent("TEAM", "leave", true);
 
-            ItemStack item = new ItemStack(Material.BARRIER, 1);
-            ItemMeta itemM = item.getItemMeta();
-            itemM.setDisplayName(emptyMessage);
-            item.setItemMeta(itemM);
-            teamMenu.setItem(44, item);
+            ItemStack leaveTeam = ItemHelper.addTagOnItemStack(new ItemStack(Material.BARRIER, 1));
+            ItemMeta leaveTeamM = leaveTeam.getItemMeta();
+            leaveTeamM.setDisplayName(emptyMessage);
+            leaveTeam.setItemMeta(leaveTeamM);
+            teamMenu.setItem(LEAVE_POSITION, leaveTeam);
         }
 
         return teamMenu;
     }
 
     private ItemStack getItemOfTeam(TeamCustom team, TeamCustom playerTeam) {
-        ItemStack item = new ItemStack(Material.BANNER, 1);
-        BannerMeta itemM = (BannerMeta) item.getItemMeta();
-        itemM.setBaseColor(team.getColorEnum().getDyeColor());
-        itemM.setDisplayName(team.getTeam().getPrefix() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
+        ItemStack teamBanner = ItemHelper.addTagOnItemStack(new ItemStack(Material.BANNER, 1));
+        BannerMeta teamBannerM = (BannerMeta) teamBanner.getItemMeta();
+        teamBannerM.setBaseColor(team.getColor().getDyeColor());
+        teamBannerM.setDisplayName(team.getColor().getColor() + team.getName() + " [" + team.getSize() + "/" + TeamCustom.MAX_PLAYER_PER_TEAM + "]");
 
         if (Objects.nonNull(playerTeam) && playerTeam == team) {
-            itemM.addEnchant(Enchantment.LURE, 1, false);
-            itemM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            teamBannerM.addEnchant(Enchantment.LURE, 1, false);
+            teamBannerM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
 
         List<String> itemLore = new ArrayList<>();
@@ -81,11 +85,11 @@ public class TeamSelectionRunnable extends PlayerInventoryRunnable {
             String emptyMessage = "§e" + LanguageBuilder.getContent("TEAM", "empty", true);
             itemLore.add(emptyMessage);
         } else {
-            team.getPlayers().forEach(ps -> itemLore.add(team.getTeam().getPrefix() + " " + ps.getName()));
+            team.getMembers().forEach(ps -> itemLore.add(String.format("%s %s", team.getColor(), ps.getName())));
         }
 
-        itemM.setLore(itemLore);
-        item.setItemMeta(itemM);
-        return item;
+        teamBannerM.setLore(itemLore);
+        teamBanner.setItemMeta(teamBannerM);
+        return teamBanner;
     }
 }

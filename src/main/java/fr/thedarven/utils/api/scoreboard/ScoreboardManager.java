@@ -1,7 +1,7 @@
 package fr.thedarven.utils.api.scoreboard;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.Manager;
+import fr.thedarven.model.Manager;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -26,9 +26,11 @@ public class ScoreboardManager extends Manager {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            for (PersonalScoreboard scoreboard : scoreboards.values())
+            PersonalScoreboard.updateCommonData(this.main);
+            for (PersonalScoreboard scoreboard : scoreboards.values()) {
                 this.executorMonoThread.execute(scoreboard::reloadData);
-        }, 20, 20, TimeUnit.MILLISECONDS);
+            }
+        }, 100, 100, TimeUnit.MILLISECONDS);
     }
 
     public void onLogin(Player player) {

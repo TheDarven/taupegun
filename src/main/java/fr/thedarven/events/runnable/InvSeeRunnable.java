@@ -1,9 +1,9 @@
 package fr.thedarven.events.runnable;
 
 import fr.thedarven.TaupeGun;
-import fr.thedarven.models.enums.EnumInventory;
-import fr.thedarven.players.PlayerTaupe;
-import fr.thedarven.players.runnable.PlayerInventoryRunnable;
+import fr.thedarven.model.enums.EnumPlayerInventoryType;
+import fr.thedarven.player.model.PlayerTaupe;
+import fr.thedarven.player.runnable.PlayerInventoryRunnable;
 import fr.thedarven.utils.api.titles.ActionBar;
 import fr.thedarven.utils.languages.LanguageBuilder;
 import fr.thedarven.utils.TextInterpreter;
@@ -24,14 +24,14 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
     private final PlayerTaupe viewedPl;
 
     public InvSeeRunnable(TaupeGun main, PlayerTaupe pl, PlayerTaupe viewedPl) {
-        super(main, pl, EnumInventory.INVSEE);
+        super(main, pl, EnumPlayerInventoryType.INVSEE);
         this.viewedPl = viewedPl;
     }
 
     @Override
     protected void operate() {
-        Player playerWhoWatched = Bukkit.getPlayer(this.pl.getUuid());
-        Player viewedPlayer = Bukkit.getPlayer(this.viewedPl.getUuid());
+        Player playerWhoWatched = this.pl.getPlayer();
+        Player viewedPlayer = this.viewedPl.getPlayer();
 
         if (Objects.nonNull(playerWhoWatched) && Objects.nonNull(viewedPlayer) && playerWhoWatched.getGameMode() == GameMode.SPECTATOR && checkOpenedInventory(playerWhoWatched)) {
             openInventory(playerWhoWatched);
@@ -42,8 +42,8 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
     @Override
     public Inventory createInventory() {
-        Player playerWhoWatched = Bukkit.getPlayer(this.pl.getUuid());
-        Player viewedPlayer = Bukkit.getPlayer(this.viewedPl.getUuid());
+        Player playerWhoWatched = this.pl.getPlayer();
+        Player viewedPlayer = this.viewedPl.getPlayer();
 
         if (Objects.isNull(playerWhoWatched) || Objects.isNull(viewedPlayer) || playerWhoWatched.getGameMode() != GameMode.SPECTATOR)
             return null;
@@ -115,7 +115,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
 
         // MOLE
         lores.clear();
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -123,7 +123,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
             lores.add(unknownMoleMessage);
         } else if (this.viewedPl.isTaupe()) {
             params.clear();
-            params.put("teamName", "§r" + this.viewedPl.getTaupeTeam().getTeam().getName()+"§e");
+            params.put("teamName", "§r" + this.viewedPl.getTaupeTeam().getName()+"§e");
             String moleMessage = TextInterpreter.textInterpretation("§e" + LanguageBuilder.getContent("INVSEE", "mole", true), params);
             lores.add(moleMessage);
         } else {
@@ -135,7 +135,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
         }
 
         // SUPERMOLE
-        if (!this.main.getGameManager().molesEnabled()) {
+        if (!this.main.getGameManager().areMolesRevealed()) {
             params.clear();
             params.put("valueColor", "§r§k");
             params.put("endValueColor", "§r§e");
@@ -143,7 +143,7 @@ public class InvSeeRunnable extends PlayerInventoryRunnable {
             lores.add(unknownSuperMoleMessage);
         } else if (this.viewedPl.isSuperTaupe()) {
             params.clear();
-            params.put("teamName", "§r" + this.viewedPl.getSuperTaupeTeam().getTeam().getName() + "§e");
+            params.put("teamName", "§r" + this.viewedPl.getSuperTaupeTeam().getName() + "§e");
             String superMoleMessage = TextInterpreter.textInterpretation("§e" + LanguageBuilder.getContent("INVSEE", "superMole", true), params);
             lores.add(superMoleMessage);
         } else {
