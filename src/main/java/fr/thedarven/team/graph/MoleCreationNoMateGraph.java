@@ -6,7 +6,6 @@ import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.TeamManager;
 import fr.thedarven.team.model.MoleTeam;
 import fr.thedarven.team.model.StartTeam;
-import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
 import java.util.ArrayList;
@@ -82,18 +81,6 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
 
     public void sortMoleTeamsByNbPlayers() {
         this.moleTeams.sort(TeamManager.MOLE_TEAM_NUMBER_COMPARATOR);
-
-        int nbTeam = this.moleTeams.size();
-        for (int i = 0; i < nbTeam - 1; i++) {
-            if (this.moleTeams.get(i).getMolePlayers().size() == this.moleTeams.get(i + 1).getMolePlayers().size()) {
-                int randomValue = RandomHelper.generate(3);
-                if (randomValue >= 1) {
-                    MoleTeam temp = this.moleTeams.get(i);
-                    this.moleTeams.set(i, this.moleTeams.get(i + 1));
-                    this.moleTeams.set(i + 1, temp);
-                }
-            }
-        }
     }
 
     public void sortByNumberPlayerInTeam() {
