@@ -6,10 +6,11 @@ import fr.thedarven.player.model.PlayerTaupe;
 import fr.thedarven.team.TeamManager;
 import fr.thedarven.team.model.MoleTeam;
 import fr.thedarven.team.model.StartTeam;
-import fr.thedarven.team.model.TeamCustom;
 import fr.thedarven.utils.helpers.RandomHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MoleCreationNoMateGraph extends MoleCreationGraph {
@@ -81,45 +82,14 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
     }
 
     public void sortMoleTeamsByNbPlayers() {
-        this.moleTeams.sort(TeamManager.MOLE_TEAM_NUMBER_COMPARATOR);
+        Collections.shuffle(this.moleTeams);
 
-        int nbTeam = this.moleTeams.size();
-        for (int i = 0; i < nbTeam - 1; i++) {
-            if (this.moleTeams.get(i).getMolePlayers().size() == this.moleTeams.get(i + 1).getMolePlayers().size()) {
-                int randomValue = RandomHelper.generate(3);
-                if (randomValue >= 1) {
-                    MoleTeam temp = this.moleTeams.get(i);
-                    this.moleTeams.set(i, this.moleTeams.get(i + 1));
-                    this.moleTeams.set(i + 1, temp);
-                }
-            }
-        }
+        this.moleTeams.sort(TeamManager.TEAM_SIZE_COMPARATOR);
     }
 
     public void sortByNumberPlayerInTeam() {
-        for(int i=0; i<players.size(); i++) {
-            for(int j=i; j<players.size(); j++) {
-                if(players.get(i).size() < players.get(j).size()) {
-                    List<PlayerTaupe> temp = players.get(j);
-                    players.set(j, players.get(i));
-                    players.set(i, temp);
-                }
-            }
-        }
+        Collections.shuffle(this.players);
 
-        if (players.size() < 2) {
-            return;
-        }
-
-        for(int i=0; i<players.size()-1; i++) {
-            if(players.get(i).size() == players.get(i+1).size()) {
-                int randomValue = RandomHelper.generate(3);
-                if(randomValue >= 1) {
-                    List<PlayerTaupe> temp = players.get(i+1);
-                    players.set(i+1, players.get(i));
-                    players.set(i, temp);
-                }
-            }
-        }
+        this.players.sort(Comparator.comparing(p -> -p.size()));
     }
 }
