@@ -53,7 +53,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
         double nbPlayers = this.players.stream().mapToInt(List::size).sum();
         double nbTaupes = this.main.getScenariosManager().molesTeamSize.getIntValue();
         // Nombre joueurs de la même équipe devenant taupe
-        int maxTeamSize = this.players.stream().mapToInt(List::size).max().getAsInt();
+        int maxTeamSize = this.players.stream().mapToInt(List::size).max().orElse(0);
         int nbTeams = Math.max((int) Math.ceil(nbPlayers / nbTaupes), maxTeamSize);
 
         String moleTeamName = this.main.getTeamManager().getMoleTeamName();
