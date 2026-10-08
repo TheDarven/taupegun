@@ -84,7 +84,7 @@ public class MoleCreationNoMateGraph extends MoleCreationGraph {
     public void sortMoleTeamsByNbPlayers() {
         Collections.shuffle(this.moleTeams);
 
-        this.moleTeams.sort(TeamManager.TEAM_SIZE_COMPARATOR);
+        this.moleTeams.sort(TeamManager.MOLE_TEAM_MOLE_AMOUNT_COMPARATOR);
     }
 
     public void sortByNumberPlayerInTeam() {
