@@ -13,6 +13,7 @@ public class TeamManager extends Manager {
 
     public static final Comparator<TeamCustom> TEAM_SIZE_COMPARATOR = Comparator.comparing(TeamCustom::getSize);
     public static final Comparator<MoleTeam> MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(MoleTeam::getTeamNumber);
+    public static final Comparator<MoleTeam> MOLE_TEAM_MOLE_AMOUNT_COMPARATOR = Comparator.comparingInt(team -> team.getMolePlayers().size());
     public static final Comparator<SuperMoleTeam> SUPER_MOLE_TEAM_NUMBER_COMPARATOR = Comparator.comparing(SuperMoleTeam::getTeamNumber);
 
     private static String SPECTATOR_TEAM_NAME = null;
