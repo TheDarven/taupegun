@@ -87,7 +87,7 @@ public class StartCommand extends OperatorCommand {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "notEnoughPlayersPerTeam", true));
 				return false;
 			}
-			if (team.getConnectedMembers().size() > team.getSize()) {
+			if (team.getConnectedMembers().size() < team.getSize()) {
 				sender.sendMessage("§c" + LanguageBuilder.getContent("START_COMMAND", "disconnectedPlayer", true));
 				return false;
 			}
